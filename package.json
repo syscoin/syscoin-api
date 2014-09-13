@@ -1,0 +1,11 @@
+{
+    "name": "syscoin-api",
+    "main": "server.js",
+    "repository": "https://github.com/syscoin/syscoin-api.git",
+    "dependencies": {
+        "express": "~4.0.0",
+        "body-parser": "~1.0.1",
+        "syscoin": "~2.1.x"
+    }
+}
+

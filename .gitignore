@@ -1,0 +1,5 @@
+.idea
+.DS_Store
+api-app.iml
+node_modules
+syscoin-api.iml
