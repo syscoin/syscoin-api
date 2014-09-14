@@ -5,7 +5,11 @@
     "dependencies": {
         "express": "~4.0.0",
         "body-parser": "~1.0.1",
-        "syscoin": "~2.1.x"
+        "syscoin": "~2.1.x",
+        "should": "~4.0.4",
+        "mocha": "~1.21.x",
+        "supertest": "~0.13.x"
+
     }
 }
 
