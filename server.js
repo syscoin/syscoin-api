@@ -36,8 +36,9 @@ router.get('/', function(req, res) {
     res.json({ message: 'hooray! welcome to our api!' });
 });
 
-//SYSCOIN JSON-RPC API
-//GENERIC WALLET FUNCTIONS
+
+// GENERIC WALLET FUNCTIONS
+// =============================================================================
 router.get('/addmultisigaddress', function(req, res) {
     console.log('addmultisigaddress(' + req.query.nrequired + ', ' + req.query.multisigArr + ')');
     sysclient.addmultisigaddress(req.query.nrequired, req.query.multisigArr, function(err, result, resHeaders) {
@@ -56,8 +57,8 @@ router.get('/addnode', function(req, res) {
     });
 });
 
-
-//ALIASES
+// NAME ALIAS FUNCTIONS
+// =============================================================================
 router.get('/aliasactivate', function(req, res) {
     console.log('aliasactivate(' + req.query.aliasName + ', ' + req.query.guid + ', ' + req.query.tx + ', ' + req.query.value + ')');
     sysclient.aliasactivate(req.query.aliasName, req.query.guid, req.query.tx, req.query.value, function(err, result, resHeaders) {
@@ -140,7 +141,8 @@ router.get('/aliasupdate', function(req, res) {
 });
 
 
-//CERTIFICATES
+// CERTIFICATE MANAGEMENT FUNCTIONS
+// =============================================================================
 router.get('/certissuerinfo', function(req, res) {
     console.log('certissuerinfo(' + req.query.guid + ')');
     sysclient.certissuerinfo(req.query.guid, function(err, result, resHeaders) {
@@ -249,7 +251,8 @@ router.get('/certtransfer', function(req, res) {
     });
 });
 
-//DATA
+// DATA ALIAS FUNCTIONS
+// =============================================================================
 router.get('/dataactivate', function(req, res) {
     console.log('dataactivate(' + req.query.dataName + ', ' + req.query.guid + ', ' + req.query.tx + ', ' + req.query.filename + ', ' + req.query.dataContent + ')');
     sysclient.dataactivate(req.query.dataName, req.query.guid, req.query.tx, req.query.filename, req.query.dataContent, function(err, result, resHeaders) {
@@ -358,11 +361,110 @@ router.get('/dumpdata', function(req, res) {
     });
 });
 
-//OFFERS
+// MARKETPLACE/OFFER FUNCTIONS
+// =============================================================================
+router.get('/offeraccept', function(req, res) {
+    console.log('offeraccept(' + req.query.guid + ', ' + req.query.quantity + ')');
+    sysclient.offeraccept(req.query.guid, req.query.quantity, function(err, result, resHeaders) {
+        if(handleError(res, err)) return;
+
+        res.json(result);
+    });
+});
+
+router.get('/offeractivate', function(req, res) {
+    console.log('offeractivate(' + req.query.guid + ', ' + req.query.tx + ')');
+    sysclient.offeractivate(req.query.guid, req.query.tx, req.query.value, function(err, result, resHeaders) {
+        if(handleError(res, err)) return;
+
+        res.json(result);
+    });
+});
+
+router.get('/offer_clean', function(req, res) {
+    console.log('offer_clean()');
+    sysclient.offer_clean(function(err, result, resHeaders) {
+        if(handleError(res, err)) return;
+
+        res.json(result);
+    });
+});
+
+router.get('/offerfilter', function(req, res) {
+    console.log('offerfilter(' + req.query.regexp + ', ' + req.query.maxage + ', ' + req.query.from + ', ' + req.query.nb + ', ' + req.query.stat + ')');
+    sysclient.offerfilter(req.query.regexp, req.query.maxage, req.query.from, req.query.nb, req.query.stat, function(err, result, resHeaders) {
+        if(handleError(res, err)) return;
+
+        res.json(result);
+    });
+});
+
+router.get('/offerhistory', function(req, res) {
+    console.log('offerhistory(' + req.query.offerGuid + ')');
+    sysclient.offerhistory(req.query.offerGuid, function(err, result, resHeaders) {
+        if(handleError(res, err)) return;
+
+        res.json(result);
+    });
+});
+
+router.get('/offerinfo', function(req, res) {
+    console.log('offerinfo(' + req.query.offerGuid + ')');
+    sysclient.offerinfo(req.query.offerGuid, function(err, result, resHeaders) {
+        if(handleError(res, err)) return;
+
+        res.json(result);
+    });
+});
+
+router.get('/offerlist', function(req, res) {
+    console.log('offerlist(' + req.query.offerNameFilter + ')');
+    sysclient.offerlist(req.query.offerNameFilter, function(err, result, resHeaders) {
+        if(handleError(res, err)) return;
+
+        res.json(result);
+    });
+});
+
+router.get('/offernew', function(req, res) {
+    console.log('offernew('  + req.query.offerAddress + ', ' + req.query.category + ', ' + req.query.title + ', ' + req.query.quantity + ', ' + req.query.price + ', ' + req.query.description + ')');
+    sysclient.offernew(req.query.offerAddress, req.query.category, req.query.title, req.query.quantity, req.query.price, req.query.description, function(err, result, resHeaders) {
+        if(handleError(res, err)) return;
+
+        res.json(result);
+    });
+});
+
+router.get('/offerpay', function(req, res) {
+    console.log('offerpay(' + req.query.offerAcceptGuid + ', ' + req.query.offerAcceptTx + ', ' + req.query.messageToSeller + ')');
+    sysclient.offerpay(req.query.offerAcceptGuid, req.query.offerAcceptTx, req.query.messageToSeller, function(err, result, resHeaders) {
+        if(handleError(res, err)) return;
+
+        res.json(result);
+    });
+});
+
+router.get('/offerscan', function(req, res) {
+    console.log('offerscan(' + req.query.startOfferGuid + ', ' + req.query.maxReturned + ')');
+    sysclient.offerscan(req.query.startOfferGuid, req.query.maxReturned, function(err, result, resHeaders) {
+        if(handleError(res, err)) return;
+
+        res.json(result);
+    });
+});
+
+router.get('/offerupdate', function(req, res) {
+    console.log('offerupdate(' + req.query.offerGuid + ', ' + req.query.category + ', ' + req.query.title + ', ' + req.query.quantity + ', ' + req.query.price + ', ' + req.query.description + ')');
+    sysclient.offerupdate(req.query.offerGuid, req.query.category, req.query.title, req.query.quantity, req.query.price, req.query.description, function(err, result, resHeaders) {
+        if(handleError(res, err)) return;
+
+        res.json(result);
+    });
+});
 
 
-
-//general functions
+// GENERAL FUNCTIONS
+// =============================================================================
 function handleError(res, err) {
     if (err) {
         res.json({ error : err });
