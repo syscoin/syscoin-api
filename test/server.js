@@ -1,22 +1,24 @@
-var should = require('should');
-var assert = require('assert');
+var expect = require('chai').expect;
 var request = require('supertest');
+var assert = require('assert');
 var config = require('../config');
 
+// bind supertest to running instance of the the server
+var server = require('../server');
+
 describe('SyscoinAPI', function() {
-    var url = config.host + ':' + config.port;
+    var server = require('../server');
 
     describe('GET /api/hello', function() {
         it('should return a simple message saying hello', function(done) {
+            var vars = {};
 
-            request(url)
+            request(server)
                 .get('/api/hello')
                 .end(function(err, res) {
-                    if (err) {
-                        throw err;
-                    }
+                    if (err) return done(err);
 
-                    res.body.should.have.property('message');
+                    expect(res.body).to.have.property('message');
                     done();
                 });
         });
@@ -25,14 +27,12 @@ describe('SyscoinAPI', function() {
     describe('POST /api/getinfo', function() {
         it('should return daemon wallet info', function(done) {
 
-            request(url)
+            request(server)
                 .post('/api/getinfo')
                 .end(function(err, res) {
-                    if (err) {
-                        throw err;
-                    }
+                    if (err) return done(err);
 
-                    res.body.should.have.property('balance');
+                    expect(res.body).should.have.property('balance');
                     done();
                 });
         });
@@ -45,14 +45,12 @@ describe('SyscoinAPI', function() {
                 method: "add"
             };
 
-            request(url)
+            request(server)
                 .post('/api/addnode')
                 .send(urlVars)
                 .expect(200)
                 .end(function(err, res) {
-                    if (err) {
-                        throw err;
-                    }
+                    if (err) return done(err);
 
                     done();
                 });

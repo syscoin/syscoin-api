@@ -1,19 +1,19 @@
 // server.js
 
 var express    = require('express'); 		// call express
-var app        = express(); 				// define our app using express
+var app        = module.exports = express(); 				// define our app using express
 var bodyParser = require('body-parser');
 var syscoin = require('syscoin');
 
 app.use(bodyParser());
 
 //load external configuration
-var config = require('./config')
+var config = require('./config');
 
 //ENABLE CORS
 app.all('*', function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
     next();
 });
 
@@ -29,451 +29,499 @@ var sysclient = new syscoin.Client({
 
 // ROUTES FOR OUR API
 // =============================================================================
-var router = express.Router(); 				// get an instance of the express Router
+// get an instance of the express Router
+var router = express.Router({
+  caseSensitive: false
+});
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
-router.get('/hello', function(req, res) {
+router.get('/hello', function(req, res, next) {
     res.json({ message: 'hooray! welcome to our api!' });
+    next();
 });
 
 
 // GENERIC WALLET FUNCTIONS
 // =============================================================================
-router.post('/getinfo', function(req, res) {
+router.post('/getinfo', function(req, res, next) {
     console.log('getInfo()');
     sysclient.getInfo(function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+        if (err) return handleError(err, req, res, next);
+
         console.log(JSON.stringify(result));
         res.json(result);
+        next();
     });
 });
 
-router.post('/addnode', function(req, res) {
+router.post('/addnode', function(req, res, next) {
     console.log('addNode(' + req.query.node + ', ' + req.query.method + ')');
-    sysclient.addNode(req.query.node, req.query.method, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.addnode(req.query.node, req.query.method, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
 // NAME ALIAS FUNCTIONS
 // =============================================================================
-router.post('/aliasactivate', function(req, res) {
+router.post('/aliasactivate', function(req, res, next) {
     console.log('aliasactivate(' + req.query.aliasName + ', ' + req.query.guid + ', ' + req.query.tx + ', ' + req.query.value + ')');
-    sysclient.aliasActivate(req.query.aliasName, req.query.guid, req.query.tx, req.query.value, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.aliasactivate(req.query.aliasName, req.query.guid, req.query.tx, req.query.value, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
-/*router.post('/aliasclean', function(req, res) {
+/*router.post('/aliasclean', function(req, res, next) {
     console.log('aliasclean()');
     sysclient.aliasClean(function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });*/
 
-router.post('/aliasfilter', function(req, res) {
+router.post('/aliasfilter', function(req, res, next) {
     console.log('aliasfilter(' + req.query.regexp + ', ' + req.query.maxage + ', ' + req.query.from + ', ' + req.query.nb + ', ' + req.query.stat + ')');
-    sysclient.aliasFilter(req.query.regexp, req.query.maxage, req.query.from, req.query.nb, req.query.stat, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.aliasfilter(req.query.regexp, req.query.maxage, req.query.from, req.query.nb, req.query.stat, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
-router.post('/aliashistory', function(req, res) {
+router.post('/aliashistory', function(req, res, next) {
     console.log('aliashistory(' + req.query.aliasName + ')');
-    sysclient.aliasHistory(req.query.aliasName, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.aliashistory(req.query.aliasName, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
-router.post('/aliasinfo', function(req, res) {
+router.post('/aliasinfo', function(req, res, next) {
     console.log('aliasinfo(' + req.query.aliasName + ')');
-    sysclient.aliasInfo(req.query.aliasInfo, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.aliasinfo(req.query.aliasInfo, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
-router.post('/aliaslist', function(req, res) {
+router.post('/aliaslist', function(req, res, next) {
     console.log('aliaslist(' + req.query.aliasNameFilter + ')');
-    sysclient.aliasList(req.query.aliasNameFilter, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.aliaslist(req.query.aliasNameFilter, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
-router.post('/aliasnew', function(req, res) {
+router.post('/aliasnew', function(req, res, next) {
     console.log('aliasnew(' + req.query.aliasName + ')');
-    sysclient.aliasNew(req.query.aliasName, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.aliasnew(req.query.aliasName, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
-router.post('/aliasscan', function(req, res) {
+router.post('/aliasscan', function(req, res, next) {
     console.log('aliasscan(' + req.query.startAliasName + ', ' + req.query.maxReturned + ')');
-    sysclient.aliasScan(req.query.startAliasName, req.query.maxReturned, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.aliasscan(req.query.startAliasName, req.query.maxReturned, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
-router.post('/aliasupdate', function(req, res) {
+router.post('/aliasupdate', function(req, res, next) {
     console.log('aliasupdate(' + req.query.aliasName + ', ' + req.query.aliasValue + ', ' + req.query.toAddress + ')');
-    sysclient.aliasUpdate(req.query.aliasName, req.query.aliasValue, req.query.toAddress, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.aliasupdate(req.query.aliasName, req.query.aliasValue, req.query.toAddress, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
 
 // CERTIFICATE MANAGEMENT FUNCTIONS
 // =============================================================================
-router.post('/certissuerinfo', function(req, res) {
+router.post('/certissuerinfo', function(req, res, next) {
     console.log('certissuerinfo(' + req.query.guid + ')');
-    sysclient.certissuerInfo(req.query.guid, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.certissuerinfo(req.query.guid, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
-router.post('/certissueractivate', function(req, res) {
+router.post('/certissueractivate', function(req, res, next) {
     console.log('certissueractivate(' + req.query.guid + ', ' + req.query.tx + ')');
-    sysclient.certissuerActivate(req.query.guid, req.query.tx, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.certissueractivate(req.query.guid, req.query.tx, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
-/*router.post('/certissuer_clean', function(req, res) {
+/*router.post('/certissuer_clean', function(req, res, next) {
     console.log('certissuer_clean()');
     sysclient.certissuer_clean(function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });*/
 
-router.post('/certissuerfilter', function(req, res) {
+router.post('/certissuerfilter', function(req, res, next) {
     console.log('certissuerfilter(' + req.query.regexp + ', ' + req.query.maxage + ', ' + req.query.from + ', ' + req.query.nb + ', ' + req.query.stat + ')');
-    sysclient.certissuerFilter(req.query.regexp, req.query.maxage, req.query.from, req.query.nb, req.query.stat, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.certissuerfilter(req.query.regexp, req.query.maxage, req.query.from, req.query.nb, req.query.stat, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
-router.post('/certissuerhistory', function(req, res) {
+router.post('/certissuerhistory', function(req, res, next) {
     console.log('certissuerhistory(' + req.query.certIssuerName + ')');
-    sysclient.certissuerHistory(req.query.certIssuerName, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.certissuerhistory(req.query.certIssuerName, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
-router.post('/certissuerinfo', function(req, res) {
+router.post('/certissuerinfo', function(req, res, next) {
     console.log('certissuerinfo(' + req.query.guid + ')');
-    sysclient.certissuerInfo(req.query.guid, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.certissuerinfo(req.query.guid, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
-router.post('/certissuerlist', function(req, res) {
+router.post('/certissuerlist', function(req, res, next) {
     console.log('certissuerlist(' + req.query.certIssuerNameFilter + ')');
-    sysclient.certissuerList(req.query.certIssuerNameFilter, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.certissuerlist(req.query.certIssuerNameFilter, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
-router.post('/certissuernew', function(req, res) {
+router.post('/certissuernew', function(req, res, next) {
     console.log('certissuernew(' + req.query.certIssuerName + ', ' + req.query.certIssuerData + ')');
-    sysclient.certissuerNew(req.query.certIssuerName, req.query.certIssuerData, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.certissuernew(req.query.certIssuerName, req.query.certIssuerData, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
-router.post('/certissuerscan', function(req, res) {
+router.post('/certissuerscan', function(req, res, next) {
     console.log('certissuerscan(' + req.query.startCertIssuerName + ', ' + req.query.maxReturned + ')');
-    sysclient.certissuerScan(req.query.startCertIssuerName, req.query.maxReturned, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.certissuerscan(req.query.startCertIssuerName, req.query.maxReturned, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
-router.post('/certissuerupdate', function(req, res) {
+router.post('/certissuerupdate', function(req, res, next) {
     console.log('certissuerupdate(' + req.query.guid + ', ' + req.query.certIssuerName + ', ' + req.query.certIssuerData + ')');
-    sysclient.certissuerUpdate(req.query.guid, req.query.certIssuerName, req.query.certIssuerData, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.certissuerupdate(req.query.guid, req.query.certIssuerName, req.query.certIssuerData, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
-router.post('/certnew', function(req, res) {
+router.post('/certnew', function(req, res, next) {
     console.log('certnew(' + req.query.issuerGuid + ', ' + req.query.toAddress + ', ' + req.query.certTitle + ', ' + req.query.certData + ')');
-    sysclient.certNew(req.query.issuerGuid, req.query.toAddress, req.query.certTitle, req.query.certData, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.certnew(req.query.issuerGuid, req.query.toAddress, req.query.certTitle, req.query.certData, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
-router.post('/certtransfer', function(req, res) {
+router.post('/certtransfer', function(req, res, next) {
     console.log('certtransfer(' + req.query.certGuid + ', ' + req.query.toAddress + ')');
-    sysclient.certTransfer(req.query.certGuid, req.query.toAddress, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.certtransfer(req.query.certGuid, req.query.toAddress, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
 // DATA ALIAS FUNCTIONS
 // =============================================================================
-router.post('/dataactivate', function(req, res) {
+router.post('/dataactivate', function(req, res, next) {
     console.log('dataactivate(' + req.query.dataName + ', ' + req.query.guid + ', ' + req.query.tx + ', ' + req.query.filename + ', ' + req.query.dataContent + ')');
-    sysclient.dataActivate(req.query.dataName, req.query.guid, req.query.tx, req.query.filename, req.query.dataContent, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.dataactivate(req.query.dataName, req.query.guid, req.query.tx, req.query.filename, req.query.dataContent, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
 /*
 MISSING FROM DAEMON
-router.post('/dataclean', function(req, res) {
+router.post('/dataclean', function(req, res, next) {
     console.log('aliasclean()');
     sysclient.aliasclean(function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 */
 
 /*
 MISSING FROM DAEMON
-router.post('/datafilter', function(req, res) {
+router.post('/datafilter', function(req, res, next) {
     console.log('datafilter(' + req.query.regexp + ', ' + req.query.maxage + ', ' + req.query.from + ', ' + req.query.nb + ', ' + req.query.stat + ')');
     sysclient.datafilter(req.query.regexp, req.query.maxage, req.query.from, req.query.nb, req.query.stat, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 */
 
 /*
 INCORRECT IN DAEMON - returns output related to aliases, not data.
-router.post('/datahistory', function(req, res) {
+router.post('/datahistory', function(req, res, next) {
     console.log('datahistory(' + req.query.dataName + ')');
     sysclient.datahistory(req.query.dataName, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 */
 
 /*
 INCORRECT IN DAEMON - returns output related to aliases, not data.
-router.post('/datainfo', function(req, res) {
+router.post('/datainfo', function(req, res, next) {
     console.log('datainfo(' + req.query.dataName + ')');
     sysclient.datainfo(req.query.dataName, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 */
 
 /*
  INCORRECT IN DAEMON - returns output related to aliases, not data.
+<<<<<<< HEAD
+router.post('/datalist', function(req, res, next) {
+=======
 router.post('/datalist', function(req, res) {
+>>>>>>> syscoin/master
     console.log('datalist(' + req.query.dataNameFilter + ')');
     sysclient.datalist(req.query.dataNameFilter, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 */
 
-router.post('/datanew', function(req, res) {
-    console.log('datanew(' + req.query.dataName + ')');
-    sysclient.dataNew(req.query.dataName, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+router.post('/datanew', function(req, res, next) {
+    console.log('aliasnew(' + req.query.dataName + ')');
+    sysclient.aliasnew(req.query.dataName, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
 /*
  MISSING FROM DAEMON
-router.post('/datascan', function(req, res) {
+router.post('/datascan', function(req, res, next) {
     console.log('aliasscan(' + req.query.startAliasName + ', ' + req.query.maxReturned + ')');
     sysclient.aliasscan(req.query.startAliasName, req.query.maxReturned, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 */
 
-router.post('/dataupdate', function(req, res) {
+router.post('/dataupdate', function(req, res, next) {
     console.log('dataupdate(' + req.query.dataName + ', ' + req.query.filename + ', ' + req.query.dataContent + ', ' + req.query.toAddress + ')');
-    sysclient.dataUpdate(req.query.aliasName, req.query.filename, req.query.dataContent, req.query.toAddress, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.dataupdate(req.query.aliasName, req.query.filename, req.query.dataContent, req.query.toAddress, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
-router.post('/dumpdata', function(req, res) {
+router.post('/dumpdata', function(req, res, next) {
     console.log('dumpdata(' + req.query.dataName + ')');
-    sysclient.dumpData(req.query.dataName, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.dumpdata(req.query.dataName, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
 // MARKETPLACE/OFFER FUNCTIONS
 // =============================================================================
-router.post('/offeraccept', function(req, res) {
+router.post('/offeraccept', function(req, res, next) {
     console.log('offeraccept(' + req.query.guid + ', ' + req.query.quantity + ')');
-    sysclient.offerAccept(req.query.guid, req.query.quantity, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.offeraccept(req.query.guid, req.query.quantity, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
-router.post('/offeractivate', function(req, res) {
+router.post('/offeractivate', function(req, res, next) {
     console.log('offeractivate(' + req.query.guid + ', ' + req.query.tx + ')');
-    sysclient.offerActivate(req.query.guid, req.query.tx, req.query.value, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.offeractivate(req.query.guid, req.query.tx, req.query.value, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
-/*router.post('/offer_clean', function(req, res) {
+/*router.post('/offer_clean', function(req, res, next) {
     console.log('offer_clean()');
     sysclient.offer_clean(function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });*/
 
-router.post('/offerfilter', function(req, res) {
+router.post('/offerfilter', function(req, res, next) {
     console.log('offerfilter(' + req.query.regexp + ', ' + req.query.maxage + ', ' + req.query.from + ', ' + req.query.nb + ', ' + req.query.stat + ')');
-    sysclient.offerFilter(req.query.regexp, req.query.maxage, req.query.from, req.query.nb, req.query.stat, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.offerfilter(req.query.regexp, req.query.maxage, req.query.from, req.query.nb, req.query.stat, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
-router.post('/offerhistory', function(req, res) {
+router.post('/offerhistory', function(req, res, next) {
     console.log('offerhistory(' + req.query.offerGuid + ')');
-    sysclient.offerHistory(req.query.offerGuid, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.offerhistory(req.query.offerGuid, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
-router.post('/offerinfo', function(req, res) {
+router.post('/offerinfo', function(req, res, next) {
     console.log('offerinfo(' + req.query.offerGuid + ')');
-    sysclient.offerInfo(req.query.offerGuid, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.offerinfo(req.query.offerGuid, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
-router.post('/offerlist', function(req, res) {
+router.post('/offerlist', function(req, res, next) {
     console.log('offerlist(' + req.query.offerNameFilter + ')');
-    sysclient.offerList(req.query.offerNameFilter, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.offerlist(req.query.offerNameFilter, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
-router.post('/offernew', function(req, res) {
+router.post('/offernew', function(req, res, next) {
     console.log('offernew('  + req.query.offerAddress + ', ' + req.query.category + ', ' + req.query.title + ', ' + req.query.quantity + ', ' + req.query.price + ', ' + req.query.description + ')');
-    sysclient.offerNew(req.query.offerAddress, req.query.category, req.query.title, req.query.quantity, req.query.price, req.query.description, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.offernew(req.query.offerAddress, req.query.category, req.query.title, req.query.quantity, req.query.price, req.query.description, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
-router.post('/offerpay', function(req, res) {
+router.post('/offerpay', function(req, res, next) {
     console.log('offerpay(' + req.query.offerAcceptGuid + ', ' + req.query.offerAcceptTx + ', ' + req.query.messageToSeller + ')');
-    sysclient.offerPay(req.query.offerAcceptGuid, req.query.offerAcceptTx, req.query.messageToSeller, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.offerpay(req.query.offerAcceptGuid, req.query.offerAcceptTx, req.query.messageToSeller, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
-router.post('/offerscan', function(req, res) {
+router.post('/offerscan', function(req, res, next) {
     console.log('offerscan(' + req.query.startOfferGuid + ', ' + req.query.maxReturned + ')');
-    sysclient.offerScan(req.query.startOfferGuid, req.query.maxReturned, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.offerscan(req.query.startOfferGuid, req.query.maxReturned, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
-router.post('/offerupdate', function(req, res) {
+router.post('/offerupdate', function(req, res, next) {
     console.log('offerupdate(' + req.query.offerGuid + ', ' + req.query.category + ', ' + req.query.title + ', ' + req.query.quantity + ', ' + req.query.price + ', ' + req.query.description + ')');
-    sysclient.offerUpdate(req.query.offerGuid, req.query.category, req.query.title, req.query.quantity, req.query.price, req.query.description, function(err, result, resHeaders) {
-        if(handleError(res, err)) return;
+    sysclient.offerupdate(req.query.offerGuid, req.query.category, req.query.title, req.query.quantity, req.query.price, req.query.description, function(err, result, resHeaders) {
+        if (err) return handleError(err, req, res, next);
 
         res.json(result);
+        next();
     });
 });
 
 
 // GENERAL FUNCTIONS
 // =============================================================================
-function handleError(res, err) {
-    if (err) {
-        res.json({ error : err });
-        console.log(err);
-
-        //return true on error to stop further execution within functions
-        //TODO: better patterning
-        return true;
-    }
+function handleError(err, req, res, next) {
+  res.json({ error : err });
+  console.log(err);
+  return next();
 }
 
 
