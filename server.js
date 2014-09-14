@@ -61,25 +61,25 @@ router.post('/addnode', function(req, res) {
 // =============================================================================
 router.post('/aliasactivate', function(req, res) {
     console.log('aliasactivate(' + req.query.aliasName + ', ' + req.query.guid + ', ' + req.query.tx + ', ' + req.query.value + ')');
-    sysclient.aliasactivate(req.query.aliasName, req.query.guid, req.query.tx, req.query.value, function(err, result, resHeaders) {
+    sysclient.aliasActivate(req.query.aliasName, req.query.guid, req.query.tx, req.query.value, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
     });
 });
 
-router.post('/aliasclean', function(req, res) {
+/*router.post('/aliasclean', function(req, res) {
     console.log('aliasclean()');
-    sysclient.aliasclean(function(err, result, resHeaders) {
+    sysclient.aliasClean(function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
     });
-});
+});*/
 
 router.post('/aliasfilter', function(req, res) {
     console.log('aliasfilter(' + req.query.regexp + ', ' + req.query.maxage + ', ' + req.query.from + ', ' + req.query.nb + ', ' + req.query.stat + ')');
-    sysclient.aliasfilter(req.query.regexp, req.query.maxage, req.query.from, req.query.nb, req.query.stat, function(err, result, resHeaders) {
+    sysclient.aliasFilter(req.query.regexp, req.query.maxage, req.query.from, req.query.nb, req.query.stat, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -88,7 +88,7 @@ router.post('/aliasfilter', function(req, res) {
 
 router.post('/aliashistory', function(req, res) {
     console.log('aliashistory(' + req.query.aliasName + ')');
-    sysclient.aliashistory(req.query.aliasName, function(err, result, resHeaders) {
+    sysclient.aliasHistory(req.query.aliasName, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -97,7 +97,7 @@ router.post('/aliashistory', function(req, res) {
 
 router.post('/aliasinfo', function(req, res) {
     console.log('aliasinfo(' + req.query.aliasName + ')');
-    sysclient.aliasinfo(req.query.aliasInfo, function(err, result, resHeaders) {
+    sysclient.aliasInfo(req.query.aliasInfo, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -106,7 +106,7 @@ router.post('/aliasinfo', function(req, res) {
 
 router.post('/aliaslist', function(req, res) {
     console.log('aliaslist(' + req.query.aliasNameFilter + ')');
-    sysclient.aliaslist(req.query.aliasNameFilter, function(err, result, resHeaders) {
+    sysclient.aliasList(req.query.aliasNameFilter, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -115,7 +115,7 @@ router.post('/aliaslist', function(req, res) {
 
 router.post('/aliasnew', function(req, res) {
     console.log('aliasnew(' + req.query.aliasName + ')');
-    sysclient.aliasnew(req.query.aliasName, function(err, result, resHeaders) {
+    sysclient.aliasNew(req.query.aliasName, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -124,7 +124,7 @@ router.post('/aliasnew', function(req, res) {
 
 router.post('/aliasscan', function(req, res) {
     console.log('aliasscan(' + req.query.startAliasName + ', ' + req.query.maxReturned + ')');
-    sysclient.aliasscan(req.query.startAliasName, req.query.maxReturned, function(err, result, resHeaders) {
+    sysclient.aliasScan(req.query.startAliasName, req.query.maxReturned, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -133,7 +133,7 @@ router.post('/aliasscan', function(req, res) {
 
 router.post('/aliasupdate', function(req, res) {
     console.log('aliasupdate(' + req.query.aliasName + ', ' + req.query.aliasValue + ', ' + req.query.toAddress + ')');
-    sysclient.aliasupdate(req.query.aliasName, req.query.aliasValue, req.query.toAddress, function(err, result, resHeaders) {
+    sysclient.aliasUpdate(req.query.aliasName, req.query.aliasValue, req.query.toAddress, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -145,7 +145,7 @@ router.post('/aliasupdate', function(req, res) {
 // =============================================================================
 router.post('/certissuerinfo', function(req, res) {
     console.log('certissuerinfo(' + req.query.guid + ')');
-    sysclient.certissuerinfo(req.query.guid, function(err, result, resHeaders) {
+    sysclient.certissuerInfo(req.query.guid, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -154,25 +154,25 @@ router.post('/certissuerinfo', function(req, res) {
 
 router.post('/certissueractivate', function(req, res) {
     console.log('certissueractivate(' + req.query.guid + ', ' + req.query.tx + ')');
-    sysclient.certissueractivate(req.query.guid, req.query.tx, function(err, result, resHeaders) {
+    sysclient.certissuerActivate(req.query.guid, req.query.tx, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
     });
 });
 
-router.post('/certissuer_clean', function(req, res) {
+/*router.post('/certissuer_clean', function(req, res) {
     console.log('certissuer_clean()');
     sysclient.certissuer_clean(function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
     });
-});
+});*/
 
 router.post('/certissuerfilter', function(req, res) {
     console.log('certissuerfilter(' + req.query.regexp + ', ' + req.query.maxage + ', ' + req.query.from + ', ' + req.query.nb + ', ' + req.query.stat + ')');
-    sysclient.certissuerfilter(req.query.regexp, req.query.maxage, req.query.from, req.query.nb, req.query.stat, function(err, result, resHeaders) {
+    sysclient.certissuerFilter(req.query.regexp, req.query.maxage, req.query.from, req.query.nb, req.query.stat, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -181,7 +181,7 @@ router.post('/certissuerfilter', function(req, res) {
 
 router.post('/certissuerhistory', function(req, res) {
     console.log('certissuerhistory(' + req.query.certIssuerName + ')');
-    sysclient.certissuerhistory(req.query.certIssuerName, function(err, result, resHeaders) {
+    sysclient.certissuerHistory(req.query.certIssuerName, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -190,7 +190,7 @@ router.post('/certissuerhistory', function(req, res) {
 
 router.post('/certissuerinfo', function(req, res) {
     console.log('certissuerinfo(' + req.query.guid + ')');
-    sysclient.certissuerinfo(req.query.guid, function(err, result, resHeaders) {
+    sysclient.certissuerInfo(req.query.guid, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -199,7 +199,7 @@ router.post('/certissuerinfo', function(req, res) {
 
 router.post('/certissuerlist', function(req, res) {
     console.log('certissuerlist(' + req.query.certIssuerNameFilter + ')');
-    sysclient.certissuerlist(req.query.certIssuerNameFilter, function(err, result, resHeaders) {
+    sysclient.certissuerList(req.query.certIssuerNameFilter, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -208,7 +208,7 @@ router.post('/certissuerlist', function(req, res) {
 
 router.post('/certissuernew', function(req, res) {
     console.log('certissuernew(' + req.query.certIssuerName + ', ' + req.query.certIssuerData + ')');
-    sysclient.certissuernew(req.query.certIssuerName, req.query.certIssuerData, function(err, result, resHeaders) {
+    sysclient.certissuerNew(req.query.certIssuerName, req.query.certIssuerData, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -217,7 +217,7 @@ router.post('/certissuernew', function(req, res) {
 
 router.post('/certissuerscan', function(req, res) {
     console.log('certissuerscan(' + req.query.startCertIssuerName + ', ' + req.query.maxReturned + ')');
-    sysclient.certissuerscan(req.query.startCertIssuerName, req.query.maxReturned, function(err, result, resHeaders) {
+    sysclient.certissuerScan(req.query.startCertIssuerName, req.query.maxReturned, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -226,7 +226,7 @@ router.post('/certissuerscan', function(req, res) {
 
 router.post('/certissuerupdate', function(req, res) {
     console.log('certissuerupdate(' + req.query.guid + ', ' + req.query.certIssuerName + ', ' + req.query.certIssuerData + ')');
-    sysclient.certissuerupdate(req.query.guid, req.query.certIssuerName, req.query.certIssuerData, function(err, result, resHeaders) {
+    sysclient.certissuerUpdate(req.query.guid, req.query.certIssuerName, req.query.certIssuerData, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -235,7 +235,7 @@ router.post('/certissuerupdate', function(req, res) {
 
 router.post('/certnew', function(req, res) {
     console.log('certnew(' + req.query.issuerGuid + ', ' + req.query.toAddress + ', ' + req.query.certTitle + ', ' + req.query.certData + ')');
-    sysclient.certnew(req.query.issuerGuid, req.query.toAddress, req.query.certTitle, req.query.certData, function(err, result, resHeaders) {
+    sysclient.certNew(req.query.issuerGuid, req.query.toAddress, req.query.certTitle, req.query.certData, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -244,7 +244,7 @@ router.post('/certnew', function(req, res) {
 
 router.post('/certtransfer', function(req, res) {
     console.log('certtransfer(' + req.query.certGuid + ', ' + req.query.toAddress + ')');
-    sysclient.certtransfer(req.query.certGuid, req.query.toAddress, function(err, result, resHeaders) {
+    sysclient.certTransfer(req.query.certGuid, req.query.toAddress, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -255,7 +255,7 @@ router.post('/certtransfer', function(req, res) {
 // =============================================================================
 router.post('/dataactivate', function(req, res) {
     console.log('dataactivate(' + req.query.dataName + ', ' + req.query.guid + ', ' + req.query.tx + ', ' + req.query.filename + ', ' + req.query.dataContent + ')');
-    sysclient.dataactivate(req.query.dataName, req.query.guid, req.query.tx, req.query.filename, req.query.dataContent, function(err, result, resHeaders) {
+    sysclient.dataActivate(req.query.dataName, req.query.guid, req.query.tx, req.query.filename, req.query.dataContent, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -323,8 +323,8 @@ router.post('/datalist', function(req, res) {
 */
 
 router.post('/datanew', function(req, res) {
-    console.log('aliasnew(' + req.query.dataName + ')');
-    sysclient.aliasnew(req.query.dataName, function(err, result, resHeaders) {
+    console.log('datanew(' + req.query.dataName + ')');
+    sysclient.dataNew(req.query.dataName, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -345,7 +345,7 @@ router.post('/datascan', function(req, res) {
 
 router.post('/dataupdate', function(req, res) {
     console.log('dataupdate(' + req.query.dataName + ', ' + req.query.filename + ', ' + req.query.dataContent + ', ' + req.query.toAddress + ')');
-    sysclient.dataupdate(req.query.aliasName, req.query.filename, req.query.dataContent, req.query.toAddress, function(err, result, resHeaders) {
+    sysclient.dataUpdate(req.query.aliasName, req.query.filename, req.query.dataContent, req.query.toAddress, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -354,7 +354,7 @@ router.post('/dataupdate', function(req, res) {
 
 router.post('/dumpdata', function(req, res) {
     console.log('dumpdata(' + req.query.dataName + ')');
-    sysclient.dumpdata(req.query.dataName, function(err, result, resHeaders) {
+    sysclient.dumpData(req.query.dataName, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -365,7 +365,7 @@ router.post('/dumpdata', function(req, res) {
 // =============================================================================
 router.post('/offeraccept', function(req, res) {
     console.log('offeraccept(' + req.query.guid + ', ' + req.query.quantity + ')');
-    sysclient.offeraccept(req.query.guid, req.query.quantity, function(err, result, resHeaders) {
+    sysclient.offerAccept(req.query.guid, req.query.quantity, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -374,25 +374,25 @@ router.post('/offeraccept', function(req, res) {
 
 router.post('/offeractivate', function(req, res) {
     console.log('offeractivate(' + req.query.guid + ', ' + req.query.tx + ')');
-    sysclient.offeractivate(req.query.guid, req.query.tx, req.query.value, function(err, result, resHeaders) {
+    sysclient.offerActivate(req.query.guid, req.query.tx, req.query.value, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
     });
 });
 
-router.post('/offer_clean', function(req, res) {
+/*router.post('/offer_clean', function(req, res) {
     console.log('offer_clean()');
     sysclient.offer_clean(function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
     });
-});
+});*/
 
 router.post('/offerfilter', function(req, res) {
     console.log('offerfilter(' + req.query.regexp + ', ' + req.query.maxage + ', ' + req.query.from + ', ' + req.query.nb + ', ' + req.query.stat + ')');
-    sysclient.offerfilter(req.query.regexp, req.query.maxage, req.query.from, req.query.nb, req.query.stat, function(err, result, resHeaders) {
+    sysclient.offerFilter(req.query.regexp, req.query.maxage, req.query.from, req.query.nb, req.query.stat, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -401,7 +401,7 @@ router.post('/offerfilter', function(req, res) {
 
 router.post('/offerhistory', function(req, res) {
     console.log('offerhistory(' + req.query.offerGuid + ')');
-    sysclient.offerhistory(req.query.offerGuid, function(err, result, resHeaders) {
+    sysclient.offerHistory(req.query.offerGuid, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -410,7 +410,7 @@ router.post('/offerhistory', function(req, res) {
 
 router.post('/offerinfo', function(req, res) {
     console.log('offerinfo(' + req.query.offerGuid + ')');
-    sysclient.offerinfo(req.query.offerGuid, function(err, result, resHeaders) {
+    sysclient.offerInfo(req.query.offerGuid, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -419,7 +419,7 @@ router.post('/offerinfo', function(req, res) {
 
 router.post('/offerlist', function(req, res) {
     console.log('offerlist(' + req.query.offerNameFilter + ')');
-    sysclient.offerlist(req.query.offerNameFilter, function(err, result, resHeaders) {
+    sysclient.offerList(req.query.offerNameFilter, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -428,7 +428,7 @@ router.post('/offerlist', function(req, res) {
 
 router.post('/offernew', function(req, res) {
     console.log('offernew('  + req.query.offerAddress + ', ' + req.query.category + ', ' + req.query.title + ', ' + req.query.quantity + ', ' + req.query.price + ', ' + req.query.description + ')');
-    sysclient.offernew(req.query.offerAddress, req.query.category, req.query.title, req.query.quantity, req.query.price, req.query.description, function(err, result, resHeaders) {
+    sysclient.offerNew(req.query.offerAddress, req.query.category, req.query.title, req.query.quantity, req.query.price, req.query.description, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -437,7 +437,7 @@ router.post('/offernew', function(req, res) {
 
 router.post('/offerpay', function(req, res) {
     console.log('offerpay(' + req.query.offerAcceptGuid + ', ' + req.query.offerAcceptTx + ', ' + req.query.messageToSeller + ')');
-    sysclient.offerpay(req.query.offerAcceptGuid, req.query.offerAcceptTx, req.query.messageToSeller, function(err, result, resHeaders) {
+    sysclient.offerPay(req.query.offerAcceptGuid, req.query.offerAcceptTx, req.query.messageToSeller, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -446,7 +446,7 @@ router.post('/offerpay', function(req, res) {
 
 router.post('/offerscan', function(req, res) {
     console.log('offerscan(' + req.query.startOfferGuid + ', ' + req.query.maxReturned + ')');
-    sysclient.offerscan(req.query.startOfferGuid, req.query.maxReturned, function(err, result, resHeaders) {
+    sysclient.offerScan(req.query.startOfferGuid, req.query.maxReturned, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -455,7 +455,7 @@ router.post('/offerscan', function(req, res) {
 
 router.post('/offerupdate', function(req, res) {
     console.log('offerupdate(' + req.query.offerGuid + ', ' + req.query.category + ', ' + req.query.title + ', ' + req.query.quantity + ', ' + req.query.price + ', ' + req.query.description + ')');
-    sysclient.offerupdate(req.query.offerGuid, req.query.category, req.query.title, req.query.quantity, req.query.price, req.query.description, function(err, result, resHeaders) {
+    sysclient.offerUpdate(req.query.offerGuid, req.query.category, req.query.title, req.query.quantity, req.query.price, req.query.description, function(err, result, resHeaders) {
         if(handleError(res, err)) return;
 
         res.json(result);
@@ -487,5 +487,6 @@ app.listen(config.port);
 console.log('Syscoin-API Server started on port ' + config.port);
 console.log('===============================================================');
 sysclient.getInfo(function(err, result, resHedeaders) {
+    console.log("syscoind must be running for this to work...");
     console.log("INIT TEST:" + JSON.stringify(result));
 });
