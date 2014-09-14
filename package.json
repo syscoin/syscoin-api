@@ -3,13 +3,13 @@
   "main": "server.js",
   "repository": "https://github.com/syscoin/syscoin-api.git",
   "dependencies": {
-    "express": "~4.0.0",
     "body-parser": "~1.0.1",
+    "express": "^4.9.0",
     "syscoin": "~2.1.x"
   },
   "devDependencies": {
+    "chai": "^1.9.1",
     "mocha": "~1.21.x",
-    "should": "~4.0.4",
     "supertest": "~0.13.x"
   },
   "scripts": {

@@ -1,24 +1,24 @@
-var should = require('should');
-var assert = require('assert');
+var expect = require('chai').expect;
 var request = require('supertest');
+var assert = require('assert');
 var config = require('../config');
 
+// bind supertest to running instance of the the server
+var server = require('../server');
+
 describe('Routing', function() {
-    var url = config.host + ':' + config.port;
+    var server = require('../server');
 
     describe('SyscoinAPI', function() {
         it('should return a simple message saying hello', function(done) {
-            var vars = {
-            };
+            var vars = {};
 
-            request(url)
-                .get('/api/hello2')
+            request(server)
+                .get('/api/hello')
                 .end(function(err, res) {
-                    if (err) {
-                        throw err;
-                    }
+                    if (err) return done(err);
 
-                    res.body.should.have.property('message');
+                    expect(res.body).to.have.property('message');
                     done();
                 });
         });
