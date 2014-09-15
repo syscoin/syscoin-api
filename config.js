@@ -12,4 +12,17 @@ config.syscoin.host = "127.0.0.1";
 config.syscoin.port = 8336;
 config.syscoin.timeout = 15000000;
 
+// logging config
+config.log = {
+  stdout: {
+    enabled: true,
+    level: 'info'
+  },
+  file: {
+    enabled: false,
+    path: '/var/log/syscoin-api/syscoin-api.log',
+    level: 'info'
+  }
+};
+
 module.exports = config;

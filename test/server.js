@@ -3,6 +3,10 @@ var request = require('supertest');
 var assert = require('assert');
 var config = require('../config');
 
+// forefully disable logging
+config.log.stdout.enabled = false;
+config.log.file.enabled = false;
+
 // bind supertest to running instance of the the server
 var server = require('../server');
 

@@ -4,7 +4,9 @@
   "repository": "https://github.com/syscoin/syscoin-api.git",
   "dependencies": {
     "body-parser": "~1.0.1",
+    "bunyan": "^1.0.1",
     "express": "^4.9.0",
+    "node-uuid": "^1.4.1",
     "syscoin": "~2.1.x"
   },
   "devDependencies": {
@@ -13,6 +15,7 @@
     "supertest": "~0.13.x"
   },
   "scripts": {
-    "test": "mocha -R min ./test/*"
+    "test": "mocha -R min ./test/*",
+    "start": "node ./server.js | ./node_modules/bunyan/bin/bunyan"
   }
 }
