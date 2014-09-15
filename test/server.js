@@ -36,7 +36,7 @@ describe('SyscoinAPI', function() {
                 .end(function(err, res) {
                     if (err) return done(err);
 
-                    expect(res.body).should.have.property('balance');
+                    expect(res.body).to.have.property('balance');
                     done();
                 });
         });
@@ -54,6 +54,28 @@ describe('SyscoinAPI', function() {
                 .send(urlVars)
                 .expect(200)
                 .end(function(err, res) {
+                    console.log(err);
+                    console.log(res);
+                    if (err) return done(err);
+
+                    done();
+                });
+        });
+    });
+
+    describe('POST /api/aliasactivate', function() {
+        it('should return a blank response', function(done) {
+            var urlVars = {
+                alaisName: "testalias",
+                guid: "abc12345",
+                value: "test"
+            };
+
+            request(server)
+                .post('/api/aliasactivate')
+                .send(urlVars)
+                .expect(200)
+                .end(function(err, res) {
                     if (err) return done(err);
 
                     done();
@@ -61,27 +83,3 @@ describe('SyscoinAPI', function() {
         });
     });
 });
-
-
-/*it('should return an error -4', function(done){
- var body = {
- firstName: 'JP',
- lastName: 'Berd'
- };
- request(url)
- .put('/api/profiles/vgheri')
- .send(body)
- .expect('Content-Type', /json/)
- .expect(200) //Status code
- .end(function(err,res) {
- if (err) {
- throw err;
- }
- // Should.js fluent syntax applied
- res.body.should.have.property('_id');
- res.body.firstName.should.equal('JP');
- res.body.lastName.should.equal('Berd');
- res.body.creationDate.should.not.equal(null);
- done();
- });
- });*/
