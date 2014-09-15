@@ -1,9 +1,7 @@
 // server.js
-
 var express    = require('express');
 var app        = module.exports = express();
 var bodyParser = require('body-parser');
-var syscoin    = require('syscoin');
 var bunyan     = require('bunyan');
 
 // load external configuration
@@ -26,16 +24,7 @@ app.all('*', require('./middleware/logging').attach(logger));
 app.all('*', require('./middleware/logging').entry);
 app.all('*', bodyParser());
 app.all('*', require('./middleware/cors'));
-
-// create syscoin client for RPC commands
-var sysclient = new syscoin.Client({
-    host: config.syscoin.host,
-    port: config.syscoin.port,
-    user: config.syscoin.user,
-    pass: config.syscoin.password,
-    timeout: config.syscoin.timeout
-});
-
+app.all('*', require('./middleware/client')(config.syscoin));
 
 // ROUTES FOR OUR API
 // =============================================================================
