@@ -2,21 +2,12 @@
 var express    = require('express');
 var app        = module.exports = express();
 var bodyParser = require('body-parser');
-var bunyan     = require('bunyan');
 
 // load external configuration
 var config = require('./config');
 
 // initialize logger
-var logStreams = [];
-if (config.log.stdout.enabled)
-  logStreams.push({level: config.log.stdout.level, stream: process.stdout});
-if (config.log.file.enabled)
-  logStreams.push({level: config.log.file.level, path: config.log.file.path});
-var logger = bunyan.createLogger({
-    name: 'syscoin',
-    streams: logStreams
-});
+var logger = require('./lib/logger')(config.log);
 
 // load middleware
 app.all('*', require('./middleware/requestId'));

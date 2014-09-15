@@ -1,4 +1,4 @@
-var syscoin    = require('syscoin');
+var syscoin = require('syscoin');
 
 function getClientMdw(clientConfig) {
   var client = new syscoin.Client({
