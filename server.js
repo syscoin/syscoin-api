@@ -16,7 +16,7 @@ app.all('*', require('./middleware/logging').entry);
 app.all('*', bodyParser());
 app.all('*', require('./middleware/cors'));
 app.all('*', require('./middleware/client')(config.syscoin));
-app.all('*', require('./middleware/error').attachErrorsMdw);
+app.all('*', require('./middleware/errors'));
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -509,7 +509,7 @@ router.post('/offerupdate', function(req, res, next) {
 app.use('/api', router);
 
 // ERROR HANDLING MDW
-app.use('*', require('./middleware/error').errorHandlerMdw);
+app.use('*', require('./middleware/errorHandler'));
 
 // AFTER ROUTE HANDLING, LOG WHEN THE REQUEST LEAVES THE API SEVER
 // =============================================================================
