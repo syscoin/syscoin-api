@@ -1,20 +1,3 @@
-var VError = require('verror');
-
-// customize VError serialization
-var config = {
-  configurable: true,
-  value: function() {
-    var alt = {};
-    var storeKey = function(key) {
-      if (key === 'jse_shortmsg' || key === 'jse_summary' || key === 'jse_cause') return;
-      alt[key] = this[key];
-    };
-    Object.getOwnPropertyNames(this).forEach(storeKey, this);
-    return alt;
-  }
-};
-Object.defineProperty(VError.prototype, 'toJSON', config);
-
 // add errors here
 var httpErrors = {
   NotFoundError: {
@@ -37,9 +20,15 @@ var errors = module.exports.errors = Object.keys(httpErrors).reduce(function (me
 
   // provide message override
   memo[err] = function (message) {
-    var error = new VError(message || defaultErrorProps.message);
+    var error = new Error(message || defaultErrorProps.message);
     error.name = err;
     error.status = defaultErrorProps.status;
+    error.body = {
+      name: err,
+      status: defaultErrorProps.status,
+      message: message || defaultErrorProps.message,
+      stack: error.stack
+    };
 
     return error;
   };
@@ -58,9 +47,9 @@ function errorHandlerMdw(err, req, res, next) {
 
   res.setHeader('content-type', 'application/json');
   res.status(err.status);
-  res.json(err);
+  res.json(err.body);
 
-  req.log.error({error: err}, 'an error occurred while servicing this request');
+  req.log.error({error: err.body}, 'an error occurred while servicing this request');
   return next();
 }
 module.exports.errorHandlerMdw = errorHandlerMdw;
