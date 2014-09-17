@@ -28,13 +28,30 @@ describe('SyscoinAPI', function() {
         });
     });
 
-    describe('POST /api/getinfo', function() {
+    describe('GET /rpc/hello', function() {
+        it('should return a simple message saying hello', function(done) {
+            var vars = {};
+
+            request(server)
+                .get('/rpc/hello')
+                .end(function(err, res) {
+                    if (err) return done(err);
+
+                    expect(res.body).to.have.property('message');
+                    done();
+                });
+        });
+    });
+
+    describe('POST /rpc/getinfo', function() {
         it('should return daemon wallet info', function(done) {
 
             request(server)
-                .post('/api/getinfo')
+                .post('/rpc/getinfo')
                 .end(function(err, res) {
-                    if (err) return done(err);
+                   // if (err) return done(err);
+
+                    console.log("HELLO");
 
                     expect(res.body).to.have.property('balance');
                     done();
@@ -42,7 +59,7 @@ describe('SyscoinAPI', function() {
         });
     });
 
-    describe('POST /api/addnode', function() {
+    describe('POST /rpc/addnode', function() {
         it('should return a blank response', function(done) {
             var urlVars = {
                 node: "127.0.0.1",
@@ -50,12 +67,11 @@ describe('SyscoinAPI', function() {
             };
 
             request(server)
-                .post('/api/addnode')
+                .post('/rpc/addnode')
                 .send(urlVars)
                 .expect(200)
                 .end(function(err, res) {
                     console.log(err);
-                    console.log(res);
                     if (err) return done(err);
 
                     done();
@@ -63,7 +79,7 @@ describe('SyscoinAPI', function() {
         });
     });
 
-    describe('POST /api/aliasactivate', function() {
+    describe('POST /rpc/aliasactivate', function() {
         it('should return a blank response', function(done) {
             var urlVars = {
                 alaisName: "testalias",
@@ -72,7 +88,7 @@ describe('SyscoinAPI', function() {
             };
 
             request(server)
-                .post('/api/aliasactivate')
+                .post('/rpc/aliasactivate')
                 .send(urlVars)
                 .expect(200)
                 .end(function(err, res) {
