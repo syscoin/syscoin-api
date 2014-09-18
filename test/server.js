@@ -60,7 +60,7 @@ describe('SyscoinAPI', function() {
     describe('POST /rpc/addnode', function() {
         it('should return a blank response', function(done) {
             var urlVars = {
-                node: "127.0.0.5",
+                node: "127.0.0.1",
                 method: "add"
             };
 
@@ -76,7 +76,7 @@ describe('SyscoinAPI', function() {
         });
     });
 
-    describe.only('POST /rpc/aliasactivate', function() {
+    describe('POST /rpc/aliasactivate', function() {
         it('should return a blank response', function(done) {
             var urlVars = {
                 aliasName: "testalias",
@@ -91,7 +91,6 @@ describe('SyscoinAPI', function() {
                 .end(function(err, res) {
                     if (err) return done(err);
 
-                    console.log(res.body);
                     done();
                 });
         });
