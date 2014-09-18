@@ -21,11 +21,11 @@ app.all('*', require('./middleware/errors'));
 // ROUTES FOR OUR API
 // =============================================================================
 var rpcRouter = express.Router({
-  caseSensitive: false
+  caseSensitive: true
 });
 
 var apiRouter = express.Router({
-    caseSensitive: false
+  caseSensitive: true
 });
 
 
@@ -69,8 +69,8 @@ rpcRouter.post('/getinfo', function(req, res, next) {
 });
 
 rpcRouter.post('/addnode', function(req, res, next) {
-    req.log.info('addNode(' + req.query.node + ', ' + req.query.method + ')');
-    req.client.addNode(req.query.node, req.query.method, function(err, result, resHeaders) {
+    req.log.info('addNode(' + req.body.node + ', ' + req.body.method + ')');
+    req.client.addNode(req.body.node, req.body.method, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -81,8 +81,8 @@ rpcRouter.post('/addnode', function(req, res, next) {
 // NAME ALIAS FUNCTIONS
 // =============================================================================
 rpcRouter.post('/aliasactivate', function(req, res, next) {
-    //req.log.info('aliasactivate(' + req.query.aliasName + ', ' + req.query.guid + ', ' + req.query.tx + ', ' + req.query.value + ')');
-    req.client.aliasActivate(req.query.aliasName, req.query.guid, req.query.tx, req.query.value, function(err, result, resHeaders) {
+    req.log.info('aliasactivate(' + req.body.aliasName + ', ' + req.body.guid + ', ' + req.body.tx + ', ' + req.body.value + ')');
+    req.client.aliasActivate(req.body.aliasName, req.body.guid, req.body.tx, req.body.value, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -101,8 +101,8 @@ rpcRouter.post('/aliasactivate', function(req, res, next) {
 });*/
 
 rpcRouter.post('/aliasfilter', function(req, res, next) {
-    req.log.info('aliasfilter(' + req.query.regexp + ', ' + req.query.maxage + ', ' + req.query.from + ', ' + req.query.nb + ', ' + req.query.stat + ')');
-    req.client.aliasFilter(req.query.regexp, req.query.maxage, req.query.from, req.query.nb, req.query.stat, function(err, result, resHeaders) {
+    req.log.info('aliasfilter(' + req.body.regexp + ', ' + req.body.maxage + ', ' + req.body.from + ', ' + req.body.nb + ', ' + req.body.stat + ')');
+    req.client.aliasFilter(req.body.regexp, req.body.maxage, req.body.from, req.body.nb, req.body.stat, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -111,8 +111,8 @@ rpcRouter.post('/aliasfilter', function(req, res, next) {
 });
 
 rpcRouter.post('/aliashistory', function(req, res, next) {
-    req.log.info('aliashistory(' + req.query.aliasName + ')');
-    req.client.aliasHistory(req.query.aliasName, function(err, result, resHeaders) {
+    req.log.info('aliashistory(' + req.body.aliasName + ')');
+    req.client.aliasHistory(req.body.aliasName, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -121,8 +121,8 @@ rpcRouter.post('/aliashistory', function(req, res, next) {
 });
 
 rpcRouter.post('/aliasinfo', function(req, res, next) {
-    req.log.info('aliasinfo(' + req.query.aliasName + ')');
-    req.client.aliasInfo(req.query.aliasInfo, function(err, result, resHeaders) {
+    req.log.info('aliasinfo(' + req.body.aliasName + ')');
+    req.client.aliasInfo(req.body.aliasInfo, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -131,8 +131,8 @@ rpcRouter.post('/aliasinfo', function(req, res, next) {
 });
 
 rpcRouter.post('/aliaslist', function(req, res, next) {
-    req.log.info('aliaslist(' + req.query.aliasNameFilter + ')');
-    req.client.aliasList(req.query.aliasNameFilter, function(err, result, resHeaders) {
+    req.log.info('aliaslist(' + req.body.aliasNameFilter + ')');
+    req.client.aliasList(req.body.aliasNameFilter, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -141,8 +141,8 @@ rpcRouter.post('/aliaslist', function(req, res, next) {
 });
 
 rpcRouter.post('/aliasnew', function(req, res, next) {
-    req.log.info('aliasnew(' + req.query.aliasName + ')');
-    req.client.aliasNew(req.query.aliasName, function(err, result, resHeaders) {
+    req.log.info('aliasnew(' + req.body.aliasName + ')');
+    req.client.aliasNew(req.body.aliasName, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -151,8 +151,8 @@ rpcRouter.post('/aliasnew', function(req, res, next) {
 });
 
 rpcRouter.post('/aliasscan', function(req, res, next) {
-    req.log.info('aliasscan(' + req.query.startAliasName + ', ' + req.query.maxReturned + ')');
-    req.client.aliasScan(req.query.startAliasName, req.query.maxReturned, function(err, result, resHeaders) {
+    req.log.info('aliasscan(' + req.body.startAliasName + ', ' + req.body.maxReturned + ')');
+    req.client.aliasScan(req.body.startAliasName, req.body.maxReturned, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -161,8 +161,8 @@ rpcRouter.post('/aliasscan', function(req, res, next) {
 });
 
 rpcRouter.post('/aliasupdate', function(req, res, next) {
-    req.log.info('aliasupdate(' + req.query.aliasName + ', ' + req.query.aliasValue + ', ' + req.query.toAddress + ')');
-    req.client.aliasUpdate(req.query.aliasName, req.query.aliasValue, req.query.toAddress, function(err, result, resHeaders) {
+    req.log.info('aliasupdate(' + req.body.aliasName + ', ' + req.body.aliasValue + ', ' + req.body.toAddress + ')');
+    req.client.aliasUpdate(req.body.aliasName, req.body.aliasValue, req.body.toAddress, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -174,8 +174,8 @@ rpcRouter.post('/aliasupdate', function(req, res, next) {
 // CERTIFICATE MANAGEMENT FUNCTIONS
 // =============================================================================
 rpcRouter.post('/certissuerinfo', function(req, res, next) {
-    req.log.info('certissuerinfo(' + req.query.guid + ')');
-    req.client.certissuerInfo(req.query.guid, function(err, result, resHeaders) {
+    req.log.info('certissuerinfo(' + req.body.guid + ')');
+    req.client.certissuerInfo(req.body.guid, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -184,8 +184,8 @@ rpcRouter.post('/certissuerinfo', function(req, res, next) {
 });
 
 rpcRouter.post('/certissueractivate', function(req, res, next) {
-    req.log.info('certissueractivate(' + req.query.guid + ', ' + req.query.tx + ')');
-    req.client.certissuerActivate(req.query.guid, req.query.tx, function(err, result, resHeaders) {
+    req.log.info('certissueractivate(' + req.body.guid + ', ' + req.body.tx + ')');
+    req.client.certissuerActivate(req.body.guid, req.body.tx, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -204,8 +204,8 @@ rpcRouter.post('/certissueractivate', function(req, res, next) {
 });*/
 
 rpcRouter.post('/certissuerfilter', function(req, res, next) {
-    req.log.info('certissuerfilter(' + req.query.regexp + ', ' + req.query.maxage + ', ' + req.query.from + ', ' + req.query.nb + ', ' + req.query.stat + ')');
-    req.client.certissuerFilter(req.query.regexp, req.query.maxage, req.query.from, req.query.nb, req.query.stat, function(err, result, resHeaders) {
+    req.log.info('certissuerfilter(' + req.body.regexp + ', ' + req.body.maxage + ', ' + req.body.from + ', ' + req.body.nb + ', ' + req.body.stat + ')');
+    req.client.certissuerFilter(req.body.regexp, req.body.maxage, req.body.from, req.body.nb, req.body.stat, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -214,8 +214,8 @@ rpcRouter.post('/certissuerfilter', function(req, res, next) {
 });
 
 rpcRouter.post('/certissuerhistory', function(req, res, next) {
-    req.log.info('certissuerhistory(' + req.query.certIssuerName + ')');
-    req.client.certissuerHistory(req.query.certIssuerName, function(err, result, resHeaders) {
+    req.log.info('certissuerhistory(' + req.body.certIssuerName + ')');
+    req.client.certissuerHistory(req.body.certIssuerName, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -224,8 +224,8 @@ rpcRouter.post('/certissuerhistory', function(req, res, next) {
 });
 
 rpcRouter.post('/certissuerinfo', function(req, res, next) {
-    req.log.info('certissuerinfo(' + req.query.guid + ')');
-    req.client.certissuerInfo(req.query.guid, function(err, result, resHeaders) {
+    req.log.info('certissuerinfo(' + req.body.guid + ')');
+    req.client.certissuerInfo(req.body.guid, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -234,8 +234,8 @@ rpcRouter.post('/certissuerinfo', function(req, res, next) {
 });
 
 rpcRouter.post('/certissuerlist', function(req, res, next) {
-    req.log.info('certissuerlist(' + req.query.certIssuerNameFilter + ')');
-    req.client.certissuerList(req.query.certIssuerNameFilter, function(err, result, resHeaders) {
+    req.log.info('certissuerlist(' + req.body.certIssuerNameFilter + ')');
+    req.client.certissuerList(req.body.certIssuerNameFilter, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -244,8 +244,8 @@ rpcRouter.post('/certissuerlist', function(req, res, next) {
 });
 
 rpcRouter.post('/certissuernew', function(req, res, next) {
-    req.log.info('certissuernew(' + req.query.certIssuerName + ', ' + req.query.certIssuerData + ')');
-    req.client.certissuerNew(req.query.certIssuerName, req.query.certIssuerData, function(err, result, resHeaders) {
+    req.log.info('certissuernew(' + req.body.certIssuerName + ', ' + req.body.certIssuerData + ')');
+    req.client.certissuerNew(req.body.certIssuerName, req.body.certIssuerData, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -254,8 +254,8 @@ rpcRouter.post('/certissuernew', function(req, res, next) {
 });
 
 rpcRouter.post('/certissuerscan', function(req, res, next) {
-    req.log.info('certissuerscan(' + req.query.startCertIssuerName + ', ' + req.query.maxReturned + ')');
-    req.client.certissuerScan(req.query.startCertIssuerName, req.query.maxReturned, function(err, result, resHeaders) {
+    req.log.info('certissuerscan(' + req.body.startCertIssuerName + ', ' + req.body.maxReturned + ')');
+    req.client.certissuerScan(req.body.startCertIssuerName, req.body.maxReturned, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -264,8 +264,8 @@ rpcRouter.post('/certissuerscan', function(req, res, next) {
 });
 
 rpcRouter.post('/certissuerupdate', function(req, res, next) {
-    req.log.info('certissuerupdate(' + req.query.guid + ', ' + req.query.certIssuerName + ', ' + req.query.certIssuerData + ')');
-    req.client.certissuerUpdate(req.query.guid, req.query.certIssuerName, req.query.certIssuerData, function(err, result, resHeaders) {
+    req.log.info('certissuerupdate(' + req.body.guid + ', ' + req.body.certIssuerName + ', ' + req.body.certIssuerData + ')');
+    req.client.certissuerUpdate(req.body.guid, req.body.certIssuerName, req.body.certIssuerData, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -274,8 +274,8 @@ rpcRouter.post('/certissuerupdate', function(req, res, next) {
 });
 
 rpcRouter.post('/certnew', function(req, res, next) {
-    req.log.info('certnew(' + req.query.issuerGuid + ', ' + req.query.toAddress + ', ' + req.query.certTitle + ', ' + req.query.certData + ')');
-    req.client.certNew(req.query.issuerGuid, req.query.toAddress, req.query.certTitle, req.query.certData, function(err, result, resHeaders) {
+    req.log.info('certnew(' + req.body.issuerGuid + ', ' + req.body.toAddress + ', ' + req.body.certTitle + ', ' + req.body.certData + ')');
+    req.client.certNew(req.body.issuerGuid, req.body.toAddress, req.body.certTitle, req.body.certData, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -284,8 +284,8 @@ rpcRouter.post('/certnew', function(req, res, next) {
 });
 
 rpcRouter.post('/certtransfer', function(req, res, next) {
-    req.log.info('certtransfer(' + req.query.certGuid + ', ' + req.query.toAddress + ')');
-    req.client.certTransfer(req.query.certGuid, req.query.toAddress, function(err, result, resHeaders) {
+    req.log.info('certtransfer(' + req.body.certGuid + ', ' + req.body.toAddress + ')');
+    req.client.certTransfer(req.body.certGuid, req.body.toAddress, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -296,8 +296,8 @@ rpcRouter.post('/certtransfer', function(req, res, next) {
 // DATA ALIAS FUNCTIONS
 // =============================================================================
 rpcRouter.post('/dataactivate', function(req, res, next) {
-    req.log.info('dataactivate(' + req.query.dataName + ', ' + req.query.guid + ', ' + req.query.tx + ', ' + req.query.filename + ', ' + req.query.dataContent + ')');
-    req.client.dataActivate(req.query.dataName, req.query.guid, req.query.tx, req.query.filename, req.query.dataContent, function(err, result, resHeaders) {
+    req.log.info('dataactivate(' + req.body.dataName + ', ' + req.body.guid + ', ' + req.body.tx + ', ' + req.body.filename + ', ' + req.body.dataContent + ')');
+    req.client.dataActivate(req.body.dataName, req.body.guid, req.body.tx, req.body.filename, req.body.dataContent, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -321,8 +321,8 @@ rpcRouter.post('/dataclean', function(req, res, next) {
 /*
 MISSING FROM DAEMON
 rpcRouter.post('/datafilter', function(req, res, next) {
-    req.log.info('datafilter(' + req.query.regexp + ', ' + req.query.maxage + ', ' + req.query.from + ', ' + req.query.nb + ', ' + req.query.stat + ')');
-    req.client.dataFilter(req.query.regexp, req.query.maxage, req.query.from, req.query.nb, req.query.stat, function(err, result, resHeaders) {
+    req.log.info('datafilter(' + req.body.regexp + ', ' + req.body.maxage + ', ' + req.body.from + ', ' + req.body.nb + ', ' + req.body.stat + ')');
+    req.client.dataFilter(req.body.regexp, req.body.maxage, req.body.from, req.body.nb, req.body.stat, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -334,8 +334,8 @@ rpcRouter.post('/datafilter', function(req, res, next) {
 /*
 INCORRECT IN DAEMON - returns output related to aliases, not data.
 rpcRouter.post('/datahistory', function(req, res, next) {
-    req.log.info('datahistory(' + req.query.dataName + ')');
-    req.client.dataHistory(req.query.dataName, function(err, result, resHeaders) {
+    req.log.info('datahistory(' + req.body.dataName + ')');
+    req.client.dataHistory(req.body.dataName, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -347,8 +347,8 @@ rpcRouter.post('/datahistory', function(req, res, next) {
 /*
 INCORRECT IN DAEMON - returns output related to aliases, not data.
 rpcRouter.post('/datainfo', function(req, res, next) {
-    req.log.info('datainfo(' + req.query.dataName + ')');
-    req.client.dataInfo(req.query.dataName, function(err, result, resHeaders) {
+    req.log.info('datainfo(' + req.body.dataName + ')');
+    req.client.dataInfo(req.body.dataName, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -360,8 +360,8 @@ rpcRouter.post('/datainfo', function(req, res, next) {
 /*
  INCORRECT IN DAEMON - returns output related to aliases, not data.
 rpcRouter.post('/datalist', function(req, res, next) {
-    req.log.info('datalist(' + req.query.dataNameFilter + ')');
-    req.client.dataList(req.query.dataNameFilter, function(err, result, resHeaders) {
+    req.log.info('datalist(' + req.body.dataNameFilter + ')');
+    req.client.dataList(req.body.dataNameFilter, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -371,8 +371,8 @@ rpcRouter.post('/datalist', function(req, res, next) {
 */
 
 rpcRouter.post('/datanew', function(req, res, next) {
-    req.log.info('datanew(' + req.query.dataName + ')');
-    req.client.dataNew(req.query.dataName, function(err, result, resHeaders) {
+    req.log.info('datanew(' + req.body.dataName + ')');
+    req.client.dataNew(req.body.dataName, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -383,8 +383,8 @@ rpcRouter.post('/datanew', function(req, res, next) {
 /*
  MISSING FROM DAEMON
 rpcRouter.post('/datascan', function(req, res, next) {
-    req.log.info('datascan(' + req.query.startAliasName + ', ' + req.query.maxReturned + ')');
-    req.client.dataScan(req.query.startAliasName, req.query.maxReturned, function(err, result, resHeaders) {
+    req.log.info('datascan(' + req.body.startAliasName + ', ' + req.body.maxReturned + ')');
+    req.client.dataScan(req.body.startAliasName, req.body.maxReturned, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -394,8 +394,8 @@ rpcRouter.post('/datascan', function(req, res, next) {
 */
 
 rpcRouter.post('/dataupdate', function(req, res, next) {
-    req.log.info('dataupdate(' + req.query.dataName + ', ' + req.query.filename + ', ' + req.query.dataContent + ', ' + req.query.toAddress + ')');
-    req.client.dataUpdate(req.query.aliasName, req.query.filename, req.query.dataContent, req.query.toAddress, function(err, result, resHeaders) {
+    req.log.info('dataupdate(' + req.body.dataName + ', ' + req.body.filename + ', ' + req.body.dataContent + ', ' + req.body.toAddress + ')');
+    req.client.dataUpdate(req.body.aliasName, req.body.filename, req.body.dataContent, req.body.toAddress, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -404,8 +404,8 @@ rpcRouter.post('/dataupdate', function(req, res, next) {
 });
 
 rpcRouter.post('/dumpdata', function(req, res, next) {
-    req.log.info('dumpdata(' + req.query.dataName + ')');
-    req.client.dumpData(req.query.dataName, function(err, result, resHeaders) {
+    req.log.info('dumpdata(' + req.body.dataName + ')');
+    req.client.dumpData(req.body.dataName, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -416,8 +416,8 @@ rpcRouter.post('/dumpdata', function(req, res, next) {
 // MARKETPLACE/OFFER FUNCTIONS
 // =============================================================================
 rpcRouter.post('/offeraccept', function(req, res, next) {
-    req.log.info('offeraccept(' + req.query.guid + ', ' + req.query.quantity + ')');
-    req.client.offerAccept(req.query.guid, req.query.quantity, function(err, result, resHeaders) {
+    req.log.info('offeraccept(' + req.body.guid + ', ' + req.body.quantity + ')');
+    req.client.offerAccept(req.body.guid, req.body.quantity, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -426,8 +426,8 @@ rpcRouter.post('/offeraccept', function(req, res, next) {
 });
 
 rpcRouter.post('/offeractivate', function(req, res, next) {
-    req.log.info('offeractivate(' + req.query.guid + ', ' + req.query.tx + ')');
-    req.client.offerActivate(req.query.guid, req.query.tx, req.query.value, function(err, result, resHeaders) {
+    req.log.info('offeractivate(' + req.body.guid + ', ' + req.body.tx + ')');
+    req.client.offerActivate(req.body.guid, req.body.tx, req.body.value, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -446,8 +446,8 @@ rpcRouter.post('/offeractivate', function(req, res, next) {
 });*/
 
 rpcRouter.post('/offerfilter', function(req, res, next) {
-    req.log.info('offerfilter(' + req.query.regexp + ', ' + req.query.maxage + ', ' + req.query.from + ', ' + req.query.nb + ', ' + req.query.stat + ')');
-    req.client.offerFilter(req.query.regexp, req.query.maxage, req.query.from, req.query.nb, req.query.stat, function(err, result, resHeaders) {
+    req.log.info('offerfilter(' + req.body.regexp + ', ' + req.body.maxage + ', ' + req.body.from + ', ' + req.body.nb + ', ' + req.body.stat + ')');
+    req.client.offerFilter(req.body.regexp, req.body.maxage, req.body.from, req.body.nb, req.body.stat, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -456,8 +456,8 @@ rpcRouter.post('/offerfilter', function(req, res, next) {
 });
 
 rpcRouter.post('/offerhistory', function(req, res, next) {
-    req.log.info('offerhistory(' + req.query.offerGuid + ')');
-    req.client.offerHistory(req.query.offerGuid, function(err, result, resHeaders) {
+    req.log.info('offerhistory(' + req.body.offerGuid + ')');
+    req.client.offerHistory(req.body.offerGuid, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -466,8 +466,8 @@ rpcRouter.post('/offerhistory', function(req, res, next) {
 });
 
 rpcRouter.post('/offerinfo', function(req, res, next) {
-    req.log.info('offerinfo(' + req.query.offerGuid + ')');
-    req.client.offerInfo(req.query.offerGuid, function(err, result, resHeaders) {
+    req.log.info('offerinfo(' + req.body.offerGuid + ')');
+    req.client.offerInfo(req.body.offerGuid, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -476,8 +476,8 @@ rpcRouter.post('/offerinfo', function(req, res, next) {
 });
 
 rpcRouter.post('/offerlist', function(req, res, next) {
-    req.log.info('offerlist(' + req.query.offerNameFilter + ')');
-    req.client.offerList(req.query.offerNameFilter, function(err, result, resHeaders) {
+    req.log.info('offerlist(' + req.body.offerNameFilter + ')');
+    req.client.offerList(req.body.offerNameFilter, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -486,8 +486,8 @@ rpcRouter.post('/offerlist', function(req, res, next) {
 });
 
 rpcRouter.post('/offernew', function(req, res, next) {
-    req.log.info('offernew('  + req.query.offerAddress + ', ' + req.query.category + ', ' + req.query.title + ', ' + req.query.quantity + ', ' + req.query.price + ', ' + req.query.description + ')');
-    req.client.offerNew(req.query.offerAddress, req.query.category, req.query.title, req.query.quantity, req.query.price, req.query.description, function(err, result, resHeaders) {
+    req.log.info('offernew('  + req.body.offerAddress + ', ' + req.body.category + ', ' + req.body.title + ', ' + req.body.quantity + ', ' + req.body.price + ', ' + req.body.description + ')');
+    req.client.offerNew(req.body.offerAddress, req.body.category, req.body.title, req.body.quantity, req.body.price, req.body.description, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -496,8 +496,8 @@ rpcRouter.post('/offernew', function(req, res, next) {
 });
 
 rpcRouter.post('/offerpay', function(req, res, next) {
-    req.log.info('offerpay(' + req.query.offerAcceptGuid + ', ' + req.query.offerAcceptTx + ', ' + req.query.messageToSeller + ')');
-    req.client.offerPay(req.query.offerAcceptGuid, req.query.offerAcceptTx, req.query.messageToSeller, function(err, result, resHeaders) {
+    req.log.info('offerpay(' + req.body.offerAcceptGuid + ', ' + req.body.offerAcceptTx + ', ' + req.body.messageToSeller + ')');
+    req.client.offerPay(req.body.offerAcceptGuid, req.body.offerAcceptTx, req.body.messageToSeller, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -506,8 +506,8 @@ rpcRouter.post('/offerpay', function(req, res, next) {
 });
 
 rpcRouter.post('/offerscan', function(req, res, next) {
-    req.log.info('offerscan(' + req.query.startOfferGuid + ', ' + req.query.maxReturned + ')');
-    req.client.offerScan(req.query.startOfferGuid, req.query.maxReturned, function(err, result, resHeaders) {
+    req.log.info('offerscan(' + req.body.startOfferGuid + ', ' + req.body.maxReturned + ')');
+    req.client.offerScan(req.body.startOfferGuid, req.body.maxReturned, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -516,8 +516,8 @@ rpcRouter.post('/offerscan', function(req, res, next) {
 });
 
 rpcRouter.post('/offerupdate', function(req, res, next) {
-    req.log.info('offerupdate(' + req.query.offerGuid + ', ' + req.query.category + ', ' + req.query.title + ', ' + req.query.quantity + ', ' + req.query.price + ', ' + req.query.description + ')');
-    req.client.offerUpdate(req.query.offerGuid, req.query.category, req.query.title, req.query.quantity, req.query.price, req.query.description, function(err, result, resHeaders) {
+    req.log.info('offerupdate(' + req.body.offerGuid + ', ' + req.body.category + ', ' + req.body.title + ', ' + req.body.quantity + ', ' + req.body.price + ', ' + req.body.description + ')');
+    req.client.offerUpdate(req.body.offerGuid, req.body.category, req.body.title, req.body.quantity, req.body.price, req.body.description, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);

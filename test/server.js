@@ -49,9 +49,7 @@ describe('SyscoinAPI', function() {
             request(server)
                 .post('/rpc/getinfo')
                 .end(function(err, res) {
-                   // if (err) return done(err);
-
-                    console.log("HELLO");
+                    if (err) return done(err);
 
                     expect(res.body).to.have.property('balance');
                     done();
@@ -62,7 +60,7 @@ describe('SyscoinAPI', function() {
     describe('POST /rpc/addnode', function() {
         it('should return a blank response', function(done) {
             var urlVars = {
-                node: "127.0.0.1",
+                node: "127.0.0.5",
                 method: "add"
             };
 
@@ -71,7 +69,6 @@ describe('SyscoinAPI', function() {
                 .send(urlVars)
                 .expect(200)
                 .end(function(err, res) {
-                    console.log(err);
                     if (err) return done(err);
 
                     done();
@@ -79,10 +76,10 @@ describe('SyscoinAPI', function() {
         });
     });
 
-    describe('POST /rpc/aliasactivate', function() {
+    describe.only('POST /rpc/aliasactivate', function() {
         it('should return a blank response', function(done) {
             var urlVars = {
-                alaisName: "testalias",
+                aliasName: "testalias",
                 guid: "abc12345",
                 value: "test"
             };
@@ -94,6 +91,7 @@ describe('SyscoinAPI', function() {
                 .end(function(err, res) {
                     if (err) return done(err);
 
+                    console.log(res.body);
                     done();
                 });
         });
