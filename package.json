@@ -1,5 +1,6 @@
 {
   "name": "syscoin-api",
+  "version": "0.1.0",
   "main": "server.js",
   "repository": "https://github.com/syscoin/syscoin-api.git",
   "dependencies": {
