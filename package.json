@@ -1,7 +1,28 @@
 {
   "name": "syscoin-api",
+  "description": "A full featured api for interacting with Syscoin commands both at an RPC level, as a REST API, and more.",
   "version": "0.1.0",
   "main": "server.js",
+  "keywords": [
+    "syscoin",
+    "rpc",
+    "api"
+   ],
+  "author": {
+    "name": "Dan Wasyluk",
+    "email": "dan@syscoin.org",
+    "url": "syscoin.org"
+  },
+  "contributors": [
+    {
+        "name": "davidgwking",
+        "email": "na@na.com"
+    },
+    {
+        "name": "Syscoin Developers",
+        "email": "syscoin@syscoin.org"
+    }
+  ],
   "repository": "https://github.com/syscoin/syscoin-api.git",
   "dependencies": {
     "body-parser": "~1.0.1",
@@ -18,5 +39,9 @@
   "scripts": {
     "test": "mocha -R min ./test/*",
     "start": "node ./server.js | ./node_modules/bunyan/bin/bunyan"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/syscoin/syscoin-api/issues"
+  },
+  "homepage": "https://github.com/syscoin/syscoin-api"
 }
