@@ -467,7 +467,7 @@ rpcRouter.post('/offerhistory', function(req, res, next) {
 
 rpcRouter.post('/offerinfo', function(req, res, next) {
     req.log.info('offerinfo(' + req.body.offerGuid + ')');
-    req.client.offerInfo(req.query.offerGuid, function(err, result, resHeaders) {
+    req.client.offerInfo(req.body.offerGuid, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
