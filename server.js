@@ -57,7 +57,7 @@ function notImplemented(req, res, next) {
 
 // GENERIC WALLET FUNCTIONS
 // =============================================================================
-rpcRouter.post('/getinfo', function(req, res, next) {
+rpcRouter.get('/getinfo', function(req, res, next) {
     req.log.info('getInfo()');
     req.client.getInfo(function(err, result, resHeaders) {
         if (err) return next(err);
@@ -67,6 +67,19 @@ rpcRouter.post('/getinfo', function(req, res, next) {
         next();
     });
 });
+
+
+rpcRouter.post('/getaccountaddress', function(req, res, next) {
+    req.log.info('getaccountaddress(' + req.body.accountName + ') \n');
+    req.client.getAccountAddress(req.body.accountName, function(err, result, resHeaders) {
+        if (err) return next(err);
+
+        req.log.info(JSON.stringify(result));
+        res.json(result);
+        next();
+    });
+});
+
 
 rpcRouter.post('/addnode', function(req, res, next) {
     req.log.info('addNode(' + req.body.node + ', ' + req.body.method + ')');
