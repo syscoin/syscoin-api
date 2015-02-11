@@ -440,7 +440,7 @@ rpcRouter.post('/offeraccept', function(req, res, next) {
 
 rpcRouter.post('/offeractivate', function(req, res, next) {
     req.log.info('offeractivate(' + req.body.guid + ', ' + req.body.tx + ')');
-    req.client.offerActivate(req.body.guid, req.body.tx, req.body.value, function(err, result, resHeaders) {
+    req.client.offerActivate(req.body.guid, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
