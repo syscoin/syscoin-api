@@ -448,15 +448,15 @@ rpcRouter.post('/offeractivate', function(req, res, next) {
     });
 });
 
-/*rpcRouter.post('/offer_clean', function(req, res, next) {
-    req.log.info('offer_clean()');
-    req.client.offer_clean(function(err, result, resHeaders) {
+rpcRouter.post('/offerrenew', function(req, res, next) {
+    req.log.info('offerrenew(' + req.body.guid + ')');
+    req.client.offerRenew(req.body.guid, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
         next();
     });
-});*/
+});
 
 rpcRouter.post('/offerfilter', function(req, res, next) {
     req.log.info('offerfilter(' + req.body.regexp + ', ' + req.body.maxage + ', ' + req.body.from + ', ' + req.body.nb + ', ' + req.body.stat + ')');
