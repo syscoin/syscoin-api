@@ -1,8 +1,8 @@
 var config = {};
 
 //config for app
-config.port = 8080;
-config.host = "http://localhost";
+config.port = 8081;
+config.host = "http://127.0.0.1";
 
 //config for sysclient
 config.syscoin = {};

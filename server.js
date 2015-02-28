@@ -529,7 +529,7 @@ rpcRouter.post('/offerscan', function(req, res, next) {
 });
 
 rpcRouter.post('/offerupdate', function(req, res, next) {
-    req.log.info('offerupdate(' + req.body.offerGuid + ', ' + req.body.category + ', ' + req.body.title + ', ' + req.body.quantity + ', ' + req.body.price + ', ' + req.body.description + ')');
+    req.log.info('offerupdate('  + req.body.offerGuid + ', ' + req.body.category + ', ' + req.body.title + ', ' + req.body.quantity + ', ' + req.body.price + ', ' + req.body.description + ')');
     req.client.offerUpdate(req.body.offerGuid, req.body.category, req.body.title, req.body.quantity, req.body.price, req.body.description, function(err, result, resHeaders) {
         if (err) return next(err);
 
