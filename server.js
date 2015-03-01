@@ -55,9 +55,21 @@ function notImplemented(req, res, next) {
     next(req.error.NotImplementedError('this route is not implemented'));
 }
 
+// Simple Auth
+// =============================================================================
+apiRouter.post('/authenticate', function(req, res, next) {
+    if(req.body.username == config.username && req.body.password == config.password) {
+        res.json({ authenticated: true });
+    }else{
+        res.json({ authenticated: false });
+    }
+
+    next();
+});
+
 // GENERIC WALLET FUNCTIONS
 // =============================================================================
-rpcRouter.get('/getinfo', function(req, res, next) {
+rpcRouter.post('/getinfo', function(req, res, next) {
     req.log.info('getInfo()');
     req.client.getInfo(function(err, result, resHeaders) {
         if (err) return next(err);

@@ -3,6 +3,8 @@ var config = {};
 //config for app
 config.port = 8081;
 config.host = "http://127.0.0.1";
+config.username = "admin";
+config.password = "admin";
 
 //config for sysclient
 config.syscoin = {};
