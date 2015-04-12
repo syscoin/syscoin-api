@@ -105,15 +105,6 @@ rpcRouter.post('/addnode', function(req, res, next) {
 
 // NAME ALIAS FUNCTIONS
 // =============================================================================
-rpcRouter.post('/aliasactivate', function(req, res, next) {
-    req.log.info('aliasactivate(' + req.body.aliasName + ', ' + req.body.guid + ', ' + req.body.tx + ', ' + req.body.value + ')');
-    req.client.aliasActivate(req.body.aliasName, req.body.guid, req.body.tx, req.body.value, function(err, result, resHeaders) {
-        if (err) return next(err);
-
-        res.json(result);
-        next();
-    });
-});
 
 /*rpcRouter.post('/aliasclean', function(req, res, next) {
     req.log.info('aliasclean()');
@@ -167,7 +158,7 @@ rpcRouter.post('/aliaslist', function(req, res, next) {
 
 rpcRouter.post('/aliasnew', function(req, res, next) {
     req.log.info('aliasnew(' + req.body.aliasName + ')');
-    req.client.aliasNew(req.body.aliasName, function(err, result, resHeaders) {
+    req.client.aliasNew(req.body.aliasName, req.body.aliasValue, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -201,16 +192,6 @@ rpcRouter.post('/aliasupdate', function(req, res, next) {
 rpcRouter.post('/certissuerinfo', function(req, res, next) {
     req.log.info('certissuerinfo(' + req.body.guid + ')');
     req.client.certissuerInfo(req.body.guid, function(err, result, resHeaders) {
-        if (err) return next(err);
-
-        res.json(result);
-        next();
-    });
-});
-
-rpcRouter.post('/certissueractivate', function(req, res, next) {
-    req.log.info('certissueractivate(' + req.body.guid + ', ' + req.body.tx + ')');
-    req.client.certissuerActivate(req.body.guid, req.body.tx, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -395,15 +376,15 @@ rpcRouter.post('/datalist', function(req, res, next) {
 });
 */
 
-rpcRouter.post('/datanew', function(req, res, next) {
-    req.log.info('datanew(' + req.body.dataName + ')');
-    req.client.dataNew(req.body.dataName, function(err, result, resHeaders) {
-        if (err) return next(err);
-
-        res.json(result);
-        next();
-    });
-});
+//rpcRouter.post('/datanew', function(req, res, next) {
+//    req.log.info('datanew(' + req.body.dataName + ')');
+//    req.client.dataNew(req.body.dataName, function(err, result, resHeaders) {
+//        if (err) return next(err);
+//
+//        res.json(result);
+//        next();
+//    });
+//});
 
 /*
  MISSING FROM DAEMON
@@ -441,18 +422,8 @@ rpcRouter.post('/dumpdata', function(req, res, next) {
 // MARKETPLACE/OFFER FUNCTIONS
 // =============================================================================
 rpcRouter.post('/offeraccept', function(req, res, next) {
-    req.log.info('offeraccept(' + req.body.guid + ', ' + req.body.quantity + ')');
-    req.client.offerAccept(req.body.guid, req.body.quantity, function(err, result, resHeaders) {
-        if (err) return next(err);
-
-        res.json(result);
-        next();
-    });
-});
-
-rpcRouter.post('/offeractivate', function(req, res, next) {
-    req.log.info('offeractivate(' + req.body.guid + ', ' + req.body.tx + ')');
-    req.client.offerActivate(req.body.guid, function(err, result, resHeaders) {
+    req.log.info('offeraccept(' + req.body.guid + ', ' + req.body.quantity + ', ' + req.body.messageToSeller + ')');
+    req.client.offerAccept(req.body.guid, req.body.quantity, req.body.messageToSeller, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
@@ -513,16 +484,6 @@ rpcRouter.post('/offerlist', function(req, res, next) {
 rpcRouter.post('/offernew', function(req, res, next) {
     req.log.info('offernew('  + req.body.offerAddress + ', ' + req.body.category + ', ' + req.body.title + ', ' + req.body.quantity + ', ' + req.body.price + ', ' + req.body.description + ')');
     req.client.offerNew(req.body.offerAddress, req.body.category, req.body.title, req.body.quantity, req.body.price, req.body.description, function(err, result, resHeaders) {
-        if (err) return next(err);
-
-        res.json(result);
-        next();
-    });
-});
-
-rpcRouter.post('/offerpay', function(req, res, next) {
-    req.log.info('offerpay(' + req.body.offerAcceptGuid + ', ' + req.body.offerAcceptTx + ', ' + req.body.messageToSeller + ')');
-    req.client.offerPay(req.body.offerAcceptGuid, req.body.offerAcceptTx, req.body.messageToSeller, function(err, result, resHeaders) {
         if (err) return next(err);
 
         res.json(result);
