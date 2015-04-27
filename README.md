@@ -19,7 +19,7 @@ root@server:syscoin-api# sudo npm install
 root@server:node_modules# rm -rf node-syscoin
 root@server:node_modules# git clone https://github.com/syscoin/node-syscoin.git
 ```
-- Finally, if you'll need to setup the security information for your server. First you'll need to enter the Syscoin API access information in config.js, this username/password will be required to access certain features depending on the front end using the API. In the case of Blockmarket these act as your admin username and password. Here you can also specify the URL and port the API is accessed via.
+- Finally, you'll need to setup the security information for your server. First you'll need to enter the Syscoin API access information in config.js, this username/password will be required to access certain features depending on the front end using the API. In the case of [Blockmarket](https://github.com/syscoin/blockmarket) these act as your admin username and password. Here you can also specify the URL and port the API is accessed via.
 ```
 //config for app
 config.port = 8081;
