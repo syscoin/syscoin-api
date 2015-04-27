@@ -23,7 +23,7 @@ Syscoin API is intended to be easy to setup, while in beta [node-syscoin](https:
  root@server:node_modules# git clone https://github.com/syscoin/node-syscoin.git
  ```
  
-4. **Configuring the Syscoin wallet:** Now that Syscoin-API is mostly setup you'll need to close the Syscoin wallet you plan to run the API from and modify Syscoin.conf (located in your Syscoin data directory) so that your wallet can act as a server. The rpcpassword and port here are very important, with it other users could access and empty your wallet. Make sure you use a secure password and that the port you select is only open to the server hosting the Syscoin-API. It is recommended that you run the API and the Syscoin wallet on the same box. 
+4. **Configuring the Syscoin wallet:** Now that Syscoin-API is mostly setup you'll need to close the Syscoin wallet you plan to run the API from and modify Syscoin.conf (located in your Syscoin data directory) so that your wallet can act as a server. The rpcuser/rpcpassword, rpcallowip, and rpcport here are very important, with it other users could access and empty your wallet. These are all commands derived from Bitcoin, [you can visit their wiki page for full information](https://en.bitcoin.it/wiki/Running_Bitcoin#Command-line_arguments). Make sure you use a secure password and that the port you select is only open to the server hosting the Syscoin-API. It is recommended that you run the API and the Syscoin wallet on the same box. 
  
  Here is an example of what your Syscoin.conf should look like to enable it to act as an RPC server. This sample configuration's values are specific to step 5, change them for your server. Make sure to use the new values in step 5:
  ```
