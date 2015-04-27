@@ -1,3 +1,4 @@
+###### Important Note: These instructions are beta and are intended to be used with the latest BETA release of the [Syscoin Wallet](https://github.com/syscoin/syscoin/releases)
 # Syscoin API
 Syscoin API is a lightweight API server for interacting with [Syscoin's](http://syscoin.org) decentralized service network. Syscoin API uses [node-syscoin](https://github.com/syscoin/node-syscoin) and although the instruction automatically install it using node, it is recommended that you manually clone it to make sure you always have the latest version.
 
