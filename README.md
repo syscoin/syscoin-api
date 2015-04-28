@@ -35,6 +35,9 @@ Syscoin API is intended to be easy to setup, while in beta [node-syscoin](https:
  ```
  
 5. Finally, you'll need to setup the security information for your server. First you'll need to enter the Syscoin API access information in config.js, this username/password will be required to access certain features depending on the front end using the API. In the case of [Blockmarket](https://github.com/syscoin/blockmarket) these act as your admin username and password. Here you can also specify the URL and port the API is accessed via.
+
+ **IMPORTANT: Remember to change your config.username and config.password to something other than "admin" or your market may be hacked!!**
+ 
  ```
  //config for app
  config.port = 8081;
