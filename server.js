@@ -2,6 +2,7 @@
 var express    = require('express');
 var app        = module.exports = express();
 var bodyParser = require('body-parser');
+var swagger    = require("swagger-node-express");
 
 // load external configuration
 var config = require('./config');
@@ -17,6 +18,28 @@ app.all('*', bodyParser());
 app.all('*', require('./middleware/cors'));
 app.all('*', require('./middleware/client')(config.syscoin));
 app.all('*', require('./middleware/errors'));
+
+//static swagger path
+app.use('/static', express.static(__dirname + '/static'));
+
+swagger.setAppHandler(app);
+swagger.addValidator(
+    function validate(req, path, httpMethod) {
+        //  example, only allow POST for api_key="special-key"
+        if ("POST" == httpMethod || "DELETE" == httpMethod || "PUT" == httpMethod) {
+            var apiKey = req.headers["api_key"];
+            if (!apiKey) {
+                apiKey = url.parse(req.url,true).query["api_key"];
+            }
+            if ("special-key" == apiKey) {
+                return true;
+            }
+            return false;
+        }
+        return true;
+    }
+);
+
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -80,6 +103,28 @@ rpcRouter.post('/getinfo', function(req, res, next) {
     });
 });
 
+swagger.addGet({
+    'spec': {
+        "description" : "get client info",
+        "path" : "/getinfo",
+        "notes" : "Returns client current state info",
+        "summary" : "Return client current state info",
+        "method": "GET",
+        "parameters" : [],
+        "type" : "Info",
+        "errorResponses" : [swagger.errors.notFound('info')],
+        "nickname" : "getInfo"
+    },
+    'action': function (req,res) {
+        req.client.getInfo(function(err, result, resHeaders) {
+            if (err) return next(err);
+
+            req.log.info(JSON.stringify(result));
+            res.json(result);
+            next();
+        });
+    }
+});
 
 rpcRouter.post('/getaccountaddress', function(req, res, next) {
     req.log.info('getaccountaddress(' + req.body.accountName + ') \n');
@@ -513,9 +558,12 @@ rpcRouter.post('/offerupdate', function(req, res, next) {
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our REST routes will be prefixed with /api
-app.use('/api', apiRouter);
+//app.use('/api', apiRouter);
+//app.use('/rpc', rpcRouter);
 
-app.use('/rpc', rpcRouter);
+//these must be after all the other swagger definitions
+swagger.configureSwaggerPaths("", "api-docs", "")
+swagger.configure("http://localhost:8081", "1.0.0");
 
 // ERROR HANDLING MDW
 app.use('*', require('./middleware/errorHandler'));

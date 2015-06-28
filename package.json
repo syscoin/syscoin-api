@@ -1,5 +1,5 @@
 {
-  "name": "syscoin-api",
+  "name": "syscoin-api-server",
   "description": "A full featured api for interacting with Syscoin commands both at an RPC level, as a REST API, and more.",
   "version": "0.1.0",
   "main": "server.js",
@@ -29,7 +29,7 @@
     "bunyan": "^1.0.1",
     "express": "^4.9.0",
     "node-uuid": "^1.4.1",
-    "syscoin": "~2.1.x"
+    "swagger-node-express": "~2.1.0"
   },
   "devDependencies": {
     "chai": "^1.9.1",
