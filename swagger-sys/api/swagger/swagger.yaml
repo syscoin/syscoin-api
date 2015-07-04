@@ -20,7 +20,7 @@ produces:
 paths:
   /rpc/getinfo:
     # binds a127 app logic to a route
-    x-swagger-router-controller: getinfo
+    x-swagger-router-controller: getinfoController
     get:
       description: Returns Syscoin server info to the caller
       # used as the method name of the controller
@@ -30,15 +30,31 @@ paths:
           description: Success
           schema:
             # a pointer to a definition
-            $ref: "#/definitions/GetInfoResponse"
+            $ref: '#/definitions/GetInfoResponse'
         # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /rpc/offerlist:
+    x-swagger-router-controller: offerlistController
+    get:
+      description: Returns an array of Syscoin Offer objects contained in the wallet on the server to the caller
+      operationId: offerlist
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/OfferListResponse'
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
 # complex objects have schema definitions
 definitions:
   GetInfoResponse:
+    type: object
     required: [
         version,
         protocolversion,
@@ -90,7 +106,82 @@ definitions:
         type: number
       errors:
         type: string
+
+  OfferListResponse:
+    type: array
+    items:
+      $ref: '#/definitions/Offer'
+    
+  Offer:
+    type: object
+    properties:
+      id: 
+        type: string
+      txid: 
+        type: string
+      service_fee: 
+        type: number
+      address:
+        type: string
+      expires_in:
+        type: integer
+      expired:
+        type: boolean
+      payment_address:
+        type: string
+      category:
+        type: string
+      title:
+        type: string
+      quantity:
+        type: integer
+      price:
+        type: number
+      description:
+        type: string
+      accepts:
+        type: array
+        items:
+          $ref: '#/definitions/OfferAccept'
+        
+  OfferAccept:
+      type: object
+      properties:
+        id:
+          type: string
+        txid:
+          type: string
+        height:
+          type: integer
+        time:
+          type: integer
+        quantity:
+          type: integer
+        price:
+          type: number
+        paid:
+          type: boolean
+    
+  Certificate:
+    type: object
+    properties:
+     stub:
+      type: string
+  
+  NameAlias:
+    type: object
+    properties:
+     stub:
+      type: string
+  
+  DataAlias:
+    type: object
+    properties:
+     stub:
+      type: string
+        
   ErrorResponse:
+    type: object
     required:
       - message
     properties:
