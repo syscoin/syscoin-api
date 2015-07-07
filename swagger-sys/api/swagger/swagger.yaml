@@ -19,33 +19,135 @@ produces:
   - application/json
 paths:
   /rpc/getinfo:
-    # binds a127 app logic to a route
-    x-swagger-router-controller: getinfoController
+    x-swagger-router-controller: coreController
     get:
-      description: Returns Syscoin server info to the caller
-      # used as the method name of the controller
+      description: Returns Syscoin server info to the caller.
       operationId: getinfo
       responses:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: '#/definitions/GetInfoResponse'
-        # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+
   /rpc/offerlist:
-    x-swagger-router-controller: offerlistController
+    x-swagger-router-controller: offerController
     get:
-      description: Returns an array of Syscoin Offer objects contained in the wallet on the server to the caller
+      description: Returns an array of Syscoin Offer objects contained in the wallet on the server to the caller.
       operationId: offerlist
       responses:
         "200":
           description: Success
           schema:
             $ref: '#/definitions/OfferListResponse'
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  
+  /rpc/offernew:
+    x-swagger-router-controller: offerController
+    post:
+      description: Creates a new Offer on the Syscoin blockchain making the item available for purchase by other Syscoin users and API consumers; this transaction incurs a fee.
+      operationId: offernew
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/OfferNewResponse'
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+  /rpc/offerupdate:
+    x-swagger-router-controller: offerController
+    post:
+      description: Updates an existing Offer on the Syscoin blockchain; this transaction incurs a fee.
+      operationId: offerupdate
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/OfferUpdateResponse'
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  
+  /rpc/offerlink:
+    x-swagger-router-controller: offerController
+    get:
+      description: Creates a new reseller Offer on the Syscoin blockchain based on an existing Offer already active on the blockchain. Reseller Offers are always linked to an existing Offer.
+      operationId: offerlink
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/OfferLinkResponse'
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+  /rpc/offerrefund:
+    x-swagger-router-controller: offerController
+    get:
+      description: Refunds a purchase of an Offer paid for on the Syscoin blockchain. It is recommended this command only be used in conjunction with resellers being linked to using the resller whitelist [INSERT INFO LINK HERE] feature. This command can only be executed by the root offer owner, resellers cannot perform refunds at this time but they can have the root offer owner perform a refund on their behalf.
+      operationId: offerrefund
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/OfferRefundResponse'
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  
+  /rpc/offeraddwhitelist:
+    x-swagger-router-controller: offerController
+    get:
+      description: Adds a Syscoin certificate GUID a wallet's reseller whitelist for a specific item. When using a whitelist, only addresses on the whitelist will be allowed to resell the Offer, but they are free to resell their own version of the Offer as well. This allows merchants to control which resllers (identified using Syscoin Addresses) are allowed to resell their Offers.
+      operationId: offeraddwhitelist
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/OfferAddWhitelistResponse'
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  
+  /rpc/offerremovewhitelist:
+    x-swagger-router-controller: offerController
+    get:
+      description: Removes a Syscoin certificate GUID to a wallet's reseller whitelist for a specific item. This removes a given merchants ability to resell a specific Offer from the current wallet.
+      operationId: offerremovewhitelist
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/OfferRemoveWhitelistResponse'
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+  /rpc/whitelist:
+    x-swagger-router-controller: offerController
+    get:
+      description: Returns an array of Syscoin whitelist entries containing (OBJECT || array of arrays??) which list the current whitelist addresses for a specific offer GUID.
+      operationId: whitelist
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/WhitelistResponse'
         default:
           description: Error
           schema:
@@ -161,7 +263,27 @@ definitions:
           type: number
         paid:
           type: boolean
-    
+  
+  OfferNewResponse:
+    type: object
+    properties:
+     stub:
+      type: string
+  
+  OfferUpdateResponse:
+    type: object
+    properties:
+     stub:
+      type: string
+  
+  OfferLinkResponse:
+    type: object
+    properties:
+     stub:
+      type: string
+      
+  
+      
   Certificate:
     type: object
     properties:
