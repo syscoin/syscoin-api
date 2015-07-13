@@ -47,12 +47,49 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  
+            
   /rpc/offernew:
     x-swagger-router-controller: offerController
     post:
       description: Creates a new Offer on the Syscoin blockchain making the item available for purchase by other Syscoin users and API consumers; this transaction incurs a fee.
       operationId: offernew
+      parameters:
+        - name: category
+          in: formData
+          description: Category of offer
+          type: string
+          required: true
+        - name: title
+          in: formData
+          description: Offer title
+          type: string
+          required: true
+        - name: quantity
+          in: formData
+          description: Offer quantity
+          type: integer
+          required: true
+        - name: price
+          in: formData
+          description: Offer price
+          type: number
+          required: true
+        - name: description
+          in: formData
+          description: Item description, should be in [Syscoin JSON Spec] format if intended for use with official Syscoin Blockmarket.
+          type: string
+          required: true
+        - name: exclusive_resell
+          in: formData
+          description: Whether or not reselling of this offer is open or controlled via a whitelist. Set this to 1 if you only want those to whom you've issued a whitelist certificate to be able to resell your item via offerlink. Defaults to 0.
+          type: boolean
+          required: false
+        - name: seller_address
+          in: formData
+          description: Offer payment address or alias. Defaults to an address in your Syscoin wallet.
+          type: string
+          required: false
+          
       responses:
         "200":
           description: Success
@@ -265,25 +302,44 @@ definitions:
           type: boolean
   
   OfferNewResponse:
-    type: object
-    properties:
-     stub:
+    type: array
+    items:
       type: string
-  
+        
   OfferUpdateResponse:
     type: object
-    properties:
-     stub:
-      type: string
+    $ref: '#/definitions/Offer'
   
   OfferLinkResponse:
     type: object
     properties:
      stub:
       type: string
-      
   
+  OfferRefundResponse:
+    type: object
+    properties:
+     stub:
+      type: string
+  
+  WhitelistResponse:
+    type: object
+    properties:
+     stub:
+      type: string
       
+  OfferAddWhitelistResponse:
+    type: object
+    properties:
+     stub:
+      type: string
+   
+  OfferRemoveWhitelistResponse:
+    type: object
+    properties:
+     stub:
+      type: string
+  
   Certificate:
     type: object
     properties:
