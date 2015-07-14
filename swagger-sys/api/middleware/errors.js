@@ -1,4 +1,4 @@
-var errors = require('../lib/errors');
+var errors = require('../../lib/errors');
 
 function attachErrorsMdw(req, res, next) {
   req.error = errors;

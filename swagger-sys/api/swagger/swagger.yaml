@@ -19,7 +19,7 @@ produces:
   - application/json
 paths:
   /rpc/getinfo:
-    x-swagger-router-controller: coreController
+    x-swagger-router-controller: core
     get:
       description: Returns Syscoin server info to the caller.
       operationId: getinfo
@@ -214,7 +214,7 @@ definitions:
       ]
     properties:
       version:
-        type: string
+        type: integer
       protocolversion:
         type: integer
       walletversion:
