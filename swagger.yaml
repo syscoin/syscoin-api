@@ -1,0 +1,125 @@
+# this is an example of the Uber API
+# as a demonstration of an API spec in YAML
+swagger: '2.0'
+info:
+  title: Syscoin API
+  description: Leverage the blockchain for your business
+  version: "1.0.0"
+# the domain of the service
+host: api.syscoin.org
+# array of all schemes that your API supports
+schemes:
+  - https
+  - http
+# will be prefixed to all paths
+basePath: /v1
+produces:
+  - application/json
+paths:
+  /getinfo:
+    get:
+      summary: Server Info
+      description: |
+        Returns information related to the current state of the Syscoin API server.
+      tags:
+        - General
+      responses:
+        200:
+          description: An array of products
+          schema:
+            $ref: '#/definitions/Info'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /aliasinfo:
+    get:
+      summary: Alias info
+      description: |
+        Returns detailed information about an alias.
+      parameters:
+        - name: aliasname
+          in: query
+          description: Name of alias to get details about
+          required: true
+          type: string
+      tags:
+        - Aliases
+      responses:
+        200:
+          description: Alias info
+          schema:
+            $ref: '#/definitions/Alias'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Info:
+    type: object
+    properties:
+      version:
+        type: number
+      protocolversion:
+        type: number
+      walletversion:
+        type: number
+      balance:
+        type: number
+      blocks:
+        type: number
+      timeoffset:
+        type: number
+      connections:
+        type: number
+      proxy:
+        type: string
+      difficulty:
+        type: number
+      testnet:
+        type: boolean
+      keypoololdest:
+        type: number
+      keypoolsize:
+        type: number
+      unlocked_until:
+        type: number
+      paytxfee:
+        type: number
+      relayfee:
+        type: number
+      errors:
+        type: string
+  Alias:
+    type: object
+    properties:
+      name:
+        type: string
+      value:
+        type: string
+      privatevalue:
+        type: string
+      txid:
+        type: string
+      address:
+        type: string
+      ismine:
+        type: string
+      lastupdate_height:
+        type: string
+      expires_in:
+        type: string
+      expires_on:
+        type: string
+      expired:
+        type: boolean
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string
