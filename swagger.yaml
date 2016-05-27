@@ -1,125 +1,83 @@
-# this is an example of the Uber API
-# as a demonstration of an API spec in YAML
-swagger: '2.0'
+swagger: "2.0"
 info:
-  title: Syscoin API
-  description: Leverage the blockchain for your business
   version: "1.0.0"
-# the domain of the service
-host: api.syscoin.org
-# array of all schemes that your API supports
+  title: Syscoin API
+# during dev, should point to your local machine
+host: localhost:10010
+# basePath prefixes all resource paths
+basePath: /
+#
 schemes:
-  - https
+  # tip: remove http to make production-grade
   - http
-# will be prefixed to all paths
-basePath: /v1
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
 produces:
   - application/json
 paths:
   /getinfo:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: general
     get:
-      summary: Server Info
-      description: |
-        Returns information related to the current state of the Syscoin API server.
-      tags:
-        - General
+      description: Returns 'getinfo' to the caller
+      # used as the method name of the controller
+      operationId: getinfo
       responses:
-        200:
-          description: An array of products
+        "200":
+          description: Success
           schema:
-            $ref: '#/definitions/Info'
+            # a pointer to a definition
+            $ref: "#/definitions/Info"
+        # responses may fall through to errors
         default:
-          description: Unexpected error
+          description: Error
           schema:
-            $ref: '#/definitions/Error'
-  /aliasinfo:
-    get:
-      summary: Alias info
-      description: |
-        Returns detailed information about an alias.
-      parameters:
-        - name: aliasname
-          in: query
-          description: Name of alias to get details about
-          required: true
-          type: string
-      tags:
-        - Aliases
-      responses:
-        200:
-          description: Alias info
-          schema:
-            $ref: '#/definitions/Alias'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
+            $ref: "#/definitions/ErrorResponse"
+  /swagger:
+    x-swagger-pipe: swagger_raw
+# complex objects have schema definitions
 definitions:
   Info:
-    type: object
+      type: object
+      properties:
+        version:
+          type: number
+        protocolversion:
+          type: number
+        walletversion:
+          type: number
+        balance:
+          type: number
+        blocks:
+          type: number
+        timeoffset:
+          type: number
+        connections:
+          type: number
+        proxy:
+          type: string
+        difficulty:
+          type: number
+        testnet:
+          type: boolean
+        keypoololdest:
+          type: number
+        keypoolsize:
+          type: number
+        unlocked_until:
+          type: number
+        paytxfee:
+          type: number
+        relayfee:
+          type: number
+        errors:
+          type: string
+  ErrorResponse:
+    required:
+      - message
     properties:
-      version:
-        type: number
-      protocolversion:
-        type: number
-      walletversion:
-        type: number
-      balance:
-        type: number
-      blocks:
-        type: number
-      timeoffset:
-        type: number
-      connections:
-        type: number
-      proxy:
-        type: string
-      difficulty:
-        type: number
-      testnet:
-        type: boolean
-      keypoololdest:
-        type: number
-      keypoolsize:
-        type: number
-      unlocked_until:
-        type: number
-      paytxfee:
-        type: number
-      relayfee:
-        type: number
-      errors:
-        type: string
-  Alias:
-    type: object
-    properties:
-      name:
-        type: string
-      value:
-        type: string
-      privatevalue:
-        type: string
-      txid:
-        type: string
-      address:
-        type: string
-      ismine:
-        type: string
-      lastupdate_height:
-        type: string
-      expires_in:
-        type: string
-      expires_on:
-        type: string
-      expired:
-        type: boolean
-  Error:
-    type: object
-    properties:
-      code:
-        type: integer
-        format: int32
       message:
-        type: string
-      fields:
         type: string
