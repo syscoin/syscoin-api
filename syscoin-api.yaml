@@ -1,0 +1,558 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: Syscoin API
+host: localhost:8000
+basePath: /
+schemes:
+  # remove http to make production-grade
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /getinfo:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getinfo
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Info"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /getmininginfo:
+      x-swagger-router-controller: rpc
+      get:
+        operationId: getmininginfo
+        responses:
+          "200":
+            description: Success
+            schema:
+              $ref: "#/definitions/MiningInfo"
+          default:
+            description: Error
+            schema:
+              $ref: "#/definitions/ErrorResponse"
+
+  /getpeerinfo:
+      x-swagger-router-controller: rpc
+      get:
+        operationId: getpeerinfo
+        responses:
+          "200":
+            description: Success
+            schema:
+              $ref: "#/definitions/PeerInfoResponse"
+          default:
+            description: Error
+            schema:
+              $ref: "#/definitions/ErrorResponse"
+
+  /validateaddress:
+      x-swagger-router-controller: rpc
+      get:
+        operationId: validateaddress
+        parameters:
+        - name: syscoinaddress
+          in: query
+          required: true
+          type: string
+        responses:
+          "200":
+            description: Success
+            schema:
+              $ref: "#/definitions/ValidateAddressResponse"
+          default:
+            description: Error
+            schema:
+              $ref: "#/definitions/ErrorResponse"
+
+  /verifymessage:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: verifymessage
+      parameters:
+      - name: syscoinaddress
+        in: query
+        required: true
+        type: string
+      - name: signature
+        in: query
+        required: true
+        type: string
+      - name: message
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: boolean
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /addmultisigaddress:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: addmultisigaddress
+      parameters:
+      - name: nrequired
+        in: query
+        required: true
+        type: number
+      - name: keysobject
+        in: query
+        required: false
+        type: string
+      - name: account
+        in: query
+        required: false
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /aliasaffiliates:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: aliasaffiliates
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: object #TODO: define type
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /aliasfilter:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: aliasfilter
+      parameters:
+      - name: regexp
+        in: query
+        description: apply [regexp] on aliases, empty means all aliases
+        required: true
+        type: string
+      - name: maxage
+        in: query
+        description: look in last [maxage] blocks
+        required: false
+        type: number
+      - name: from
+        in: query
+        description: show results from number [from]
+        required: false
+        type: number
+      - name: nb
+        in: query
+        description: show [nb] results, 0 means all
+        required: false
+        type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/AliasListEntry"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /aliashistory:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: aliashistory
+      parameters:
+      - name: aliasname
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/AliasHistoryEntry"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /aliasinfo:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: aliasinfo
+      parameters:
+      - name: aliasname
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Alias"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /aliaslist:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: aliaslist
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/AliasListEntry"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /aliasnew:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: aliasnew
+      parameters:
+      - name: aliasname
+        in: query
+        required: true
+        type: string
+      - name: publicvalue
+        in: query
+        required: true
+        type: string
+      - name: privatevalue
+        in: query
+        required: false
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /aliasscan:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: aliasscan
+      parameters:
+      - name: start-name
+        in: query
+        required: false
+        type: string
+      - name: max-returned
+        in: query
+        required: false
+        type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string #TODO: could not execute RPC command, error'd
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /aliasupdate:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: aliasupdate
+      parameters:
+      - name: aliasname
+        in: query
+        required: true
+        type: string
+      - name: publicvalue
+        in: query
+        required: true
+        type: string
+      - name: privatevalue
+        in: query
+        required: false
+        type: string
+      - name: toalias_pubkey
+        in: query
+        required: false
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+# complex objects have schema definitions
+definitions:
+  Info:
+    properties:
+      version:
+        type: number
+      protocolversion:
+        type: number
+      walletversion:
+        type: number
+      balance:
+        type: number
+      blocks:
+        type: number
+      timeoffset:
+        type: number
+      connections:
+        type: number
+      proxy:
+        type: string
+      difficulty:
+        type: number
+      testnet:
+        type: boolean
+      keypoololdest:
+        type: number
+      keypoolsize:
+        type: number
+      unlocked_until:
+        type: number
+      paytxfee:
+        type: number
+      relayfee:
+        type: number
+      errors:
+        type: string
+  MiningInfo:
+    properties:
+      blocks:
+        type: number
+      currentblocksize:
+        type: number
+      currentblocktx:
+        type: number
+      difficulty:
+        type: number
+      errors:
+        type: string
+      genproclimit:
+        type: number
+      networkhashps:
+        type: number
+      pooledtx:
+        type: number
+      testnet:
+        type: boolean
+      chain:
+        type: string
+      generate:
+        type: boolean
+  PeerInfoResponse:
+    type: array
+    items:
+      $ref: "#/definitions/PeerInfo"
+  PeerInfo:
+    properties:
+      id:
+        type: number
+      addr:
+        type: string
+      addrlocal:
+        type: string
+      services:
+        type: string
+      relaytxes:
+        type: boolean
+      lastsend:
+        type: number
+      lastrecv:
+        type: number
+      bytessent:
+        type: number
+      bytesrecv:
+        type: number
+      conntime:
+        type: number
+      timeoffset:
+        type: number
+      pingtime:
+        type: number
+      minping:
+        type: number
+      version:
+        type: number
+      subver:
+        type: string
+      inbound:
+        type: boolean
+      startingheight:
+        type: number
+      banscore:
+        type: number
+      synced_headers:
+        type: number
+      synced_blocks:
+        type: number
+      inflight:
+        type: array
+        items:
+          type: object
+      whitelisted:
+        type: boolean
+      bytessent_per_msg:
+        $ref: "#/definitions/ByteMessageInfo"
+      bytesrecv_per_msg:
+        $ref: "#/definitions/ByteMessageInfo"
+  ByteMessageInfo:
+    properties:
+      addr:
+        type: number
+      getaddr:
+        type: number
+      getdata:
+        type: number
+      getheaders:
+        type: number
+      headers:
+        type: number
+      ping:
+        type: number
+      pong:
+        type: number
+      sendheaders:
+        type: number
+      verack:
+        type: number
+      version:
+        type: number
+  ValidateAddressResponse:
+    properties:
+      isvalid:
+        type: boolean
+      address:
+        type: string
+      ismine:
+        type: boolean
+      iswatchonly:
+        type: boolean
+      isscript:
+        type: boolean
+      pubkey:
+        type: string
+      iscompressed:
+        type: boolean
+      account:
+        type: string
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  Alias:
+    properties:
+      name:
+        type: string
+      value:
+        type: string
+      privatevalue:
+        type: string
+      txid:
+        type: string
+      address:
+        type: string
+      ismine:
+        type: boolean
+      lastupdate_height:
+        type: number
+      expires_in:
+        type: number
+      expires_on:
+        type: number
+      expired:
+        type: boolean #returns 0/1
+  AliasListEntry:
+    required:
+    - name
+    - value
+    - privatevalue
+    - expires_in
+    - expires_on
+    - expired
+    - pending
+    properties:
+      name:
+        type: string
+      value:
+        type: string
+      privatevalue:
+        type: string
+      expires_in:
+        type: number
+      expires_on:
+        type: number
+      expired:
+        type: boolean #return 0/1
+      pending:
+        type: boolean #return 0/1
+      txid:
+        type: string #only returned with filter
+  AliasHistoryEntry:
+    properties:
+      name:
+        type: string
+      aliastype:
+        type: string
+      value:
+        type: string
+      privatevalue:
+        type: string
+      txid:
+        type: string
+      address:
+        type: string
+      lastupdate_height:
+        type: number
+      expires_in:
+        type: number
+      expires_on:
+        type: number
+      expired:
+        type: boolean #returns 0/1

@@ -1,66 +1,14 @@
-###### Important Note: These instructions are beta and are intended to be used with the latest BETA release of the [Syscoin Wallet](https://github.com/syscoin/syscoin/releases)
-# Syscoin API
-Syscoin API is a lightweight API server for interacting with [Syscoin's](http://syscoin.org) decentralized service network. Syscoin API uses [node-syscoin](https://github.com/syscoin/node-syscoin) and although the instruction automatically install it using node, it is recommended that you manually clone it to make sure you always have the latest version.
+# Generating API
 
-# Setup
+To generate the API first download swagger-codegen () and build it. After its built, create an alias:
+alias swagger-codegen='java -jar [/path/to/built/swagger-codegen]/swagger-codegen/modules/swagger-codegen-cli/target/swagger-codegen-cli.jar'
 
-Syscoin API is intended to be easy to setup, while in beta [node-syscoin](https://github.com/syscoin/node-syscoin) will have to be manually updated.
+To build the server stub (node): `swagger-codegen generate -i swagger.yaml -o ./generated-server -l nodejs-server`
 
-1. Clone Syscoin-API into the location of your choosing, making sure you are cloning this onto a server that has the Syscoin [**1.5.2 beta4**](https://github.com/syscoin/syscoin/releases/tag/1.5.2b4) wallet running on it, as these commands are structured for the current beta wallet.
- ```
- root@server:~# git clone https://github.com/syscoin/syscoin-api.git
- ```
-  
-2. NodeJS must be installed, so that you can more easily install the Syscoin API dependencies. Once you've cloned Syscoin API change into its directory and install the node dependencies.
- ```
- root@server:~# cd syscoin-api
- root@server:syscoin-api# sudo npm install
- ```
-  
-3. This will create a *node_modules* folder within your syscoin-api directory. Remember because this is still in beta you will want to manually manage the *node-syscoin* node lib. Browse to *syscoin-api/node_modules* and if you see a node-syscoin directory, delete it and manually clone the latest.
- ```
- root@server:node_modules# rm -rf node-syscoin
- root@server:node_modules# git clone https://github.com/syscoin/node-syscoin.git
- ```
- 
-4. **Configuring the Syscoin wallet:** Now that Syscoin-API is mostly setup you'll need to close the Syscoin wallet you plan to run the API from and modify Syscoin.conf (located in your Syscoin data directory) so that your wallet can act as a server. The rpcuser/rpcpassword, rpcallowip, and rpcport here are very important, with it other users could access and empty your wallet. These are all commands derived from Bitcoin, [you can visit their wiki page for full information](https://en.bitcoin.it/wiki/Running_Bitcoin#Command-line_arguments). Make sure you use a secure password and that the port you select is only open to the server hosting the Syscoin-API. It is recommended that you run the API and the Syscoin wallet on the same box. 
- 
- Here is an example of what your Syscoin.conf should look like to enable it to act as an RPC server. This sample configuration's values are specific to step 5, change them for your server. Make sure to use your same new values when completing step 5:
- ```
- rpcuser=rpcuser
- rpcpassword=asdfkjdfhvkchbkhadkjwhekfbevsdbdcksjdhfksjkfklshfk
- rpcallowip=127.0.0.1
- rpcport=8336
- server=1
- ```
- 
-5. Finally, you'll need to setup the security information for your server. First you'll need to enter the Syscoin API access information in config.js, this username/password will be required to access certain features depending on the front end using the API. In the case of [Blockmarket](https://github.com/syscoin/blockmarket) these act as your admin username and password. Here you can also specify the URL and port the API is accessed via.
+To build the client (typescript): `swagger-codegen generate -i swagger.yaml -o ./generated-client -l typescript-node`
 
- **IMPORTANT: Remember to change your config.username and config.password to something other than "admin" or your market may be hacked!!**
- 
- ```
- //config for app
- config.port = 8081;
- config.host = "http://127.0.0.1";
- config.username = "admin";
- config.password = "admin";
- ```
+The API can be built for a number of other languages as well but you will need to manually port the business logic from the existing nodesjs-server \
+API to the languages of your choice. We encourage anyone who does this to submit a pull request to have their server API added to the official repo.
 
- Finally you'll need to enter the information needed for the Syscoin API to connect to the wallet hosting your services/items/aliases/etc:
-
- ```
- //config for sysclient
- config.syscoin = {};
- config.syscoin.user = "rpcuser";
- config.syscoin.password = "asdfkjdfhvkchbkhadkjwhekfbevsdbdcksjdhfksjkfklshfk";
- config.syscoin.host = "127.0.0.1";
- config.syscoin.port = 8336;
- config.syscoin.timeout = 15000000;
- ```
- 
-**You're good to go! Now start building some application with Syscoin services!**
-
-# Continued Development
-
-Syscoin-API is still in an iterative beta phase. We encourage community and developer feedback. If you feel you can lend to the effort or improve the implementation **please issue pull requests** and we will review and merge them into the master branch.
-
+Package your server API using folder names mirroring the swagger language name, ie: 'nodejs-server'. Client API's can also be submitted using the same \
+ format.
