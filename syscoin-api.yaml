@@ -536,6 +536,44 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+
+  /dumpprivkey:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: dumpprivkey
+      parameters:
+      - name: address
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /dumpwallet:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: dumpwallet
+      parameters:
+      - name: filename
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
 # complex objects have schema definitions
 definitions:
   Info:
