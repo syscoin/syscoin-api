@@ -574,6 +574,225 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+
+  /escrowclaimrefund:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: escrowclaimrefund
+      parameters:
+      - name: guid
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string #TODO: double check
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /escrowclaimrelease:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: escrowclaimrelease
+      parameters:
+      - name: guid
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string #TODO: double check
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /escrowcomplete:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: escrowcomplete
+      parameters:
+      - name: guid
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string #TODO: double check
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /escrowfilter:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: escrowfilter
+      parameters:
+      - name: search
+        in: query
+        description: Find arbiter or seller via alias name or an escrow GUID, empty means all escrows
+        required: true
+        type: string
+      - name: maxage
+        in: query
+        description: look in last [maxage] blocks
+        required: false
+        type: number
+      - name: from
+        in: query
+        description: show results from number [from]
+        required: false
+        type: number
+      - name: nb
+        in: query
+        description: show [nb] results, 0 means all
+        required: false
+        type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/EscrowListEntry"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /escrowhistory:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: escrowhistory
+      parameters:
+      - name: escrow
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/EscrowHistoryEntry"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /escrowinfo:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: escrowinfo
+      parameters:
+      - name: escrow
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Escrow"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /escrowlist:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: escrowlist
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/EscrowListEntry"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /escrownew:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: escrownew
+      parameters:
+      - name: alias
+        in: query
+        required: true
+        type: string
+      - name: offer
+        in: query
+        required: true
+        type: string
+      - name: quantity
+        in: query
+        required: true
+        type: number
+      - name: message
+        in: query
+        required: false
+        type: string
+      - name: arbiter
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /escrowscan:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: escrowscan
+      parameters:
+      - name: start-escrow
+        in: query
+        required: false
+        type: string
+      - name: max-returned
+        in: query
+        required: false
+        type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string #TODO: could not execute RPC command, error'd
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
 # complex objects have schema definitions
 definitions:
   Info:
@@ -874,3 +1093,83 @@ definitions:
         type: number
       expired:
         type: boolean #returns 0/1
+  EscrowHistoryEntry:
+    properties:
+      escrow:
+        type: string
+      escrowtype:
+        type: string
+      txid:
+        type: string
+      seller:
+        type: string
+      arbiter:
+        type: string
+      buyer:
+        type: string
+      offer:
+        type: string
+      offertitle:
+        type: string
+      offeracceptlink:
+        type: string #TODO: clarify what this is used for
+      total:
+        type: number #returns string "1 SYS"
+      expired:
+        type: boolean #returns 0/1
+      height:
+        type: number #returns string wrapped number
+  EscrowListEntry:
+    properties:
+      escrow:
+        type: string
+      time:
+        type: number #returns string wrapped number
+      seller:
+        type: string
+      arbiter:
+        type: string
+      buyer:
+        type: string
+      offer:
+        type: string
+      offertitle:
+        type: string
+      offeracceptlink:
+        type: string #TODO: clarify what this is used for
+      total:
+        type: number #returns string "1 SYS"
+      status:
+        type: string #returns "escrow released" maybe create enum
+      expired:
+        type: boolean #returns 0/1
+  Escrow:
+    properties:
+      escrow:
+        type: string
+      time:
+        type: string
+      seller:
+        type: string
+      arbiter:
+        type: string
+      buyer:
+        type: string
+      offer:
+        type: string
+      offertitle:
+        type: string
+      offeracceptlink:
+        type: string #TODO: clarify what this is used for
+      systotal:
+        type: number
+      sysfee:
+        type: number
+      total:
+        type: number #returns string "1 SYS"
+      txid:
+        type: string
+      height:
+        type: number #returns string wrapped number
+      pay_message:
+        type: string
