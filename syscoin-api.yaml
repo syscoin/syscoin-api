@@ -323,7 +323,219 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /certfilter:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: certfilter
+      parameters:
+      - name: regexp
+        in: query
+        description: apply [regexp] on certes, empty means all certes
+        required: false
+        type: string
+      - name: maxage
+        in: query
+        description: look in last [maxage] blocks
+        required: false
+        type: string
+      - name: from
+        in: query
+        description: show results from number [from]
+        required: false
+        type: string
+      - name: nb
+        in: query
+        description: show [nb] results, 0 means all
+        required: false
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/CertListEntry"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
 
+  /certhistory:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: certhistory
+      parameters:
+      - name: certname
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/CertHistoryEntry"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /certinfo:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: certinfo
+      parameters:
+      - name: certname
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Cert"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /certlist:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: certlist
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/CertListEntry"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /certnew:
+    x-swagger-router-controller: rpc
+    get:
+      description: Requires wallet passphrase to be set with walletpassphrase call.
+      operationId: certnew
+      parameters:
+      - name: alias
+        in: query
+        description: An alias you own.
+        required: true
+        type: string
+      - name: title
+        in: query
+        description: title, 255 bytes max.
+        required: true
+        type: string
+      - name: data
+        in: query
+        description: data, 1KB max.
+        required: false
+        type: string
+      - name: private
+        in: query
+        description: set to 1 if you only want to make the cert data private, only the owner of the cert can view it. Off by default.
+        required: false
+        type: boolean
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /certscan:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: certscan
+      parameters:
+      - name: start-cert
+        in: query
+        required: false
+        type: string
+      - name: max-returned
+        in: query
+        required: false
+        type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string #TODO: could not execute RPC command, error'd
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /certtransfer:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: certtransfer
+      parameters:
+      - name: certkey
+        in: query
+        required: true
+        type: string
+      - name: alias
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string #TODO: assuming this returns array of txid related strings, check
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /certupdate:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: certupdate
+      parameters:
+      - name: guid
+        in: query
+        required: true
+        type: string
+      - name: title
+        in: query
+        required: true
+        type: string
+      - name: data
+        in: query
+        required: true
+        type: string
+      - name: private
+        in: query
+        required: true
+        type: boolean
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
 # complex objects have schema definitions
 definitions:
   Info:
@@ -550,6 +762,74 @@ definitions:
         type: string
       lastupdate_height:
         type: number
+      expires_in:
+        type: number
+      expires_on:
+        type: number
+      expired:
+        type: boolean #returns 0/1
+  CertListEntry:
+    properties:
+      cert:
+        type: string
+      title:
+        type: string
+      data:
+        type: string
+      private:
+        type: boolean #returns string Yes/No
+      expires_in:
+        type: number
+      expires_on:
+        type: number
+      expired:
+        type: boolean #returns 0/1
+      address:
+        type: string
+      alias:
+        type: string
+  Cert:
+    properties:
+      cert:
+        type: string
+      txid:
+        type: string
+      height:
+        type: number #returns string wrapped num
+      title:
+        type: string
+      data:
+        type: string
+      private:
+        type: boolean #returns string Yes/No
+      ismine:
+        type: boolean #returns string wrapped boolean
+      address:
+        type: string
+      alias:
+        type: string
+      expires_in:
+        type: number
+      expires_on:
+        type: number
+      expired:
+        type: boolean #returns 0/1
+  CertHistoryEntry:
+    properties:
+      cert:
+        type: string
+      certtype:
+        type: string
+      private:
+        type: boolean #returns string Yes/No
+      data:
+        type: string
+      txid:
+        type: string
+      address:
+        type: string
+      alias:
+        type: string
       expires_in:
         type: number
       expires_on:
