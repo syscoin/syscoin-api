@@ -1429,6 +1429,727 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /move:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: move
+      description: DEPRECATED. Move a specified amount from one account in your wallet to another.
+      parameters:
+      - name: fromaccount
+        in: query
+        description: The name of the account to move funds from. May be the default account using "".
+        required: true
+        type: string
+      - name: toaccount
+        in: query
+        description: The name of the account to move funds to. May be the default account using "".
+        required: true
+        type: string
+      - name: amount
+        in: query
+        description: Quantity of SYS to move between accounts.
+        required: true
+        type: number
+      - name: minconf
+        in: query
+        description: Only use funds with at least this many confirmations.
+        required: false
+        type: string
+      - name: comment
+        in: query
+        description: An optional comment, stored in the wallet only.
+        required: false
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: boolean
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /offeraccept:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: offeraccept
+      parameters:
+      - name: alias
+        in: query
+        description: An alias of the buyer.
+        required: true
+        type: string
+      - name: guid
+        in: query
+        description: guidkey from offer.
+        required: true
+        type: string
+      - name: quantity
+        in: query
+        description: quantity to buy. Defaults to 1.
+        required: false
+        type: number
+      - name: message
+        in: query
+        description: payment message to seller, 1KB max.
+        required: false
+        type: string
+      - name: btcTxId #TODO: review RPC, params weird
+        in: query
+        description: If you have paid in Bitcoin and the offer is in Bitcoin, enter the transaction ID here. Default is empty.
+        required: false
+        type: string
+      - name: linkedacceptguidtxhash
+        in: query
+        description: transaction id of the linking offer accept. For internal use only, leave blank
+        required: false
+        type: string
+      - name: escrowTxHash
+        in: query
+        description: If this offer accept is done by an escrow release. For internal use only, leave blank
+        required: false
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /offeracceptlist:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: offeracceptlist
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/OfferAccept"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /offeraddwhitelist:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: offeraddwhitelist
+      parameters: #TODO: review RPC param names
+      - name: offerguid
+        in: query
+        description: offer guid that you are adding to
+        required: true
+        type: string
+      - name: aliasguid
+        in: query
+        description: alias guid representing an alias that you want to add to the affiliate list
+        required: true
+        type: string
+      - name: discountPercentage
+        in: query
+        description: percentage of discount given to reseller for this offer. Negative discount adds on top of offer price, acts as an extra commission. -99 to 99.
+        required: true
+        type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /offerclearwhitelist:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: offerclearwhitelist
+      parameters: #TODO: review RPC param names
+      - name: offerguid
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /offerfilter:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: offerfilter
+      parameters:
+      - name: regexp
+        in: query
+        description: apply [regexp] on offeres, empty means all offeres
+        required: true
+        type: string
+      - name: maxage
+        in: query
+        description: look in last [maxage] blocks
+        required: false
+        type: number
+      - name: from
+        in: query
+        description: show results from number [from]
+        required: false
+        type: number
+      - name: nb
+        in: query
+        description: show [nb] results, 0 means all
+        required: false
+        type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/OfferListEntry"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /offerhistory:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: offerhistory
+      parameters:
+      - name: offer
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/OfferHistoryEntry"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /offerinfo:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: offerinfo
+      parameters:
+      - name: guid
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Offer"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /offerlink:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: offerlink
+      parameters:
+      - name: alias
+        in: query
+        description: An alias you own.
+        required: true
+        type: string
+      - name: guid
+        in: query
+        description: offer guid that you are linking to
+        required: true
+        type: string
+      - name: comission
+        in: query
+        description: percentage of profit desired over original offer price, > 0, ie 5 for 5%
+        required: true
+        type: string
+      - name: description
+        in: query
+        description: description, 1 KB max. Defaults to original description. Leave as '' to use default.
+        required: false
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /offerlist:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: offerlist
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/OfferListEntry"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /offernew:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: offernew
+      parameters:
+      - name: aliaspeg
+        in: query
+        description: Alias peg you wish to use, leave blank to use SYS_RATES.
+        required: true
+        type: string
+      - name: alias
+        in: query
+        description: An alias you own.
+        required: true
+        type: string
+      - name: category
+        in: query
+        description: category, 255 chars max.
+        required: true
+        type: string
+      - name: title
+        in: query
+        description: title, 255 chars max.
+        required: true
+        type: string
+      - name: quantity
+        in: query
+        description: quantity, > 0 or -1 for infinite
+        required: true
+        type: number
+      - name: price
+        in: query
+        description: price in <currency>, > 0
+        required: true
+        type: number
+      - name: description
+        in: query
+        description: description, 1 KB max.
+        required: true
+        type: string
+      - name: currency
+        in: query
+        description: The currency code that you want your offer to be in ie USD.
+        required: true
+        type: string
+      - name: certguid #TODO: check param name
+        in: query
+        description: Set this to the guid of a certificate you wish to sell
+        required: false
+        type: string
+      - name: excelusiveResell #TODO: check param name
+        in: query
+        description: set to 1 if you only want those who control the affiliate's who are able to resell this offer via offerlink. Defaults to 1.
+        required: false
+        type: boolean
+      - name: acceptBTCOnly #TODO: check param name
+        in: query
+        description: set to 1 if you only want accept Bitcoins for payment and your currency is set to BTC, note you cannot resell or sell a cert in this mode. Defaults to 0.
+        required: false
+        type: boolean
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /offerremovewhitelist:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: offerremovewhitelist
+      parameters: #TODO: review RPC param names
+      - name: offerguid
+        in: query
+        required: true
+        type: string
+      - name: aliasguid
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /offerscan:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: offerscan
+      parameters:
+      - name: start-offer
+        in: query
+        required: false
+        type: string
+      - name: max-returned
+        in: query
+        required: false
+        type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string #TODO: could not execute RPC command, error'd
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /offerupdate:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: offerupdate
+      parameters:
+      - name: aliaspeg
+        in: query
+        description: Alias peg you wish to use, leave blank to use SYS_RATES.
+        required: true
+        type: string
+      - name: alias
+        in: query
+        description: An alias you own.
+        required: true
+        type: string
+      - name: guid
+        in: query
+        description: Guid of offer to update
+        required: true
+        type: string
+      - name: category
+        in: query
+        description: category, 255 chars max.
+        required: true
+        type: string
+      - name: title
+        in: query
+        description: title, 255 chars max.
+        required: true
+        type: string
+      - name: quantity
+        in: query
+        description: quantity, > 0 or -1 for infinite
+        required: true
+        type: number
+      - name: price
+        in: query
+        description: price in <currency>, > 0
+        required: true
+        type: number
+      - name: description
+        in: query
+        description: description, 1 KB max.
+        required: true
+        type: string
+      - name: private #TODO: rename, private is reserved word
+        in: query
+        description: Can this offer be seen in public search
+        required: true
+        type: boolean
+      - name: certguid #TODO: check param name
+        in: query
+        description: Set this to the guid of a certificate you wish to sell
+        required: false
+        type: string
+      - name: excelusiveResell #TODO: check param name
+        in: query
+        description: set to 1 if you only want those who control the affiliate's who are able to resell this offer via offerlink. Defaults to 1.
+        required: false
+        type: boolean
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /offerwhitelist:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: offerwhitelist
+      parameters: #TODO: review RPC param names
+      - name: offerguid
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/OfferWhitelistEntry"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /sendfrom:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: sendfrom
+      parameters:
+      - name: fromaccount
+        in: query
+        description: The name of the account to send funds from. May be the default account using "".
+        required: true
+        type: string
+      - name: tosyscoinaddress
+        in: query
+        description: The syscoin address to send funds to.
+        required: true
+        type: string
+      - name: amount
+        in: query
+        description: he amount in SYS (transaction fee is added on top).
+        required: true
+        type: number
+      - name: minconf
+        in: query
+        description: Only use funds with at least this many confirmations.
+        required: false
+        type: number
+      - name: comment
+        in: query
+        description: A comment used to store what the transaction is for. This is not part of the transaction, just kept in your wallet.
+        required: false
+        type: string
+      - name: commentto
+        in: query
+        description: An optional comment to store the name of the person or organization to which you're sending the transaction. This is not part of the transaction, it is just kept in your wallet.
+        required: false
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /sendmany:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: sendmany
+      parameters:
+      - name: fromaccount
+        in: query
+        description: DEPRECATED. The account to send the funds from. Should be "" for the default account
+        required: true
+        type: string
+      - name: amounts
+        in: query
+        description: A json object with addresses and amounts { "address":amount   (numeric) The syscoin address is the key, the numeric amount in SYS is the value,...}
+        required: true
+        type: string
+      - name: minconf
+        in: query
+        description: Only use the balance confirmed at least this many times.
+        required: false
+        type: number
+      - name: comment
+        in: query
+        description: A comment used to store what the transaction is for. This is not part of the transaction, just kept in your wallet.
+        required: false
+        type: string
+      - name: subtractfeefromamount
+        in: query
+        description: A json array with addresses. The fee will be equally deducted from the amount of each selected address. Those recipients will receive less syscoins than you enter in their corresponding amount field. If no addresses are specified here, the sender pays the fee. [ "address" Subtract fee from this address,... ]
+        required: false
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /sendtoaddress:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: sendtoaddress
+      parameters:
+      - name: syscoinaddress
+        in: query
+        description: The syscoin address to send to.
+        required: true
+        type: string
+      - name: amount
+        in: query
+        description: The amount in SYS to send. eg 0.1
+        required: true
+        type: number
+      - name: comment
+        in: query
+        description: A comment used to store what the transaction is for. This is not part of the transaction, just kept in your wallet.
+        required: false
+        type: string
+      - name: commentto
+        in: query
+        description: An optional comment to store the name of the person or organization to which you're sending the transaction. This is not part of the transaction, it is just kept in your wallet.
+        required: false
+        type: string
+      - name: subtractfeefromamount
+        in: query
+        description: The fee will be deducted from the amount being sent. The recipient will receive less syscoins than you enter in the amount field.
+        required: false
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /signmessage:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: signmessage
+      parameters:
+      - name: syscoinaddress
+        in: query
+        description: The syscoin address to use for the private key.
+        required: true
+        type: string
+      - name: message
+        in: query
+        description: The message to create a signature of.
+        required: true
+        type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /walletlock:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: walletlock
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /walletpassphrase:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: walletpassphrase
+      parameters:
+      - name: passpharse
+        in: query
+        description: The wallet passphrase
+        required: true
+        type: string
+      - name: timeout
+        in: query
+        description: The time to keep the decryption key in seconds.
+        required: true
+        type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /walletpassphrasechange:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: walletpassphrasechange
+      parameters:
+      - name: oldpasshrase
+        in: query
+        description: The current passphrase
+        required: true
+        type: string
+      - name: newpassphrase
+        in: query
+        description: The new passphrase
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
 # complex objects have schema definitions
 definitions:
   Info:
@@ -2079,3 +2800,177 @@ definitions:
         type: string
       message:
         type: string
+  OfferAccept:
+    properties:
+      offer:
+        type: string
+      title:
+        type: string
+      id:
+        type: string
+      btctxid:
+        type: string
+      alias:
+        type: string
+      buyer:
+        type: string
+      height:
+        type: number #returns string wrapped number
+      quantity:
+        type: number #returns string wrapped number
+      currency:
+        type: string
+      linkofferaccept:
+        type: string #TODO: clarify
+      offer_discount_percentage:
+        type: number #returns string "0%"
+      escrowlink:
+        type: string #TODO: clarify
+      systotal:
+        type: number
+      price:
+        type: number #returns string wrapped number
+      total:
+        type: number #returns string wrapped number
+      ismine:
+        type: boolean #return string wrapper boolean
+      status:
+        type: string
+      pay_message:
+        type: string
+  OfferWhitelistEntry:
+    properties:
+      alias:
+        type: string
+      expiresin:
+        type: number
+      offer_discount_percentage:
+        type: number #returns string "5%"
+  OfferListEntry:
+    properties:
+      offer:
+        type: string
+      cert:
+        type: string
+      title:
+        type: string
+      category:
+        type: string
+      description:
+        type: string
+      price:
+        type: number #returns string wrapped number
+      currency:
+        type: string
+      commission:
+        type: number #returns string 0%
+      quantity:
+        type: number #returns string wrapped number
+      address:
+        type: string
+      exclusive_resell:
+        type: boolean #returns string ON/OFF
+      btconly:
+        type: boolean #returns string Yes/No
+      alias_peg:
+        type: string
+      private:
+        type: boolean #returns string Yes/No
+      alias:
+        type: string
+      expires_in:
+        type: number
+      expires_on:
+        type: number
+      expired:
+        type: boolean #returns 0/1
+      pending:
+        type: boolean #returns 0/1
+  OfferHistoryEntry:
+    properties:
+      offer:
+        type: string
+      offertype:
+        type: string
+      cert:
+        type: string
+      title:
+        type: string
+      category:
+        type: string
+      description:
+        type: string
+      price:
+        type: number #returns string wrapped number
+      currency:
+        type: string
+      commission:
+        type: number #retrusn string 0%
+      quantity:
+        type: number #returns string wrapped number
+      txid:
+        type: string
+      alias:
+        type: string
+      expires_in:
+        type: number
+      expires_on:
+        type: number
+      expired:
+        type: boolean #returns 0/1
+      height:
+        type: boolean #returns 0/1
+  Offer:
+    properties:
+      offer:
+        type: string
+      cert:
+        type: string
+      txid:
+        type: string
+      expires_in:
+        type: number
+      expired_block:
+        type: number
+      expired:
+        type: boolean #return 0/1
+      height:
+        type: number #return string wrapped number
+      address:
+        type: string
+      category:
+        type: string
+      title:
+        type: string
+      quantity:
+        type: string
+      currency:
+        type: string
+      sysprice:
+        type: number
+      price:
+        type: number #returns string wrapped number
+      ismine:
+        type: boolean #returns string wrapped boolean
+      commission:
+        type: number #returns string wrapped number
+      offerlink:
+        type: boolean #returns string wrapped boolean
+      offerlink_guid: #what is this
+        type: string
+      exclusive_resell:
+        type: boolean #returns string Yes/No
+      private:
+        type: boolean #returns string Yes/No
+      btconly:
+        type: boolean #retursn string Yes/No
+      alias_peg:
+        type: string
+      description:
+        type: string
+      alias":
+        type: string
+      accepts:
+          type: array
+          items:
+            $ref: "#/definitions/OfferAccept"
