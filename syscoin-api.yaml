@@ -793,6 +793,642 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /getaccount: #deprecated- what is the replacement?
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getaccount
+      parameters:
+      - name: syscoinaddress
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /getaccountaddress: #deprecated- what is the replacement?
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getaccountaddress
+      parameters:
+      - name: account
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /getaddressesbyaccount: #deprecated- what is the replacement?
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getaddressesbyaccount
+      parameters:
+      - name: account
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /getbalance:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getbalance
+      parameters:
+      - name: account
+        in: query
+        description: DEPRECATED. The selected account, or "*" for entire wallet. It may be the default account using "".
+        required: false
+        type: string
+      - name: minconf
+        in: query
+        description: Only include transactions confirmed at least this many times.
+        required: false
+        type: number
+      - name: includeWatchonly
+        in: query
+        description: Also include balance in watchonly addresses (see 'importaddress')
+        required: false
+        type: boolean
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: number
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /getnewaddress:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getnewaddress
+      parameters:
+      - name: account
+        in: query
+        description: EPRECATED. The account name for the address to be linked to. If not provided, the default account "" is used. It can also be set to the empty string "" to represent the default account. The account does not need to exist, it will be created if there is no account by the given name.
+        required: false
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /getreceivedbyaccount: #deprecated- what is the replacement?
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getreceivedbyaccount
+      parameters:
+      - name: account
+        in: query
+        description: The selected account, may be the default account using "".
+        required: true
+        type: string
+      - name: minconf
+        in: query
+        description: Only include transactions confirmed at least this many times.
+        required: false
+        type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: number
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /getreceivedbyaddress:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getreceivedbyaddress
+      parameters:
+      - name: syscoinaddress
+        in: query
+        description: The syscoin address for transactions.
+        required: true
+        type: string
+      - name: minconf
+        in: query
+        description: Only include transactions confirmed at least this many times.
+        required: false
+        type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: number
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /gettransaction:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: gettransaction
+      parameters:
+      - name: txid
+        in: query
+        description: The transaction id
+        required: true
+        type: string
+      - name: includeWatchonly
+        in: query
+        description: Whether to include watchonly addresses in balance calculation and details[]
+        required: false
+        type: boolean
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Transaction"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /getunconfirmedbalance:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getunconfirmedbalance
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: number
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /getv2address:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getv2address
+      description: Returns a new Syscoin (starts with 1) address for receiving payments. If 'account' is specified (DEPRECATED), it is added to the address book so payments received with the address will be credited to 'account'.
+      parameters:
+      - name: account
+        in: query
+        description: DEPRECATED. The account name for the address to be linked to. If not provided, the default account "" is used. It can also be set to the empty string "" to represent the default account. The account does not need to exist, it will be created if there is no account by the given name.
+        required: false
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /getwalletinfo:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getwalletinfo
+      description: Returns an object containing various wallet state info.
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/WalletInfo"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /importaddress:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: importaddress
+      description: Adds a script (in hex) or address that can be watched as if it were in your wallet but cannot be used to spend.
+      parameters:
+      - name: script
+        in: query
+        description: The hex-encoded script (or address)
+        required: true
+        type: string
+      - name: label
+        in: query
+        description: An optional label
+        required: false
+        type: string
+      - name: rescan
+        in: query
+        description: Rescan the wallet for transactions
+        required: false
+        type: boolean
+      - name: p2sh
+        in: query
+        description: Add the P2SH version of the script as well
+        required: false
+        type: boolean
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /importprivkey:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: importprivkey
+      description: Adds a private key (as returned by dumpprivkey) to your wallet.
+      parameters:
+      - name: syscoinprivkey
+        in: query
+        description: The private key (see dumpprivkey)
+        required: true
+        type: string
+      - name: label
+        in: query
+        description: An optional label
+        required: false
+        type: string
+      - name: rescan
+        in: query
+        description: Rescan the wallet for transactions
+        required: false
+        type: boolean
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /importpubkey:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: importpubkey
+      description: Adds a public key (in hex) that can be watched as if it were in your wallet but cannot be used to spend.
+      parameters:
+      - name: pubkey
+        in: query
+        description: The hex-encoded public key
+        required: true
+        type: string
+      - name: label
+        in: query
+        description: An optional label
+        required: false
+        type: string
+      - name: rescan
+        in: query
+        description: Rescan the wallet for transactions
+        required: false
+        type: boolean
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /importwallet:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: importwallet
+      description: Imports keys from a wallet dump file (see dumpwallet).
+      parameters:
+      - name: filename
+        in: query
+        description: The wallet file
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /listaccounts:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: listaccounts
+      description: DEPRECATED. Returns Object that has account names as keys, account balances as values.
+      parameters:
+      - name: minconf
+        in: query
+        description: Only include transactions with at least this many confirmations
+        required: false
+        type: number
+      - name: includeWatchonly
+        in: query
+        description: Include balances in watchonly addresses (see 'importaddress')
+        required: false
+        type: boolean
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: object #object with accounts as keys and totals as values
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /listaddressgroupings:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: listaddressgroupings
+      description: Lists groups of addresses which have had their common ownership made public by common use as inputs or as the resulting change in past transactions
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: array
+              items:
+                $ref: "#/definitions/AddressGrouping"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /listreceivedbyaccount: #deprecated- what is the replacement?
+    x-swagger-router-controller: rpc
+    get:
+      operationId: listreceivedbyaccount
+      parameters:
+      - name: minconf
+        in: query
+        description: Only include transactions confirmed at least this many times.
+        required: false
+        type: number
+      - name: includeempty
+        in: query
+        description: Whether to include accounts that haven't received any payments.
+        required: false
+        type: boolean
+      - name: includeWatchonly
+        in: query
+        description: Whether to include watchonly addresses (see 'importaddress').
+        required: false
+        type: boolean
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Account"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /listreceivedbyaddress:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: listreceivedbyaddress
+      parameters:
+      - name: minconf
+        in: query
+        description: Only include transactions confirmed at least this many times.
+        required: false
+        type: number
+      - name: includeempty
+        in: query
+        description: Whether to include accounts that haven't received any payments.
+        required: false
+        type: boolean
+      - name: includeWatchonly
+        in: query
+        description: Whether to include watchonly addresses (see 'importaddress').
+        required: false
+        type: boolean
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Account"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /listsinceblock:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: listsinceblock
+      description: Get all transactions in blocks since block [blockhash], or all transactions if omitted
+      parameters:
+      - name: blockhash
+        in: query
+        description: The block hash to list transactions since
+        required: false
+        type: string
+      - name: includeWatchonly
+        in: query
+        description: Whether to include watchonly addresses (see 'importaddress').
+        required: false
+        type: boolean
+      - name: target-confirmations
+        in: query
+        required: false
+        type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/ListSinceBlockResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /listtransactions:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: listtransactions
+      description: Returns up to 'count' most recent transactions skipping the first 'from' transactions for account 'account'.
+      parameters:
+      - name: account
+        in: query
+        description: DEPRECATED. The account name. Should be "*".
+        required: false
+        type: string
+      - name: count
+        in: query
+        description: The number of transactions to return
+        required: false
+        type: number
+      - name: from
+        in: query
+        description: The number of transactions to skip
+        required: false
+        type: number
+      - name: includeWatchonly
+        in: query
+        description: Include transactions to watchonly addresses (see 'importaddress')
+        type: boolean
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/TransactionListEntry"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /messagehistory:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: messagehistory
+      parameters:
+      - name: message
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/MessageHistoryEntry"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /messageinfo:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: messageinfo
+      parameters:
+      - name: guid
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Message"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /messagelist:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: messagelist
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/MessageListEntry"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /messagenew:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: messagenew
+      parameters:
+      - name: subject
+        in: query
+        required: true
+        type: string
+      - name: message
+        in: query
+        required: true
+        type: string
+      - name: fromalias
+        in: query
+        required: true
+        type: string
+      - name: toalias
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /messagesentlist:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: messagesentlist
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/MessageListEntry"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
 # complex objects have schema definitions
 definitions:
   Info:
@@ -1172,4 +1808,274 @@ definitions:
       height:
         type: number #returns string wrapped number
       pay_message:
+        type: string
+  Transaction:
+    properties:
+      amount:
+        description: The transaction amount in SYS
+        type: string
+      confirmations:
+        description: The number of confirmations
+        type: number
+      blockhash:
+        description: The block hash
+        type: string
+      blockindex:
+        description: The block index
+        type: number
+      blocktime:
+        description: The time in seconds since epoch (1 Jan 1970 GMT)
+        type: number
+      txid:
+        description: The transaction id.
+        type: string
+      time:
+        description: The transaction time in seconds since epoch (1 Jan 1970 GMT)
+        type: number
+      timereceived:
+        description: The time received in seconds since epoch (1 Jan 1970 GMT)
+        type: number
+      details:
+        type: array
+        items:
+          $ref: "#/definitions/TransactionDetailEntry"
+      hex:
+        description: Raw data for transaction
+        type: string
+  TransactionDetailEntry:
+    properties:
+      account:
+        description: DEPRECATED. The account name involved in the transaction, can be "" for the default account.
+        type: string
+      address:
+        description: The syscoin address involved in the transaction
+        type: string
+      category:
+        description: The category, either 'send' or 'receive'
+        type: string
+      amount:
+        description: The amount in SYS
+        type: number
+      label:
+        description: A comment for the address/transaction, if any
+        type: string
+      vout:
+        description: the vout value
+        type: number
+  WalletInfo:
+    properties:
+      walletversion:
+        description: the wallet version
+        type: number
+      balance:
+        description: the total confirmed balance of the wallet in SYS
+        type: number
+      unconfirmed_balance:
+        description: the total unconfirmed balance of the wallet in SYS
+        type: number
+      immature_balance:
+        description: the total immature balance of the wallet in SYS
+        type: number
+      txcount:
+        description: the total number of transactions in the wallet
+        type: number
+      keypoololdest:
+        description: the timestamp (seconds since GMT epoch) of the oldest pre-generated key in the key pool
+        type: number
+      keypoolsize:
+        description: how many new keys are pre-generated
+        type: number
+      unlocked_until:
+        description: the timestamp in seconds since epoch (midnight Jan 1 1970 GMT) that the wallet is unlocked for transfers, or 0 if the wallet is locked
+        type: number
+      paytxfee:
+        description: the transaction fee configuration, set in SYS/kB
+        type: number
+  AddressGrouping:
+    properties:
+      syscoinaddress:
+        description: The syscoin address
+        type: string
+      amount:
+        description: The amount in SYS
+        type: number
+      account:
+        description: (optional) The account (DEPRECATED)
+        type: string
+  Account:
+    properties:
+      involvesWatchonly:
+        description: Only returned if imported addresses were involved in transaction
+        type: boolean
+      account:
+        description: The account name of the receiving account
+        type: string
+      amount:
+        description: The total amount received by addresses with this account
+        type: number
+      confirmations:
+        description: The number of confirmations of the most recent transaction included
+        type: number
+      label:
+        description: A comment for the address/transaction, if any
+        type: string
+  ListSinceBlockResponse:
+    properties:
+      transactions:
+        type: array
+        items:
+          $ref: "#/definitions/SinceBlockTransactionEntry"
+      lastblock:
+        description: The hash of the last block
+        type: string
+  SinceBlockTransactionEntry:
+    properties:
+      account:
+        description: DEPRECATED. The account name associated with the transaction. Will be "" for the default account.
+        type: string
+      address:
+        description: The syscoin address of the transaction. Not present for move transactions (category = move).
+        type: string
+      category:
+        description: The transaction category. 'send' has negative amounts, 'receive' has positive amounts.
+        type: string
+      amount:
+        description: The amount in SYS. This is negative for the 'send' category, and for the 'move' category for moves outbound. It is positive for the 'receive' category, and for the 'move' category for inbound funds.
+        type: number
+      vout:
+        description: the vout value
+        type: number
+      fee:
+        description: The amount of the fee in SYS. This is negative and only available for the 'send' category of transactions.
+        type: number
+      confirmations:
+        description: The number of confirmations for the transaction. Available for 'send' and 'receive' category of transactions.
+        type: number
+      blockhash:
+        description: The block hash containing the transaction. Available for 'send' and 'receive' category of transactions.
+        type: string
+      blockindex:
+        description: The block index containing the transaction. Available for 'send' and 'receive' category of transactions.
+        type: number
+      blocktime:
+        description: The block time in seconds since epoch (1 Jan 1970 GMT).
+        type: number
+      txid:
+        description: The transaction id. Available for 'send' and 'receive' category of transactions.
+        type: string
+      time:
+        description: The transaction time in seconds since epoch (Jan 1 1970 GMT).
+        type: number
+      timereceived:
+        description: The time received in seconds since epoch (Jan 1 1970 GMT). Available for 'send' and 'receive' category of transactions.
+        type: number
+      comment:
+        description: If a comment is associated with the transaction.
+        type: string
+      label:
+        description: A comment for the address/transaction, if any
+        type: string
+      to:
+        description: If a comment to is associated with the transaction.
+        type: string
+  TransactionListEntry:
+    properties:
+      account:
+        description: DEPRECATED. The account name associated with the transaction. It will be "" for the default account.
+        type: string
+      address:
+        description: The syscoin address of the transaction. Not present for move transactions (category = move).
+        type: string
+      category:
+        description: The transaction category. 'move' is a local (off blockchain) transaction between accounts, and not associated with an address, transaction id or block. 'send' and 'receive' transactions are associated with an address, transaction id and block details
+        type: string
+      amount:
+        description: The amount in SYS. This is negative for the 'send' category, and for the 'move' category for moves outbound. It is positive for the 'receive' category, and for the 'move' category for inbound funds.
+        type: number
+      vout:
+        description: the vout value
+        type: number
+      fee:
+        description: The amount of the fee in SYS. This is negative and only available for the 'send' category of transactions.
+        type: number
+      confirmations:
+        description: The number of confirmations for the transaction. Available for 'send' and'receive' category of transactions. Negative confirmations indicate the transation conflicts with the block chain
+        type: number
+      trusted:
+        description: Whether we consider the outputs of this unconfirmed transaction safe to spend.
+        type: boolean
+      blockhash:
+        description: The block hash containing the transaction. Available for 'send' and 'receive' category of transactions.
+        type: string
+      blockindex:
+        description: The block index containing the transaction. Available for 'send' and 'receive' category of transactions.
+        type: string
+      blocktime:
+        description: The block time in seconds since epoch (1 Jan 1970 GMT).
+        type: number
+      txid:
+        description: The transaction id. Available for 'send' and 'receive' category of transactions.
+        type: string
+      time:
+        description: The transaction time in seconds since epoch (midnight Jan 1 1970 GMT).
+        type: number
+      timereceived:
+        description: The time received in seconds since epoch (midnight Jan 1 1970 GMT). Available for 'send' and 'receive' category of transactions.
+        type: number
+      comment:
+        description: If a comment is associated with the transaction.
+        type: string
+      label:
+        description:  A comment for the address/transaction, if any
+        type: string
+      otheraccount:
+        description: For the 'move' category of transactions, the account the funds came from (for receiving funds, positive amounts), or went to (for sending funds, negative amounts).
+        type: string
+  MessageHistoryEntry:
+    properties:
+      GUID:
+        type: string
+      messagetype:
+        type: string
+      time:
+        type: number #returns string wrapped number
+      from:
+        type: string
+      to:
+        type: string
+      subject:
+        type: string
+      message:
+        type: string
+  Message:
+    properties:
+      GUID:
+        type: string
+      time:
+        type: number #returns string wrapped number
+      from:
+        type: string
+      to:
+        type: string
+      subject:
+        type: string
+      message:
+        type: string
+      txid:
+        type: string
+      height:
+        type: number #returns string wrapped number
+  MessageListEntry:
+    properties:
+      GUID:
+        type: string
+      time:
+        type: number #returns string wrapped number
+      from:
+        type: string
+      to:
+        type: string
+      subject:
+        type: string
+      message:
         type: string
