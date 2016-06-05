@@ -366,6 +366,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: certfilter
+      description: scan and filter certs
+      tags:
+      - Certificate
       parameters:
       - name: regexp
         in: query
@@ -403,6 +406,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: certhistory
+      description: List all stored values of an cert.
+      tags:
+      - Certificate
       parameters:
       - name: certname
         in: query
@@ -424,6 +430,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: certinfo
+      description: Show stored values of a single certificate.
+      tags:
+      - Certificate
       parameters:
       - name: certname
         in: query
@@ -443,6 +452,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: certlist
+      description: Show stored values of a single certificate.
+      tags:
+      - Certificate
       responses:
         "200":
           description: Success
@@ -457,30 +469,17 @@ paths:
 
   /certnew:
     x-swagger-router-controller: rpc
-    get:
-      description: Requires wallet passphrase to be set with walletpassphrase call.
+    post:
       operationId: certnew
+      description: Create a new Syscoin Certificate. Requires wallet passphrase to be set with walletpassphrase call.
+      tags:
+      - Certificate
       parameters:
-      - name: alias
-        in: query
-        description: An alias you own.
+      - name: request
+        in: body
         required: true
-        type: string
-      - name: title
-        in: query
-        description: title, 255 bytes max.
-        required: true
-        type: string
-      - name: data
-        in: query
-        description: data, 1KB max.
-        required: false
-        type: string
-      - name: private
-        in: query
-        description: set to 1 if you only want to make the cert data private, only the owner of the cert can view it. Off by default.
-        required: false
-        type: boolean
+        schema:
+          $ref: "#/definitions/CertNewRequest"
       responses:
         "200":
           description: Success
@@ -497,6 +496,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: certscan
+      description: scan all certs, starting at start-cert and returning a maximum number of entries (default 500)
+      tags:
+      - Certificate
       parameters:
       - name: start-cert
         in: query
@@ -520,17 +522,17 @@ paths:
 
   /certtransfer:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: certtransfer
+      description: Transfer certificate from one user to another. Requires wallet passphrase to be set with walletpassphrase call.
+      tags:
+      - Certificate
       parameters:
-      - name: certkey
-        in: query
+      - name: request
+        in: body
         required: true
-        type: string
-      - name: alias
-        in: query
-        required: true
-        type: string
+        schema:
+          $ref: "#/definitions/CertTransferRequest"
       responses:
         "200":
           description: Success
@@ -547,23 +549,14 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: certupdate
+      description: Transfer certificate from one user to another. Requires wallet passphrase to be set with walletpassphrase call.
+      tags:
+      - Certificate
       parameters:
-      - name: guid
+      - name: request
         in: query
         required: true
         type: string
-      - name: title
-        in: query
-        required: true
-        type: string
-      - name: data
-        in: query
-        required: true
-        type: string
-      - name: private
-        in: query
-        required: true
-        type: boolean
       responses:
         "200":
           description: Success
@@ -3183,4 +3176,31 @@ definitions:
         type: string
       toalias_pubkey:
         description: receiver syscoin alias pub key, if transferring alias.
+        type: string
+  CertNewRequest:
+    required:
+    - alias
+    - title
+    - data
+    parameters:
+     alias:
+       description: An alias you own.
+       type: string
+     title:
+        description: title, 255 bytes max.
+        type: string
+     data:
+        description: data, 1KB max.
+        type: string
+     private:
+        description: set to 1 if you only want to make the cert data private, only the owner of the cert can view it. Off by default.
+        type: boolean
+  CertTransferRequest:
+    required:
+    - certkey
+    - alias
+    parameters:
+      certkey:
+        type: string
+     alias:
         type: string
