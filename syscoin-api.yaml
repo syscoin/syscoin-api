@@ -554,9 +554,10 @@ paths:
       - Certificate
       parameters:
       - name: request
-        in: query
+        in: body
         required: true
-        type: string
+        schema:
+          $ref: "#/definitions/CertUpdateRequest"
       responses:
         "200":
           description: Success
@@ -3182,25 +3183,44 @@ definitions:
     - alias
     - title
     - data
-    parameters:
-     alias:
-       description: An alias you own.
-       type: string
-     title:
+    properties:
+      alias:
+        description: An alias you own.
+        type: string
+      title:
         description: title, 255 bytes max.
         type: string
-     data:
+      data:
         description: data, 1KB max.
         type: string
-     private:
+      private:
         description: set to 1 if you only want to make the cert data private, only the owner of the cert can view it. Off by default.
         type: boolean
   CertTransferRequest:
     required:
     - certkey
     - alias
-    parameters:
+    properties:
       certkey:
         type: string
-     alias:
+      alias:
         type: string
+  CertUpdateRequest:
+    required:
+    - guid
+    - title
+    - data
+    - private
+    properties:
+      guid:
+        description: certificate guidkey.
+        type: string
+      title:
+        description: certificate title, 255 bytes max.
+        type: string
+      data:
+        description: certificate data, 1KB max.
+        type: string
+      private:
+        description: set to 1 if you only want to make the cert data private, only the owner of the cert can view it.
+        type: boolean
