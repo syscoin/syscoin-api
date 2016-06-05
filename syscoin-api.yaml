@@ -547,9 +547,9 @@ paths:
 
   /certupdate:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: certupdate
-      description: Transfer certificate from one user to another. Requires wallet passphrase to be set with walletpassphrase call.
+      description: Perform an update on an certificate you control. Requires wallet passphrase to be set with walletpassphrase call.
       tags:
       - Certificate
       parameters:
