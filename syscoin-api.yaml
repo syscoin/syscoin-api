@@ -12,11 +12,27 @@ consumes:
   - application/json
 produces:
   - application/json
+tags:
+- name: General
+  description: All general wallet operations.
+- name: Aliases
+  description: Operations related to aliases.
+- name: Messages
+  description: Operations related to messaging.
+- name: Offers
+  description: Operations related to offers and the decentralized marketplace functionality.
+- name: Escrow
+  description: Operations related to escrow.
+- name: Certificates
+  description: Operations related to digital certificates.
 paths:
   /getinfo:
     x-swagger-router-controller: rpc
     get:
       operationId: getinfo
+      description: Returns an object containing various state info.
+      tags:
+      - General
       responses:
         "200":
           description: Success
@@ -31,6 +47,9 @@ paths:
       x-swagger-router-controller: rpc
       get:
         operationId: getmininginfo
+        description: Returns a json object containing mining-related information.
+        tags:
+        - General
         responses:
           "200":
             description: Success
@@ -45,6 +64,9 @@ paths:
       x-swagger-router-controller: rpc
       get:
         operationId: getpeerinfo
+        description: Returns data about each connected network node as a json array of objects.
+        tags:
+        - General
         responses:
           "200":
             description: Success
@@ -57,8 +79,11 @@ paths:
 
   /validateaddress:
       x-swagger-router-controller: rpc
-      get:
+      post:
         operationId: validateaddress
+        description: Return information about the given syscoin address.
+        tags:
+        - General
         parameters:
         - name: syscoinaddress
           in: query
@@ -76,24 +101,30 @@ paths:
 
   /verifymessage:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: verifymessage
+      description: Verify a signed message
+      tags:
+      - General
       parameters:
       - name: syscoinaddress
+        description: The syscoin address to use for the signature.
         in: query
         required: true
         type: string
       - name: signature
+        description: The signature provided by the signer in base 64 encoding (see signmessage).
         in: query
         required: true
         type: string
       - name: message
+        description: The message that was signed.
         in: query
         required: true
         type: string
       responses:
         "200":
-          description: Success
+          description: If the signature is verified or not.
           schema:
             type: boolean
         default:
@@ -103,24 +134,20 @@ paths:
 
   /addmultisigaddress:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: addmultisigaddress
+      description: Add a nrequired-to-sign multisignature address to the wallet. Each key is a Syscoin address or hex-encoded public key. If 'account' is specified (DEPRECATED), assign address to that account.
+      tags:
+      - General
       parameters:
-      - name: nrequired
-        in: query
+      - name: request
+        in: body
         required: true
-        type: number
-      - name: keysobject
-        in: query
-        required: false
-        type: string
-      - name: account
-        in: query
-        required: false
-        type: string
+        schema:
+          $ref: "#/definitions/AddMultisigAddressRequest"
       responses:
         "200":
-          description: Success
+          description: A syscoin address associated with the keys.
           schema:
             type: string
         default:
@@ -132,6 +159,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: aliasaffiliates
+      description: list affiliations with merchant offers.
+      tags:
+      - Alias
       responses:
         "200":
           description: Success
@@ -148,6 +178,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: aliasfilter
+      description: Filter aliases
+      tags:
+      - Alias
       parameters:
       - name: regexp
         in: query
@@ -185,6 +218,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: aliashistory
+      description: List all stored values of an alias.
+      tags:
+      - Alias
       parameters:
       - name: aliasname
         in: query
@@ -206,6 +242,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: aliasinfo
+      description: Show values of an alias.
+      tags:
+      - Alias
       parameters:
       - name: aliasname
         in: query
@@ -225,6 +264,15 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: aliaslist
+      description: List my own aliases.
+      tags:
+      - Alias
+      parameters:
+      - name: aliasname
+        description: Alias name to use as filter.
+        in: query
+        required: false
+        type: string
       responses:
         "200":
           description: Success
@@ -239,21 +287,17 @@ paths:
 
   /aliasnew:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: aliasnew
+      description: Creates a new Syscoin Alias. Requires wallet passphrase to be set with walletpassphrase call.
+      tags:
+      - Alias
       parameters:
-      - name: aliasname
-        in: query
+      - name: request
+        in: body
         required: true
-        type: string
-      - name: publicvalue
-        in: query
-        required: true
-        type: string
-      - name: privatevalue
-        in: query
-        required: false
-        type: string
+        schema:
+          $ref: "#/definitions/AliasNewRequest"
       responses:
         "200":
           description: Success
@@ -270,6 +314,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: aliasscan
+      description: Scan all aliases, starting at start-name and returning a maximum number of entries (default 500)
+      tags:
+      - Alias
       parameters:
       - name: start-name
         in: query
@@ -293,25 +340,17 @@ paths:
 
   /aliasupdate:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: aliasupdate
+      description: Update and possibly transfer an alias. Requires wallet passphrase to be set with walletpassphrase call.
+      tags:
+      - Alias
       parameters:
-      - name: aliasname
-        in: query
+      - name: request
+        in: body
         required: true
-        type: string
-      - name: publicvalue
-        in: query
-        required: true
-        type: string
-      - name: privatevalue
-        in: query
-        required: false
-        type: string
-      - name: toalias_pubkey
-        in: query
-        required: false
-        type: string
+        schema:
+            $ref: "#/definitions/AliasUpdateRequest"
       responses:
         "200":
           description: Success
@@ -2153,122 +2192,236 @@ paths:
 # complex objects have schema definitions
 definitions:
   Info:
+    required:
+    - version
+    - protocolversion
+    - walletversion
+    - balance
+    - blocks
+    - timeoffset
+    - connections
+    - proxy
+    - difficulty
+    - testnet
+    - keypoololdest
+    - keypoolsize
+    - unlocked_until
+    - paytxfee
+    - relayfee
+    - errors
     properties:
       version:
+        description: the server version
         type: number
       protocolversion:
+        description: the protocol version
         type: number
       walletversion:
+        description: the wallet version
         type: number
       balance:
+        description: the total syscoin balance of the wallet
         type: number
       blocks:
+        description: the current number of blocks processed in the server
         type: number
       timeoffset:
+        description: the time offset
         type: number
       connections:
+        description: the number of connections
         type: number
       proxy:
+        description: the proxy used by the server
         type: string
       difficulty:
+        description: the current difficulty
         type: number
       testnet:
+        description: if the server is using testnet or not
         type: boolean
       keypoololdest:
+        description: the timestamp (seconds since GMT epoch) of the oldest pre-generated key in the key pool
         type: number
       keypoolsize:
+        description: how many new keys are pre-generated
         type: number
       unlocked_until:
+        description: the timestamp in seconds since epoch (midnight Jan 1 1970 GMT) that the wallet is unlocked for transfers, or 0 if the wallet is locked
         type: number
       paytxfee:
+        description: the transaction fee set in SYS/kB
         type: number
       relayfee:
+        description: minimum relay fee for non-free transactions in SYS/kB
         type: number
       errors:
+        description: any error messages
         type: string
   MiningInfo:
+    required:
+    - blocks
+    - currentblocksize
+    - currentblocktx
+    - difficulty
+    - errors
+    - genproclimit
+    - pooledtx
+    - testnet
+    - chain
+    - generate
     properties:
       blocks:
+        description: The current block
         type: number
       currentblocksize:
+        description: The last block size
         type: number
       currentblocktx:
+        description: The last block transaction
         type: number
       difficulty:
+        description: The current difficulty
         type: number
       errors:
+        description: Current errors
         type: string
       genproclimit:
+        description: The processor limit for generation. -1 if no generation.
         type: number
       networkhashps:
+        description: Current network hashrate in kbs
         type: number
       pooledtx:
+        description: The size of the mem pool
         type: number
       testnet:
+        description: If using testnet or not
         type: boolean
       chain:
+        description: current network name as defined in BIP70 (main, test, regtest)
         type: string
       generate:
+        description: If the generation is on or off (see getgenerate or setgenerate calls)
         type: boolean
   PeerInfoResponse:
     type: array
     items:
       $ref: "#/definitions/PeerInfo"
   PeerInfo:
+    required:
+    - id
+    - addr
+    - addrlocal
+    - services
+    - relaytxes
+    - lastsend
+    - lastrecv
+    - bytessent
+    - bytesrecv
+    - conntime
+    - timeoffset
+    - pingtime
+    - minping
+    - version
+    - subver
+    - inbound
+    - startingheight
+    - banscore
+    - synced_headers
+    - synced_blocks
+    - inflight
+    - whitelisted
+    - bytessent_per_msg
+    - bytesrecv_per_msg
     properties:
       id:
+        description: Peer index
         type: number
       addr:
+        description: The ip address and port of the peer
         type: string
       addrlocal:
+        description: local address
         type: string
       services:
+        description: The services offered
         type: string
       relaytxes:
+        description: Whether peer has asked us to relay transactions to it
         type: boolean
       lastsend:
+        description: The time in seconds since epoch (Jan 1 1970 GMT) of the last send
         type: number
       lastrecv:
+        description: The time in seconds since epoch (Jan 1 1970 GMT) of the last receive
         type: number
       bytessent:
+        description: The total bytes sent
         type: number
       bytesrecv:
+        description: The total bytes received
         type: number
       conntime:
+        description: The connection time in seconds since epoch (Jan 1 1970 GMT)
         type: number
       timeoffset:
+        description: The time offset in seconds
         type: number
       pingtime:
+        description: ping time
         type: number
       minping:
+        description: minimum observed ping time
         type: number
       version:
+        description: The peer version, such as 7001
         type: number
       subver:
+        description: The string version
         type: string
       inbound:
+        description: Inbound (true) or Outbound (false)
         type: boolean
       startingheight:
+        description: The starting height (block) of the peer
         type: number
       banscore:
+        description: The ban score
         type: number
       synced_headers:
+        description: The last header we have in common with this peer
         type: number
       synced_blocks:
+        description: The last block we have in common with this peer
         type: number
       inflight:
+        description: The heights of blocks we're currently asking from this peer
         type: array
         items:
-          type: object
+          type: number
       whitelisted:
+        description: If this peer is whitelisted
         type: boolean
       bytessent_per_msg:
         $ref: "#/definitions/ByteMessageInfo"
       bytesrecv_per_msg:
         $ref: "#/definitions/ByteMessageInfo"
   ByteMessageInfo:
+    required:
+    - addr
+    - getheaders
+    - headers
+    - inv
+    - ping
+    - pong
+    - sendheaders
+    - verack
+    - version
     properties:
       addr:
+        type: number
+      block:
         type: number
       getaddr:
         type: number
@@ -2278,11 +2431,15 @@ definitions:
         type: number
       headers:
         type: number
+      inv:
+        type: number
       ping:
         type: number
       pong:
         type: number
       sendheaders:
+        type: number
+      tx:
         type: number
       verack:
         type: number
@@ -2291,20 +2448,28 @@ definitions:
   ValidateAddressResponse:
     properties:
       isvalid:
+        description: If the address is valid or not. If not, this is the only property returned.
         type: boolean
       address:
+        description: The syscoin address validated
         type: string
       ismine:
+        description: If the address is yours or not
         type: boolean
       iswatchonly:
+        description: If the address is watchonly
         type: boolean
       isscript:
+        description: If the key is a script
         type: boolean
       pubkey:
+        description: The hex value of the raw public key
         type: string
       iscompressed:
+        description: If the address is compressed
         type: boolean
       account:
+        description: DEPRECATED. The account associated with the address, "" is the default account
         type: string
   ErrorResponse:
     required:
@@ -2974,3 +3139,48 @@ definitions:
           type: array
           items:
             $ref: "#/definitions/OfferAccept"
+  AddMultisigAddressRequest:
+    required:
+    - nrequired
+    - keysobject
+    properties:
+      nrequired:
+        description: The number of required signatures out of the n keys or addresses.
+        type: number
+      keysobject:
+        description: A json array of syscoin addresses or hex-encoded public keys. [ "address"  (string) syscoin address or hex-encoded public key ... ]
+        type: string
+      account:
+        description: DEPRECATED. An account to assign the addresses to.
+        type: string
+  AliasNewRequest:
+    required:
+    - aliasname
+    - publicvalue
+    properties:
+      aliasname:
+        description: Alias name
+        type: string
+      publicvalue:
+        description: Alias public profile data, 1023 chars max.
+        type: string
+      privatevalue:
+        description: Alias private profile data, 1023 chars max. Will be private and readable by owner only.
+        type: string
+  AliasUpdateRequest:
+    required:
+    - aliasname
+    - publicvalue
+    properties:
+      aliasname:
+        description: alias name.
+        type: string
+      publicvalue:
+        description: alias public profile data, 1023 chars max.
+        type: string
+      privatevalue:
+        description: alias private profile data, 1023 chars max. Will be private and readable by owner only.
+        type: string
+      toalias_pubkey:
+        description: receiver syscoin alias pub key, if transferring alias.
+        type: string
