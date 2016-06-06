@@ -574,8 +574,12 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: dumpprivkey
+      description: Reveals the private key corresponding to 'syscoinaddress'. Then the importprivkey can be used with this output.
+      tags:
+      - General
       parameters:
       - name: address
+        description: The syscoin address for the private key
         in: query
         required: true
         type: string
@@ -593,8 +597,12 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: dumpwallet
+      description: Dumps all wallet keys in a human-readable format.
+      tags:
+      - General
       parameters:
       - name: filename
+        description: The filename
         in: query
         required: true
         type: string
@@ -610,13 +618,17 @@ paths:
 
   /escrowclaimrefund:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: escrowclaimrefund
+      description: Claim escrow funds released from seller or arbiter using escrowrefund. Requires wallet passphrase to be set with walletpassphrase call.
+      tags:
+      - Escrow
       parameters:
-      - name: guid
-        in: query
+      - name: request
+        in: body
         required: true
-        type: string
+        schema:
+          $ref: "#/definitions/EscrowClaimRefundRequest"
       responses:
         "200":
           description: Success
@@ -631,13 +643,17 @@ paths:
 
   /escrowclaimrelease:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: escrowclaimrelease
+      description: Claim escrow funds released from buyer or arbiter using escrowrelease. Requires wallet passphrase to be set with walletpassphrase call.
+      tags:
+      - Escrow
       parameters:
-      - name: guid
-        in: query
+      - name: request
+        in: body
         required: true
-        type: string
+        schema:
+          $ref: "#/defintiions/EscrowClaimReleaseRequest"
       responses:
         "200":
           description: Success
@@ -652,13 +668,17 @@ paths:
 
   /escrowcomplete:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: escrowcomplete
+      description: Accepts an offer that's in escrow, to complete the escrow process. Requires wallet passphrase to be set with walletpassphrase call.
+      tags:
+      - Escrow
       parameters:
-      - name: guid
-        in: query
+      - name: request
+        in: body
         required: true
-        type: string
+        schema:
+          $ref: "#/definitions/EscrowCompleteRequest"
       responses:
         "200":
           description: Success
@@ -675,6 +695,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: escrowfilter
+      description: scan and filter escrows
+      tags:
+      - Escrow
       parameters:
       - name: search
         in: query
@@ -712,6 +735,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: escrowhistory
+      description: List all stored values of an escrow.
+      tags:
+      - Escrow
       parameters:
       - name: escrow
         in: query
@@ -733,6 +759,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: escrowinfo
+      description: Show stored values of a single escrow
+      tags:
+      - Escrow
       parameters:
       - name: escrow
         in: query
@@ -752,6 +781,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: escrowlist
+      description: list my own escrows
+      tags:
+      - Escrow
       responses:
         "200":
           description: Success
@@ -766,29 +798,17 @@ paths:
 
   /escrownew:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: escrownew
+      description: Create new arbitrated Syscoin escrow.
+      tags:
+      - Escrow
       parameters:
-      - name: alias
-        in: query
+      - name: request
+        in: body
         required: true
-        type: string
-      - name: offer
-        in: query
-        required: true
-        type: string
-      - name: quantity
-        in: query
-        required: true
-        type: number
-      - name: message
-        in: query
-        required: false
-        type: string
-      - name: arbiter
-        in: query
-        required: true
-        type: string
+        schema:
+          $ref: "#/definitions/EscrowNewRequest"
       responses:
         "200":
           description: Success
@@ -805,6 +825,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: escrowscan
+      description: scan all escrows, starting at start-escrow and returning a maximum number of entries (default 500)
+      tags:
+      - Escrow
       parameters:
       - name: start-escrow
         in: query
@@ -830,8 +853,12 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: getaccount
+      description: DEPRECATED. Returns the account associated with the given address.
+      tags:
+      - General
       parameters:
       - name: syscoinaddress
+        description: The syscoin address for account lookup.
         in: query
         required: true
         type: string
@@ -849,8 +876,12 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: getaccountaddress
+      description: DEPRECATED. Returns the current Syscoin address for receiving payments to this account.
+      tags:
+      - General
       parameters:
       - name: account
+        description: The account name for the address. It can also be set to the empty string "" to represent the default account. The account does not need to exist, it will be created and a new address created  if there is no account by the given name.
         in: query
         required: true
         type: string
@@ -868,6 +899,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: getaddressesbyaccount
+      description: DEPRECATED. Returns the list of addresses for the given account.
+      tags:
+      - General
       parameters:
       - name: account
         in: query
@@ -889,6 +923,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: getbalance
+      description: If account is not specified, returns the server's total available balance. If account is specified (DEPRECATED), returns the balance in the account. Note that the account "" is not the same as leaving the parameter out. The server total may be different to the balance in the default "" account.
+      tags:
+      - General
       parameters:
       - name: account
         in: query
@@ -917,14 +954,16 @@ paths:
 
   /getnewaddress:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: getnewaddress
+      description: Returns a new Syscoin address for receiving payments. If 'account' is specified (DEPRECATED), it is added to the address book so payments received with the address will be credited to 'account'.tags:
+      - General
       parameters:
-      - name: account
-        in: query
-        description: EPRECATED. The account name for the address to be linked to. If not provided, the default account "" is used. It can also be set to the empty string "" to represent the default account. The account does not need to exist, it will be created if there is no account by the given name.
+      - name: request
+        in: body
         required: false
-        type: string
+        schema:
+          $ref: "#/definitions/GetNewAddressRequest"
       responses:
         "200":
           description: Success
@@ -939,6 +978,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: getreceivedbyaccount
+      description: DEPRECATED. Returns the total amount received by addresses with <account> in transactions with at least [minconf] confirmations.
+      tags:
+      - General
       parameters:
       - name: account
         in: query
@@ -964,6 +1006,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: getreceivedbyaddress
+      description: Returns the total amount received by the given syscoinaddress in transactions with at least minconf confirmations.
+      tags:
+      - General
       parameters:
       - name: syscoinaddress
         in: query
@@ -989,6 +1034,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: gettransaction
+      description: Get detailed information about in-wallet transaction <txid>
+      tags:
+      - General
       parameters:
       - name: txid
         in: query
@@ -1014,6 +1062,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: getunconfirmedbalance
+      description: Returns the server's total unconfirmed balance
+      tags:
+      - General
       responses:
         "200":
           description: Success
@@ -1029,6 +1080,8 @@ paths:
     get:
       operationId: getv2address
       description: Returns a new Syscoin (starts with 1) address for receiving payments. If 'account' is specified (DEPRECATED), it is added to the address book so payments received with the address will be credited to 'account'.
+      tags:
+      - General
       parameters:
       - name: account
         in: query
@@ -1050,6 +1103,8 @@ paths:
     get:
       operationId: getwalletinfo
       description: Returns an object containing various wallet state info.
+      tags:
+      - General
       responses:
         "200":
           description: Success
@@ -3224,3 +3279,43 @@ definitions:
       private:
         description: set to 1 if you only want to make the cert data private, only the owner of the cert can view it.
         type: boolean
+  EscrowClaimRefundRequest:
+    required:
+    - guid
+    parameters:
+      guid:
+        type: string
+  EscrowClaimReleaseRequest:
+    required:
+    - guid
+    parameters:
+      guid:
+        type: string
+  EscrowCompleteRequest:
+    required:
+    - guid
+    parameters:
+      guid:
+        type: string
+  EscrowNewRequest:
+    required:
+    - alias
+    - offer
+    - quantity
+    - arbiter
+    parameters:
+      alias:
+        type: string
+      offer:
+        type: string
+      quantity:
+        type: number
+      message:
+        type: string
+      arbiter:
+        type: string
+  GetNewAddressRequest:
+    parameters:
+      account:
+        description: DEPRECATED. The account name for the address to be linked to. If not provided, the default account "" is used. It can also be set to the empty string "" to represent the default account. The account does not need to exist, it will be created if there is no account by the given name.
+        type: string
