@@ -653,7 +653,7 @@ paths:
         in: body
         required: true
         schema:
-          $ref: "#/defintiions/EscrowClaimReleaseRequest"
+          $ref: "#/definitions/EscrowClaimReleaseRequest"
       responses:
         "200":
           description: Success
@@ -956,7 +956,8 @@ paths:
     x-swagger-router-controller: rpc
     post:
       operationId: getnewaddress
-      description: Returns a new Syscoin address for receiving payments. If 'account' is specified (DEPRECATED), it is added to the address book so payments received with the address will be credited to 'account'.tags:
+      description: Returns a new Syscoin address for receiving payments. If 'account' is specified (DEPRECATED), it is added to the address book so payments received with the address will be credited to 'account'.
+      tags:
       - General
       parameters:
       - name: request
@@ -3282,19 +3283,19 @@ definitions:
   EscrowClaimRefundRequest:
     required:
     - guid
-    parameters:
+    properties:
       guid:
         type: string
   EscrowClaimReleaseRequest:
     required:
     - guid
-    parameters:
+    properties:
       guid:
         type: string
   EscrowCompleteRequest:
     required:
     - guid
-    parameters:
+    properties:
       guid:
         type: string
   EscrowNewRequest:
@@ -3303,7 +3304,7 @@ definitions:
     - offer
     - quantity
     - arbiter
-    parameters:
+    properties:
       alias:
         type: string
       offer:
@@ -3315,7 +3316,7 @@ definitions:
       arbiter:
         type: string
   GetNewAddressRequest:
-    parameters:
+    properties:
       account:
         description: DEPRECATED. The account name for the address to be linked to. If not provided, the default account "" is used. It can also be set to the empty string "" to represent the default account. The account does not need to exist, it will be created if there is no account by the given name.
         type: string
