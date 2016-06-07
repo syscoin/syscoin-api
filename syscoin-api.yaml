@@ -17,7 +17,7 @@ tags:
   description: All general wallet operations.
 - name: Aliases
   description: Operations related to aliases.
-- name: Messages
+- name: Messaging
   description: Operations related to messaging.
 - name: Offers
   description: Operations related to offers and the decentralized marketplace functionality.
@@ -1121,27 +1121,14 @@ paths:
     get:
       operationId: importaddress
       description: Adds a script (in hex) or address that can be watched as if it were in your wallet but cannot be used to spend.
+      tags:
+      - General
       parameters:
-      - name: script
-        in: query
-        description: The hex-encoded script (or address)
+      - name: request
+        in: body
         required: true
-        type: string
-      - name: label
-        in: query
-        description: An optional label
-        required: false
-        type: string
-      - name: rescan
-        in: query
-        description: Rescan the wallet for transactions
-        required: false
-        type: boolean
-      - name: p2sh
-        in: query
-        description: Add the P2SH version of the script as well
-        required: false
-        type: boolean
+        schema:
+          $ref: "#/definitions/ImportAddressRequest"
       responses:
         "200":
           description: Success
@@ -1157,22 +1144,14 @@ paths:
     get:
       operationId: importprivkey
       description: Adds a private key (as returned by dumpprivkey) to your wallet.
+      tags:
+      - General
       parameters:
-      - name: syscoinprivkey
-        in: query
-        description: The private key (see dumpprivkey)
+      - name: request
+        in: body
         required: true
-        type: string
-      - name: label
-        in: query
-        description: An optional label
-        required: false
-        type: string
-      - name: rescan
-        in: query
-        description: Rescan the wallet for transactions
-        required: false
-        type: boolean
+        schema:
+          $ref: "#/definitions/ImportPrivKeyRequest"
       responses:
         "200":
           description: Success
@@ -1188,22 +1167,14 @@ paths:
     get:
       operationId: importpubkey
       description: Adds a public key (in hex) that can be watched as if it were in your wallet but cannot be used to spend.
+      tags:
+      - General
       parameters:
-      - name: pubkey
-        in: query
-        description: The hex-encoded public key
+      - name: request
+        in: body
         required: true
-        type: string
-      - name: label
-        in: query
-        description: An optional label
-        required: false
-        type: string
-      - name: rescan
-        in: query
-        description: Rescan the wallet for transactions
-        required: false
-        type: boolean
+        schema:
+          $ref: "#/definitions/ImportPubKeyRequest"
       responses:
         "200":
           description: Success
@@ -1219,12 +1190,14 @@ paths:
     get:
       operationId: importwallet
       description: Imports keys from a wallet dump file (see dumpwallet).
+      tags:
+      - General
       parameters:
-      - name: filename
-        in: query
-        description: The wallet file
+      - name: request
+        in: body
         required: true
-        type: string
+        schema:
+          $ref: "#/definitions/ImportWalletRequest"
       responses:
         "200":
           description: Success
@@ -1240,6 +1213,8 @@ paths:
     get:
       operationId: listaccounts
       description: DEPRECATED. Returns Object that has account names as keys, account balances as values.
+      tags:
+      - General
       parameters:
       - name: minconf
         in: query
@@ -1266,6 +1241,8 @@ paths:
     get:
       operationId: listaddressgroupings
       description: Lists groups of addresses which have had their common ownership made public by common use as inputs or as the resulting change in past transactions
+      tags:
+      - General
       responses:
         "200":
           description: Success
@@ -1284,6 +1261,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: listreceivedbyaccount
+      description: DEPRECATED. List balances by account.
+      tags:
+      - General
       parameters:
       - name: minconf
         in: query
@@ -1316,6 +1296,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: listreceivedbyaddress
+      description: List balances by receiving address.
+      tags:
+      - General
       parameters:
       - name: minconf
         in: query
@@ -1349,6 +1332,8 @@ paths:
     get:
       operationId: listsinceblock
       description: Get all transactions in blocks since block [blockhash], or all transactions if omitted
+      tags:
+      - General
       parameters:
       - name: blockhash
         in: query
@@ -1381,6 +1366,8 @@ paths:
     get:
       operationId: listtransactions
       description: Returns up to 'count' most recent transactions skipping the first 'from' transactions for account 'account'.
+      tags:
+      - General
       parameters:
       - name: account
         in: query
@@ -1417,6 +1404,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: messagehistory
+      description: List all stored values of a message.
+      tags:
+      - Messaging
       parameters:
       - name: message
         in: query
@@ -1438,6 +1428,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: messageinfo
+      description: Show stored values of a single message.
+      tags:
+      - Messaging
       parameters:
       - name: guid
         in: query
@@ -1457,6 +1450,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: messagelist
+      description: List my own messages
+      tags:
+      - Messaging
       responses:
         "200":
           description: Success
@@ -1471,25 +1467,17 @@ paths:
 
   /messagenew:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: messagenew
+      description: Create a new Syscoin encrypted message.
+      tags:
+      - Messaging
       parameters:
-      - name: subject
-        in: query
+      - name: request
+        in: body
         required: true
-        type: string
-      - name: message
-        in: query
-        required: true
-        type: string
-      - name: fromalias
-        in: query
-        required: true
-        type: string
-      - name: toalias
-        in: query
-        required: true
-        type: string
+        schema:
+          $ref: "#/definitions/MessageNewRequest"
       responses:
         "200":
           description: Success
@@ -1506,6 +1494,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: messagesentlist
+      description: list my sent messages
+      tags:
+      - Messaging
       responses:
         "200":
           description: Success
@@ -1520,35 +1511,17 @@ paths:
 
   /move:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: move
       description: DEPRECATED. Move a specified amount from one account in your wallet to another.
+      tags:
+      - General
       parameters:
-      - name: fromaccount
-        in: query
-        description: The name of the account to move funds from. May be the default account using "".
+      - name: request
+        in: body
         required: true
-        type: string
-      - name: toaccount
-        in: query
-        description: The name of the account to move funds to. May be the default account using "".
-        required: true
-        type: string
-      - name: amount
-        in: query
-        description: Quantity of SYS to move between accounts.
-        required: true
-        type: number
-      - name: minconf
-        in: query
-        description: Only use funds with at least this many confirmations.
-        required: false
-        type: string
-      - name: comment
-        in: query
-        description: An optional comment, stored in the wallet only.
-        required: false
-        type: string
+        schema:
+          $ref: "#/definitions/MoveRequest"
       responses:
         "200":
           description: Success
@@ -1561,44 +1534,17 @@ paths:
 
   /offeraccept:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: offeraccept
+      description: Accept&Pay for a confirmed offer.
+      tags:
+      - Offers
       parameters:
-      - name: alias
-        in: query
-        description: An alias of the buyer.
+      - name: request
+        in: body
         required: true
-        type: string
-      - name: guid
-        in: query
-        description: guidkey from offer.
-        required: true
-        type: string
-      - name: quantity
-        in: query
-        description: quantity to buy. Defaults to 1.
-        required: false
-        type: number
-      - name: message
-        in: query
-        description: payment message to seller, 1KB max.
-        required: false
-        type: string
-      - name: btcTxId #TODO: review RPC, params weird
-        in: query
-        description: If you have paid in Bitcoin and the offer is in Bitcoin, enter the transaction ID here. Default is empty.
-        required: false
-        type: string
-      - name: linkedacceptguidtxhash
-        in: query
-        description: transaction id of the linking offer accept. For internal use only, leave blank
-        required: false
-        type: string
-      - name: escrowTxHash
-        in: query
-        description: If this offer accept is done by an escrow release. For internal use only, leave blank
-        required: false
-        type: string
+        schema:
+          $ref: "#/definitions/OfferAcceptRequest"
       responses:
         "200":
           description: Success
@@ -1615,6 +1561,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: offeracceptlist
+      description: list my offer accepts
+      tags:
+      - Offers
       responses:
         "200":
           description: Success
@@ -1629,24 +1578,17 @@ paths:
 
   /offeraddwhitelist:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: offeraddwhitelist
+      description: Add to the affiliate list of your offer(controls who can resell).
+      tags:
+      - Offers
       parameters: #TODO: review RPC param names
-      - name: offerguid
-        in: query
-        description: offer guid that you are adding to
+      - name: request
+        in: body
         required: true
-        type: string
-      - name: aliasguid
-        in: query
-        description: alias guid representing an alias that you want to add to the affiliate list
-        required: true
-        type: string
-      - name: discountPercentage
-        in: query
-        description: percentage of discount given to reseller for this offer. Negative discount adds on top of offer price, acts as an extra commission. -99 to 99.
-        required: true
-        type: number
+        schema:
+          $ref: "#/definitions/OfferAddWhitelistRequest"
       responses:
         "200":
           description: Success
@@ -3320,3 +3262,140 @@ definitions:
       account:
         description: DEPRECATED. The account name for the address to be linked to. If not provided, the default account "" is used. It can also be set to the empty string "" to represent the default account. The account does not need to exist, it will be created if there is no account by the given name.
         type: string
+  ImportAddressRequest:
+    required:
+    - script
+    properties:
+      script:
+        description: The hex-encoded script (or address)
+        type: string
+      label:
+        description: An optional label
+        type: string
+      rescan:
+        description: Rescan the wallet for transactions
+        type: boolean
+      p2sh:
+        description: Add the P2SH version of the script as well
+        type: boolean
+  ImportPrivKeyRequest:
+    required:
+    - syscoinprivkey
+    properties:
+       syscoinprivkey:
+        description: The private key (see dumpprivkey)
+        type: string
+      label:
+        description: An optional label
+        type: string
+      rescan:
+        description: Rescan the wallet for transactions
+        type: boolean
+  ImportPubKeyRequest:
+    required:
+    - pubkey
+    properties:
+      pubkey:
+        description: The hex-encoded public key
+        type: string
+      label:
+        description: An optional label
+        type: string
+      rescan:
+        description: Rescan the wallet for transactions
+        type: boolean
+  ImportWalletRequest:
+    required:
+    - filename
+    properties:
+      filename:
+        description: The wallet file
+        type: string
+  MessageNewRequest:
+    required:
+    - subject
+    - message
+    - fromalias
+    - toalias
+    properties:
+      subject:
+        description: Subject of message.
+        type: string
+      message:
+        description: Message to send to alias.
+        type: string
+      fromalias:
+        description: Alias to send message from.
+        type: string
+      toalias:
+        description: Alias to send message to.
+        type: string
+  MoveRequest:
+    required:
+    - fromaccount
+    - toaccount
+    - amount
+    properties:
+      fromaccount:
+        description: The name of the account to move funds from. May be the default account using "".
+        type: string
+      toaccount:
+        description: The name of the account to move funds to. May be the default account using "".
+        type: string
+      amount:
+        description: Quantity of SYS to move between accounts.
+        type: number
+      minconf:
+        description: Only use funds with at least this many confirmations.
+        type: string
+      comment:
+        description: An optional comment, stored in the wallet only.
+        type: string
+  OfferAcceptRequest:
+    required:
+    - alias
+    - guid
+    - quantity
+    properties:
+      alias:
+        description: An alias of the buyer.
+        type: string
+      guid:
+        description: guidkey from offer.
+        type: string
+      quantity:
+        description: quantity to buy. Defaults to 1.
+        type: number
+      message:
+        description: payment message to seller, 1KB max.
+        type: string
+      btcTxId: #TODO: review RPC, params weird
+        description: If you have paid in Bitcoin and the offer is in Bitcoin, enter the transaction ID here. Default is empty.
+        type: string
+      linkedacceptguidtxhash:
+        description: transaction id of the linking offer accept. For internal use only, leave blank
+        type: string
+      escrowTxHash:
+        description: If this offer accept is done by an escrow release. For internal use only, leave blank
+        type: string
+  OfferAddWhitelistRequest:
+    required:
+    - offerguid
+    - aliasguid
+    - discountPercentage
+    properties:
+      offerguid
+        in: query
+        description: offer guid that you are adding to
+        required: true
+        type: string
+      aliasguid
+        in: query
+        description: alias guid representing an alias that you want to add to the affiliate list
+        required: true
+        type: string
+      discountPercentage
+        in: query
+        description: percentage of discount given to reseller for this offer. Negative discount adds on top of offer price, acts as an extra commission. -99 to 99.
+        required: true
+        type: number
