@@ -161,7 +161,7 @@ paths:
       operationId: aliasaffiliates
       description: list affiliations with merchant offers.
       tags:
-      - Alias
+      - Aliases
       responses:
         "200":
           description: Success
@@ -180,7 +180,7 @@ paths:
       operationId: aliasfilter
       description: Filter aliases
       tags:
-      - Alias
+      - Aliases
       parameters:
       - name: regexp
         in: query
@@ -220,7 +220,7 @@ paths:
       operationId: aliashistory
       description: List all stored values of an alias.
       tags:
-      - Alias
+      - Aliases
       parameters:
       - name: aliasname
         in: query
@@ -244,7 +244,7 @@ paths:
       operationId: aliasinfo
       description: Show values of an alias.
       tags:
-      - Alias
+      - Aliases
       parameters:
       - name: aliasname
         in: query
@@ -266,7 +266,7 @@ paths:
       operationId: aliaslist
       description: List my own aliases.
       tags:
-      - Alias
+      - Aliases
       parameters:
       - name: aliasname
         description: Alias name to use as filter.
@@ -291,7 +291,7 @@ paths:
       operationId: aliasnew
       description: Creates a new Syscoin Alias. Requires wallet passphrase to be set with walletpassphrase call.
       tags:
-      - Alias
+      - Aliases
       parameters:
       - name: request
         in: body
@@ -316,7 +316,7 @@ paths:
       operationId: aliasscan
       description: Scan all aliases, starting at start-name and returning a maximum number of entries (default 500)
       tags:
-      - Alias
+      - Aliases
       parameters:
       - name: start-name
         in: query
@@ -344,7 +344,7 @@ paths:
       operationId: aliasupdate
       description: Update and possibly transfer an alias. Requires wallet passphrase to be set with walletpassphrase call.
       tags:
-      - Alias
+      - Aliases
       parameters:
       - name: request
         in: body
@@ -368,7 +368,7 @@ paths:
       operationId: certfilter
       description: scan and filter certs
       tags:
-      - Certificate
+      - Certificates
       parameters:
       - name: regexp
         in: query
@@ -408,7 +408,7 @@ paths:
       operationId: certhistory
       description: List all stored values of an cert.
       tags:
-      - Certificate
+      - Certificates
       parameters:
       - name: certname
         in: query
@@ -432,7 +432,7 @@ paths:
       operationId: certinfo
       description: Show stored values of a single certificate.
       tags:
-      - Certificate
+      - Certificates
       parameters:
       - name: certname
         in: query
@@ -454,7 +454,7 @@ paths:
       operationId: certlist
       description: Show stored values of a single certificate.
       tags:
-      - Certificate
+      - Certificates
       responses:
         "200":
           description: Success
@@ -473,7 +473,7 @@ paths:
       operationId: certnew
       description: Create a new Syscoin Certificate. Requires wallet passphrase to be set with walletpassphrase call.
       tags:
-      - Certificate
+      - Certificates
       parameters:
       - name: request
         in: body
@@ -498,7 +498,7 @@ paths:
       operationId: certscan
       description: scan all certs, starting at start-cert and returning a maximum number of entries (default 500)
       tags:
-      - Certificate
+      - Certificates
       parameters:
       - name: start-cert
         in: query
@@ -526,7 +526,7 @@ paths:
       operationId: certtransfer
       description: Transfer certificate from one user to another. Requires wallet passphrase to be set with walletpassphrase call.
       tags:
-      - Certificate
+      - Certificates
       parameters:
       - name: request
         in: body
@@ -551,7 +551,7 @@ paths:
       operationId: certupdate
       description: Perform an update on an certificate you control. Requires wallet passphrase to be set with walletpassphrase call.
       tags:
-      - Certificate
+      - Certificates
       parameters:
       - name: request
         in: body
@@ -1580,7 +1580,7 @@ paths:
     x-swagger-router-controller: rpc
     post:
       operationId: offeraddwhitelist
-      description: Add to the affiliate list of your offer(controls who can resell).
+      description: Add to the affiliate list of your offer(controls who can resell). Requires wallet passphrase to be set with walletpassphrase call.
       tags:
       - Offers
       parameters: #TODO: review RPC param names
@@ -1603,13 +1603,17 @@ paths:
 
   /offerclearwhitelist:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: offerclearwhitelist
+      description: Clear the affiliate list of your offer(controls who can resell). Requires wallet passphrase to be set with walletpassphrase call.
+      tags:
+      - Offers
       parameters: #TODO: review RPC param names
-      - name: offerguid
-        in: query
+      - name: request
+        in: body
         required: true
-        type: string
+        schema:
+          $ref: "#/definitions/OfferClearWhitelistRequest"
       responses:
         "200":
           description: Success
@@ -1626,6 +1630,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: offerfilter
+      description: scan and filter offeres
+      tags:
+      - Offers
       parameters:
       - name: regexp
         in: query
@@ -1663,6 +1670,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: offerhistory
+      description: List all stored values of an offer.
+      tags:
+      - Offers
       parameters:
       - name: offer
         in: query
@@ -1684,6 +1694,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: offerinfo
+      description: Show values of an offer.
+      tags:
+      - Offers
       parameters:
       - name: guid
         in: query
@@ -1701,29 +1714,17 @@ paths:
 
   /offerlink:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: offerlink
+      description: Requires wallet passphrase to be set with walletpassphrase call.
+      tags:
+      - Offers
       parameters:
-      - name: alias
-        in: query
-        description: An alias you own.
+      - name: request
+        in: body
         required: true
-        type: string
-      - name: guid
-        in: query
-        description: offer guid that you are linking to
-        required: true
-        type: string
-      - name: comission
-        in: query
-        description: percentage of profit desired over original offer price, > 0, ie 5 for 5%
-        required: true
-        type: string
-      - name: description
-        in: query
-        description: description, 1 KB max. Defaults to original description. Leave as '' to use default.
-        required: false
-        type: string
+        schema:
+          $ref: "#/definitions/OfferLinkRequest"
       responses:
         "200":
           description: Success
@@ -1740,6 +1741,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: offerlist
+      description: list my own offers
+      tags:
+      - Offers
       responses:
         "200":
           description: Success
@@ -1754,64 +1758,17 @@ paths:
 
   /offernew:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: offernew
+      description: Create a new offer on the Syscoin decentralized marketplace. Requires wallet passphrase to be set with walletpassphrase call.
+      tags:
+      - Offers
       parameters:
-      - name: aliaspeg
-        in: query
-        description: Alias peg you wish to use, leave blank to use SYS_RATES.
+      - name: request
+        in: body
         required: true
-        type: string
-      - name: alias
-        in: query
-        description: An alias you own.
-        required: true
-        type: string
-      - name: category
-        in: query
-        description: category, 255 chars max.
-        required: true
-        type: string
-      - name: title
-        in: query
-        description: title, 255 chars max.
-        required: true
-        type: string
-      - name: quantity
-        in: query
-        description: quantity, > 0 or -1 for infinite
-        required: true
-        type: number
-      - name: price
-        in: query
-        description: price in <currency>, > 0
-        required: true
-        type: number
-      - name: description
-        in: query
-        description: description, 1 KB max.
-        required: true
-        type: string
-      - name: currency
-        in: query
-        description: The currency code that you want your offer to be in ie USD.
-        required: true
-        type: string
-      - name: certguid #TODO: check param name
-        in: query
-        description: Set this to the guid of a certificate you wish to sell
-        required: false
-        type: string
-      - name: excelusiveResell #TODO: check param name
-        in: query
-        description: set to 1 if you only want those who control the affiliate's who are able to resell this offer via offerlink. Defaults to 1.
-        required: false
-        type: boolean
-      - name: acceptBTCOnly #TODO: check param name
-        in: query
-        description: set to 1 if you only want accept Bitcoins for payment and your currency is set to BTC, note you cannot resell or sell a cert in this mode. Defaults to 0.
-        required: false
-        type: boolean
+        schema:
+          $ref: "#/definitions/OfferNewRequest"
       responses:
         "200":
           description: Success
@@ -1826,17 +1783,17 @@ paths:
 
   /offerremovewhitelist:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: offerremovewhitelist
+      description: Remove from the affiliate list of your offer(controls who can resell). Requires wallet passphrase to be set with walletpassphrase call.
+      tags:
+      - Offers
       parameters: #TODO: review RPC param names
-      - name: offerguid
-        in: query
+      - name: request
+        in: body
         required: true
-        type: string
-      - name: aliasguid
-        in: query
-        required: true
-        type: string
+        schema:
+          $ref: "#/definitions/OfferRemoveWhitelistRequest"
       responses:
         "200":
           description: Success
@@ -1853,6 +1810,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: offerscan
+      description: scan all offers, starting at start-offer and returning a maximum number of entries (default 500)
+      tags:
+      - Offers
       parameters:
       - name: start-offer
         in: query
@@ -1876,64 +1836,17 @@ paths:
 
   /offerupdate:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: offerupdate
+      description: Perform an update on an offer you control. Requires wallet passphrase to be set with walletpassphrase call.
+      tags:
+      - Offers
       parameters:
-      - name: aliaspeg
-        in: query
-        description: Alias peg you wish to use, leave blank to use SYS_RATES.
+      - name: request
+        in: body
         required: true
-        type: string
-      - name: alias
-        in: query
-        description: An alias you own.
-        required: true
-        type: string
-      - name: guid
-        in: query
-        description: Guid of offer to update
-        required: true
-        type: string
-      - name: category
-        in: query
-        description: category, 255 chars max.
-        required: true
-        type: string
-      - name: title
-        in: query
-        description: title, 255 chars max.
-        required: true
-        type: string
-      - name: quantity
-        in: query
-        description: quantity, > 0 or -1 for infinite
-        required: true
-        type: number
-      - name: price
-        in: query
-        description: price in <currency>, > 0
-        required: true
-        type: number
-      - name: description
-        in: query
-        description: description, 1 KB max.
-        required: true
-        type: string
-      - name: private #TODO: rename, private is reserved word
-        in: query
-        description: Can this offer be seen in public search
-        required: true
-        type: boolean
-      - name: certguid #TODO: check param name
-        in: query
-        description: Set this to the guid of a certificate you wish to sell
-        required: false
-        type: string
-      - name: excelusiveResell #TODO: check param name
-        in: query
-        description: set to 1 if you only want those who control the affiliate's who are able to resell this offer via offerlink. Defaults to 1.
-        required: false
-        type: boolean
+        schema:
+          $ref: "#/definitions/OfferUpdateRequest"
       responses:
         "200":
           description: Success
@@ -1950,6 +1863,9 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: offerwhitelist
+      description: List all affiliates for this offer.
+      tags:
+      - Offers
       parameters: #TODO: review RPC param names
       - name: offerguid
         in: query
@@ -1969,39 +1885,17 @@ paths:
 
   /sendfrom:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: sendfrom
+      description: DEPRECATED (use sendtoaddress). Sent an amount from an account to a syscoin address. The amount is a real and is rounded to the nearest 0.00000001. Requires wallet passphrase to be set with walletpassphrase call.
+      tags:
+      - General
       parameters:
-      - name: fromaccount
-        in: query
-        description: The name of the account to send funds from. May be the default account using "".
+      - name: request
+        in: body
         required: true
-        type: string
-      - name: tosyscoinaddress
-        in: query
-        description: The syscoin address to send funds to.
-        required: true
-        type: string
-      - name: amount
-        in: query
-        description: he amount in SYS (transaction fee is added on top).
-        required: true
-        type: number
-      - name: minconf
-        in: query
-        description: Only use funds with at least this many confirmations.
-        required: false
-        type: number
-      - name: comment
-        in: query
-        description: A comment used to store what the transaction is for. This is not part of the transaction, just kept in your wallet.
-        required: false
-        type: string
-      - name: commentto
-        in: query
-        description: An optional comment to store the name of the person or organization to which you're sending the transaction. This is not part of the transaction, it is just kept in your wallet.
-        required: false
-        type: string
+        schema:
+          $ref: "#/definitions/SendFromRequest"
       responses:
         "200":
           description: Success
@@ -2014,34 +1908,17 @@ paths:
 
   /sendmany:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: sendmany
+      description: Send multiple times. Amounts are double-precision floating point numbers. Requires wallet passphrase to be set with walletpassphrase call.
+      tags:
+      - General
       parameters:
-      - name: fromaccount
-        in: query
-        description: DEPRECATED. The account to send the funds from. Should be "" for the default account
+      - name: request
+        in: body
         required: true
-        type: string
-      - name: amounts
-        in: query
-        description: A json object with addresses and amounts { "address":amount   (numeric) The syscoin address is the key, the numeric amount in SYS is the value,...}
-        required: true
-        type: string
-      - name: minconf
-        in: query
-        description: Only use the balance confirmed at least this many times.
-        required: false
-        type: number
-      - name: comment
-        in: query
-        description: A comment used to store what the transaction is for. This is not part of the transaction, just kept in your wallet.
-        required: false
-        type: string
-      - name: subtractfeefromamount
-        in: query
-        description: A json array with addresses. The fee will be equally deducted from the amount of each selected address. Those recipients will receive less syscoins than you enter in their corresponding amount field. If no addresses are specified here, the sender pays the fee. [ "address" Subtract fee from this address,... ]
-        required: false
-        type: string
+        schema:
+          $ref: "#/definitions/SendManyRequest"
       responses:
         "200":
           description: Success
@@ -2054,34 +1931,17 @@ paths:
 
   /sendtoaddress:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: sendtoaddress
+      description: Send an amount to a given address. The amount is a real and is rounded to the nearest 0.00000001. Requires wallet passphrase to be set with walletpassphrase call.
+      tags:
+      - General
       parameters:
-      - name: syscoinaddress
-        in: query
-        description: The syscoin address to send to.
+      - name: request
+        in: body
         required: true
-        type: string
-      - name: amount
-        in: query
-        description: The amount in SYS to send. eg 0.1
-        required: true
-        type: number
-      - name: comment
-        in: query
-        description: A comment used to store what the transaction is for. This is not part of the transaction, just kept in your wallet.
-        required: false
-        type: string
-      - name: commentto
-        in: query
-        description: An optional comment to store the name of the person or organization to which you're sending the transaction. This is not part of the transaction, it is just kept in your wallet.
-        required: false
-        type: string
-      - name: subtractfeefromamount
-        in: query
-        description: The fee will be deducted from the amount being sent. The recipient will receive less syscoins than you enter in the amount field.
-        required: false
-        type: string
+        schema:
+          $ref: "#/definitions/SendToAddressRequest"
       responses:
         "200":
           description: Success
@@ -2094,19 +1954,17 @@ paths:
 
   /signmessage:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: signmessage
+      description: Sign a message with the private key of an address. Requires wallet passphrase to be set with walletpassphrase call.
+      tags:
+      - General
       parameters:
-      - name: syscoinaddress
-        in: query
-        description: The syscoin address to use for the private key.
+      - name: request
+        in: body
         required: true
-        type: string
-      - name: message
-        in: query
-        description: The message to create a signature of.
-        required: true
-        type: number
+        schema:
+          $ref: "#/definitions/SignMessageRequest"
       responses:
         "200":
           description: Success
@@ -2119,8 +1977,11 @@ paths:
 
   /walletlock:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: walletlock
+      description: Removes the wallet encryption key from memory, locking the wallet. After calling this method, you will need to call walletpassphrase again before being able to call any methods which require the wallet to be unlocked.
+      tags:
+      - General
       responses:
         "200":
           description: Success
@@ -2133,19 +1994,17 @@ paths:
 
   /walletpassphrase:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: walletpassphrase
+      description: Stores the wallet decryption key in memory for 'timeout' seconds. This is needed prior to performing transactions related to private keys such as sending syscoins
+      tags:
+      - General
       parameters:
-      - name: passpharse
-        in: query
-        description: The wallet passphrase
+      - name: request
+        in: body
         required: true
-        type: string
-      - name: timeout
-        in: query
-        description: The time to keep the decryption key in seconds.
-        required: true
-        type: number
+        schema:
+          $ref: "#/definitions/WalletPassphraseRequest"
       responses:
         "200":
           description: Success
@@ -2158,19 +2017,17 @@ paths:
 
   /walletpassphrasechange:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: walletpassphrasechange
+      description: Changes the wallet passphrase from 'oldpassphrase' to 'newpassphrase'.
+      tags:
+      - General
       parameters:
-      - name: oldpasshrase
-        in: query
-        description: The current passphrase
+      - name: request
+        in: body
         required: true
-        type: string
-      - name: newpassphrase
-        in: query
-        description: The new passphrase
-        required: true
-        type: string
+        schema:
+          $ref: "#/definitions/WalletPassphraseChangeRequest"
       responses:
         "200":
           description: Success
@@ -3282,7 +3139,7 @@ definitions:
     required:
     - syscoinprivkey
     properties:
-       syscoinprivkey:
+      syscoinprivkey:
         description: The private key (see dumpprivkey)
         type: string
       label:
@@ -3384,18 +3241,231 @@ definitions:
     - aliasguid
     - discountPercentage
     properties:
-      offerguid
-        in: query
+      offerguid:
         description: offer guid that you are adding to
-        required: true
         type: string
-      aliasguid
-        in: query
+      aliasguid:
         description: alias guid representing an alias that you want to add to the affiliate list
-        required: true
         type: string
-      discountPercentage
-        in: query
+      discountPercentage:
         description: percentage of discount given to reseller for this offer. Negative discount adds on top of offer price, acts as an extra commission. -99 to 99.
-        required: true
         type: number
+  OfferClearWhitelistRequest:
+    required:
+    - offerguid
+    properties:
+      offerguid:
+        type: string
+  OfferLinkRequest:
+    required:
+    - alias
+    - guid
+    - comission
+    properties:
+      alias:
+        description: An alias you own.
+        type: string
+      guid:
+        description: offer guid that you are linking to
+        type: string
+      comission:
+        description: percentage of profit desired over original offer price, > 0, ie 5 for 5%
+        type: string
+      description:
+        description: description, 1 KB max. Defaults to original description. Leave as '' to use default.
+        type: string
+  OfferNewRequest:
+    required:
+    - aliaspeg
+    - alias
+    - category
+    - title
+    - quantity
+    - price
+    - description
+    - currency
+    properties:
+      aliaspeg:
+        description: Alias peg you wish to use, leave blank to use SYS_RATES.
+        type: string
+      alias:
+        description: An alias you own.
+        type: string
+      category:
+        description: category, 255 chars max.
+        type: string
+      title:
+        description: title, 255 chars max.
+        type: string
+      quantity:
+        description: quantity, > 0 or -1 for infinite
+        type: number
+      price:
+        description: price in <currency>, > 0
+        type: number
+      description:
+        description: description, 1 KB max.
+        type: string
+      currency:
+        description: The currency code that you want your offer to be in ie USD.
+        type: string
+      certguid: #TODO: check param name
+        description: Set this to the guid of a certificate you wish to sell
+        type: string
+      excelusiveResell: #TODO: check param name
+        description: set to 1 if you only want those who control the affiliate's who are able to resell this offer via offerlink. Defaults to 1.
+        type: boolean
+      acceptBTCOnly: #TODO: check param name
+        description: set to 1 if you only want accept Bitcoins for payment and your currency is set to BTC, note you cannot resell or sell a cert in this mode. Defaults to 0.
+        type: boolean
+  OfferRemoveWhitelistRequest:
+    required:
+    - offerguid
+    - aliasguid
+    properties:
+      offerguid:
+        type: string
+      aliasguid:
+        type: string
+  OfferUpdateRequest:
+    required:
+    - aliaspeg
+    - alias
+    - guid
+    - category
+    - title
+    - description
+    - quantity
+    - price
+    - private
+    properties:
+      aliaspeg:
+        description: Alias peg you wish to use, leave blank to use SYS_RATES.
+        type: string
+      alias:
+        description: An alias you own.
+        type: string
+      guid:
+        description: Guid of offer to update
+        type: string
+      category:
+        description: category, 255 chars max.
+        type: string
+      title:
+        description: title, 255 chars max.
+        type: string
+      quantity:
+        description: quantity, > 0 or -1 for infinite
+        type: number
+      price:
+        description: price in <currency>, > 0
+        type: number
+      description:
+        description: description, 1 KB max.
+        type: string
+      private: #TODO: rename, private is reserved word
+        description: Can this offer be seen in public search
+        type: boolean
+      certguid: #TODO: check param name
+        description: Set this to the guid of a certificate you wish to sell
+        type: string
+      excelusiveResell: #TODO: check param name
+        description: set to 1 if you only want those who control the affiliate's who are able to resell this offer via offerlink. Defaults to 1.
+        type: boolean
+  SendFromRequest:
+    required:
+    - fromaccount
+    - tosyscoinaddress
+    - amount
+    properties:
+      fromaccount:
+        description: The name of the account to send funds from. May be the default account using "".
+        type: string
+      tosyscoinaddress:
+        description: The syscoin address to send funds to.
+        type: string
+      amount:
+        description: he amount in SYS (transaction fee is added on top).
+        type: number
+      minconf:
+        description: Only use funds with at least this many confirmations.
+        type: number
+      comment:
+        description: A comment used to store what the transaction is for. This is not part of the transaction, just kept in your wallet.
+        type: string
+      commentto:
+        description: An optional comment to store the name of the person or organization to which you're sending the transaction. This is not part of the transaction, it is just kept in your wallet.
+        type: string
+  SendManyRequest:
+    required:
+    - fromaccount
+    - amounts
+    properties:
+      fromaccount:
+        description: DEPRECATED. The account to send the funds from. Should be "" for the default account
+        type: string
+      amounts:
+        description: A json object with addresses and amounts { "address":amount   (numeric) The syscoin address is the key, the numeric amount in SYS is the value,...}
+        type: string
+      minconf:
+        description: Only use the balance confirmed at least this many times.
+        type: number
+      comment:
+        description: A comment used to store what the transaction is for. This is not part of the transaction, just kept in your wallet.
+        type: string
+      subtractfeefromamount:
+        description: A json array with addresses. The fee will be equally deducted from the amount of each selected address. Those recipients will receive less syscoins than you enter in their corresponding amount field. If no addresses are specified here, the sender pays the fee. [ "address" Subtract fee from this address,... ]
+        type: string
+  SendToAddressRequest:
+    required:
+    - syscoinaddress
+    - amount
+    properties:
+      syscoinaddress:
+        description: The syscoin address to send to.
+        type: string
+      amount:
+        description: The amount in SYS to send. eg 0.1
+        type: number
+      comment:
+        description: A comment used to store what the transaction is for. This is not part of the transaction, just kept in your wallet.
+        type: string
+      commentto:
+        description: An optional comment to store the name of the person or organization to which you're sending the transaction. This is not part of the transaction, it is just kept in your wallet.
+        type: string
+      subtractfeefromamount:
+        description: The fee will be deducted from the amount being sent. The recipient will receive less syscoins than you enter in the amount field.
+        type: string
+  SignMessageRequest:
+    required:
+    - syscoinaddress
+    - message
+    properties:
+      syscoinaddress:
+        description: The syscoin address to use for the private key.
+        type: string
+      message:
+        description: The message to create a signature of.
+        type: number
+  WalletPassphraseRequest:
+    required:
+    - passphrase
+    - timeout
+    properties:
+      passphrase:
+        description: The wallet passphrase
+        type: string
+      timeout:
+        description: The time to keep the decryption key in seconds.
+        type: number
+  WalletPassphraseChangeRequest:
+    required:
+    - oldpassphrase
+    - newpassphrase
+    properties:
+      oldpassphrase:
+        description: The current passphrase
+        type: string
+      newpassphrase:
+        description: The new passphrase
+        type: string
