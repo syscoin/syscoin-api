@@ -7,6 +7,17 @@ var jsyaml = require('js-yaml');
 var fs = require('fs');
 var serverPort = 8000;
 
+var syscoin = require('syscoin');
+
+// all config options are optional
+exports.syscoinClient = new syscoin.Client({
+  host: 'localhost',
+  port: 8336,
+  user: 'username',
+  pass: 'password',
+  timeout: 30000
+});
+
 // swaggerRouter configuration
 var options = {
   swaggerUi: '/swagger.json',

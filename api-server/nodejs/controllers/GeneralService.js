@@ -1,5 +1,7 @@
 'use strict';
 
+var syscoinClient = require('../index').syscoinClient;
+
 exports.addmultisigaddress = function(args, res, next) {
   /**
    * parameters expected in the args:
@@ -122,35 +124,16 @@ exports.getbalance = function(args, res, next) {
 }
 
 exports.getinfo = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  **/
-    var examples = {};
-  examples['application/json'] = {
-  "unlocked_until" : 1.3579000000000001069366817318950779736042022705078125,
-  "relayfee" : 1.3579000000000001069366817318950779736042022705078125,
-  "difficulty" : 1.3579000000000001069366817318950779736042022705078125,
-  "blocks" : 1.3579000000000001069366817318950779736042022705078125,
-  "keypoolsize" : 1.3579000000000001069366817318950779736042022705078125,
-  "version" : 1.3579000000000001069366817318950779736042022705078125,
-  "timeoffset" : 1.3579000000000001069366817318950779736042022705078125,
-  "balance" : 1.3579000000000001069366817318950779736042022705078125,
-  "errors" : "aeiou",
-  "paytxfee" : 1.3579000000000001069366817318950779736042022705078125,
-  "proxy" : "aeiou",
-  "testnet" : true,
-  "connections" : 1.3579000000000001069366817318950779736042022705078125,
-  "protocolversion" : 1.3579000000000001069366817318950779736042022705078125,
-  "walletversion" : 1.3579000000000001069366817318950779736042022705078125,
-  "keypoololdest" : 1.3579000000000001069366817318950779736042022705078125
-};
-  if(Object.keys(examples).length > 0) {
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-  }
-  else {
-    res.end();
-  }
+  client.getInfo(function(err, info, resHeaders) {
+    if (err) {
+      console.log(err);
+      return res.end();
+    }
+    console.log('Info:', info);
+
+    //res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(info));
+  });
   
 }
 
