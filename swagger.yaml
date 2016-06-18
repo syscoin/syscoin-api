@@ -3,6 +3,11 @@ info:
   version: "1.0.0"
   title: Syscoin API
 host: localhost:8000
+securityDefinitions:
+  token:
+    type: apiKey
+    in: header
+    name: token
 basePath: /
 schemes:
   # remove http to make production-grade
@@ -31,6 +36,7 @@ paths:
     get:
       operationId: getinfo
       description: Returns an object containing various state info.
+      security: []
       tags:
       - General
       responses:
@@ -48,6 +54,8 @@ paths:
       get:
         operationId: getmininginfo
         description: Returns a json object containing mining-related information.
+        security:
+          - token: []
         tags:
         - General
         responses:
@@ -79,7 +87,7 @@ paths:
 
   /validateaddress:
       x-swagger-router-controller: rpc
-      get:
+      post:
         operationId: validateaddress
         description: Return information about the given syscoin address.
         tags:
@@ -101,7 +109,7 @@ paths:
 
   /verifymessage:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: verifymessage
       description: Verify a signed message
       tags:
