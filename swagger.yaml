@@ -31,6 +31,28 @@ tags:
 - name: Certificates
   description: Operations related to digital certificates.
 paths:
+  /login:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: login
+      description: Returns a session token for use with subsquent protected calls.
+      tags:
+      - Blockmarket
+      parameters:
+      - name: auth
+        description: MD5 hash of the user's authentication information- username:password.
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /getinfo:
     x-swagger-router-controller: rpc
     get:
@@ -87,7 +109,7 @@ paths:
 
   /validateaddress:
       x-swagger-router-controller: rpc
-      get:
+      post:
         operationId: validateaddress
         description: Return information about the given syscoin address.
         tags:
@@ -109,7 +131,7 @@ paths:
 
   /verifymessage:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: verifymessage
       description: Verify a signed message
       tags:
