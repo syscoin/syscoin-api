@@ -87,7 +87,7 @@ paths:
 
   /validateaddress:
       x-swagger-router-controller: rpc
-      post:
+      get:
         operationId: validateaddress
         description: Return information about the given syscoin address.
         tags:
@@ -109,7 +109,7 @@ paths:
 
   /verifymessage:
     x-swagger-router-controller: rpc
-    post:
+    get:
       operationId: verifymessage
       description: Verify a signed message
       tags:

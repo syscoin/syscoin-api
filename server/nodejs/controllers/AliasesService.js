@@ -1,22 +1,19 @@
 'use strict';
 
-var syscoinClient = require('../index').syscoinClient;
-
 exports.aliasaffiliates = function(args, res, next) {
   /**
    * parameters expected in the args:
   **/
-  syscoinClient.aliasAffiliates(function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ "{}" ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Alias affiliates:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.aliasfilter = function(args, res, next) {
@@ -27,17 +24,25 @@ exports.aliasfilter = function(args, res, next) {
   * from (BigDecimal)
   * nb (BigDecimal)
   **/
-  syscoinClient.aliasFilter(args.regexp.value, args.maxage.value, args.from.value, args.nb.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ {
+  "expired" : true,
+  "privatevalue" : "aeiou",
+  "pending" : true,
+  "name" : "aeiou",
+  "txid" : "aeiou",
+  "value" : "aeiou",
+  "expires_in" : 1.3579000000000001069366817318950779736042022705078125,
+  "expires_on" : 1.3579000000000001069366817318950779736042022705078125
+} ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Alias filter:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.aliashistory = function(args, res, next) {
@@ -45,17 +50,27 @@ exports.aliashistory = function(args, res, next) {
    * parameters expected in the args:
   * aliasname (String)
   **/
-  syscoinClient.aliasHistory(args.aliasname.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ {
+  "expired" : true,
+  "privatevalue" : "aeiou",
+  "address" : "aeiou",
+  "name" : "aeiou",
+  "txid" : "aeiou",
+  "value" : "aeiou",
+  "expires_in" : 1.3579000000000001069366817318950779736042022705078125,
+  "expires_on" : 1.3579000000000001069366817318950779736042022705078125,
+  "lastupdate_height" : 1.3579000000000001069366817318950779736042022705078125,
+  "aliastype" : "aeiou"
+} ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Alias history:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.aliasinfo = function(args, res, next) {
@@ -63,17 +78,27 @@ exports.aliasinfo = function(args, res, next) {
    * parameters expected in the args:
   * aliasname (String)
   **/
-  syscoinClient.aliasInfo(args.aliasname.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = {
+  "expired" : true,
+  "privatevalue" : "aeiou",
+  "address" : "aeiou",
+  "name" : "aeiou",
+  "txid" : "aeiou",
+  "value" : "aeiou",
+  "expires_in" : 1.3579000000000001069366817318950779736042022705078125,
+  "expires_on" : 1.3579000000000001069366817318950779736042022705078125,
+  "lastupdate_height" : 1.3579000000000001069366817318950779736042022705078125,
+  "ismine" : true
+};
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Alias info:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.aliaslist = function(args, res, next) {
@@ -81,17 +106,25 @@ exports.aliaslist = function(args, res, next) {
    * parameters expected in the args:
   * aliasname (String)
   **/
-  syscoinClient.aliasList(args.aliasname.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ {
+  "expired" : true,
+  "privatevalue" : "aeiou",
+  "pending" : true,
+  "name" : "aeiou",
+  "txid" : "aeiou",
+  "value" : "aeiou",
+  "expires_in" : 1.3579000000000001069366817318950779736042022705078125,
+  "expires_on" : 1.3579000000000001069366817318950779736042022705078125
+} ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Alias list:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.aliasnew = function(args, res, next) {
@@ -99,17 +132,16 @@ exports.aliasnew = function(args, res, next) {
    * parameters expected in the args:
   * request (AliasNewRequest)
   **/
-  syscoinClient.aliasNew(args.request.value.aliasname, args.request.value.publicvalue, args.request.value.privatevalue, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Alias new:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.aliasscan = function(args, res, next) {
@@ -118,17 +150,16 @@ exports.aliasscan = function(args, res, next) {
   * startName (String)
   * maxReturned (BigDecimal)
   **/
-  syscoinClient.aliasScan(args.start-name.value, args.max-returned.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Alias scan:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.aliasupdate = function(args, res, next) {
@@ -136,16 +167,15 @@ exports.aliasupdate = function(args, res, next) {
    * parameters expected in the args:
   * request (AliasUpdateRequest)
   **/
-  syscoinClient.aliasUpdate(args.request.value.aliasname, args.request.value.publicvalue, args.request.value.privatevalue, args.request.value.toalias_pubkey, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Alias update:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 

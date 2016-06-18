@@ -1,23 +1,20 @@
 'use strict';
 
-var syscoinClient = require('../index').syscoinClient;
-
 exports.addmultisigaddress = function(args, res, next) {
   /**
    * parameters expected in the args:
   * request (AddMultisigAddressRequest)
   **/
-  syscoinClient.addMultiSigAddress(args.request.value.nrequired, args.request.value.keysobject, args.request.value.account, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = "aeiou";
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Add multisig address:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.dumpprivkey = function(args, res, next) {
@@ -25,17 +22,16 @@ exports.dumpprivkey = function(args, res, next) {
    * parameters expected in the args:
   * address (String)
   **/
-  syscoinClient.dumpPrivKey(args.address.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = "aeiou";
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Dump priv key', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.dumpwallet = function(args, res, next) {
@@ -43,17 +39,16 @@ exports.dumpwallet = function(args, res, next) {
    * parameters expected in the args:
   * filename (String)
   **/
-  syscoinClient.dumpWallet(args.filename.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = "aeiou";
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Dump wallet ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.getaccount = function(args, res, next) {
@@ -61,17 +56,16 @@ exports.getaccount = function(args, res, next) {
    * parameters expected in the args:
   * syscoinaddress (String)
   **/
-  syscoinClient.getAccount(args.syscoinaddress.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = "aeiou";
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Get account ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.getaccountaddress = function(args, res, next) {
@@ -79,17 +73,16 @@ exports.getaccountaddress = function(args, res, next) {
    * parameters expected in the args:
   * account (String)
   **/
-  syscoinClient.getAccountAddress(args.account.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = "aeiou";
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Get account address ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.getaddressesbyaccount = function(args, res, next) {
@@ -97,17 +90,16 @@ exports.getaddressesbyaccount = function(args, res, next) {
    * parameters expected in the args:
   * account (String)
   **/
-  syscoinClient.getAddressesByAccount(args.account.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Get addresses by account ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.getbalance = function(args, res, next) {
@@ -117,45 +109,77 @@ exports.getbalance = function(args, res, next) {
   * minconf (BigDecimal)
   * includeWatchonly (Boolean)
   **/
-  syscoinClient.getBalance(args.account.value, args.minconf.value, args.includeWatchonly.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = 1.3579000000000001069366817318950779736042022705078125;
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Get balance ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.getinfo = function(args, res, next) {
-  syscoinClient.getInfo(function(err, result, resHeaders) {
+  /**
+   * parameters expected in the args:
+  **/
+    var examples = {};
+  examples['application/json'] = {
+  "unlocked_until" : 1.3579000000000001069366817318950779736042022705078125,
+  "relayfee" : 1.3579000000000001069366817318950779736042022705078125,
+  "difficulty" : 1.3579000000000001069366817318950779736042022705078125,
+  "blocks" : 1.3579000000000001069366817318950779736042022705078125,
+  "keypoolsize" : 1.3579000000000001069366817318950779736042022705078125,
+  "version" : 1.3579000000000001069366817318950779736042022705078125,
+  "timeoffset" : 1.3579000000000001069366817318950779736042022705078125,
+  "balance" : 1.3579000000000001069366817318950779736042022705078125,
+  "errors" : "aeiou",
+  "paytxfee" : 1.3579000000000001069366817318950779736042022705078125,
+  "proxy" : "aeiou",
+  "testnet" : true,
+  "connections" : 1.3579000000000001069366817318950779736042022705078125,
+  "protocolversion" : 1.3579000000000001069366817318950779736042022705078125,
+  "walletversion" : 1.3579000000000001069366817318950779736042022705078125,
+  "keypoololdest" : 1.3579000000000001069366817318950779736042022705078125
+};
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Info:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.getmininginfo = function(args, res, next) {
-  syscoinClient.getMiningInfo(function(err, result, resHeaders) {
+  /**
+   * parameters expected in the args:
+  **/
+    var examples = {};
+  examples['application/json'] = {
+  "pooledtx" : 1.3579000000000001069366817318950779736042022705078125,
+  "errors" : "aeiou",
+  "currentblocktx" : 1.3579000000000001069366817318950779736042022705078125,
+  "generate" : true,
+  "chain" : "aeiou",
+  "currentblocksize" : 1.3579000000000001069366817318950779736042022705078125,
+  "testnet" : true,
+  "difficulty" : 1.3579000000000001069366817318950779736042022705078125,
+  "genproclimit" : 1.3579000000000001069366817318950779736042022705078125,
+  "blocks" : 1.3579000000000001069366817318950779736042022705078125,
+  "networkhashps" : 1.3579000000000001069366817318950779736042022705078125
+};
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Get mining info ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.getnewaddress = function(args, res, next) {
@@ -163,17 +187,16 @@ exports.getnewaddress = function(args, res, next) {
    * parameters expected in the args:
   * request (GetNewAddressRequest)
   **/
-  syscoinClient.getNewAddress(args.request.value.account, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = "aeiou";
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Get new address ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.getpeerinfo = function(args, res, next) {
@@ -181,17 +204,15 @@ exports.getpeerinfo = function(args, res, next) {
    * parameters expected in the args:
   **/
     var examples = {};
-  syscoinClient.getPeerInfo(function(err, result, resHeaders) {
+  examples['application/json'] = "";
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Get peer info', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.getreceivedbyaccount = function(args, res, next) {
@@ -200,17 +221,16 @@ exports.getreceivedbyaccount = function(args, res, next) {
   * account (String)
   * minconf (BigDecimal)
   **/
-  syscoinClient.getReceivedByAccount(args.account.value, args.minconf.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = 1.3579000000000001069366817318950779736042022705078125;
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Get recieved by account', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.getreceivedbyaddress = function(args, res, next) {
@@ -219,17 +239,16 @@ exports.getreceivedbyaddress = function(args, res, next) {
   * syscoinaddress (String)
   * minconf (BigDecimal)
   **/
-  syscoinClient.getReceivedByAddress(args.syscoinaddress.value, args.minconf.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = 1.3579000000000001069366817318950779736042022705078125;
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Get recieved by address ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.gettransaction = function(args, res, next) {
@@ -238,34 +257,50 @@ exports.gettransaction = function(args, res, next) {
   * txid (String)
   * includeWatchonly (Boolean)
   **/
-  syscoinClient.getTransaction(args.txid.value, args.includeWatchonly.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = {
+  "amount" : "aeiou",
+  "blockindex" : 1.3579000000000001069366817318950779736042022705078125,
+  "time" : 1.3579000000000001069366817318950779736042022705078125,
+  "hex" : "aeiou",
+  "details" : [ {
+    "amount" : 1.3579000000000001069366817318950779736042022705078125,
+    "category" : "aeiou",
+    "address" : "aeiou",
+    "vout" : 1.3579000000000001069366817318950779736042022705078125,
+    "account" : "aeiou",
+    "label" : "aeiou"
+  } ],
+  "confirmations" : 1.3579000000000001069366817318950779736042022705078125,
+  "timereceived" : 1.3579000000000001069366817318950779736042022705078125,
+  "txid" : "aeiou",
+  "blockhash" : "aeiou",
+  "blocktime" : 1.3579000000000001069366817318950779736042022705078125
+};
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Get transaction ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.getunconfirmedbalance = function(args, res, next) {
   /**
    * parameters expected in the args:
   **/
-  syscoinClient.getUnconfirmedBalance(function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = 1.3579000000000001069366817318950779736042022705078125;
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Get unconfirmed balance ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.getv2address = function(args, res, next) {
@@ -273,34 +308,42 @@ exports.getv2address = function(args, res, next) {
    * parameters expected in the args:
   * account (String)
   **/
-  syscoinClient.getv2address(args.account.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = "aeiou";
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Get v2 address ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.getwalletinfo = function(args, res, next) {
   /**
    * parameters expected in the args:
   **/
-  syscoinClient.getWalletInfo(function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = {
+  "unlocked_until" : 1.3579000000000001069366817318950779736042022705078125,
+  "balance" : 1.3579000000000001069366817318950779736042022705078125,
+  "paytxfee" : 1.3579000000000001069366817318950779736042022705078125,
+  "unconfirmed_balance" : 1.3579000000000001069366817318950779736042022705078125,
+  "txcount" : 1.3579000000000001069366817318950779736042022705078125,
+  "immature_balance" : 1.3579000000000001069366817318950779736042022705078125,
+  "keypoololdest" : 1.3579000000000001069366817318950779736042022705078125,
+  "walletversion" : 1.3579000000000001069366817318950779736042022705078125,
+  "keypoolsize" : 1.3579000000000001069366817318950779736042022705078125
+};
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Get wallet info ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.importaddress = function(args, res, next) {
@@ -308,17 +351,16 @@ exports.importaddress = function(args, res, next) {
    * parameters expected in the args:
   * request (ImportAddressRequest)
   **/
-  syscoinClient.importAddress(args.script.value, args.label.value, args.rescan.value, args.p2sh.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = "aeiou";
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Import address ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.importprivkey = function(args, res, next) {
@@ -326,17 +368,16 @@ exports.importprivkey = function(args, res, next) {
    * parameters expected in the args:
   * request (ImportPrivKeyRequest)
   **/
-  syscoinClient.importPrivKey(args.syscoinprivkey.value, args.label.value, args.rescan.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = "aeiou";
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Import priv key ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.importpubkey = function(args, res, next) {
@@ -344,17 +385,16 @@ exports.importpubkey = function(args, res, next) {
    * parameters expected in the args:
   * request (ImportPubKeyRequest)
   **/
-  syscoinClient.importPubKey(args.pubkey.value, args.label.value, args.rescan.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = "aeiou";
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Import pub key ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.importwallet = function(args, res, next) {
@@ -362,17 +402,16 @@ exports.importwallet = function(args, res, next) {
    * parameters expected in the args:
   * request (ImportWalletRequest)
   **/
-  syscoinClient.importWallet(args.filename.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = "aeiou";
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Import wallet ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.listaccounts = function(args, res, next) {
@@ -381,34 +420,36 @@ exports.listaccounts = function(args, res, next) {
   * minconf (BigDecimal)
   * includeWatchonly (Boolean)
   **/
-  syscoinClient.listAccounts(args.minconf.value, args.includeWatchonly.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = "{}";
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('List accounts ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.listaddressgroupings = function(args, res, next) {
   /**
    * parameters expected in the args:
   **/
-  syscoinClient.listAddressGroupings(function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ [ {
+  "amount" : 1.3579000000000001069366817318950779736042022705078125,
+  "account" : "aeiou",
+  "syscoinaddress" : "aeiou"
+} ] ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('List address groupings ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.listreceivedbyaccount = function(args, res, next) {
@@ -418,17 +459,22 @@ exports.listreceivedbyaccount = function(args, res, next) {
   * includeempty (Boolean)
   * includeWatchonly (Boolean)
   **/
-  syscoinClient.listReceivedByAccount(args.minconf.value, args.includeempty.value, args.includeWatchonly.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ {
+  "amount" : 1.3579000000000001069366817318950779736042022705078125,
+  "involvesWatchonly" : true,
+  "confirmations" : 1.3579000000000001069366817318950779736042022705078125,
+  "account" : "aeiou",
+  "label" : "aeiou"
+} ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('List received by account ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.listreceivedbyaddress = function(args, res, next) {
@@ -438,17 +484,22 @@ exports.listreceivedbyaddress = function(args, res, next) {
   * includeempty (Boolean)
   * includeWatchonly (Boolean)
   **/
-  syscoinClient.listReceivedByAddress(args.minconf.value, args.includeempty.value, args.includeWatchonly.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ {
+  "amount" : 1.3579000000000001069366817318950779736042022705078125,
+  "involvesWatchonly" : true,
+  "confirmations" : 1.3579000000000001069366817318950779736042022705078125,
+  "account" : "aeiou",
+  "label" : "aeiou"
+} ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('List received by address ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.listsinceblock = function(args, res, next) {
@@ -458,17 +509,36 @@ exports.listsinceblock = function(args, res, next) {
   * includeWatchonly (Boolean)
   * targetConfirmations (BigDecimal)
   **/
-  syscoinClient.listSinceBlock(args.blockchain.value, args.includeWatchonly.value, args.targetConfirmations.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ {
+  "lastblock" : "aeiou",
+  "transactions" : [ {
+    "to" : "aeiou",
+    "confirmations" : 1.3579000000000001069366817318950779736042022705078125,
+    "vout" : 1.3579000000000001069366817318950779736042022705078125,
+    "blockhash" : "aeiou",
+    "label" : "aeiou",
+    "blocktime" : 1.3579000000000001069366817318950779736042022705078125,
+    "amount" : 1.3579000000000001069366817318950779736042022705078125,
+    "fee" : 1.3579000000000001069366817318950779736042022705078125,
+    "blockindex" : 1.3579000000000001069366817318950779736042022705078125,
+    "category" : "aeiou",
+    "time" : 1.3579000000000001069366817318950779736042022705078125,
+    "timereceived" : 1.3579000000000001069366817318950779736042022705078125,
+    "address" : "aeiou",
+    "txid" : "aeiou",
+    "account" : "aeiou",
+    "comment" : "aeiou"
+  } ]
+} ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('List since block', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.listtransactions = function(args, res, next) {
@@ -479,17 +549,34 @@ exports.listtransactions = function(args, res, next) {
   * from (BigDecimal)
   * includeWatchonly (Boolean)
   **/
-  syscoinClient.listTransactions(args.account.value, args.count.value, args.from.value, args.includeWatchonly.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ {
+  "trusted" : true,
+  "confirmations" : 1.3579000000000001069366817318950779736042022705078125,
+  "vout" : 1.3579000000000001069366817318950779736042022705078125,
+  "blockhash" : "aeiou",
+  "otheraccount" : "aeiou",
+  "label" : "aeiou",
+  "blocktime" : 1.3579000000000001069366817318950779736042022705078125,
+  "amount" : 1.3579000000000001069366817318950779736042022705078125,
+  "fee" : 1.3579000000000001069366817318950779736042022705078125,
+  "blockindex" : "aeiou",
+  "time" : 1.3579000000000001069366817318950779736042022705078125,
+  "category" : "aeiou",
+  "timereceived" : 1.3579000000000001069366817318950779736042022705078125,
+  "address" : "aeiou",
+  "txid" : "aeiou",
+  "account" : "aeiou",
+  "comment" : "aeiou"
+} ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('List transactions ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.move = function(args, res, next) {
@@ -497,17 +584,16 @@ exports.move = function(args, res, next) {
    * parameters expected in the args:
   * request (MoveRequest)
   **/
-  syscoinClient.move(args.request.value.fromaccount, args.request.value.toaccount, args.request.value.amount, args.request.value.minconf, args.request.value.comment, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = true;
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Move ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.sendfrom = function(args, res, next) {
@@ -515,17 +601,16 @@ exports.sendfrom = function(args, res, next) {
    * parameters expected in the args:
   * request (SendFromRequest)
   **/
-  syscoinClient.sendFrom(args.request.value.fromaccount, args.request.value.tosyscoinaddress, args.request.value.amount, args.request.value.minconf, args.request.value.comment, args.request.value.commentto, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = "aeiou";
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Send from ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.sendmany = function(args, res, next) {
@@ -533,17 +618,16 @@ exports.sendmany = function(args, res, next) {
    * parameters expected in the args:
   * request (SendManyRequest)
   **/
-  syscoinClient.sendMany(args.request.value.fromaccount, args.request.value.amounts, args.request.value.minconf, args.request.value.comment, args.request.value.subtractfeefromamount, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = "aeiou";
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Send many ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.sendtoaddress = function(args, res, next) {
@@ -551,17 +635,16 @@ exports.sendtoaddress = function(args, res, next) {
    * parameters expected in the args:
   * request (SendToAddressRequest)
   **/
-  syscoinClient.sendToAddress(args.request.value.syscoinaddress, args.request.value.amount, args.request.value.comment, args.request.value.commentto, args.request.value.subtractfeefromamount, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = "aeiou";
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Send to address ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.signmessage = function(args, res, next) {
@@ -569,17 +652,16 @@ exports.signmessage = function(args, res, next) {
    * parameters expected in the args:
   * request (SignMessageRequest)
   **/
-  syscoinClient.signMessage(args.request.value.syscoinaddress, args.request.value.message, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = "aeiou";
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Sign message ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.validateaddress = function(args, res, next) {
@@ -587,17 +669,25 @@ exports.validateaddress = function(args, res, next) {
    * parameters expected in the args:
   * syscoinaddress (String)
   **/
-  syscoinClient.validateAddress(args.syscoinaddress.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = {
+  "address" : "aeiou",
+  "iscompressed" : true,
+  "iswatchonly" : true,
+  "account" : "aeiou",
+  "pubkey" : "aeiou",
+  "isscript" : true,
+  "ismine" : true,
+  "isvalid" : true
+};
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Validate address ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.verifymessage = function(args, res, next) {
@@ -607,34 +697,32 @@ exports.verifymessage = function(args, res, next) {
   * signature (String)
   * message (String)
   **/
-  syscoinClient.verifyMessage(args.syscoinaddress.value, args.signature.value, args.message.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = true;
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Verify message ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.walletlock = function(args, res, next) {
   /**
    * parameters expected in the args:
   **/
-  syscoinClient.walletLock(function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = "aeiou";
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Wallet lock ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.walletpassphrase = function(args, res, next) {
@@ -642,17 +730,16 @@ exports.walletpassphrase = function(args, res, next) {
    * parameters expected in the args:
   * request (WalletPassphraseRequest)
   **/
-  syscoinClient.walletPassphrase(args.request.value.passphrase, args.request.value.timeout, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = "aeiou";
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Wallet passphrase ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.walletpassphrasechange = function(args, res, next) {
@@ -660,16 +747,15 @@ exports.walletpassphrasechange = function(args, res, next) {
    * parameters expected in the args:
   * request (WalletPassphraseChangeRequest)
   **/
-  syscoinClient.walletPassphraseChange(args.request.value.oldpassphrase, args.request.value.newpassphrase, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = "aeiou";
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Wallet passphrase change ', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 

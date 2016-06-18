@@ -1,7 +1,5 @@
 'use strict';
 
-var syscoinClient = require('../index').syscoinClient;
-
 exports.certfilter = function(args, res, next) {
   /**
    * parameters expected in the args:
@@ -10,17 +8,26 @@ exports.certfilter = function(args, res, next) {
   * from (String)
   * nb (String)
   **/
-  syscoinClient.certFilter(args.regexp.value, args.maxage.value, args.from.value, args.nb.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ {
+  "title" : "aeiou",
+  "expired" : true,
+  "cert" : "aeiou",
+  "alias" : "aeiou",
+  "address" : "aeiou",
+  "data" : "aeiou",
+  "expires_in" : 1.3579000000000001069366817318950779736042022705078125,
+  "expires_on" : 1.3579000000000001069366817318950779736042022705078125,
+  "private" : true
+} ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Cert filter:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.certhistory = function(args, res, next) {
@@ -28,17 +35,27 @@ exports.certhistory = function(args, res, next) {
    * parameters expected in the args:
   * certname (String)
   **/
-  syscoinClient.certHistory(args.certname.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ {
+  "expired" : true,
+  "cert" : "aeiou",
+  "alias" : "aeiou",
+  "address" : "aeiou",
+  "certtype" : "aeiou",
+  "txid" : "aeiou",
+  "data" : "aeiou",
+  "expires_in" : 1.3579000000000001069366817318950779736042022705078125,
+  "expires_on" : 1.3579000000000001069366817318950779736042022705078125,
+  "private" : true
+} ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Alias history:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.certinfo = function(args, res, next) {
@@ -46,34 +63,55 @@ exports.certinfo = function(args, res, next) {
    * parameters expected in the args:
   * certname (String)
   **/
-  syscoinClient.certInfo(args.certname.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = {
+  "title" : "aeiou",
+  "expired" : true,
+  "height" : 1.3579000000000001069366817318950779736042022705078125,
+  "cert" : "aeiou",
+  "alias" : "aeiou",
+  "address" : "aeiou",
+  "data" : "aeiou",
+  "txid" : "aeiou",
+  "expires_in" : 1.3579000000000001069366817318950779736042022705078125,
+  "expires_on" : 1.3579000000000001069366817318950779736042022705078125,
+  "ismine" : true,
+  "private" : true
+};
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Alias info:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.certlist = function(args, res, next) {
   /**
    * parameters expected in the args:
   **/
-  syscoinClient.certList(function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ {
+  "title" : "aeiou",
+  "expired" : true,
+  "cert" : "aeiou",
+  "alias" : "aeiou",
+  "address" : "aeiou",
+  "data" : "aeiou",
+  "expires_in" : 1.3579000000000001069366817318950779736042022705078125,
+  "expires_on" : 1.3579000000000001069366817318950779736042022705078125,
+  "private" : true
+} ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Cert list:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.certnew = function(args, res, next) {
@@ -81,17 +119,16 @@ exports.certnew = function(args, res, next) {
    * parameters expected in the args:
   * request (CertNewRequest)
   **/
-  syscoinClient.certNew(args.request.value.alias, args.request.value.title, args.request.value.data, args.request.value.private, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Cert new:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.certscan = function(args, res, next) {
@@ -100,17 +137,16 @@ exports.certscan = function(args, res, next) {
   * startCert (String)
   * maxReturned (BigDecimal)
   **/
-  syscoinClient.certScan(args.start-cert.value, args.max-returned.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Cert scan', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.certtransfer = function(args, res, next) {
@@ -118,18 +154,16 @@ exports.certtransfer = function(args, res, next) {
    * parameters expected in the args:
   * request (CertTransferRequest)
   **/
-  syscoinClient.certTransfer(args.request.value.certkey, args.request.value.alias, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Cert transfer:', result);
-    res.end(JSON.stringify(result));
-  });
-
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.certupdate = function(args, res, next) {
@@ -137,16 +171,15 @@ exports.certupdate = function(args, res, next) {
    * parameters expected in the args:
   * request (CertUpdateRequest)
   **/
-  syscoinClient.certUpdate(args.request.value.guid, args.request.value.title, args.request.value.data, args.request.value.private, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Cert Update:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 

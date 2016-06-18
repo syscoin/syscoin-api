@@ -1,40 +1,55 @@
 'use strict';
 
-var syscoinClient = require('../index').syscoinClient;
-
 exports.offeraccept = function(args, res, next) {
   /**
    * parameters expected in the args:
   * request (OfferAcceptRequest)
   **/
-  syscoinClient.offerAccept(args.request.value.alias, args.request.value.guid, args.request.value.quantity, args.request.value.message, args.request.value.btcTxId, args.request.value.linkedacceptguidtxhash, args.request.value.escrowTxHash, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Offer accept:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.offeracceptlist = function(args, res, next) {
   /**
    * parameters expected in the args:
   **/
-  syscoinClient.offerAcceptList(function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ {
+  "total" : 1.3579000000000001069366817318950779736042022705078125,
+  "offer_discount_percentage" : 1.3579000000000001069366817318950779736042022705078125,
+  "status" : "aeiou",
+  "alias" : "aeiou",
+  "offer" : "aeiou",
+  "pay_message" : "aeiou",
+  "currency" : "aeiou",
+  "id" : "aeiou",
+  "systotal" : 1.3579000000000001069366817318950779736042022705078125,
+  "title" : "aeiou",
+  "price" : 1.3579000000000001069366817318950779736042022705078125,
+  "height" : 1.3579000000000001069366817318950779736042022705078125,
+  "escrowlink" : "aeiou",
+  "btctxid" : "aeiou",
+  "buyer" : "aeiou",
+  "quantity" : 1.3579000000000001069366817318950779736042022705078125,
+  "linkofferaccept" : "aeiou",
+  "ismine" : true
+} ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Offer accept list:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.offeraddwhitelist = function(args, res, next) {
@@ -42,17 +57,16 @@ exports.offeraddwhitelist = function(args, res, next) {
    * parameters expected in the args:
   * request (OfferAddWhitelistRequest)
   **/
-  syscoinClient.offerAddWhitelist(args.request.value.offerguid, args.request.value.aliasguid, args.request.value.discountPercentage, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Offer add whitelist:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.offerclearwhitelist = function(args, res, next) {
@@ -60,17 +74,16 @@ exports.offerclearwhitelist = function(args, res, next) {
    * parameters expected in the args:
   * request (OfferClearWhitelistRequest)
   **/
-  syscoinClient.offerClearWhitelist(args.request.value.offerguid, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Offer clear whitelist:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.offerfilter = function(args, res, next) {
@@ -81,17 +94,36 @@ exports.offerfilter = function(args, res, next) {
   * from (BigDecimal)
   * nb (BigDecimal)
   **/
-  syscoinClient.offerFilter(args.regexp.value, args.maxage.value, args.from.value, args.nb.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ {
+  "expired" : true,
+  "alias" : "aeiou",
+  "expires_in" : 1.3579000000000001069366817318950779736042022705078125,
+  "btconly" : true,
+  "offer" : "aeiou",
+  "private" : true,
+  "currency" : "aeiou",
+  "title" : "aeiou",
+  "category" : "aeiou",
+  "cert" : "aeiou",
+  "price" : 1.3579000000000001069366817318950779736042022705078125,
+  "alias_peg" : "aeiou",
+  "address" : "aeiou",
+  "description" : "aeiou",
+  "pending" : true,
+  "exclusive_resell" : true,
+  "quantity" : 1.3579000000000001069366817318950779736042022705078125,
+  "expires_on" : 1.3579000000000001069366817318950779736042022705078125,
+  "commission" : 1.3579000000000001069366817318950779736042022705078125
+} ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Offer filter:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.offerhistory = function(args, res, next) {
@@ -99,17 +131,33 @@ exports.offerhistory = function(args, res, next) {
    * parameters expected in the args:
   * offer (String)
   **/
-  syscoinClient.offerHistory(args.offer.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ {
+  "expired" : true,
+  "alias" : "aeiou",
+  "expires_in" : 1.3579000000000001069366817318950779736042022705078125,
+  "offer" : "aeiou",
+  "currency" : "aeiou",
+  "title" : "aeiou",
+  "category" : "aeiou",
+  "height" : true,
+  "offertype" : "aeiou",
+  "cert" : "aeiou",
+  "price" : 1.3579000000000001069366817318950779736042022705078125,
+  "description" : "aeiou",
+  "txid" : "aeiou",
+  "quantity" : 1.3579000000000001069366817318950779736042022705078125,
+  "expires_on" : 1.3579000000000001069366817318950779736042022705078125,
+  "commission" : 1.3579000000000001069366817318950779736042022705078125
+} ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Offer history:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.offerinfo = function(args, res, next) {
@@ -117,17 +165,61 @@ exports.offerinfo = function(args, res, next) {
    * parameters expected in the args:
   * guid (String)
   **/
-  syscoinClient.offerInfo(args.guid.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = {
+  "expired" : true,
+  "alias\"" : "aeiou",
+  "sysprice" : 1.3579000000000001069366817318950779736042022705078125,
+  "offerlink" : true,
+  "expires_in" : 1.3579000000000001069366817318950779736042022705078125,
+  "btconly" : true,
+  "currency" : "aeiou",
+  "private" : true,
+  "title" : "aeiou",
+  "height" : 1.3579000000000001069366817318950779736042022705078125,
+  "cert" : "aeiou",
+  "alias_peg" : "aeiou",
+  "description" : "aeiou",
+  "exclusive_resell" : true,
+  "quantity" : "aeiou",
+  "commission" : 1.3579000000000001069366817318950779736042022705078125,
+  "ismine" : true,
+  "accepts" : [ {
+    "total" : 1.3579000000000001069366817318950779736042022705078125,
+    "offer_discount_percentage" : 1.3579000000000001069366817318950779736042022705078125,
+    "status" : "aeiou",
+    "alias" : "aeiou",
+    "offer" : "aeiou",
+    "pay_message" : "aeiou",
+    "currency" : "aeiou",
+    "id" : "aeiou",
+    "systotal" : 1.3579000000000001069366817318950779736042022705078125,
+    "title" : "aeiou",
+    "price" : 1.3579000000000001069366817318950779736042022705078125,
+    "height" : 1.3579000000000001069366817318950779736042022705078125,
+    "escrowlink" : "aeiou",
+    "btctxid" : "aeiou",
+    "buyer" : "aeiou",
+    "quantity" : 1.3579000000000001069366817318950779736042022705078125,
+    "linkofferaccept" : "aeiou",
+    "ismine" : true
+  } ],
+  "offer" : "aeiou",
+  "offerlink_guid" : "aeiou",
+  "category" : "aeiou",
+  "price" : 1.3579000000000001069366817318950779736042022705078125,
+  "address" : "aeiou",
+  "txid" : "aeiou",
+  "expired_block" : 1.3579000000000001069366817318950779736042022705078125
+};
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Offer info:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.offerlink = function(args, res, next) {
@@ -135,34 +227,52 @@ exports.offerlink = function(args, res, next) {
    * parameters expected in the args:
   * request (OfferLinkRequest)
   **/
-  syscoinClient.offerLink(args.request.value.alias, args.request.value.guid, args.request.value.comission, args.request.value.description, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Offer link:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.offerlist = function(args, res, next) {
   /**
    * parameters expected in the args:
   **/
-  syscoinClient.offerList(function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ {
+  "expired" : true,
+  "alias" : "aeiou",
+  "expires_in" : 1.3579000000000001069366817318950779736042022705078125,
+  "btconly" : true,
+  "offer" : "aeiou",
+  "private" : true,
+  "currency" : "aeiou",
+  "title" : "aeiou",
+  "category" : "aeiou",
+  "cert" : "aeiou",
+  "price" : 1.3579000000000001069366817318950779736042022705078125,
+  "alias_peg" : "aeiou",
+  "address" : "aeiou",
+  "description" : "aeiou",
+  "pending" : true,
+  "exclusive_resell" : true,
+  "quantity" : 1.3579000000000001069366817318950779736042022705078125,
+  "expires_on" : 1.3579000000000001069366817318950779736042022705078125,
+  "commission" : 1.3579000000000001069366817318950779736042022705078125
+} ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Offer list:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.offernew = function(args, res, next) {
@@ -170,17 +280,16 @@ exports.offernew = function(args, res, next) {
    * parameters expected in the args:
   * request (OfferNewRequest)
   **/
-  syscoinClient.offerNew(args.request.value.aliaspeg, args.request.value.alias, args.request.value.category, args.request.value.title, args.request.value.quantity, args.request.value.price, args.request.value.description, args.request.value.currency, args.request.value.certguid, args.request.value.excelusiveResell, args.request.value.acceptBTCOnly, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Offer new:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.offerremovewhitelist = function(args, res, next) {
@@ -188,17 +297,16 @@ exports.offerremovewhitelist = function(args, res, next) {
    * parameters expected in the args:
   * request (OfferRemoveWhitelistRequest)
   **/
-  syscoinClient.offerRemoveWhitelist(args.request.value.offerguid, args.request.value.aliasguid, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Offer remove whitelist:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.offerscan = function(args, res, next) {
@@ -207,17 +315,16 @@ exports.offerscan = function(args, res, next) {
   * startOffer (String)
   * maxReturned (BigDecimal)
   **/
-  syscoinClient.offerScan(args.startOffer.value, args.maxReturned.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Alias affiliates:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.offerupdate = function(args, res, next) {
@@ -225,17 +332,16 @@ exports.offerupdate = function(args, res, next) {
    * parameters expected in the args:
   * request (OfferUpdateRequest)
   **/
-  syscoinClient.offerUpdate(args.request.value.aliaspeg, args.request.value.alias, args.request.value.guid, args.request.value.category, args.request.value.title, args.request.value.quantity, args.request.value.price, args.request.value.description, args.request.value.private, args.request.value.certguid, args.request.value.excelusiveResell, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Offer update:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.offerwhitelist = function(args, res, next) {
@@ -243,16 +349,19 @@ exports.offerwhitelist = function(args, res, next) {
    * parameters expected in the args:
   * offerguid (String)
   **/
-  syscoinClient.offerWhitelist(args.offerguid.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ {
+  "offer_discount_percentage" : 1.3579000000000001069366817318950779736042022705078125,
+  "alias" : "aeiou",
+  "expiresin" : 1.3579000000000001069366817318950779736042022705078125
+} ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Offer whitelist:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 

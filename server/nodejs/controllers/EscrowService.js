@@ -1,23 +1,20 @@
 'use strict';
 
-var syscoinClient = require('../index').syscoinClient;
-
 exports.escrowclaimrefund = function(args, res, next) {
   /**
    * parameters expected in the args:
   * request (EscrowClaimRefundRequest)
   **/
-  syscoinClient.escrowClaimRefund(args.request.value.guid, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Escrow claim refund:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.escrowclaimrelease = function(args, res, next) {
@@ -25,17 +22,16 @@ exports.escrowclaimrelease = function(args, res, next) {
    * parameters expected in the args:
   * request (EscrowClaimReleaseRequest)
   **/
-  syscoinClient.escrowClaimRelease(args.request.value.guid, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Escrow claim release:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.escrowcomplete = function(args, res, next) {
@@ -43,17 +39,15 @@ exports.escrowcomplete = function(args, res, next) {
    * parameters expected in the args:
   * request (EscrowCompleteRequest)
   **/
-  syscoinClient.escrowComplete(args.request.value.guid, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Escrow complete:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
   
 }
 
@@ -65,17 +59,28 @@ exports.escrowfilter = function(args, res, next) {
   * from (BigDecimal)
   * nb (BigDecimal)
   **/
-  syscoinClient.escrowFilter(args.search.value, args.maxage.value, args.from.value, args.nb.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ {
+  "total" : 1.3579000000000001069366817318950779736042022705078125,
+  "offeracceptlink" : "aeiou",
+  "offertitle" : "aeiou",
+  "time" : 1.3579000000000001069366817318950779736042022705078125,
+  "expired" : true,
+  "escrow" : "aeiou",
+  "arbiter" : "aeiou",
+  "status" : "aeiou",
+  "buyer" : "aeiou",
+  "offer" : "aeiou",
+  "seller" : "aeiou"
+} ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Escrow filter:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.escrowhistory = function(args, res, next) {
@@ -83,17 +88,29 @@ exports.escrowhistory = function(args, res, next) {
    * parameters expected in the args:
   * escrow (String)
   **/
-  syscoinClient.escrowHistory(args.escrow.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ {
+  "total" : 1.3579000000000001069366817318950779736042022705078125,
+  "escrowtype" : "aeiou",
+  "offeracceptlink" : "aeiou",
+  "offertitle" : "aeiou",
+  "height" : 1.3579000000000001069366817318950779736042022705078125,
+  "expired" : true,
+  "escrow" : "aeiou",
+  "arbiter" : "aeiou",
+  "buyer" : "aeiou",
+  "txid" : "aeiou",
+  "offer" : "aeiou",
+  "seller" : "aeiou"
+} ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Escrow history:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.escrowinfo = function(args, res, next) {
@@ -101,34 +118,59 @@ exports.escrowinfo = function(args, res, next) {
    * parameters expected in the args:
   * escrow (String)
   **/
-  syscoinClient.escrowInfo(args.escrow.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = {
+  "total" : 1.3579000000000001069366817318950779736042022705078125,
+  "escrow" : "aeiou",
+  "sysfee" : 1.3579000000000001069366817318950779736042022705078125,
+  "offer" : "aeiou",
+  "seller" : "aeiou",
+  "pay_message" : "aeiou",
+  "systotal" : 1.3579000000000001069366817318950779736042022705078125,
+  "time" : "aeiou",
+  "offertitle" : "aeiou",
+  "offeracceptlink" : "aeiou",
+  "height" : 1.3579000000000001069366817318950779736042022705078125,
+  "arbiter" : "aeiou",
+  "buyer" : "aeiou",
+  "txid" : "aeiou"
+};
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Escrow info:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.escrowlist = function(args, res, next) {
   /**
    * parameters expected in the args:
   **/
-  syscoinClient.escrowList(function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ {
+  "total" : 1.3579000000000001069366817318950779736042022705078125,
+  "offeracceptlink" : "aeiou",
+  "offertitle" : "aeiou",
+  "time" : 1.3579000000000001069366817318950779736042022705078125,
+  "expired" : true,
+  "escrow" : "aeiou",
+  "arbiter" : "aeiou",
+  "status" : "aeiou",
+  "buyer" : "aeiou",
+  "offer" : "aeiou",
+  "seller" : "aeiou"
+} ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Escrow list:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.escrownew = function(args, res, next) {
@@ -136,17 +178,16 @@ exports.escrownew = function(args, res, next) {
    * parameters expected in the args:
   * request (EscrowNewRequest)
   **/
-  syscoinClient.escrowNew(args.request.value.alias, args.request.value.offer, args.request.value.quantity, args.request.value.message, args.request.value.arbiter, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Escrow new:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.escrowscan = function(args, res, next) {
@@ -155,16 +196,15 @@ exports.escrowscan = function(args, res, next) {
   * startEscrow (String)
   * maxReturned (BigDecimal)
   **/
-  syscoinClient.escrowScan(args.startEscrow.value, args.maxReturned.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Escrow scan:', result);
-    res.end(JSON.stringify(result));
-  });
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 

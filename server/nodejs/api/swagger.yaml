@@ -891,6 +891,7 @@ paths:
           description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
+      security: []
       x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
   /getmininginfo:
@@ -909,6 +910,8 @@ paths:
           description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
       x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
   /getnewaddress:
@@ -2116,6 +2119,11 @@ paths:
             $ref: "#/definitions/ErrorResponse"
       x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
+securityDefinitions:
+  token:
+    type: "apiKey"
+    name: "token"
+    in: "header"
 definitions:
   Info:
     required:
