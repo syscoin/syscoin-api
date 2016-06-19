@@ -1403,6 +1403,29 @@ paths:
             $ref: "#/definitions/ErrorResponse"
       x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
+  /login:
+    get:
+      tags:
+      - "Blockmarket"
+      description: "Returns a session token for use with subsquent protected calls."
+      operationId: "login"
+      parameters:
+      - name: "auth"
+        in: "query"
+        description: "MD5 hash of the user's authentication information- username:password."
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: "Blockmarket"
+    x-swagger-router-controller: "rpc"
   /messagehistory:
     get:
       tags:
