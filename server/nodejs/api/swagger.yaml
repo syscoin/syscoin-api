@@ -3,7 +3,7 @@ swagger: "2.0"
 info:
   version: "1.0.0"
   title: "Syscoin API"
-host: "localhost:8000"
+host: "localhost:8001"
 basePath: "/"
 tags:
 - name: "General"
@@ -910,8 +910,6 @@ paths:
           description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-      security:
-      - token: []
       x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
   /getnewaddress:
@@ -1424,6 +1422,7 @@ paths:
           description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
+      security: []
       x-swagger-router-controller: "Blockmarket"
     x-swagger-router-controller: "rpc"
   /messagehistory:
@@ -3656,3 +3655,5 @@ definitions:
       newpassphrase:
         type: "string"
         description: "The new passphrase"
+security:
+- token: []

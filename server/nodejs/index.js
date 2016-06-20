@@ -14,10 +14,7 @@ var lineReader = require('readline').createInterface({
   input: fs.createReadStream(config.sys_location + "syscoin.conf")
 });
 
-
 var syscoinClient, rpcuser, rpcpass, rpcport;
-
-
 
 lineReader.on('line', function (line) {
   if(line.indexOf('rpcuser') != -1) {
@@ -58,7 +55,7 @@ var swaggerDoc, options;
 function initSwagger() {
   // swaggerRouter configuration
   options = {
-    swaggerUi: '/swagger.json',
+    swaggerUiDir: '../../swagger-ui/dist',
     controllers: './controllers',
     useStubs: process.env.NODE_ENV === 'development' ? true : false // Conditionally turn on stubs (mock mode)
   };
@@ -76,43 +73,17 @@ function initHttp() {
     next();
   });
 
-// AUTH with JWT
-  app.use(function(req, res, next) {
-
-    // check header or url parameters or post parameters for token
-    //var token = req.body.token || req.query.token || req.headers['x-access-token'];
-    //
-    //// decode token
-    //if (token) {
-    //
-    //  // verifies secret and checks exp
-    //  jwt.verify(token, config.api_secret, function(err, decoded) {
-    //    if (err) {
-    //      return res.json({ success: false, message: 'Failed to authenticate token.' });
-    //    } else {
-    //      // if everything is good, save to request for use in other routes
-    //      req.decoded = decoded;
-    //      next();
-    //    }
-    //  });
-    //
-    //} else {
-    //
-    //  // if there is no token
-    //  // return an error
-    //  return res.status(403).send({
-    //    success: false,
-    //    message: 'No token provided.'
-    //  });
-    //
-    //}
-    next();
-  });
-
   // Initialize the Swagger middleware
   swaggerTools.initializeMiddleware(swaggerDoc, function (middleware) {
     // Interpret Swagger resources and attach metadata to request - must be first in swagger-tools middleware chain
     app.use(middleware.swaggerMetadata());
+
+    // Route security
+    var securityOptions = {
+      token : authCheck
+    };
+
+    app.use(middleware.swaggerSecurity(securityOptions));
 
     // Validate Swagger requests
     app.use(middleware.swaggerValidator());
@@ -121,7 +92,7 @@ function initHttp() {
     app.use(middleware.swaggerRouter(options));
 
     // Serve the Swagger documents and Swagger UI
-    app.use(middleware.swaggerUi());
+    app.use(middleware.swaggerUi(options));
 
     // Start the server
     http.createServer(app).listen(config.port, function () {
@@ -129,6 +100,37 @@ function initHttp() {
       console.log('Swagger-ui is available on http://localhost:%d/docs', config.port);
     });
   });
+
+  function authCheck(req, authOrSecDef, scopesOrApiKey, callback) {
+    var authToken = req.headers.token || (req.token ? req.token.value : null);
+
+    console.log("Performing security check for TOKEN:", authToken);
+
+    if (authToken) {
+      // verifies secret and checks exp
+      jwt.verify(authToken, config.api_secret, function(err, decoded) {
+        if (err) {
+          console.log("VERIFY ERROR: " + err);
+          return callback({
+            message: "Invalid token.",
+            code: "InvalidToken",
+            statusCode: 401,
+            headers: []
+          });
+        } else {
+          // if everything is good, save to request for use in other routes
+          callback();
+        }
+      });
+    }else{
+      callback({
+        message: "No token provided.",
+        code: "NoTokenProvided",
+        statusCode: 401,
+        headers: []
+      });
+    }
+  }
 }
 
 
