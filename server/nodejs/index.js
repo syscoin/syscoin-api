@@ -6,6 +6,7 @@ var swaggerTools = require('swagger-tools');
 var jsyaml = require('js-yaml');
 var fs = require('fs');
 var jwt    = require('jsonwebtoken');
+var cors = require('cors');
 
 //load external config
 var config = require('./config');
@@ -68,10 +69,11 @@ function initSwagger() {
 function initHttp() {
 
   //CORS
-  app.use(function(req, res, next) {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    next();
-  });
+  app.use(cors({
+    "origin": "*",
+    "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+    "preflightContinue": false //critical for proper swagger cors operations
+  }));
 
   // Initialize the Swagger middleware
   swaggerTools.initializeMiddleware(swaggerDoc, function (middleware) {
