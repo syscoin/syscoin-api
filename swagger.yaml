@@ -1,3502 +1,3753 @@
+---
 swagger: "2.0"
 info:
   version: "1.0.0"
-  title: Syscoin API
-host: localhost:8001
-basePath: /
-schemes:
-  # remove http to make production-grade
-  - http
-  - https
-consumes:
-  - application/json
-produces:
-  - application/json
+  title: "Syscoin API"
+host: "localhost:8001"
+basePath: "/"
 tags:
-- name: General
-  description: All general wallet operations.
-- name: Aliases
-  description: Operations related to aliases.
-- name: Messaging
-  description: Operations related to messaging.
-- name: Offers
-  description: Operations related to offers and the decentralized marketplace functionality.
-- name: Escrow
-  description: Operations related to escrow.
-- name: Certificates
-  description: Operations related to digital certificates.
-securityDefinitions:
-  token:
-    type: apiKey
-    in: header
-    name: token
-security:
-  - token: []
+- name: "General"
+  description: "All general wallet operations."
+- name: "Aliases"
+  description: "Operations related to aliases."
+- name: "Messaging"
+  description: "Operations related to messaging."
+- name: "Offers"
+  description: "Operations related to offers and the decentralized marketplace functionality."
+- name: "Escrow"
+  description: "Operations related to escrow."
+- name: "Certificates"
+  description: "Operations related to digital certificates."
+schemes:
+- "http"
+- "https"
+consumes:
+- "application/json"
+produces:
+- "application/json"
 paths:
-  /login:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: login
-      security: []
-      description: Returns a session token for use with subsquent protected calls.
-      tags:
-      - Blockmarket
-      parameters:
-      - name: auth
-        description: MD5 hash of the user's authentication information- username:password.
-        in: query
-        required: true
-        type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: string
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-  /getinfo:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: getinfo
-      security: []
-      description: Returns an object containing various state info.
-      tags:
-      - General
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: "#/definitions/Info"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /getmininginfo:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: getmininginfo
-      description: Returns a json object containing mining-related information.
-      tags:
-      - General
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: "#/definitions/MiningInfo"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /getpeerinfo:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: getpeerinfo
-      description: Returns data about each connected network node as a json array of objects.
-      tags:
-      - General
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: "#/definitions/PeerInfoResponse"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /validateaddress:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: validateaddress
-      description: Return information about the given syscoin address.
-      tags:
-      - General
-      parameters:
-      - name: syscoinaddress
-        in: query
-        required: true
-        type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: "#/definitions/ValidateAddressResponse"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /verifymessage:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: verifymessage
-      description: Verify a signed message
-      tags:
-      - General
-      parameters:
-      - name: syscoinaddress
-        description: The syscoin address to use for the signature.
-        in: query
-        required: true
-        type: string
-      - name: signature
-        description: The signature provided by the signer in base 64 encoding (see signmessage).
-        in: query
-        required: true
-        type: string
-      - name: message
-        description: The message that was signed.
-        in: query
-        required: true
-        type: string
-      responses:
-        "200":
-          description: If the signature is verified or not.
-          schema:
-            type: boolean
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
   /addmultisigaddress:
-    x-swagger-router-controller: rpc
     post:
-      operationId: addmultisigaddress
-      description: Add a nrequired-to-sign multisignature address to the wallet. Each key is a Syscoin address or hex-encoded public key. If 'account' is specified (DEPRECATED), assign address to that account.
       tags:
-      - General
+      - "General"
+      description: "Add a nrequired-to-sign multisignature address to the wallet.\
+        \ Each key is a Syscoin address or hex-encoded public key. If 'account' is\
+        \ specified (DEPRECATED), assign address to that account."
+      operationId: "addmultisigaddress"
       parameters:
-      - name: request
-        in: body
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/AddMultisigAddressRequest"
       responses:
-        "200":
-          description: A syscoin address associated with the keys.
+        200:
+          description: "A syscoin address associated with the keys."
           schema:
-            type: string
+            type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /aliasaffiliates:
-    x-swagger-router-controller: rpc
     get:
-      operationId: aliasaffiliates
-      description: list affiliations with merchant offers.
       tags:
-      - Aliases
+      - "Aliases"
+      description: "list affiliations with merchant offers."
+      operationId: "aliasaffiliates"
+      parameters: []
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
-              type: object #TODO: define type
+              type: "object"
+              properties: {}
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
-  /aliasfilter:
-    x-swagger-router-controller: rpc
+      x-swagger-router-controller: "Aliases"
+    x-swagger-router-controller: "rpc"
+  /aliasstats:
     get:
-      operationId: aliasfilter
-      description: Filter aliases
       tags:
-      - Aliases
+      - "Aliases"
+      description: "Show statistics for all non-expired aliases. Only aliases created or updated after unixtime are returned."
+      operationId: "aliasstats"
       parameters:
-      - name: regexp
-        in: query
-        description: apply [regexp] on aliases, empty means all aliases
-        required: true
-        type: string
-      - name: maxage
-        in: query
-        description: look in last [maxage] blocks
+      - name: "unixtime"
+        in: "query"
+        description: "Only aliases created or updated after unixtime are returned. Timestamp in seconds after epoc. Leave empty to get all non-expired aliases"
         required: false
-        type: number
-      - name: from
-        in: query
-        description: show results from number [from]
-        required: false
-        type: number
-      - name: nb
-        in: query
-        description: show [nb] results, 0 means all
-        required: false
-        type: number
+        type: "number"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            items:
+              $ref: "#/definitions/Alias"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: "Aliases"
+    x-swagger-router-controller: "rpc"    
+  /aliasfilter:
+    get:
+      tags:
+      - "Aliases"
+      description: "Filter aliases"
+      operationId: "aliasfilter"
+      parameters:
+      - name: "regexp"
+        in: "query"
+        description: "apply [regexp] on aliases, empty means all aliases"
+        required: true
+        type: "string"
+      - name: "from"
+        in: "query"
+        description: "show results from this GUID [from], empty means first"
+        required: false
+        type: "string"
+      - name: "safesearch"
+        in: "query"
+        description: "shows all aliases that are safe to display (not on the ban list)"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "array"
             items:
               $ref: "#/definitions/AliasListEntry"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Aliases"
+    x-swagger-router-controller: "rpc"
   /aliashistory:
-    x-swagger-router-controller: rpc
     get:
-      operationId: aliashistory
-      description: List all stored values of an alias.
       tags:
-      - Aliases
+      - "Aliases"
+      description: "List all stored values of an alias."
+      operationId: "aliashistory"
       parameters:
-      - name: aliasname
-        in: query
+      - name: "aliasname"
+        in: "query"
         required: true
-        type: string
+        type: "string"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
               $ref: "#/definitions/AliasHistoryEntry"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Aliases"
+    x-swagger-router-controller: "rpc"
   /aliasinfo:
-    x-swagger-router-controller: rpc
     get:
-      operationId: aliasinfo
-      description: Show values of an alias.
       tags:
-      - Aliases
+      - "Aliases"
+      description: "Show values of an alias."
+      operationId: "aliasinfo"
       parameters:
-      - name: aliasname
-        in: query
+      - name: "aliasname"
+        in: "query"
         required: true
-        type: string
+        type: "string"
+      - name: "walletless"
+        in: "query"
+        description: "If this call is happening via a walletless interface where decryption of private information happens by the caller set to true"
+        required: false
+        type: "boolean"        
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
             $ref: "#/definitions/Alias"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Aliases"
+    x-swagger-router-controller: "rpc"
   /aliaslist:
-    x-swagger-router-controller: rpc
     get:
-      operationId: aliaslist
-      description: List my own aliases.
       tags:
-      - Aliases
+      - "Aliases"
+      description: "List my own aliases."
+      operationId: "aliaslist"
       parameters:
-      - name: aliasname
-        description: Alias name to use as filter.
-        in: query
+      - name: "aliasname"
+        in: "query"
+        description: "Alias name to use as filter."
         required: false
-        type: string
+        type: "string"
+      - name: "walletless"
+        in: "query"
+        description: "If this call is happening via a walletless interface where decryption of private information happens by the caller set to true"
+        required: false
+        type: "boolean"          
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
               $ref: "#/definitions/AliasListEntry"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Aliases"
+    x-swagger-router-controller: "rpc"
   /aliasnew:
-    x-swagger-router-controller: rpc
     post:
-      operationId: aliasnew
-      description: Creates a new Syscoin Alias. Requires wallet passphrase to be set with walletpassphrase call.
       tags:
-      - Aliases
+      - "Aliases"
+      description: "Creates a new Syscoin Alias. If caller is running a wallet requires wallet passphrase to be\
+        \ set with walletpassphrase call."
+      operationId: "aliasnew"
       parameters:
-      - name: request
-        in: body
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/AliasNewRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
-              type: string
+              type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
-  /aliasscan:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: aliasscan
-      description: Scan all aliases, starting at start-name and returning a maximum number of entries (default 500)
-      tags:
-      - Aliases
-      parameters:
-      - name: start-name
-        in: query
-        required: false
-        type: string
-      - name: max-returned
-        in: query
-        required: false
-        type: number
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              type: string #TODO: could not execute RPC command, error'd
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Aliases"
+    x-swagger-router-controller: "rpc"
   /aliasupdate:
-    x-swagger-router-controller: rpc
     post:
-      operationId: aliasupdate
-      description: Update and possibly transfer an alias. Requires wallet passphrase to be set with walletpassphrase call.
       tags:
-      - Aliases
+      - "Aliases"
+      description: "Update and possibly transfer an alias."
+      operationId: "aliasupdate"
       parameters:
-      - name: request
-        in: body
+      - in: "body"
+        name: "request"
         required: true
         schema:
-            $ref: "#/definitions/AliasUpdateRequest"
+          $ref: "#/definitions/AliasUpdateRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
-              type: string
+              type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: "Aliases"
+    x-swagger-router-controller: "rpc"
   /certfilter:
-    x-swagger-router-controller: rpc
     get:
-      operationId: certfilter
-      description: scan and filter certs
       tags:
-      - Certificates
+      - "Certificates"
+      description: "scan and filter certs"
+      operationId: "certfilter"
       parameters:
-      - name: regexp
-        in: query
-        description: apply [regexp] on certes, empty means all certes
+      - name: "regexp"
+        in: "query"
+        description: "apply [regexp] on certes, empty means all certes"
         required: false
-        type: string
-      - name: maxage
-        in: query
-        description: look in last [maxage] blocks
+        type: "string"
+      - name: "maxage"
+        in: "query"
+        description: "look in last [maxage] blocks"
         required: false
-        type: string
-      - name: from
-        in: query
-        description: show results from number [from]
+        type: "string"
+      - name: "from"
+        in: "query"
+        description: "show results from number [from]"
         required: false
-        type: string
-      - name: nb
-        in: query
-        description: show [nb] results, 0 means all
+        type: "string"
+      - name: "nb"
+        in: "query"
+        description: "show [nb] results, 0 means all"
         required: false
-        type: string
+        type: "string"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
               $ref: "#/definitions/CertListEntry"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Certificates"
+    x-swagger-router-controller: "rpc"
   /certhistory:
-    x-swagger-router-controller: rpc
     get:
-      operationId: certhistory
-      description: List all stored values of an cert.
       tags:
-      - Certificates
+      - "Certificates"
+      description: "List all stored values of an cert."
+      operationId: "certhistory"
       parameters:
-      - name: certname
-        in: query
+      - name: "certname"
+        in: "query"
         required: true
-        type: string
+        type: "string"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
               $ref: "#/definitions/CertHistoryEntry"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Certificates"
+    x-swagger-router-controller: "rpc"
   /certinfo:
-    x-swagger-router-controller: rpc
     get:
-      operationId: certinfo
-      description: Show stored values of a single certificate.
       tags:
-      - Certificates
+      - "Certificates"
+      description: "Show stored values of a single certificate."
+      operationId: "certinfo"
       parameters:
-      - name: certname
-        in: query
+      - name: "certname"
+        in: "query"
         required: true
-        type: string
+        type: "string"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
             $ref: "#/definitions/Cert"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Certificates"
+    x-swagger-router-controller: "rpc"
   /certlist:
-    x-swagger-router-controller: rpc
     get:
-      operationId: certlist
-      description: Show stored values of a single certificate.
       tags:
-      - Certificates
+      - "Certificates"
+      description: "Show stored values of a single certificate."
+      operationId: "certlist"
+      parameters: []
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
               $ref: "#/definitions/CertListEntry"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Certificates"
+    x-swagger-router-controller: "rpc"
   /certnew:
-    x-swagger-router-controller: rpc
     post:
-      operationId: certnew
-      description: Create a new Syscoin Certificate. Requires wallet passphrase to be set with walletpassphrase call.
       tags:
-      - Certificates
+      - "Certificates"
+      description: "Create a new Syscoin Certificate. Requires wallet passphrase to\
+        \ be set with walletpassphrase call."
+      operationId: "certnew"
       parameters:
-      - name: request
-        in: body
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/CertNewRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
-              type: string
+              type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Certificates"
+    x-swagger-router-controller: "rpc"
   /certscan:
-    x-swagger-router-controller: rpc
     get:
-      operationId: certscan
-      description: scan all certs, starting at start-cert and returning a maximum number of entries (default 500)
       tags:
-      - Certificates
+      - "Certificates"
+      description: "scan all certs, starting at start-cert and returning a maximum\
+        \ number of entries (default 500)"
+      operationId: "certscan"
       parameters:
-      - name: start-cert
-        in: query
+      - name: "start-cert"
+        in: "query"
         required: false
-        type: string
-      - name: max-returned
-        in: query
+        type: "string"
+      - name: "max-returned"
+        in: "query"
         required: false
-        type: number
+        type: "number"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
-              type: string #TODO: could not execute RPC command, error'd
+              type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Certificates"
+    x-swagger-router-controller: "rpc"
   /certtransfer:
-    x-swagger-router-controller: rpc
     post:
-      operationId: certtransfer
-      description: Transfer certificate from one user to another. Requires wallet passphrase to be set with walletpassphrase call.
       tags:
-      - Certificates
+      - "Certificates"
+      description: "Transfer certificate from one user to another. Requires wallet\
+        \ passphrase to be set with walletpassphrase call."
+      operationId: "certtransfer"
       parameters:
-      - name: request
-        in: body
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/CertTransferRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
-              type: string #TODO: assuming this returns array of txid related strings, check
+              type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Certificates"
+    x-swagger-router-controller: "rpc"
   /certupdate:
-    x-swagger-router-controller: rpc
     post:
-      operationId: certupdate
-      description: Perform an update on an certificate you control. Requires wallet passphrase to be set with walletpassphrase call.
       tags:
-      - Certificates
+      - "Certificates"
+      description: "Perform an update on an certificate you control. Requires wallet\
+        \ passphrase to be set with walletpassphrase call."
+      operationId: "certupdate"
       parameters:
-      - name: request
-        in: body
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/CertUpdateRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
-              type: string
+              type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Certificates"
+    x-swagger-router-controller: "rpc"
   /dumpprivkey:
-    x-swagger-router-controller: rpc
     get:
-      operationId: dumpprivkey
-      description: Reveals the private key corresponding to 'syscoinaddress'. Then the importprivkey can be used with this output.
       tags:
-      - General
+      - "General"
+      description: "Reveals the private key corresponding to 'syscoinaddress'. Then\
+        \ the importprivkey can be used with this output."
+      operationId: "dumpprivkey"
       parameters:
-      - name: address
-        description: The syscoin address for the private key
-        in: query
+      - name: "address"
+        in: "query"
+        description: "The syscoin address for the private key"
         required: true
-        type: string
+        type: "string"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: string
+            type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /dumpwallet:
-    x-swagger-router-controller: rpc
     get:
-      operationId: dumpwallet
-      description: Dumps all wallet keys in a human-readable format.
       tags:
-      - General
+      - "General"
+      description: "Dumps all wallet keys in a human-readable format."
+      operationId: "dumpwallet"
       parameters:
-      - name: filename
-        description: The filename
-        in: query
+      - name: "filename"
+        in: "query"
+        description: "The filename"
         required: true
-        type: string
+        type: "string"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: string
+            type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /escrowclaimrefund:
-    x-swagger-router-controller: rpc
     post:
-      operationId: escrowclaimrefund
-      description: Claim escrow funds released from seller or arbiter using escrowrefund. Requires wallet passphrase to be set with walletpassphrase call.
       tags:
-      - Escrow
+      - "Escrow"
+      description: "Claim escrow funds released from seller or arbiter using escrowrefund.\
+        \ Requires wallet passphrase to be set with walletpassphrase call."
+      operationId: "escrowclaimrefund"
       parameters:
-      - name: request
-        in: body
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/EscrowClaimRefundRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
-              type: string #TODO: double check
+              type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Escrow"
+    x-swagger-router-controller: "rpc"
   /escrowclaimrelease:
-    x-swagger-router-controller: rpc
     post:
-      operationId: escrowclaimrelease
-      description: Claim escrow funds released from buyer or arbiter using escrowrelease. Requires wallet passphrase to be set with walletpassphrase call.
       tags:
-      - Escrow
+      - "Escrow"
+      description: "Claim escrow funds released from buyer or arbiter using escrowrelease.\
+        \ Requires wallet passphrase to be set with walletpassphrase call."
+      operationId: "escrowclaimrelease"
       parameters:
-      - name: request
-        in: body
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/EscrowClaimReleaseRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
-              type: string #TODO: double check
+              type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Escrow"
+    x-swagger-router-controller: "rpc"
   /escrowcomplete:
-    x-swagger-router-controller: rpc
     post:
-      operationId: escrowcomplete
-      description: Accepts an offer that's in escrow, to complete the escrow process. Requires wallet passphrase to be set with walletpassphrase call.
       tags:
-      - Escrow
+      - "Escrow"
+      description: "Accepts an offer that's in escrow, to complete the escrow process.\
+        \ Requires wallet passphrase to be set with walletpassphrase call."
+      operationId: "escrowcomplete"
       parameters:
-      - name: request
-        in: body
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/EscrowCompleteRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
-              type: string #TODO: double check
+              type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Escrow"
+    x-swagger-router-controller: "rpc"
   /escrowfilter:
-    x-swagger-router-controller: rpc
     get:
-      operationId: escrowfilter
-      description: scan and filter escrows
       tags:
-      - Escrow
+      - "Escrow"
+      description: "scan and filter escrows"
+      operationId: "escrowfilter"
       parameters:
-      - name: search
-        in: query
-        description: Find arbiter or seller via alias name or an escrow GUID, empty means all escrows
+      - name: "search"
+        in: "query"
+        description: "Find arbiter or seller via alias name or an escrow GUID, empty\
+          \ means all escrows"
         required: true
-        type: string
-      - name: maxage
-        in: query
-        description: look in last [maxage] blocks
+        type: "string"
+      - name: "maxage"
+        in: "query"
+        description: "look in last [maxage] blocks"
         required: false
-        type: number
-      - name: from
-        in: query
-        description: show results from number [from]
+        type: "number"
+      - name: "from"
+        in: "query"
+        description: "show results from number [from]"
         required: false
-        type: number
-      - name: nb
-        in: query
-        description: show [nb] results, 0 means all
+        type: "number"
+      - name: "nb"
+        in: "query"
+        description: "show [nb] results, 0 means all"
         required: false
-        type: number
+        type: "number"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
               $ref: "#/definitions/EscrowListEntry"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Escrow"
+    x-swagger-router-controller: "rpc"
   /escrowhistory:
-    x-swagger-router-controller: rpc
     get:
-      operationId: escrowhistory
-      description: List all stored values of an escrow.
       tags:
-      - Escrow
+      - "Escrow"
+      description: "List all stored values of an escrow."
+      operationId: "escrowhistory"
       parameters:
-      - name: escrow
-        in: query
+      - name: "escrow"
+        in: "query"
         required: true
-        type: string
+        type: "string"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
               $ref: "#/definitions/EscrowHistoryEntry"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Escrow"
+    x-swagger-router-controller: "rpc"
   /escrowinfo:
-    x-swagger-router-controller: rpc
     get:
-      operationId: escrowinfo
-      description: Show stored values of a single escrow
       tags:
-      - Escrow
+      - "Escrow"
+      description: "Show stored values of a single escrow"
+      operationId: "escrowinfo"
       parameters:
-      - name: escrow
-        in: query
+      - name: "escrow"
+        in: "query"
         required: true
-        type: string
+        type: "string"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
             $ref: "#/definitions/Escrow"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Escrow"
+    x-swagger-router-controller: "rpc"
   /escrowlist:
-    x-swagger-router-controller: rpc
     get:
-      operationId: escrowlist
-      description: list my own escrows
       tags:
-      - Escrow
+      - "Escrow"
+      description: "list my own escrows"
+      operationId: "escrowlist"
+      parameters: []
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
               $ref: "#/definitions/EscrowListEntry"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Escrow"
+    x-swagger-router-controller: "rpc"
   /escrownew:
-    x-swagger-router-controller: rpc
     post:
-      operationId: escrownew
-      description: Create new arbitrated Syscoin escrow.
       tags:
-      - Escrow
+      - "Escrow"
+      description: "Create new arbitrated Syscoin escrow."
+      operationId: "escrownew"
       parameters:
-      - name: request
-        in: body
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/EscrowNewRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
-              type: string
+              type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Escrow"
+    x-swagger-router-controller: "rpc"
   /escrowscan:
-    x-swagger-router-controller: rpc
     get:
-      operationId: escrowscan
-      description: scan all escrows, starting at start-escrow and returning a maximum number of entries (default 500)
       tags:
-      - Escrow
+      - "Escrow"
+      description: "scan all escrows, starting at start-escrow and returning a maximum\
+        \ number of entries (default 500)"
+      operationId: "escrowscan"
       parameters:
-      - name: start-escrow
-        in: query
+      - name: "start-escrow"
+        in: "query"
         required: false
-        type: string
-      - name: max-returned
-        in: query
+        type: "string"
+      - name: "max-returned"
+        in: "query"
         required: false
-        type: number
+        type: "number"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
-              type: string #TODO: could not execute RPC command, error'd
+              type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
-  /getaccount: #deprecated- what is the replacement?
-    x-swagger-router-controller: rpc
+      x-swagger-router-controller: "Escrow"
+    x-swagger-router-controller: "rpc"
+  /getaccount:
     get:
-      operationId: getaccount
-      description: DEPRECATED. Returns the account associated with the given address.
       tags:
-      - General
+      - "General"
+      description: "DEPRECATED. Returns the account associated with the given address."
+      operationId: "getaccount"
       parameters:
-      - name: syscoinaddress
-        description: The syscoin address for account lookup.
-        in: query
+      - name: "syscoinaddress"
+        in: "query"
+        description: "The syscoin address for account lookup."
         required: true
-        type: string
+        type: "string"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: string
+            type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
-  /getaccountaddress: #deprecated- what is the replacement?
-    x-swagger-router-controller: rpc
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /getaccountaddress:
     get:
-      operationId: getaccountaddress
-      description: DEPRECATED. Returns the current Syscoin address for receiving payments to this account.
       tags:
-      - General
+      - "General"
+      description: "DEPRECATED. Returns the current Syscoin address for receiving\
+        \ payments to this account."
+      operationId: "getaccountaddress"
       parameters:
-      - name: account
-        description: The account name for the address. It can also be set to the empty string "" to represent the default account. The account does not need to exist, it will be created and a new address created  if there is no account by the given name.
-        in: query
+      - name: "account"
+        in: "query"
+        description: "The account name for the address. It can also be set to the\
+          \ empty string \"\" to represent the default account. The account does not\
+          \ need to exist, it will be created and a new address created  if there\
+          \ is no account by the given name."
         required: true
-        type: string
+        type: "string"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: string
+            type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
-  /getaddressesbyaccount: #deprecated- what is the replacement?
-    x-swagger-router-controller: rpc
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /getaddressesbyaccount:
     get:
-      operationId: getaddressesbyaccount
-      description: DEPRECATED. Returns the list of addresses for the given account.
       tags:
-      - General
+      - "General"
+      description: "DEPRECATED. Returns the list of addresses for the given account."
+      operationId: "getaddressesbyaccount"
       parameters:
-      - name: account
-        in: query
+      - name: "account"
+        in: "query"
         required: true
-        type: string
+        type: "string"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
-              type: string
+              type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /getbalance:
-    x-swagger-router-controller: rpc
     get:
-      operationId: getbalance
-      description: If account is not specified, returns the server's total available balance. If account is specified (DEPRECATED), returns the balance in the account. Note that the account "" is not the same as leaving the parameter out. The server total may be different to the balance in the default "" account.
       tags:
-      - General
+      - "General"
+      description: "If account is not specified, returns the server's total available\
+        \ balance. If account is specified (DEPRECATED), returns the balance in the\
+        \ account. Note that the account \"\" is not the same as leaving the parameter\
+        \ out. The server total may be different to the balance in the default \"\"\
+        \ account."
+      operationId: "getbalance"
       parameters:
-      - name: account
-        in: query
-        description: DEPRECATED. The selected account, or "*" for entire wallet. It may be the default account using "".
+      - name: "account"
+        in: "query"
+        description: "DEPRECATED. The selected account, or \"*\" for entire wallet.\
+          \ It may be the default account using \"\"."
         required: false
-        type: string
-      - name: minconf
-        in: query
-        description: Only include transactions confirmed at least this many times.
+        type: "string"
+      - name: "minconf"
+        in: "query"
+        description: "Only include transactions confirmed at least this many times."
         required: false
-        type: number
-      - name: includeWatchonly
-        in: query
-        description: Also include balance in watchonly addresses (see 'importaddress')
+        type: "number"
+      - name: "includeWatchonly"
+        in: "query"
+        description: "Also include balance in watchonly addresses (see 'importaddress')"
         required: false
-        type: boolean
+        type: "boolean"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: number
+            type: "number"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
-  /getnewaddress:
-    x-swagger-router-controller: rpc
-    post:
-      operationId: getnewaddress
-      description: Returns a new Syscoin address for receiving payments. If 'account' is specified (DEPRECATED), it is added to the address book so payments received with the address will be credited to 'account'.
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /getinfo:
+    get:
       tags:
-      - General
+      - "General"
+      description: "Returns an object containing various state info."
+      operationId: "getinfo"
+      parameters: []
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Info"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /getmininginfo:
+    get:
+      tags:
+      - "General"
+      description: "Returns a json object containing mining-related information."
+      operationId: "getmininginfo"
+      parameters: []
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/MiningInfo"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /getnewaddress:
+    post:
+      tags:
+      - "General"
+      description: "Returns a new Syscoin address for receiving payments. If 'account'\
+        \ is specified (DEPRECATED), it is added to the address book so payments received\
+        \ with the address will be credited to 'account'."
+      operationId: "getnewaddress"
       parameters:
-      - name: request
-        in: body
+      - in: "body"
+        name: "request"
         required: false
         schema:
           $ref: "#/definitions/GetNewAddressRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: string
+            type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
-  /getreceivedbyaccount: #deprecated- what is the replacement?
-    x-swagger-router-controller: rpc
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /getpeerinfo:
     get:
-      operationId: getreceivedbyaccount
-      description: DEPRECATED. Returns the total amount received by addresses with <account> in transactions with at least [minconf] confirmations.
       tags:
-      - General
-      parameters:
-      - name: account
-        in: query
-        description: The selected account, may be the default account using "".
-        required: true
-        type: string
-      - name: minconf
-        in: query
-        description: Only include transactions confirmed at least this many times.
-        required: false
-        type: number
+      - "General"
+      description: "Returns data about each connected network node as a json array\
+        \ of objects."
+      operationId: "getpeerinfo"
+      parameters: []
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: number
+            $ref: "#/definitions/PeerInfoResponse"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /getreceivedbyaccount:
+    get:
+      tags:
+      - "General"
+      description: "DEPRECATED. Returns the total amount received by addresses with\
+        \ <account> in transactions with at least [minconf] confirmations."
+      operationId: "getreceivedbyaccount"
+      parameters:
+      - name: "account"
+        in: "query"
+        description: "The selected account, may be the default account using \"\"."
+        required: true
+        type: "string"
+      - name: "minconf"
+        in: "query"
+        description: "Only include transactions confirmed at least this many times."
+        required: false
+        type: "number"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "number"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /getreceivedbyaddress:
-    x-swagger-router-controller: rpc
     get:
-      operationId: getreceivedbyaddress
-      description: Returns the total amount received by the given syscoinaddress in transactions with at least minconf confirmations.
       tags:
-      - General
+      - "General"
+      description: "Returns the total amount received by the given syscoinaddress\
+        \ in transactions with at least minconf confirmations."
+      operationId: "getreceivedbyaddress"
       parameters:
-      - name: syscoinaddress
-        in: query
-        description: The syscoin address for transactions.
+      - name: "syscoinaddress"
+        in: "query"
+        description: "The syscoin address for transactions."
         required: true
-        type: string
-      - name: minconf
-        in: query
-        description: Only include transactions confirmed at least this many times.
+        type: "string"
+      - name: "minconf"
+        in: "query"
+        description: "Only include transactions confirmed at least this many times."
         required: false
-        type: number
+        type: "number"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: number
+            type: "number"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /gettransaction:
-    x-swagger-router-controller: rpc
     get:
-      operationId: gettransaction
-      description: Get detailed information about in-wallet transaction <txid>
       tags:
-      - General
+      - "General"
+      description: "Get detailed information about in-wallet transaction <txid>"
+      operationId: "gettransaction"
       parameters:
-      - name: txid
-        in: query
-        description: The transaction id
+      - name: "txid"
+        in: "query"
+        description: "The transaction id"
         required: true
-        type: string
-      - name: includeWatchonly
-        in: query
-        description: Whether to include watchonly addresses in balance calculation and details[]
+        type: "string"
+      - name: "includeWatchonly"
+        in: "query"
+        description: "Whether to include watchonly addresses in balance calculation\
+          \ and details[]"
         required: false
-        type: boolean
+        type: "boolean"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
             $ref: "#/definitions/Transaction"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /getunconfirmedbalance:
-    x-swagger-router-controller: rpc
     get:
-      operationId: getunconfirmedbalance
-      description: Returns the server's total unconfirmed balance
       tags:
-      - General
+      - "General"
+      description: "Returns the server's total unconfirmed balance"
+      operationId: "getunconfirmedbalance"
+      parameters: []
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: number
+            type: "number"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /getv2address:
-    x-swagger-router-controller: rpc
     get:
-      operationId: getv2address
-      description: Returns a new Syscoin (starts with 1) address for receiving payments. If 'account' is specified (DEPRECATED), it is added to the address book so payments received with the address will be credited to 'account'.
       tags:
-      - General
+      - "General"
+      description: "Returns a new Syscoin (starts with 1) address for receiving payments.\
+        \ If 'account' is specified (DEPRECATED), it is added to the address book\
+        \ so payments received with the address will be credited to 'account'."
+      operationId: "getv2address"
       parameters:
-      - name: account
-        in: query
-        description: DEPRECATED. The account name for the address to be linked to. If not provided, the default account "" is used. It can also be set to the empty string "" to represent the default account. The account does not need to exist, it will be created if there is no account by the given name.
+      - name: "account"
+        in: "query"
+        description: "DEPRECATED. The account name for the address to be linked to.\
+          \ If not provided, the default account \"\" is used. It can also be set\
+          \ to the empty string \"\" to represent the default account. The account\
+          \ does not need to exist, it will be created if there is no account by the\
+          \ given name."
         required: false
-        type: string
+        type: "string"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: string
+            type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /getwalletinfo:
-    x-swagger-router-controller: rpc
     get:
-      operationId: getwalletinfo
-      description: Returns an object containing various wallet state info.
       tags:
-      - General
+      - "General"
+      description: "Returns an object containing various wallet state info."
+      operationId: "getwalletinfo"
+      parameters: []
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
             $ref: "#/definitions/WalletInfo"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /importaddress:
-    x-swagger-router-controller: rpc
     get:
-      operationId: importaddress
-      description: Adds a script (in hex) or address that can be watched as if it were in your wallet but cannot be used to spend.
       tags:
-      - General
+      - "General"
+      description: "Adds a script (in hex) or address that can be watched as if it\
+        \ were in your wallet but cannot be used to spend."
+      operationId: "importaddress"
       parameters:
-      - name: request
-        in: body
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/ImportAddressRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: string
+            type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /importprivkey:
-    x-swagger-router-controller: rpc
     get:
-      operationId: importprivkey
-      description: Adds a private key (as returned by dumpprivkey) to your wallet.
       tags:
-      - General
+      - "General"
+      description: "Adds a private key (as returned by dumpprivkey) to your wallet."
+      operationId: "importprivkey"
       parameters:
-      - name: request
-        in: body
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/ImportPrivKeyRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: string
+            type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /importpubkey:
-    x-swagger-router-controller: rpc
     get:
-      operationId: importpubkey
-      description: Adds a public key (in hex) that can be watched as if it were in your wallet but cannot be used to spend.
       tags:
-      - General
+      - "General"
+      description: "Adds a public key (in hex) that can be watched as if it were in\
+        \ your wallet but cannot be used to spend."
+      operationId: "importpubkey"
       parameters:
-      - name: request
-        in: body
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/ImportPubKeyRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: string
+            type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /importwallet:
-    x-swagger-router-controller: rpc
     get:
-      operationId: importwallet
-      description: Imports keys from a wallet dump file (see dumpwallet).
       tags:
-      - General
+      - "General"
+      description: "Imports keys from a wallet dump file (see dumpwallet)."
+      operationId: "importwallet"
       parameters:
-      - name: request
-        in: body
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/ImportWalletRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: string
+            type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /listaccounts:
-    x-swagger-router-controller: rpc
     get:
-      operationId: listaccounts
-      description: DEPRECATED. Returns Object that has account names as keys, account balances as values.
       tags:
-      - General
+      - "General"
+      description: "DEPRECATED. Returns Object that has account names as keys, account\
+        \ balances as values."
+      operationId: "listaccounts"
       parameters:
-      - name: minconf
-        in: query
-        description: Only include transactions with at least this many confirmations
+      - name: "minconf"
+        in: "query"
+        description: "Only include transactions with at least this many confirmations"
         required: false
-        type: number
-      - name: includeWatchonly
-        in: query
-        description: Include balances in watchonly addresses (see 'importaddress')
+        type: "number"
+      - name: "includeWatchonly"
+        in: "query"
+        description: "Include balances in watchonly addresses (see 'importaddress')"
         required: false
-        type: boolean
+        type: "boolean"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: object #object with accounts as keys and totals as values
+            type: "object"
+            properties: {}
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /listaddressgroupings:
-    x-swagger-router-controller: rpc
     get:
-      operationId: listaddressgroupings
-      description: Lists groups of addresses which have had their common ownership made public by common use as inputs or as the resulting change in past transactions
       tags:
-      - General
+      - "General"
+      description: "Lists groups of addresses which have had their common ownership\
+        \ made public by common use as inputs or as the resulting change in past transactions"
+      operationId: "listaddressgroupings"
+      parameters: []
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
-              type: array
+              type: "array"
               items:
                 $ref: "#/definitions/AddressGrouping"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
-  /listreceivedbyaccount: #deprecated- what is the replacement?
-    x-swagger-router-controller: rpc
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /listreceivedbyaccount:
     get:
-      operationId: listreceivedbyaccount
-      description: DEPRECATED. List balances by account.
       tags:
-      - General
+      - "General"
+      description: "DEPRECATED. List balances by account."
+      operationId: "listreceivedbyaccount"
       parameters:
-      - name: minconf
-        in: query
-        description: Only include transactions confirmed at least this many times.
+      - name: "minconf"
+        in: "query"
+        description: "Only include transactions confirmed at least this many times."
         required: false
-        type: number
-      - name: includeempty
-        in: query
-        description: Whether to include accounts that haven't received any payments.
+        type: "number"
+      - name: "includeempty"
+        in: "query"
+        description: "Whether to include accounts that haven't received any payments."
         required: false
-        type: boolean
-      - name: includeWatchonly
-        in: query
-        description: Whether to include watchonly addresses (see 'importaddress').
+        type: "boolean"
+      - name: "includeWatchonly"
+        in: "query"
+        description: "Whether to include watchonly addresses (see 'importaddress')."
         required: false
-        type: boolean
+        type: "boolean"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
               $ref: "#/definitions/Account"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /listreceivedbyaddress:
-    x-swagger-router-controller: rpc
     get:
-      operationId: listreceivedbyaddress
-      description: List balances by receiving address.
       tags:
-      - General
+      - "General"
+      description: "List balances by receiving address."
+      operationId: "listreceivedbyaddress"
       parameters:
-      - name: minconf
-        in: query
-        description: Only include transactions confirmed at least this many times.
+      - name: "minconf"
+        in: "query"
+        description: "Only include transactions confirmed at least this many times."
         required: false
-        type: number
-      - name: includeempty
-        in: query
-        description: Whether to include accounts that haven't received any payments.
+        type: "number"
+      - name: "includeempty"
+        in: "query"
+        description: "Whether to include accounts that haven't received any payments."
         required: false
-        type: boolean
-      - name: includeWatchonly
-        in: query
-        description: Whether to include watchonly addresses (see 'importaddress').
+        type: "boolean"
+      - name: "includeWatchonly"
+        in: "query"
+        description: "Whether to include watchonly addresses (see 'importaddress')."
         required: false
-        type: boolean
+        type: "boolean"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
               $ref: "#/definitions/Account"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /listsinceblock:
-    x-swagger-router-controller: rpc
     get:
-      operationId: listsinceblock
-      description: Get all transactions in blocks since block [blockhash], or all transactions if omitted
       tags:
-      - General
+      - "General"
+      description: "Get all transactions in blocks since block [blockhash], or all\
+        \ transactions if omitted"
+      operationId: "listsinceblock"
       parameters:
-      - name: blockhash
-        in: query
-        description: The block hash to list transactions since
+      - name: "blockhash"
+        in: "query"
+        description: "The block hash to list transactions since"
         required: false
-        type: string
-      - name: includeWatchonly
-        in: query
-        description: Whether to include watchonly addresses (see 'importaddress').
+        type: "string"
+      - name: "includeWatchonly"
+        in: "query"
+        description: "Whether to include watchonly addresses (see 'importaddress')."
         required: false
-        type: boolean
-      - name: target-confirmations
-        in: query
+        type: "boolean"
+      - name: "target-confirmations"
+        in: "query"
         required: false
-        type: number
+        type: "number"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
               $ref: "#/definitions/ListSinceBlockResponse"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /listtransactions:
-    x-swagger-router-controller: rpc
     get:
-      operationId: listtransactions
-      description: Returns up to 'count' most recent transactions skipping the first 'from' transactions for account 'account'.
       tags:
-      - General
+      - "General"
+      description: "Returns up to 'count' most recent transactions skipping the first\
+        \ 'from' transactions for account 'account'."
+      operationId: "listtransactions"
       parameters:
-      - name: account
-        in: query
-        description: DEPRECATED. The account name. Should be "*".
+      - name: "account"
+        in: "query"
+        description: "DEPRECATED. The account name. Should be \"*\"."
         required: false
-        type: string
-      - name: count
-        in: query
-        description: The number of transactions to return
+        type: "string"
+      - name: "count"
+        in: "query"
+        description: "The number of transactions to return"
         required: false
-        type: number
-      - name: from
-        in: query
-        description: The number of transactions to skip
+        type: "number"
+      - name: "from"
+        in: "query"
+        description: "The number of transactions to skip"
         required: false
-        type: number
-      - name: includeWatchonly
-        in: query
-        description: Include transactions to watchonly addresses (see 'importaddress')
-        type: boolean
+        type: "number"
+      - name: "includeWatchonly"
+        in: "query"
+        description: "Include transactions to watchonly addresses (see 'importaddress')"
+        required: false
+        type: "boolean"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
               $ref: "#/definitions/TransactionListEntry"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
-  /messagehistory:
-    x-swagger-router-controller: rpc
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /login:
     get:
-      operationId: messagehistory
-      description: List all stored values of a message.
       tags:
-      - Messaging
+      - "Blockmarket"
+      description: "Returns a session token for use with subsquent protected calls."
+      operationId: "login"
       parameters:
-      - name: message
-        in: query
+      - name: "auth"
+        in: "query"
+        description: "MD5 hash of the user's authentication information- username:password."
         required: true
-        type: string
+        type: "string"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security: []
+      x-swagger-router-controller: "Blockmarket"
+    x-swagger-router-controller: "rpc"
+  /messagehistory:
+    get:
+      tags:
+      - "Messaging"
+      description: "List all stored values of a message."
+      operationId: "messagehistory"
+      parameters:
+      - name: "message"
+        in: "query"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "array"
             items:
               $ref: "#/definitions/MessageHistoryEntry"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Messaging"
+    x-swagger-router-controller: "rpc"
   /messageinfo:
-    x-swagger-router-controller: rpc
     get:
-      operationId: messageinfo
-      description: Show stored values of a single message.
       tags:
-      - Messaging
+      - "Messaging"
+      description: "Show stored values of a single message."
+      operationId: "messageinfo"
       parameters:
-      - name: guid
-        in: query
+      - name: "guid"
+        in: "query"
         required: true
-        type: string
+        type: "string"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
             $ref: "#/definitions/Message"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Messaging"
+    x-swagger-router-controller: "rpc"
   /messagelist:
-    x-swagger-router-controller: rpc
     get:
-      operationId: messagelist
-      description: List my own messages
       tags:
-      - Messaging
+      - "Messaging"
+      description: "List my own messages"
+      operationId: "messagelist"
+      parameters: []
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
               $ref: "#/definitions/MessageListEntry"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Messaging"
+    x-swagger-router-controller: "rpc"
   /messagenew:
-    x-swagger-router-controller: rpc
     post:
-      operationId: messagenew
-      description: Create a new Syscoin encrypted message.
       tags:
-      - Messaging
+      - "Messaging"
+      description: "Create a new Syscoin encrypted message."
+      operationId: "messagenew"
       parameters:
-      - name: request
-        in: body
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/MessageNewRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
-              type: string
+              type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Messaging"
+    x-swagger-router-controller: "rpc"
   /messagesentlist:
-    x-swagger-router-controller: rpc
     get:
-      operationId: messagesentlist
-      description: list my sent messages
       tags:
-      - Messaging
+      - "Messaging"
+      description: "list my sent messages"
+      operationId: "messagesentlist"
+      parameters: []
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
               $ref: "#/definitions/MessageListEntry"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Messaging"
+    x-swagger-router-controller: "rpc"
   /move:
-    x-swagger-router-controller: rpc
     post:
-      operationId: move
-      description: DEPRECATED. Move a specified amount from one account in your wallet to another.
       tags:
-      - General
+      - "General"
+      description: "DEPRECATED. Move a specified amount from one account in your wallet\
+        \ to another."
+      operationId: "move"
       parameters:
-      - name: request
-        in: body
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/MoveRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: boolean
+            type: "boolean"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /offeraccept:
-    x-swagger-router-controller: rpc
     post:
-      operationId: offeraccept
-      description: Accept&Pay for a confirmed offer.
       tags:
-      - Offers
+      - "Offers"
+      description: "Accept&Pay for a confirmed offer."
+      operationId: "offeraccept"
       parameters:
-      - name: request
-        in: body
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/OfferAcceptRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
-              type: string
+              type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Offers"
+    x-swagger-router-controller: "rpc"
   /offeracceptlist:
-    x-swagger-router-controller: rpc
     get:
-      operationId: offeracceptlist
-      description: list my offer accepts
       tags:
-      - Offers
+      - "Offers"
+      description: "list my offer accepts"
+      operationId: "offeracceptlist"
+      parameters: []
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
               $ref: "#/definitions/OfferAccept"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Offers"
+    x-swagger-router-controller: "rpc"
   /offeraddwhitelist:
-    x-swagger-router-controller: rpc
     post:
-      operationId: offeraddwhitelist
-      description: Add to the affiliate list of your offer(controls who can resell). Requires wallet passphrase to be set with walletpassphrase call.
       tags:
-      - Offers
-      parameters: #TODO: review RPC param names
-      - name: request
-        in: body
+      - "Offers"
+      description: "Add to the affiliate list of your offer(controls who can resell).\
+        \ Requires wallet passphrase to be set with walletpassphrase call."
+      operationId: "offeraddwhitelist"
+      parameters:
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/OfferAddWhitelistRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
-              type: string
+              type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Offers"
+    x-swagger-router-controller: "rpc"
   /offerclearwhitelist:
-    x-swagger-router-controller: rpc
     post:
-      operationId: offerclearwhitelist
-      description: Clear the affiliate list of your offer(controls who can resell). Requires wallet passphrase to be set with walletpassphrase call.
       tags:
-      - Offers
-      parameters: #TODO: review RPC param names
-      - name: request
-        in: body
+      - "Offers"
+      description: "Clear the affiliate list of your offer(controls who can resell).\
+        \ Requires wallet passphrase to be set with walletpassphrase call."
+      operationId: "offerclearwhitelist"
+      parameters:
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/OfferClearWhitelistRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
-              type: string
+              type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Offers"
+    x-swagger-router-controller: "rpc"
   /offerfilter:
-    x-swagger-router-controller: rpc
     get:
-      operationId: offerfilter
-      description: scan and filter offeres
       tags:
-      - Offers
+      - "Offers"
+      description: "scan and filter offeres"
+      operationId: "offerfilter"
       parameters:
-      - name: regexp
-        in: query
-        description: apply [regexp] on offeres, empty means all offeres
+      - name: "regexp"
+        in: "query"
+        description: "apply [regexp] on offeres, empty means all offeres"
         required: true
-        type: string
-      - name: maxage
-        in: query
-        description: look in last [maxage] blocks
+        type: "string"
+      - name: "maxage"
+        in: "query"
+        description: "look in last [maxage] blocks"
         required: false
-        type: number
-      - name: from
-        in: query
-        description: show results from number [from]
+        type: "number"
+      - name: "from"
+        in: "query"
+        description: "show results from number [from]"
         required: false
-        type: number
-      - name: nb
-        in: query
-        description: show [nb] results, 0 means all
+        type: "number"
+      - name: "nb"
+        in: "query"
+        description: "show [nb] results, 0 means all"
         required: false
-        type: number
+        type: "number"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
               $ref: "#/definitions/OfferListEntry"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Offers"
+    x-swagger-router-controller: "rpc"
   /offerhistory:
-    x-swagger-router-controller: rpc
     get:
-      operationId: offerhistory
-      description: List all stored values of an offer.
       tags:
-      - Offers
+      - "Offers"
+      description: "List all stored values of an offer."
+      operationId: "offerhistory"
       parameters:
-      - name: offer
-        in: query
+      - name: "offer"
+        in: "query"
         required: true
-        type: string
+        type: "string"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
               $ref: "#/definitions/OfferHistoryEntry"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Offers"
+    x-swagger-router-controller: "rpc"
   /offerinfo:
-    x-swagger-router-controller: rpc
     get:
-      operationId: offerinfo
-      description: Show values of an offer.
       tags:
-      - Offers
+      - "Offers"
+      description: "Show values of an offer."
+      operationId: "offerinfo"
       parameters:
-      - name: guid
-        in: query
+      - name: "guid"
+        in: "query"
         required: true
-        type: string
+        type: "string"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
             $ref: "#/definitions/Offer"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Offers"
+    x-swagger-router-controller: "rpc"
   /offerlink:
-    x-swagger-router-controller: rpc
     post:
-      operationId: offerlink
-      description: Requires wallet passphrase to be set with walletpassphrase call.
       tags:
-      - Offers
+      - "Offers"
+      description: "Requires wallet passphrase to be set with walletpassphrase call."
+      operationId: "offerlink"
       parameters:
-      - name: request
-        in: body
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/OfferLinkRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
-              type: string
+              type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Offers"
+    x-swagger-router-controller: "rpc"
   /offerlist:
-    x-swagger-router-controller: rpc
     get:
-      operationId: offerlist
-      description: list my own offers
       tags:
-      - Offers
+      - "Offers"
+      description: "list my own offers"
+      operationId: "offerlist"
+      parameters: []
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
               $ref: "#/definitions/OfferListEntry"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Offers"
+    x-swagger-router-controller: "rpc"
   /offernew:
-    x-swagger-router-controller: rpc
     post:
-      operationId: offernew
-      description: Create a new offer on the Syscoin decentralized marketplace. Requires wallet passphrase to be set with walletpassphrase call.
       tags:
-      - Offers
+      - "Offers"
+      description: "Create a new offer on the Syscoin decentralized marketplace. Requires\
+        \ wallet passphrase to be set with walletpassphrase call."
+      operationId: "offernew"
       parameters:
-      - name: request
-        in: body
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/OfferNewRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
-              type: string
+              type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Offers"
+    x-swagger-router-controller: "rpc"
   /offerremovewhitelist:
-    x-swagger-router-controller: rpc
     post:
-      operationId: offerremovewhitelist
-      description: Remove from the affiliate list of your offer(controls who can resell). Requires wallet passphrase to be set with walletpassphrase call.
       tags:
-      - Offers
-      parameters: #TODO: review RPC param names
-      - name: request
-        in: body
+      - "Offers"
+      description: "Remove from the affiliate list of your offer(controls who can\
+        \ resell). Requires wallet passphrase to be set with walletpassphrase call."
+      operationId: "offerremovewhitelist"
+      parameters:
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/OfferRemoveWhitelistRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
-              type: string
+              type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Offers"
+    x-swagger-router-controller: "rpc"
   /offerscan:
-    x-swagger-router-controller: rpc
     get:
-      operationId: offerscan
-      description: scan all offers, starting at start-offer and returning a maximum number of entries (default 500)
       tags:
-      - Offers
+      - "Offers"
+      description: "scan all offers, starting at start-offer and returning a maximum\
+        \ number of entries (default 500)"
+      operationId: "offerscan"
       parameters:
-      - name: start-offer
-        in: query
+      - name: "start-offer"
+        in: "query"
         required: false
-        type: string
-      - name: max-returned
-        in: query
+        type: "string"
+      - name: "max-returned"
+        in: "query"
         required: false
-        type: number
+        type: "number"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
-              type: string #TODO: could not execute RPC command, error'd
+              type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Offers"
+    x-swagger-router-controller: "rpc"
   /offerupdate:
-    x-swagger-router-controller: rpc
     post:
-      operationId: offerupdate
-      description: Perform an update on an offer you control. Requires wallet passphrase to be set with walletpassphrase call.
       tags:
-      - Offers
+      - "Offers"
+      description: "Perform an update on an offer you control. Requires wallet passphrase\
+        \ to be set with walletpassphrase call."
+      operationId: "offerupdate"
       parameters:
-      - name: request
-        in: body
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/OfferUpdateRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
-              type: string
+              type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Offers"
+    x-swagger-router-controller: "rpc"
   /offerwhitelist:
-    x-swagger-router-controller: rpc
     get:
-      operationId: offerwhitelist
-      description: List all affiliates for this offer.
       tags:
-      - Offers
-      parameters: #TODO: review RPC param names
-      - name: offerguid
-        in: query
+      - "Offers"
+      description: "List all affiliates for this offer."
+      operationId: "offerwhitelist"
+      parameters:
+      - name: "offerguid"
+        in: "query"
         required: true
-        type: string
+        type: "string"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: array
+            type: "array"
             items:
               $ref: "#/definitions/OfferWhitelistEntry"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "Offers"
+    x-swagger-router-controller: "rpc"
   /sendfrom:
-    x-swagger-router-controller: rpc
     post:
-      operationId: sendfrom
-      description: DEPRECATED (use sendtoaddress). Sent an amount from an account to a syscoin address. The amount is a real and is rounded to the nearest 0.00000001. Requires wallet passphrase to be set with walletpassphrase call.
       tags:
-      - General
+      - "General"
+      description: "DEPRECATED (use sendtoaddress). Sent an amount from an account\
+        \ to a syscoin address. The amount is a real and is rounded to the nearest\
+        \ 0.00000001. Requires wallet passphrase to be set with walletpassphrase call."
+      operationId: "sendfrom"
       parameters:
-      - name: request
-        in: body
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/SendFromRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: string
+            type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /sendmany:
-    x-swagger-router-controller: rpc
     post:
-      operationId: sendmany
-      description: Send multiple times. Amounts are double-precision floating point numbers. Requires wallet passphrase to be set with walletpassphrase call.
       tags:
-      - General
+      - "General"
+      description: "Send multiple times. Amounts are double-precision floating point\
+        \ numbers. Requires wallet passphrase to be set with walletpassphrase call."
+      operationId: "sendmany"
       parameters:
-      - name: request
-        in: body
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/SendManyRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: string
+            type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /sendtoaddress:
-    x-swagger-router-controller: rpc
     post:
-      operationId: sendtoaddress
-      description: Send an amount to a given address. The amount is a real and is rounded to the nearest 0.00000001. Requires wallet passphrase to be set with walletpassphrase call.
       tags:
-      - General
+      - "General"
+      description: "Send an amount to a given address. The amount is a real and is\
+        \ rounded to the nearest 0.00000001. Requires wallet passphrase to be set\
+        \ with walletpassphrase call."
+      operationId: "sendtoaddress"
       parameters:
-      - name: request
-        in: body
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/SendToAddressRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: string
+            type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /signmessage:
-    x-swagger-router-controller: rpc
     post:
-      operationId: signmessage
-      description: Sign a message with the private key of an address. Requires wallet passphrase to be set with walletpassphrase call.
       tags:
-      - General
+      - "General"
+      description: "Sign a message with the private key of an address. Requires wallet\
+        \ passphrase to be set with walletpassphrase call."
+      operationId: "signmessage"
       parameters:
-      - name: request
-        in: body
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/SignMessageRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: string
+            type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
-  /walletlock:
-    x-swagger-router-controller: rpc
-    post:
-      operationId: walletlock
-      description: Removes the wallet encryption key from memory, locking the wallet. After calling this method, you will need to call walletpassphrase again before being able to call any methods which require the wallet to be unlocked.
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /validateaddress:
+    get:
       tags:
-      - General
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: string
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /walletpassphrase:
-    x-swagger-router-controller: rpc
-    post:
-      operationId: walletpassphrase
-      description: Stores the wallet decryption key in memory for 'timeout' seconds. This is needed prior to performing transactions related to private keys such as sending syscoins
-      tags:
-      - General
+      - "General"
+      description: "Return information about the given syscoin address."
+      operationId: "validateaddress"
       parameters:
-      - name: request
-        in: body
+      - name: "syscoinaddress"
+        in: "query"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/ValidateAddressResponse"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /verifymessage:
+    get:
+      tags:
+      - "General"
+      description: "Verify a signed message"
+      operationId: "verifymessage"
+      parameters:
+      - name: "syscoinaddress"
+        in: "query"
+        description: "The syscoin address to use for the signature."
+        required: true
+        type: "string"
+      - name: "signature"
+        in: "query"
+        description: "The signature provided by the signer in base 64 encoding (see\
+          \ signmessage)."
+        required: true
+        type: "string"
+      - name: "message"
+        in: "query"
+        description: "The message that was signed."
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "If the signature is verified or not."
+          schema:
+            type: "boolean"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /walletlock:
+    post:
+      tags:
+      - "General"
+      description: "Removes the wallet encryption key from memory, locking the wallet.\
+        \ After calling this method, you will need to call walletpassphrase again\
+        \ before being able to call any methods which require the wallet to be unlocked."
+      operationId: "walletlock"
+      parameters: []
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /walletpassphrase:
+    post:
+      tags:
+      - "General"
+      description: "Stores the wallet decryption key in memory for 'timeout' seconds.\
+        \ This is needed prior to performing transactions related to private keys\
+        \ such as sending syscoins"
+      operationId: "walletpassphrase"
+      parameters:
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/WalletPassphraseRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: string
+            type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /walletpassphrasechange:
-    x-swagger-router-controller: rpc
     post:
-      operationId: walletpassphrasechange
-      description: Changes the wallet passphrase from 'oldpassphrase' to 'newpassphrase'.
       tags:
-      - General
+      - "General"
+      description: "Changes the wallet passphrase from 'oldpassphrase' to 'newpassphrase'."
+      operationId: "walletpassphrasechange"
       parameters:
-      - name: request
-        in: body
+      - in: "body"
+        name: "request"
         required: true
         schema:
           $ref: "#/definitions/WalletPassphraseChangeRequest"
       responses:
-        "200":
-          description: Success
+        200:
+          description: "Success"
           schema:
-            type: string
+            type: "string"
         default:
-          description: Error
+          description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-
-# complex objects have schema definitions
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+securityDefinitions:
+  token:
+    type: "apiKey"
+    name: "token"
+    in: "header"
 definitions:
   Info:
     required:
-    - version
-    - protocolversion
-    - walletversion
-    - balance
-    - blocks
-    - timeoffset
-    - connections
-    - proxy
-    - difficulty
-    - testnet
-    - keypoololdest
-    - keypoolsize
-    - unlocked_until
-    - paytxfee
-    - relayfee
-    - errors
+    - "balance"
+    - "blocks"
+    - "connections"
+    - "difficulty"
+    - "errors"
+    - "keypoololdest"
+    - "keypoolsize"
+    - "paytxfee"
+    - "protocolversion"
+    - "proxy"
+    - "relayfee"
+    - "testnet"
+    - "timeoffset"
+    - "unlocked_until"
+    - "version"
+    - "walletversion"
     properties:
       version:
-        description: the server version
-        type: number
+        type: "number"
+        description: "the server version"
       protocolversion:
-        description: the protocol version
-        type: number
+        type: "number"
+        description: "the protocol version"
       walletversion:
-        description: the wallet version
-        type: number
+        type: "number"
+        description: "the wallet version"
       balance:
-        description: the total syscoin balance of the wallet
-        type: number
+        type: "number"
+        description: "the total syscoin balance of the wallet"
       blocks:
-        description: the current number of blocks processed in the server
-        type: number
+        type: "number"
+        description: "the current number of blocks processed in the server"
       timeoffset:
-        description: the time offset
-        type: number
+        type: "number"
+        description: "the time offset"
       connections:
-        description: the number of connections
-        type: number
+        type: "number"
+        description: "the number of connections"
       proxy:
-        description: the proxy used by the server
-        type: string
+        type: "string"
+        description: "the proxy used by the server"
       difficulty:
-        description: the current difficulty
-        type: number
+        type: "number"
+        description: "the current difficulty"
       testnet:
-        description: if the server is using testnet or not
-        type: boolean
+        type: "boolean"
+        description: "if the server is using testnet or not"
       keypoololdest:
-        description: the timestamp (seconds since GMT epoch) of the oldest pre-generated key in the key pool
-        type: number
+        type: "number"
+        description: "the timestamp (seconds since GMT epoch) of the oldest pre-generated\
+          \ key in the key pool"
       keypoolsize:
-        description: how many new keys are pre-generated
-        type: number
+        type: "number"
+        description: "how many new keys are pre-generated"
       unlocked_until:
-        description: the timestamp in seconds since epoch (midnight Jan 1 1970 GMT) that the wallet is unlocked for transfers, or 0 if the wallet is locked
-        type: number
+        type: "number"
+        description: "the timestamp in seconds since epoch (midnight Jan 1 1970 GMT)\
+          \ that the wallet is unlocked for transfers, or 0 if the wallet is locked"
       paytxfee:
-        description: the transaction fee set in SYS/kB
-        type: number
+        type: "number"
+        description: "the transaction fee set in SYS/kB"
       relayfee:
-        description: minimum relay fee for non-free transactions in SYS/kB
-        type: number
+        type: "number"
+        description: "minimum relay fee for non-free transactions in SYS/kB"
       errors:
-        description: any error messages
-        type: string
+        type: "string"
+        description: "any error messages"
   MiningInfo:
     required:
-    - blocks
-    - currentblocksize
-    - currentblocktx
-    - difficulty
-    - errors
-    - genproclimit
-    - pooledtx
-    - testnet
-    - chain
-    - generate
+    - "blocks"
+    - "chain"
+    - "currentblocksize"
+    - "currentblocktx"
+    - "difficulty"
+    - "errors"
+    - "generate"
+    - "genproclimit"
+    - "pooledtx"
+    - "testnet"
     properties:
       blocks:
-        description: The current block
-        type: number
+        type: "number"
+        description: "The current block"
       currentblocksize:
-        description: The last block size
-        type: number
+        type: "number"
+        description: "The last block size"
       currentblocktx:
-        description: The last block transaction
-        type: number
+        type: "number"
+        description: "The last block transaction"
       difficulty:
-        description: The current difficulty
-        type: number
+        type: "number"
+        description: "The current difficulty"
       errors:
-        description: Current errors
-        type: string
+        type: "string"
+        description: "Current errors"
       genproclimit:
-        description: The processor limit for generation. -1 if no generation.
-        type: number
+        type: "number"
+        description: "The processor limit for generation. -1 if no generation."
       networkhashps:
-        description: Current network hashrate in kbs
-        type: number
+        type: "number"
+        description: "Current network hashrate in kbs"
       pooledtx:
-        description: The size of the mem pool
-        type: number
+        type: "number"
+        description: "The size of the mem pool"
       testnet:
-        description: If using testnet or not
-        type: boolean
+        type: "boolean"
+        description: "If using testnet or not"
       chain:
-        description: current network name as defined in BIP70 (main, test, regtest)
-        type: string
+        type: "string"
+        description: "current network name as defined in BIP70 (main, test, regtest)"
       generate:
-        description: If the generation is on or off (see getgenerate or setgenerate calls)
-        type: boolean
+        type: "boolean"
+        description: "If the generation is on or off (see getgenerate or setgenerate\
+          \ calls)"
   PeerInfoResponse:
-    type: array
+    type: "array"
     items:
       $ref: "#/definitions/PeerInfo"
   PeerInfo:
     required:
-    - id
-    - addr
-    - addrlocal
-    - services
-    - relaytxes
-    - lastsend
-    - lastrecv
-    - bytessent
-    - bytesrecv
-    - conntime
-    - timeoffset
-    - pingtime
-    - minping
-    - version
-    - subver
-    - inbound
-    - startingheight
-    - banscore
-    - synced_headers
-    - synced_blocks
-    - inflight
-    - whitelisted
-    - bytessent_per_msg
-    - bytesrecv_per_msg
+    - "addr"
+    - "addrlocal"
+    - "banscore"
+    - "bytesrecv"
+    - "bytesrecv_per_msg"
+    - "bytessent"
+    - "bytessent_per_msg"
+    - "conntime"
+    - "id"
+    - "inbound"
+    - "inflight"
+    - "lastrecv"
+    - "lastsend"
+    - "minping"
+    - "pingtime"
+    - "relaytxes"
+    - "services"
+    - "startingheight"
+    - "subver"
+    - "synced_blocks"
+    - "synced_headers"
+    - "timeoffset"
+    - "version"
+    - "whitelisted"
     properties:
       id:
-        description: Peer index
-        type: number
+        type: "number"
+        description: "Peer index"
       addr:
-        description: The ip address and port of the peer
-        type: string
+        type: "string"
+        description: "The ip address and port of the peer"
       addrlocal:
-        description: local address
-        type: string
+        type: "string"
+        description: "local address"
       services:
-        description: The services offered
-        type: string
+        type: "string"
+        description: "The services offered"
       relaytxes:
-        description: Whether peer has asked us to relay transactions to it
-        type: boolean
+        type: "boolean"
+        description: "Whether peer has asked us to relay transactions to it"
       lastsend:
-        description: The time in seconds since epoch (Jan 1 1970 GMT) of the last send
-        type: number
+        type: "number"
+        description: "The time in seconds since epoch (Jan 1 1970 GMT) of the last\
+          \ send"
       lastrecv:
-        description: The time in seconds since epoch (Jan 1 1970 GMT) of the last receive
-        type: number
+        type: "number"
+        description: "The time in seconds since epoch (Jan 1 1970 GMT) of the last\
+          \ receive"
       bytessent:
-        description: The total bytes sent
-        type: number
+        type: "number"
+        description: "The total bytes sent"
       bytesrecv:
-        description: The total bytes received
-        type: number
+        type: "number"
+        description: "The total bytes received"
       conntime:
-        description: The connection time in seconds since epoch (Jan 1 1970 GMT)
-        type: number
+        type: "number"
+        description: "The connection time in seconds since epoch (Jan 1 1970 GMT)"
       timeoffset:
-        description: The time offset in seconds
-        type: number
+        type: "number"
+        description: "The time offset in seconds"
       pingtime:
-        description: ping time
-        type: number
+        type: "number"
+        description: "ping time"
       minping:
-        description: minimum observed ping time
-        type: number
+        type: "number"
+        description: "minimum observed ping time"
       version:
-        description: The peer version, such as 7001
-        type: number
+        type: "number"
+        description: "The peer version, such as 7001"
       subver:
-        description: The string version
-        type: string
+        type: "string"
+        description: "The string version"
       inbound:
-        description: Inbound (true) or Outbound (false)
-        type: boolean
+        type: "boolean"
+        description: "Inbound (true) or Outbound (false)"
       startingheight:
-        description: The starting height (block) of the peer
-        type: number
+        type: "number"
+        description: "The starting height (block) of the peer"
       banscore:
-        description: The ban score
-        type: number
+        type: "number"
+        description: "The ban score"
       synced_headers:
-        description: The last header we have in common with this peer
-        type: number
+        type: "number"
+        description: "The last header we have in common with this peer"
       synced_blocks:
-        description: The last block we have in common with this peer
-        type: number
+        type: "number"
+        description: "The last block we have in common with this peer"
       inflight:
-        description: The heights of blocks we're currently asking from this peer
-        type: array
+        type: "array"
+        description: "The heights of blocks we're currently asking from this peer"
         items:
-          type: number
+          type: "number"
       whitelisted:
-        description: If this peer is whitelisted
-        type: boolean
+        type: "boolean"
+        description: "If this peer is whitelisted"
       bytessent_per_msg:
         $ref: "#/definitions/ByteMessageInfo"
       bytesrecv_per_msg:
         $ref: "#/definitions/ByteMessageInfo"
   ByteMessageInfo:
     required:
-    - addr
-    - getheaders
-    - headers
-    - inv
-    - ping
-    - pong
-    - sendheaders
-    - verack
-    - version
+    - "addr"
+    - "getheaders"
+    - "headers"
+    - "inv"
+    - "ping"
+    - "pong"
+    - "sendheaders"
+    - "verack"
+    - "version"
     properties:
       addr:
-        type: number
+        type: "number"
       block:
-        type: number
+        type: "number"
       getaddr:
-        type: number
+        type: "number"
       getdata:
-        type: number
+        type: "number"
       getheaders:
-        type: number
+        type: "number"
       headers:
-        type: number
+        type: "number"
       inv:
-        type: number
+        type: "number"
       ping:
-        type: number
+        type: "number"
       pong:
-        type: number
+        type: "number"
       sendheaders:
-        type: number
+        type: "number"
       tx:
-        type: number
+        type: "number"
       verack:
-        type: number
+        type: "number"
       version:
-        type: number
+        type: "number"
   ValidateAddressResponse:
     properties:
       isvalid:
-        description: If the address is valid or not. If not, this is the only property returned.
-        type: boolean
+        type: "boolean"
+        description: "If the address is valid or not. If not, this is the only property\
+          \ returned."
       address:
-        description: The syscoin address validated
-        type: string
+        type: "string"
+        description: "The syscoin address validated"
       ismine:
-        description: If the address is yours or not
-        type: boolean
+        type: "boolean"
+        description: "If the address is yours or not"
       iswatchonly:
-        description: If the address is watchonly
-        type: boolean
+        type: "boolean"
+        description: "If the address is watchonly"
       isscript:
-        description: If the key is a script
-        type: boolean
+        type: "boolean"
+        description: "If the key is a script"
       pubkey:
-        description: The hex value of the raw public key
-        type: string
+        type: "string"
+        description: "The hex value of the raw public key"
       iscompressed:
-        description: If the address is compressed
-        type: boolean
+        type: "boolean"
+        description: "If the address is compressed"
       account:
-        description: DEPRECATED. The account associated with the address, "" is the default account
-        type: string
+        type: "string"
+        description: "DEPRECATED. The account associated with the address, \"\" is\
+          \ the default account"
   ErrorResponse:
     required:
-      - message
+    - "message"
     properties:
       message:
-        type: string
+        type: "string"
   Alias:
     properties:
       name:
-        type: string
+        type: "string"
       value:
-        type: string
+        type: "string"
       privatevalue:
-        type: string
+        type: "string"
       txid:
-        type: string
+        type: "string"
       address:
-        type: string
+        type: "string"
       ismine:
-        type: boolean
+        type: "boolean"
       lastupdate_height:
-        type: number
+        type: "number"
       expires_in:
-        type: number
+        type: "number"
       expires_on:
-        type: number
+        type: "number"
       expired:
-        type: boolean #returns 0/1
+        type: "boolean"
   AliasListEntry:
     required:
-    - name
-    - value
-    - privatevalue
-    - expires_in
-    - expires_on
-    - expired
-    - pending
+    - "expired"
+    - "expires_in"
+    - "expires_on"
+    - "name"
+    - "pending"
+    - "privatevalue"
+    - "value"
     properties:
       name:
-        type: string
+        type: "string"
       value:
-        type: string
+        type: "string"
       privatevalue:
-        type: string
+        type: "string"
       expires_in:
-        type: number
+        type: "number"
       expires_on:
-        type: number
+        type: "number"
       expired:
-        type: boolean #return 0/1
+        type: "boolean"
       pending:
-        type: boolean #return 0/1
+        type: "boolean"
       txid:
-        type: string #only returned with filter
+        type: "string"
   AliasHistoryEntry:
     properties:
       name:
-        type: string
+        type: "string"
       aliastype:
-        type: string
+        type: "string"
       value:
-        type: string
+        type: "string"
       privatevalue:
-        type: string
+        type: "string"
       txid:
-        type: string
+        type: "string"
       address:
-        type: string
+        type: "string"
       lastupdate_height:
-        type: number
+        type: "number"
       expires_in:
-        type: number
+        type: "number"
       expires_on:
-        type: number
+        type: "number"
       expired:
-        type: boolean #returns 0/1
+        type: "boolean"
   CertListEntry:
     properties:
       cert:
-        type: string
+        type: "string"
       title:
-        type: string
+        type: "string"
       data:
-        type: string
+        type: "string"
       private:
-        type: boolean #returns string Yes/No
+        type: "boolean"
       expires_in:
-        type: number
+        type: "number"
       expires_on:
-        type: number
+        type: "number"
       expired:
-        type: boolean #returns 0/1
+        type: "boolean"
       address:
-        type: string
+        type: "string"
       alias:
-        type: string
+        type: "string"
   Cert:
     properties:
       cert:
-        type: string
+        type: "string"
       txid:
-        type: string
+        type: "string"
       height:
-        type: number #returns string wrapped num
+        type: "number"
       title:
-        type: string
+        type: "string"
       data:
-        type: string
+        type: "string"
       private:
-        type: boolean #returns string Yes/No
+        type: "boolean"
       ismine:
-        type: boolean #returns string wrapped boolean
+        type: "boolean"
       address:
-        type: string
+        type: "string"
       alias:
-        type: string
+        type: "string"
       expires_in:
-        type: number
+        type: "number"
       expires_on:
-        type: number
+        type: "number"
       expired:
-        type: boolean #returns 0/1
+        type: "boolean"
   CertHistoryEntry:
     properties:
       cert:
-        type: string
+        type: "string"
       certtype:
-        type: string
+        type: "string"
       private:
-        type: boolean #returns string Yes/No
+        type: "boolean"
       data:
-        type: string
+        type: "string"
       txid:
-        type: string
+        type: "string"
       address:
-        type: string
+        type: "string"
       alias:
-        type: string
+        type: "string"
       expires_in:
-        type: number
+        type: "number"
       expires_on:
-        type: number
+        type: "number"
       expired:
-        type: boolean #returns 0/1
+        type: "boolean"
   EscrowHistoryEntry:
     properties:
       escrow:
-        type: string
+        type: "string"
       escrowtype:
-        type: string
+        type: "string"
       txid:
-        type: string
+        type: "string"
       seller:
-        type: string
+        type: "string"
       arbiter:
-        type: string
+        type: "string"
       buyer:
-        type: string
+        type: "string"
       offer:
-        type: string
+        type: "string"
       offertitle:
-        type: string
+        type: "string"
       offeracceptlink:
-        type: string #TODO: clarify what this is used for
+        type: "string"
       total:
-        type: number #returns string "1 SYS"
+        type: "number"
       expired:
-        type: boolean #returns 0/1
+        type: "boolean"
       height:
-        type: number #returns string wrapped number
+        type: "number"
   EscrowListEntry:
     properties:
       escrow:
-        type: string
+        type: "string"
       time:
-        type: number #returns string wrapped number
+        type: "number"
       seller:
-        type: string
+        type: "string"
       arbiter:
-        type: string
+        type: "string"
       buyer:
-        type: string
+        type: "string"
       offer:
-        type: string
+        type: "string"
       offertitle:
-        type: string
+        type: "string"
       offeracceptlink:
-        type: string #TODO: clarify what this is used for
+        type: "string"
       total:
-        type: number #returns string "1 SYS"
+        type: "number"
       status:
-        type: string #returns "escrow released" maybe create enum
+        type: "string"
       expired:
-        type: boolean #returns 0/1
+        type: "boolean"
   Escrow:
     properties:
       escrow:
-        type: string
+        type: "string"
       time:
-        type: string
+        type: "string"
       seller:
-        type: string
+        type: "string"
       arbiter:
-        type: string
+        type: "string"
       buyer:
-        type: string
+        type: "string"
       offer:
-        type: string
+        type: "string"
       offertitle:
-        type: string
+        type: "string"
       offeracceptlink:
-        type: string #TODO: clarify what this is used for
+        type: "string"
       systotal:
-        type: number
+        type: "number"
       sysfee:
-        type: number
+        type: "number"
       total:
-        type: number #returns string "1 SYS"
+        type: "number"
       txid:
-        type: string
+        type: "string"
       height:
-        type: number #returns string wrapped number
+        type: "number"
       pay_message:
-        type: string
+        type: "string"
   Transaction:
     properties:
       amount:
-        description: The transaction amount in SYS
-        type: string
+        type: "string"
+        description: "The transaction amount in SYS"
       confirmations:
-        description: The number of confirmations
-        type: number
+        type: "number"
+        description: "The number of confirmations"
       blockhash:
-        description: The block hash
-        type: string
+        type: "string"
+        description: "The block hash"
       blockindex:
-        description: The block index
-        type: number
+        type: "number"
+        description: "The block index"
       blocktime:
-        description: The time in seconds since epoch (1 Jan 1970 GMT)
-        type: number
+        type: "number"
+        description: "The time in seconds since epoch (1 Jan 1970 GMT)"
       txid:
-        description: The transaction id.
-        type: string
+        type: "string"
+        description: "The transaction id."
       time:
-        description: The transaction time in seconds since epoch (1 Jan 1970 GMT)
-        type: number
+        type: "number"
+        description: "The transaction time in seconds since epoch (1 Jan 1970 GMT)"
       timereceived:
-        description: The time received in seconds since epoch (1 Jan 1970 GMT)
-        type: number
+        type: "number"
+        description: "The time received in seconds since epoch (1 Jan 1970 GMT)"
       details:
-        type: array
+        type: "array"
         items:
           $ref: "#/definitions/TransactionDetailEntry"
       hex:
-        description: Raw data for transaction
-        type: string
+        type: "string"
+        description: "Raw data for transaction"
   TransactionDetailEntry:
     properties:
       account:
-        description: DEPRECATED. The account name involved in the transaction, can be "" for the default account.
-        type: string
+        type: "string"
+        description: "DEPRECATED. The account name involved in the transaction, can\
+          \ be \"\" for the default account."
       address:
-        description: The syscoin address involved in the transaction
-        type: string
+        type: "string"
+        description: "The syscoin address involved in the transaction"
       category:
-        description: The category, either 'send' or 'receive'
-        type: string
+        type: "string"
+        description: "The category, either 'send' or 'receive'"
       amount:
-        description: The amount in SYS
-        type: number
+        type: "number"
+        description: "The amount in SYS"
       label:
-        description: A comment for the address/transaction, if any
-        type: string
+        type: "string"
+        description: "A comment for the address/transaction, if any"
       vout:
-        description: the vout value
-        type: number
+        type: "number"
+        description: "the vout value"
   WalletInfo:
     properties:
       walletversion:
-        description: the wallet version
-        type: number
+        type: "number"
+        description: "the wallet version"
       balance:
-        description: the total confirmed balance of the wallet in SYS
-        type: number
+        type: "number"
+        description: "the total confirmed balance of the wallet in SYS"
       unconfirmed_balance:
-        description: the total unconfirmed balance of the wallet in SYS
-        type: number
+        type: "number"
+        description: "the total unconfirmed balance of the wallet in SYS"
       immature_balance:
-        description: the total immature balance of the wallet in SYS
-        type: number
+        type: "number"
+        description: "the total immature balance of the wallet in SYS"
       txcount:
-        description: the total number of transactions in the wallet
-        type: number
+        type: "number"
+        description: "the total number of transactions in the wallet"
       keypoololdest:
-        description: the timestamp (seconds since GMT epoch) of the oldest pre-generated key in the key pool
-        type: number
+        type: "number"
+        description: "the timestamp (seconds since GMT epoch) of the oldest pre-generated\
+          \ key in the key pool"
       keypoolsize:
-        description: how many new keys are pre-generated
-        type: number
+        type: "number"
+        description: "how many new keys are pre-generated"
       unlocked_until:
-        description: the timestamp in seconds since epoch (midnight Jan 1 1970 GMT) that the wallet is unlocked for transfers, or 0 if the wallet is locked
-        type: number
+        type: "number"
+        description: "the timestamp in seconds since epoch (midnight Jan 1 1970 GMT)\
+          \ that the wallet is unlocked for transfers, or 0 if the wallet is locked"
       paytxfee:
-        description: the transaction fee configuration, set in SYS/kB
-        type: number
+        type: "number"
+        description: "the transaction fee configuration, set in SYS/kB"
   AddressGrouping:
     properties:
       syscoinaddress:
-        description: The syscoin address
-        type: string
+        type: "string"
+        description: "The syscoin address"
       amount:
-        description: The amount in SYS
-        type: number
+        type: "number"
+        description: "The amount in SYS"
       account:
-        description: (optional) The account (DEPRECATED)
-        type: string
+        type: "string"
+        description: "(optional) The account (DEPRECATED)"
   Account:
     properties:
       involvesWatchonly:
-        description: Only returned if imported addresses were involved in transaction
-        type: boolean
+        type: "boolean"
+        description: "Only returned if imported addresses were involved in transaction"
       account:
-        description: The account name of the receiving account
-        type: string
+        type: "string"
+        description: "The account name of the receiving account"
       amount:
-        description: The total amount received by addresses with this account
-        type: number
+        type: "number"
+        description: "The total amount received by addresses with this account"
       confirmations:
-        description: The number of confirmations of the most recent transaction included
-        type: number
+        type: "number"
+        description: "The number of confirmations of the most recent transaction included"
       label:
-        description: A comment for the address/transaction, if any
-        type: string
+        type: "string"
+        description: "A comment for the address/transaction, if any"
   ListSinceBlockResponse:
     properties:
       transactions:
-        type: array
+        type: "array"
         items:
           $ref: "#/definitions/SinceBlockTransactionEntry"
       lastblock:
-        description: The hash of the last block
-        type: string
+        type: "string"
+        description: "The hash of the last block"
   SinceBlockTransactionEntry:
     properties:
       account:
-        description: DEPRECATED. The account name associated with the transaction. Will be "" for the default account.
-        type: string
+        type: "string"
+        description: "DEPRECATED. The account name associated with the transaction.\
+          \ Will be \"\" for the default account."
       address:
-        description: The syscoin address of the transaction. Not present for move transactions (category = move).
-        type: string
+        type: "string"
+        description: "The syscoin address of the transaction. Not present for move\
+          \ transactions (category = move)."
       category:
-        description: The transaction category. 'send' has negative amounts, 'receive' has positive amounts.
-        type: string
+        type: "string"
+        description: "The transaction category. 'send' has negative amounts, 'receive'\
+          \ has positive amounts."
       amount:
-        description: The amount in SYS. This is negative for the 'send' category, and for the 'move' category for moves outbound. It is positive for the 'receive' category, and for the 'move' category for inbound funds.
-        type: number
+        type: "number"
+        description: "The amount in SYS. This is negative for the 'send' category,\
+          \ and for the 'move' category for moves outbound. It is positive for the\
+          \ 'receive' category, and for the 'move' category for inbound funds."
       vout:
-        description: the vout value
-        type: number
+        type: "number"
+        description: "the vout value"
       fee:
-        description: The amount of the fee in SYS. This is negative and only available for the 'send' category of transactions.
-        type: number
+        type: "number"
+        description: "The amount of the fee in SYS. This is negative and only available\
+          \ for the 'send' category of transactions."
       confirmations:
-        description: The number of confirmations for the transaction. Available for 'send' and 'receive' category of transactions.
-        type: number
+        type: "number"
+        description: "The number of confirmations for the transaction. Available for\
+          \ 'send' and 'receive' category of transactions."
       blockhash:
-        description: The block hash containing the transaction. Available for 'send' and 'receive' category of transactions.
-        type: string
+        type: "string"
+        description: "The block hash containing the transaction. Available for 'send'\
+          \ and 'receive' category of transactions."
       blockindex:
-        description: The block index containing the transaction. Available for 'send' and 'receive' category of transactions.
-        type: number
+        type: "number"
+        description: "The block index containing the transaction. Available for 'send'\
+          \ and 'receive' category of transactions."
       blocktime:
-        description: The block time in seconds since epoch (1 Jan 1970 GMT).
-        type: number
+        type: "number"
+        description: "The block time in seconds since epoch (1 Jan 1970 GMT)."
       txid:
-        description: The transaction id. Available for 'send' and 'receive' category of transactions.
-        type: string
+        type: "string"
+        description: "The transaction id. Available for 'send' and 'receive' category\
+          \ of transactions."
       time:
-        description: The transaction time in seconds since epoch (Jan 1 1970 GMT).
-        type: number
+        type: "number"
+        description: "The transaction time in seconds since epoch (Jan 1 1970 GMT)."
       timereceived:
-        description: The time received in seconds since epoch (Jan 1 1970 GMT). Available for 'send' and 'receive' category of transactions.
-        type: number
+        type: "number"
+        description: "The time received in seconds since epoch (Jan 1 1970 GMT). Available\
+          \ for 'send' and 'receive' category of transactions."
       comment:
-        description: If a comment is associated with the transaction.
-        type: string
+        type: "string"
+        description: "If a comment is associated with the transaction."
       label:
-        description: A comment for the address/transaction, if any
-        type: string
+        type: "string"
+        description: "A comment for the address/transaction, if any"
       to:
-        description: If a comment to is associated with the transaction.
-        type: string
+        type: "string"
+        description: "If a comment to is associated with the transaction."
   TransactionListEntry:
     properties:
       account:
-        description: DEPRECATED. The account name associated with the transaction. It will be "" for the default account.
-        type: string
+        type: "string"
+        description: "DEPRECATED. The account name associated with the transaction.\
+          \ It will be \"\" for the default account."
       address:
-        description: The syscoin address of the transaction. Not present for move transactions (category = move).
-        type: string
+        type: "string"
+        description: "The syscoin address of the transaction. Not present for move\
+          \ transactions (category = move)."
       category:
-        description: The transaction category. 'move' is a local (off blockchain) transaction between accounts, and not associated with an address, transaction id or block. 'send' and 'receive' transactions are associated with an address, transaction id and block details
-        type: string
+        type: "string"
+        description: "The transaction category. 'move' is a local (off blockchain)\
+          \ transaction between accounts, and not associated with an address, transaction\
+          \ id or block. 'send' and 'receive' transactions are associated with an\
+          \ address, transaction id and block details"
       amount:
-        description: The amount in SYS. This is negative for the 'send' category, and for the 'move' category for moves outbound. It is positive for the 'receive' category, and for the 'move' category for inbound funds.
-        type: number
+        type: "number"
+        description: "The amount in SYS. This is negative for the 'send' category,\
+          \ and for the 'move' category for moves outbound. It is positive for the\
+          \ 'receive' category, and for the 'move' category for inbound funds."
       vout:
-        description: the vout value
-        type: number
+        type: "number"
+        description: "the vout value"
       fee:
-        description: The amount of the fee in SYS. This is negative and only available for the 'send' category of transactions.
-        type: number
+        type: "number"
+        description: "The amount of the fee in SYS. This is negative and only available\
+          \ for the 'send' category of transactions."
       confirmations:
-        description: The number of confirmations for the transaction. Available for 'send' and'receive' category of transactions. Negative confirmations indicate the transation conflicts with the block chain
-        type: number
+        type: "number"
+        description: "The number of confirmations for the transaction. Available for\
+          \ 'send' and'receive' category of transactions. Negative confirmations indicate\
+          \ the transation conflicts with the block chain"
       trusted:
-        description: Whether we consider the outputs of this unconfirmed transaction safe to spend.
-        type: boolean
+        type: "boolean"
+        description: "Whether we consider the outputs of this unconfirmed transaction\
+          \ safe to spend."
       blockhash:
-        description: The block hash containing the transaction. Available for 'send' and 'receive' category of transactions.
-        type: string
+        type: "string"
+        description: "The block hash containing the transaction. Available for 'send'\
+          \ and 'receive' category of transactions."
       blockindex:
-        description: The block index containing the transaction. Available for 'send' and 'receive' category of transactions.
-        type: string
+        type: "string"
+        description: "The block index containing the transaction. Available for 'send'\
+          \ and 'receive' category of transactions."
       blocktime:
-        description: The block time in seconds since epoch (1 Jan 1970 GMT).
-        type: number
+        type: "number"
+        description: "The block time in seconds since epoch (1 Jan 1970 GMT)."
       txid:
-        description: The transaction id. Available for 'send' and 'receive' category of transactions.
-        type: string
+        type: "string"
+        description: "The transaction id. Available for 'send' and 'receive' category\
+          \ of transactions."
       time:
-        description: The transaction time in seconds since epoch (midnight Jan 1 1970 GMT).
-        type: number
+        type: "number"
+        description: "The transaction time in seconds since epoch (midnight Jan 1\
+          \ 1970 GMT)."
       timereceived:
-        description: The time received in seconds since epoch (midnight Jan 1 1970 GMT). Available for 'send' and 'receive' category of transactions.
-        type: number
+        type: "number"
+        description: "The time received in seconds since epoch (midnight Jan 1 1970\
+          \ GMT). Available for 'send' and 'receive' category of transactions."
       comment:
-        description: If a comment is associated with the transaction.
-        type: string
+        type: "string"
+        description: "If a comment is associated with the transaction."
       label:
-        description:  A comment for the address/transaction, if any
-        type: string
+        type: "string"
+        description: "A comment for the address/transaction, if any"
       otheraccount:
-        description: For the 'move' category of transactions, the account the funds came from (for receiving funds, positive amounts), or went to (for sending funds, negative amounts).
-        type: string
+        type: "string"
+        description: "For the 'move' category of transactions, the account the funds\
+          \ came from (for receiving funds, positive amounts), or went to (for sending\
+          \ funds, negative amounts)."
   MessageHistoryEntry:
     properties:
       GUID:
-        type: string
+        type: "string"
       messagetype:
-        type: string
+        type: "string"
       time:
-        type: number #returns string wrapped number
+        type: "number"
       from:
-        type: string
+        type: "string"
       to:
-        type: string
+        type: "string"
       subject:
-        type: string
+        type: "string"
       message:
-        type: string
+        type: "string"
   Message:
     properties:
       GUID:
-        type: string
+        type: "string"
       time:
-        type: number #returns string wrapped number
+        type: "number"
       from:
-        type: string
+        type: "string"
       to:
-        type: string
+        type: "string"
       subject:
-        type: string
+        type: "string"
       message:
-        type: string
+        type: "string"
       txid:
-        type: string
+        type: "string"
       height:
-        type: number #returns string wrapped number
+        type: "number"
   MessageListEntry:
     properties:
       GUID:
-        type: string
+        type: "string"
       time:
-        type: number #returns string wrapped number
+        type: "number"
       from:
-        type: string
+        type: "string"
       to:
-        type: string
+        type: "string"
       subject:
-        type: string
+        type: "string"
       message:
-        type: string
+        type: "string"
   OfferAccept:
     properties:
       offer:
-        type: string
+        type: "string"
       title:
-        type: string
+        type: "string"
       id:
-        type: string
+        type: "string"
       btctxid:
-        type: string
+        type: "string"
       alias:
-        type: string
+        type: "string"
       buyer:
-        type: string
+        type: "string"
       height:
-        type: number #returns string wrapped number
+        type: "number"
       quantity:
-        type: number #returns string wrapped number
+        type: "number"
       currency:
-        type: string
+        type: "string"
       linkofferaccept:
-        type: string #TODO: clarify
+        type: "string"
       offer_discount_percentage:
-        type: number #returns string "0%"
+        type: "number"
       escrowlink:
-        type: string #TODO: clarify
+        type: "string"
       systotal:
-        type: number
+        type: "number"
       price:
-        type: number #returns string wrapped number
+        type: "number"
       total:
-        type: number #returns string wrapped number
+        type: "number"
       ismine:
-        type: boolean #return string wrapper boolean
+        type: "boolean"
       status:
-        type: string
+        type: "string"
       pay_message:
-        type: string
+        type: "string"
   OfferWhitelistEntry:
     properties:
       alias:
-        type: string
+        type: "string"
       expiresin:
-        type: number
+        type: "number"
       offer_discount_percentage:
-        type: number #returns string "5%"
+        type: "number"
   OfferListEntry:
     properties:
       offer:
-        type: string
+        type: "string"
       cert:
-        type: string
+        type: "string"
       title:
-        type: string
+        type: "string"
       category:
-        type: string
+        type: "string"
       description:
-        type: string
+        type: "string"
       price:
-        type: number #returns string wrapped number
+        type: "number"
       currency:
-        type: string
+        type: "string"
       commission:
-        type: number #returns string 0%
+        type: "number"
       quantity:
-        type: number #returns string wrapped number
+        type: "number"
       address:
-        type: string
+        type: "string"
       exclusive_resell:
-        type: boolean #returns string ON/OFF
+        type: "boolean"
       btconly:
-        type: boolean #returns string Yes/No
+        type: "boolean"
       alias_peg:
-        type: string
+        type: "string"
       private:
-        type: boolean #returns string Yes/No
+        type: "boolean"
       alias:
-        type: string
+        type: "string"
       expires_in:
-        type: number
+        type: "number"
       expires_on:
-        type: number
+        type: "number"
       expired:
-        type: boolean #returns 0/1
+        type: "boolean"
       pending:
-        type: boolean #returns 0/1
+        type: "boolean"
   OfferHistoryEntry:
     properties:
       offer:
-        type: string
+        type: "string"
       offertype:
-        type: string
+        type: "string"
       cert:
-        type: string
+        type: "string"
       title:
-        type: string
+        type: "string"
       category:
-        type: string
+        type: "string"
       description:
-        type: string
+        type: "string"
       price:
-        type: number #returns string wrapped number
+        type: "number"
       currency:
-        type: string
+        type: "string"
       commission:
-        type: number #retrusn string 0%
+        type: "number"
       quantity:
-        type: number #returns string wrapped number
+        type: "number"
       txid:
-        type: string
+        type: "string"
       alias:
-        type: string
+        type: "string"
       expires_in:
-        type: number
+        type: "number"
       expires_on:
-        type: number
+        type: "number"
       expired:
-        type: boolean #returns 0/1
+        type: "boolean"
       height:
-        type: boolean #returns 0/1
+        type: "boolean"
   Offer:
     properties:
       offer:
-        type: string
+        type: "string"
       cert:
-        type: string
+        type: "string"
       txid:
-        type: string
+        type: "string"
       expires_in:
-        type: number
+        type: "number"
       expired_block:
-        type: number
+        type: "number"
       expired:
-        type: boolean #return 0/1
+        type: "boolean"
       height:
-        type: number #return string wrapped number
+        type: "number"
       address:
-        type: string
+        type: "string"
       category:
-        type: string
+        type: "string"
       title:
-        type: string
+        type: "string"
       quantity:
-        type: string
+        type: "string"
       currency:
-        type: string
+        type: "string"
       sysprice:
-        type: number
+        type: "number"
       price:
-        type: number #returns string wrapped number
+        type: "number"
       ismine:
-        type: boolean #returns string wrapped boolean
+        type: "boolean"
       commission:
-        type: number #returns string wrapped number
+        type: "number"
       offerlink:
-        type: boolean #returns string wrapped boolean
-      offerlink_guid: #what is this
-        type: string
+        type: "boolean"
+      offerlink_guid:
+        type: "string"
       exclusive_resell:
-        type: boolean #returns string Yes/No
+        type: "boolean"
       private:
-        type: boolean #returns string Yes/No
+        type: "boolean"
       btconly:
-        type: boolean #retursn string Yes/No
+        type: "boolean"
       alias_peg:
-        type: string
+        type: "string"
       description:
-        type: string
+        type: "string"
       alias":
-        type: string
+        type: "string"
       accepts:
-          type: array
-          items:
-            $ref: "#/definitions/OfferAccept"
+        type: "array"
+        items:
+          $ref: "#/definitions/OfferAccept"
   AddMultisigAddressRequest:
     required:
-    - nrequired
-    - keysobject
+    - "keysobject"
+    - "nrequired"
     properties:
       nrequired:
-        description: The number of required signatures out of the n keys or addresses.
-        type: number
+        type: "number"
+        description: "The number of required signatures out of the n keys or addresses."
       keysobject:
-        description: A json array of syscoin addresses or hex-encoded public keys. [ "address"  (string) syscoin address or hex-encoded public key ... ]
-        type: string
+        type: "string"
+        description: "A json array of syscoin addresses or hex-encoded public keys.\
+          \ [ \"address\"  (string) syscoin address or hex-encoded public key ...\
+          \ ]"
       account:
-        description: DEPRECATED. An account to assign the addresses to.
-        type: string
+        type: "string"
+        description: "DEPRECATED. An account to assign the addresses to."
   AliasNewRequest:
     required:
-    - aliasname
-    - publicvalue
+    - "aliaspeg"
+    - "aliasname"
+    - "password"
+    - "publicvalue"
     properties:
+      aliaspeg:
+        type: "string"
+        description: "Alias peg name"    
       aliasname:
-        description: Alias name
-        type: string
+        type: "string"
+        description: "Alias name"
+      password:
+        type: "string"
+        description: "Alias password. Set to \"\" for no password."        
       publicvalue:
-        description: Alias public profile data, 1023 chars max.
-        type: string
+        type: "string"
+        description: "Alias public profile data, 1024 chars max."
       privatevalue:
-        description: Alias private profile data, 1023 chars max. Will be private and readable by owner only.
-        type: string
+        type: "string"
+        description: "Alias private profile data, 512 chars max. Will be private and readable by owner only.\
+        \ Should be encrypted to encryption_publickey."
+      safesearch:
+        type: "boolean"
+        description: "set to false if this alias should only show in the search when safe search is not selected.\
+        \ Defaults to true (alias shows with or without safe search selected in search lists)."
+      accepttransfers:
+        type: "boolean"
+        description: "Set to false if this alias should not allow a certificate to be transferred to it. Defaults to true."  
+      expire_timestamp:
+        type: "number"
+        description: "Time in seconds. Future time when to expire alias. It is exponentially more expensive per year,\
+        \ calculation is FEERATE*(2.88^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias \
+        \ used for this alias. Defaults to 1 year."
+      nrequired:
+        type: "string"
+        description: "For multisig aliases only. The number of required signatures out of n aliases for a multisig alias update."
+      aliases:
+        type: "string"
+        description: "For multisig aliases only. A json array of aliases which are used to sign on an update to this alias.\
+          \     [\
+          \       {\
+          \         \"alias\":\"name\",					        (string, required) The alias name\
+          \         \"encryptionprivatekey\": \"hex\"		(string, required) Encryption private key (encrypted to alias public key)\
+          \       }\
+          \      ,...\
+          \     ]"
+      publickey:
+        type: "string"
+        description: "Public key for this alias. Hex encoded binary public key data."
+      password_salt:
+        type: "string"
+        description: "Salt used for key derivation if password is set. Hex encoded binary password salt data."        
+      encryption_privatekey:
+        type: "string"
+        description: "Encrypted private key used for encryption/decryption of private data related to this alias. Should be\
+        \ encrypted to publickey. Hex encoded private key data." 
+      encryption_publickey:
+        type: "string"
+        description: "Public key used for encryption/decryption of private data related to this alias. Hex encoded public key data."
+      walletless:
+        type: "boolean"
+        description: "Sign and send transaction to network if set to false. If true, then don't sign resulting transaction, just\
+        \ return it for signing by external service. Default is false."
   AliasUpdateRequest:
     required:
-    - aliasname
-    - publicvalue
+    - "aliaspeg"
+    - "aliasname"
     properties:
+      aliaspeg:
+        type: "string"
+        description: "Alias peg name"    
       aliasname:
-        description: alias name.
-        type: string
+        type: "string"
+        description: "Alias name"
       publicvalue:
-        description: alias public profile data, 1023 chars max.
-        type: string
+        type: "string"
+        description: "Alias public profile data, 1024 chars max."
       privatevalue:
-        description: alias private profile data, 1023 chars max. Will be private and readable by owner only.
-        type: string
-      toalias_pubkey:
-        description: receiver syscoin alias pub key, if transferring alias.
-        type: string
+        type: "string"
+        description: "Alias private profile data, 512 chars max. Will be private and readable by owner only.\
+        \ Should be encrypted to encryption_publickey."
+      safesearch:
+        type: "boolean"
+        description: "set to false if this alias should only show in the search when safe search is not selected.\
+        \ Defaults to true (alias shows with or without safe search selected in search lists)."
+      alias_pubkey:
+        type: "string"
+        description: "Alias public key, if transferring alias or changing password. Hex encoded binary public key data"        
+      password:
+        type: "string"
+        description: "Alias password. Set to \"\" for no password."                
+      accepttransfers:
+        type: "boolean"
+        description: "Set to false if this alias should not allow a certificate to be transferred to it. Defaults to true."  
+      expire_timestamp:
+        type: "number"
+        description: "Time in seconds. Future time when to expire alias. It is exponentially more expensive per year,\
+        \ calculation is FEERATE*(2.88^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias \
+        \ used for this alias. Defaults to 1 year."
+      nrequired:
+        type: "string"
+        description: "For multisig aliases only. The number of required signatures out of n aliases for a multisig alias update."
+      aliases:
+        type: "string"
+        description: "For multisig aliases only. A json array of aliases which are used to sign on an update to this alias.\
+          \     [\
+          \       {\
+          \         \"alias\":\"name\",					        (string, required) The alias name\
+          \         \"encryptionprivatekey\": \"hex\"		(string, required) Encryption private key (encrypted to alias public key)\
+          \       }\
+          \      ,...\
+          \     ]"
+      password_salt:
+        type: "string"
+        description: "Salt used for key derivation if password is set. Hex encoded binary password salt data."        
+      encryption_privatekey:
+        type: "string"
+        description: "Encrypted private key used for encryption/decryption of private data related to this alias. Should be\
+        \ encrypted to publickey. Hex encoded private key data." 
+      encryption_publickey:
+        type: "string"
+        description: "Public key used for encryption/decryption of private data related to this alias. Hex encoded public key data."
+      walletless:
+        type: "boolean"
+        description: "Sign and send transaction to network if set to false. If true, then don't sign resulting transaction, just\
+        \ return it for signing by external service. Default is false."
   CertNewRequest:
     required:
-    - alias
-    - title
-    - data
+    - "alias"
+    - "data"
+    - "title"
     properties:
       alias:
-        description: An alias you own.
-        type: string
+        type: "string"
+        description: "An alias you own."
       title:
-        description: title, 255 bytes max.
-        type: string
+        type: "string"
+        description: "title, 255 bytes max."
       data:
-        description: data, 1KB max.
-        type: string
+        type: "string"
+        description: "data, 1KB max."
       private:
-        description: set to 1 if you only want to make the cert data private, only the owner of the cert can view it. Off by default.
-        type: boolean
+        type: "boolean"
+        description: "set to 1 if you only want to make the cert data private, only\
+          \ the owner of the cert can view it. Off by default."
   CertTransferRequest:
     required:
-    - certkey
-    - alias
+    - "alias"
+    - "certkey"
     properties:
       certkey:
-        type: string
+        type: "string"
       alias:
-        type: string
+        type: "string"
   CertUpdateRequest:
     required:
-    - guid
-    - title
-    - data
-    - private
+    - "data"
+    - "guid"
+    - "private"
+    - "title"
     properties:
       guid:
-        description: certificate guidkey.
-        type: string
+        type: "string"
+        description: "certificate guidkey."
       title:
-        description: certificate title, 255 bytes max.
-        type: string
+        type: "string"
+        description: "certificate title, 255 bytes max."
       data:
-        description: certificate data, 1KB max.
-        type: string
+        type: "string"
+        description: "certificate data, 1KB max."
       private:
-        description: set to 1 if you only want to make the cert data private, only the owner of the cert can view it.
-        type: boolean
+        type: "boolean"
+        description: "set to 1 if you only want to make the cert data private, only\
+          \ the owner of the cert can view it."
   EscrowClaimRefundRequest:
     required:
-    - guid
+    - "guid"
     properties:
       guid:
-        type: string
+        type: "string"
   EscrowClaimReleaseRequest:
     required:
-    - guid
+    - "guid"
     properties:
       guid:
-        type: string
+        type: "string"
   EscrowCompleteRequest:
     required:
-    - guid
+    - "guid"
     properties:
       guid:
-        type: string
+        type: "string"
   EscrowNewRequest:
     required:
-    - alias
-    - offer
-    - quantity
-    - arbiter
+    - "alias"
+    - "arbiter"
+    - "offer"
+    - "quantity"
     properties:
       alias:
-        type: string
+        type: "string"
       offer:
-        type: string
+        type: "string"
       quantity:
-        type: number
+        type: "number"
       message:
-        type: string
+        type: "string"
       arbiter:
-        type: string
+        type: "string"
   GetNewAddressRequest:
     properties:
       account:
-        description: DEPRECATED. The account name for the address to be linked to. If not provided, the default account "" is used. It can also be set to the empty string "" to represent the default account. The account does not need to exist, it will be created if there is no account by the given name.
-        type: string
+        type: "string"
+        description: "DEPRECATED. The account name for the address to be linked to.\
+          \ If not provided, the default account \"\" is used. It can also be set\
+          \ to the empty string \"\" to represent the default account. The account\
+          \ does not need to exist, it will be created if there is no account by the\
+          \ given name."
   ImportAddressRequest:
     required:
-    - script
+    - "script"
     properties:
       script:
-        description: The hex-encoded script (or address)
-        type: string
+        type: "string"
+        description: "The hex-encoded script (or address)"
       label:
-        description: An optional label
-        type: string
+        type: "string"
+        description: "An optional label"
       rescan:
-        description: Rescan the wallet for transactions
-        type: boolean
+        type: "boolean"
+        description: "Rescan the wallet for transactions"
       p2sh:
-        description: Add the P2SH version of the script as well
-        type: boolean
+        type: "boolean"
+        description: "Add the P2SH version of the script as well"
   ImportPrivKeyRequest:
     required:
-    - syscoinprivkey
+    - "syscoinprivkey"
     properties:
       syscoinprivkey:
-        description: The private key (see dumpprivkey)
-        type: string
+        type: "string"
+        description: "The private key (see dumpprivkey)"
       label:
-        description: An optional label
-        type: string
+        type: "string"
+        description: "An optional label"
       rescan:
-        description: Rescan the wallet for transactions
-        type: boolean
+        type: "boolean"
+        description: "Rescan the wallet for transactions"
   ImportPubKeyRequest:
     required:
-    - pubkey
+    - "pubkey"
     properties:
       pubkey:
-        description: The hex-encoded public key
-        type: string
+        type: "string"
+        description: "The hex-encoded public key"
       label:
-        description: An optional label
-        type: string
+        type: "string"
+        description: "An optional label"
       rescan:
-        description: Rescan the wallet for transactions
-        type: boolean
+        type: "boolean"
+        description: "Rescan the wallet for transactions"
   ImportWalletRequest:
     required:
-    - filename
+    - "filename"
     properties:
       filename:
-        description: The wallet file
-        type: string
+        type: "string"
+        description: "The wallet file"
   MessageNewRequest:
     required:
-    - subject
-    - message
-    - fromalias
-    - toalias
+    - "fromalias"
+    - "message"
+    - "subject"
+    - "toalias"
     properties:
       subject:
-        description: Subject of message.
-        type: string
+        type: "string"
+        description: "Subject of message."
       message:
-        description: Message to send to alias.
-        type: string
+        type: "string"
+        description: "Message to send to alias."
       fromalias:
-        description: Alias to send message from.
-        type: string
+        type: "string"
+        description: "Alias to send message from."
       toalias:
-        description: Alias to send message to.
-        type: string
+        type: "string"
+        description: "Alias to send message to."
   MoveRequest:
     required:
-    - fromaccount
-    - toaccount
-    - amount
+    - "amount"
+    - "fromaccount"
+    - "toaccount"
     properties:
       fromaccount:
-        description: The name of the account to move funds from. May be the default account using "".
-        type: string
+        type: "string"
+        description: "The name of the account to move funds from. May be the default\
+          \ account using \"\"."
       toaccount:
-        description: The name of the account to move funds to. May be the default account using "".
-        type: string
+        type: "string"
+        description: "The name of the account to move funds to. May be the default\
+          \ account using \"\"."
       amount:
-        description: Quantity of SYS to move between accounts.
-        type: number
+        type: "number"
+        description: "Quantity of SYS to move between accounts."
       minconf:
-        description: Only use funds with at least this many confirmations.
-        type: string
+        type: "string"
+        description: "Only use funds with at least this many confirmations."
       comment:
-        description: An optional comment, stored in the wallet only.
-        type: string
+        type: "string"
+        description: "An optional comment, stored in the wallet only."
   OfferAcceptRequest:
     required:
-    - alias
-    - guid
-    - quantity
+    - "alias"
+    - "guid"
+    - "quantity"
     properties:
       alias:
-        description: An alias of the buyer.
-        type: string
+        type: "string"
+        description: "An alias of the buyer."
       guid:
-        description: guidkey from offer.
-        type: string
+        type: "string"
+        description: "guidkey from offer."
       quantity:
-        description: quantity to buy. Defaults to 1.
-        type: number
+        type: "number"
+        description: "quantity to buy. Defaults to 1."
       message:
-        description: payment message to seller, 1KB max.
-        type: string
-      btcTxId: #TODO: review RPC, params weird
-        description: If you have paid in Bitcoin and the offer is in Bitcoin, enter the transaction ID here. Default is empty.
-        type: string
+        type: "string"
+        description: "payment message to seller, 1KB max."
+      btcTxId:
+        type: "string"
+        description: "If you have paid in Bitcoin and the offer is in Bitcoin, enter\
+          \ the transaction ID here. Default is empty."
       linkedacceptguidtxhash:
-        description: transaction id of the linking offer accept. For internal use only, leave blank
-        type: string
+        type: "string"
+        description: "transaction id of the linking offer accept. For internal use\
+          \ only, leave blank"
       escrowTxHash:
-        description: If this offer accept is done by an escrow release. For internal use only, leave blank
-        type: string
+        type: "string"
+        description: "If this offer accept is done by an escrow release. For internal\
+          \ use only, leave blank"
   OfferAddWhitelistRequest:
     required:
-    - offerguid
-    - aliasguid
-    - discountPercentage
+    - "aliasguid"
+    - "discountPercentage"
+    - "offerguid"
     properties:
       offerguid:
-        description: offer guid that you are adding to
-        type: string
+        type: "string"
+        description: "offer guid that you are adding to"
       aliasguid:
-        description: alias guid representing an alias that you want to add to the affiliate list
-        type: string
+        type: "string"
+        description: "alias guid representing an alias that you want to add to the\
+          \ affiliate list"
       discountPercentage:
-        description: percentage of discount given to reseller for this offer. Negative discount adds on top of offer price, acts as an extra commission. -99 to 99.
-        type: number
+        type: "number"
+        description: "percentage of discount given to reseller for this offer. Negative\
+          \ discount adds on top of offer price, acts as an extra commission. -99\
+          \ to 99."
   OfferClearWhitelistRequest:
     required:
-    - offerguid
+    - "offerguid"
     properties:
       offerguid:
-        type: string
+        type: "string"
   OfferLinkRequest:
     required:
-    - alias
-    - guid
-    - comission
+    - "alias"
+    - "comission"
+    - "guid"
     properties:
       alias:
-        description: An alias you own.
-        type: string
+        type: "string"
+        description: "An alias you own."
       guid:
-        description: offer guid that you are linking to
-        type: string
+        type: "string"
+        description: "offer guid that you are linking to"
       comission:
-        description: percentage of profit desired over original offer price, > 0, ie 5 for 5%
-        type: string
+        type: "string"
+        description: "percentage of profit desired over original offer price, > 0,\
+          \ ie 5 for 5%"
       description:
-        description: description, 1 KB max. Defaults to original description. Leave as '' to use default.
-        type: string
+        type: "string"
+        description: "description, 1 KB max. Defaults to original description. Leave\
+          \ as '' to use default."
   OfferNewRequest:
     required:
-    - aliaspeg
-    - alias
-    - category
-    - title
-    - quantity
-    - price
-    - description
-    - currency
+    - "alias"
+    - "aliaspeg"
+    - "category"
+    - "currency"
+    - "description"
+    - "price"
+    - "quantity"
+    - "title"
     properties:
       aliaspeg:
-        description: Alias peg you wish to use, leave blank to use SYS_RATES.
-        type: string
+        type: "string"
+        description: "Alias peg you wish to use, leave blank to use SYS_RATES."
       alias:
-        description: An alias you own.
-        type: string
+        type: "string"
+        description: "An alias you own."
       category:
-        description: category, 255 chars max.
-        type: string
+        type: "string"
+        description: "category, 255 chars max."
       title:
-        description: title, 255 chars max.
-        type: string
+        type: "string"
+        description: "title, 255 chars max."
       quantity:
-        description: quantity, > 0 or -1 for infinite
-        type: number
+        type: "number"
+        description: "quantity, > 0 or -1 for infinite"
       price:
-        description: price in <currency>, > 0
-        type: number
+        type: "number"
+        description: "price in <currency>, > 0"
       description:
-        description: description, 1 KB max.
-        type: string
+        type: "string"
+        description: "description, 1 KB max."
       currency:
-        description: The currency code that you want your offer to be in ie USD.
-        type: string
-      certguid: #TODO: check param name
-        description: Set this to the guid of a certificate you wish to sell
-        type: string
-      excelusiveResell: #TODO: check param name
-        description: set to 1 if you only want those who control the affiliate's who are able to resell this offer via offerlink. Defaults to 1.
-        type: boolean
-      acceptBTCOnly: #TODO: check param name
-        description: set to 1 if you only want accept Bitcoins for payment and your currency is set to BTC, note you cannot resell or sell a cert in this mode. Defaults to 0.
-        type: boolean
+        type: "string"
+        description: "The currency code that you want your offer to be in ie USD."
+      certguid:
+        type: "string"
+        description: "Set this to the guid of a certificate you wish to sell"
+      excelusiveResell:
+        type: "boolean"
+        description: "set to 1 if you only want those who control the affiliate's\
+          \ who are able to resell this offer via offerlink. Defaults to 1."
+      acceptBTCOnly:
+        type: "boolean"
+        description: "set to 1 if you only want accept Bitcoins for payment and your\
+          \ currency is set to BTC, note you cannot resell or sell a cert in this\
+          \ mode. Defaults to 0."
   OfferRemoveWhitelistRequest:
     required:
-    - offerguid
-    - aliasguid
+    - "aliasguid"
+    - "offerguid"
     properties:
       offerguid:
-        type: string
+        type: "string"
       aliasguid:
-        type: string
+        type: "string"
   OfferUpdateRequest:
     required:
-    - aliaspeg
-    - alias
-    - guid
-    - category
-    - title
-    - description
-    - quantity
-    - price
-    - private
+    - "alias"
+    - "aliaspeg"
+    - "category"
+    - "description"
+    - "guid"
+    - "price"
+    - "private"
+    - "quantity"
+    - "title"
     properties:
       aliaspeg:
-        description: Alias peg you wish to use, leave blank to use SYS_RATES.
-        type: string
+        type: "string"
+        description: "Alias peg you wish to use, leave blank to use SYS_RATES."
       alias:
-        description: An alias you own.
-        type: string
+        type: "string"
+        description: "An alias you own."
       guid:
-        description: Guid of offer to update
-        type: string
+        type: "string"
+        description: "Guid of offer to update"
       category:
-        description: category, 255 chars max.
-        type: string
+        type: "string"
+        description: "category, 255 chars max."
       title:
-        description: title, 255 chars max.
-        type: string
+        type: "string"
+        description: "title, 255 chars max."
       quantity:
-        description: quantity, > 0 or -1 for infinite
-        type: number
+        type: "number"
+        description: "quantity, > 0 or -1 for infinite"
       price:
-        description: price in <currency>, > 0
-        type: number
+        type: "number"
+        description: "price in <currency>, > 0"
       description:
-        description: description, 1 KB max.
-        type: string
-      private: #TODO: rename, private is reserved word
-        description: Can this offer be seen in public search
-        type: boolean
-      certguid: #TODO: check param name
-        description: Set this to the guid of a certificate you wish to sell
-        type: string
-      excelusiveResell: #TODO: check param name
-        description: set to 1 if you only want those who control the affiliate's who are able to resell this offer via offerlink. Defaults to 1.
-        type: boolean
+        type: "string"
+        description: "description, 1 KB max."
+      private:
+        type: "boolean"
+        description: "Can this offer be seen in public search"
+      certguid:
+        type: "string"
+        description: "Set this to the guid of a certificate you wish to sell"
+      excelusiveResell:
+        type: "boolean"
+        description: "set to 1 if you only want those who control the affiliate's\
+          \ who are able to resell this offer via offerlink. Defaults to 1."
   SendFromRequest:
     required:
-    - fromaccount
-    - tosyscoinaddress
-    - amount
+    - "amount"
+    - "fromaccount"
+    - "tosyscoinaddress"
     properties:
       fromaccount:
-        description: The name of the account to send funds from. May be the default account using "".
-        type: string
+        type: "string"
+        description: "The name of the account to send funds from. May be the default\
+          \ account using \"\"."
       tosyscoinaddress:
-        description: The syscoin address to send funds to.
-        type: string
+        type: "string"
+        description: "The syscoin address to send funds to."
       amount:
-        description: he amount in SYS (transaction fee is added on top).
-        type: number
+        type: "number"
+        description: "he amount in SYS (transaction fee is added on top)."
       minconf:
-        description: Only use funds with at least this many confirmations.
-        type: number
+        type: "number"
+        description: "Only use funds with at least this many confirmations."
       comment:
-        description: A comment used to store what the transaction is for. This is not part of the transaction, just kept in your wallet.
-        type: string
+        type: "string"
+        description: "A comment used to store what the transaction is for. This is\
+          \ not part of the transaction, just kept in your wallet."
       commentto:
-        description: An optional comment to store the name of the person or organization to which you're sending the transaction. This is not part of the transaction, it is just kept in your wallet.
-        type: string
+        type: "string"
+        description: "An optional comment to store the name of the person or organization\
+          \ to which you're sending the transaction. This is not part of the transaction,\
+          \ it is just kept in your wallet."
   SendManyRequest:
     required:
-    - fromaccount
-    - amounts
+    - "amounts"
+    - "fromaccount"
     properties:
       fromaccount:
-        description: DEPRECATED. The account to send the funds from. Should be "" for the default account
-        type: string
+        type: "string"
+        description: "DEPRECATED. The account to send the funds from. Should be \"\
+          \" for the default account"
       amounts:
-        description: A json object with addresses and amounts { "address":amount   (numeric) The syscoin address is the key, the numeric amount in SYS is the value,...}
-        type: string
+        type: "string"
+        description: "A json object with addresses and amounts { \"address\":amount\
+          \   (numeric) The syscoin address is the key, the numeric amount in SYS\
+          \ is the value,...}"
       minconf:
-        description: Only use the balance confirmed at least this many times.
-        type: number
+        type: "number"
+        description: "Only use the balance confirmed at least this many times."
       comment:
-        description: A comment used to store what the transaction is for. This is not part of the transaction, just kept in your wallet.
-        type: string
+        type: "string"
+        description: "A comment used to store what the transaction is for. This is\
+          \ not part of the transaction, just kept in your wallet."
       subtractfeefromamount:
-        description: A json array with addresses. The fee will be equally deducted from the amount of each selected address. Those recipients will receive less syscoins than you enter in their corresponding amount field. If no addresses are specified here, the sender pays the fee. [ "address" Subtract fee from this address,... ]
-        type: string
+        type: "string"
+        description: "A json array with addresses. The fee will be equally deducted\
+          \ from the amount of each selected address. Those recipients will receive\
+          \ less syscoins than you enter in their corresponding amount field. If no\
+          \ addresses are specified here, the sender pays the fee. [ \"address\" Subtract\
+          \ fee from this address,... ]"
   SendToAddressRequest:
     required:
-    - syscoinaddress
-    - amount
+    - "amount"
+    - "syscoinaddress"
     properties:
       syscoinaddress:
-        description: The syscoin address to send to.
-        type: string
+        type: "string"
+        description: "The syscoin address to send to."
       amount:
-        description: The amount in SYS to send. eg 0.1
-        type: number
+        type: "number"
+        description: "The amount in SYS to send. eg 0.1"
       comment:
-        description: A comment used to store what the transaction is for. This is not part of the transaction, just kept in your wallet.
-        type: string
+        type: "string"
+        description: "A comment used to store what the transaction is for. This is\
+          \ not part of the transaction, just kept in your wallet."
       commentto:
-        description: An optional comment to store the name of the person or organization to which you're sending the transaction. This is not part of the transaction, it is just kept in your wallet.
-        type: string
+        type: "string"
+        description: "An optional comment to store the name of the person or organization\
+          \ to which you're sending the transaction. This is not part of the transaction,\
+          \ it is just kept in your wallet."
       subtractfeefromamount:
-        description: The fee will be deducted from the amount being sent. The recipient will receive less syscoins than you enter in the amount field.
-        type: string
+        type: "string"
+        description: "The fee will be deducted from the amount being sent. The recipient\
+          \ will receive less syscoins than you enter in the amount field."
   SignMessageRequest:
     required:
-    - syscoinaddress
-    - message
+    - "message"
+    - "syscoinaddress"
     properties:
       syscoinaddress:
-        description: The syscoin address to use for the private key.
-        type: string
+        type: "string"
+        description: "The syscoin address to use for the private key."
       message:
-        description: The message to create a signature of.
-        type: number
+        type: "number"
+        description: "The message to create a signature of."
   WalletPassphraseRequest:
     required:
-    - passphrase
-    - timeout
+    - "passphrase"
+    - "timeout"
     properties:
       passphrase:
-        description: The wallet passphrase
-        type: string
+        type: "string"
+        description: "The wallet passphrase"
       timeout:
-        description: The time to keep the decryption key in seconds.
-        type: number
+        type: "number"
+        description: "The time to keep the decryption key in seconds."
   WalletPassphraseChangeRequest:
     required:
-    - oldpassphrase
-    - newpassphrase
+    - "newpassphrase"
+    - "oldpassphrase"
     properties:
       oldpassphrase:
-        description: The current passphrase
-        type: string
+        type: "string"
+        description: "The current passphrase"
       newpassphrase:
-        description: The new passphrase
-        type: string
+        type: "string"
+        description: "The new passphrase"
+security:
+- token: []
