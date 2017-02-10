@@ -89,7 +89,7 @@ paths:
           description: "Success"
           schema:
             items:
-              $ref: "#/definitions/Alias"
+              $ref: "#/definitions/AliasStats"
         default:
           description: "Error"
           schema:
@@ -124,7 +124,7 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/AliasListEntry"
+              $ref: "#/definitions/Alias"
         default:
           description: "Error"
           schema:
@@ -205,7 +205,7 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/AliasListEntry"
+              $ref: "#/definitions/Alias"
         default:
           description: "Error"
           schema:
@@ -2016,6 +2016,51 @@ paths:
             $ref: "#/definitions/ErrorResponse"
       x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
+  /syscoindecoderawtransaction:
+    post:
+      tags:
+      - "General"
+      description: "Decode raw syscoin transaction (serialized, hex-encoded) and display information pertaining to the service that is included \
+      \ in the transactiion data output(OP_RETURN)."
+      operationId: "syscoindecoderawtransaction"
+      parameters:
+      - name: "hexstring"
+        in: "query"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"      
+  /syscoinsignrawtransaction:
+    post:
+      tags:
+      - "General"
+      description: "Sign inputs for raw transaction (serialized, hex-encoded) and sends them out to the network if signing is complete."
+      operationId: "syscoinsignrawtransaction"
+      parameters:
+      - name: "hexstring"
+        in: "query"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"    
   /validateaddress:
     get:
       tags:
@@ -2439,6 +2484,32 @@ definitions:
     properties:
       message:
         type: "string"
+  AliasHistoryEntry:
+    properties:
+      type:
+        type: "string"
+      details:
+        type: "object"
+        items:
+          $ref: "#/definitions/Alias"    
+  AliasMultisigEntry:
+    properties:  
+      reqsigs:
+        type: "number" 
+      reqsigners:
+        type: "array"
+        items:
+          type: "string"
+      redeemscript:
+        type: "string"   
+  AliasStats:
+    properties:
+      totalaliases:
+        type: "number"
+      aliases:
+        type: "array"
+        items:
+          $ref: "#/definitions/Alias"           
   Alias:
     properties:
       name:
@@ -2447,36 +2518,55 @@ definitions:
         type: "string"
       privatevalue:
         type: "string"
+      password:
+        type: "string"
+      passwordsalt:
+        type: "string"       
+      encryption_privatekey:
+        type: "string"  
+      encryption_publickey:
+        type: "string"  
       txid:
         type: "string"
       address:
         type: "string"
+      publickey:
+        type: "string" 
+      alias_peg:
+        type: "string" 
+      balance:
+        type: "number"          
       ismine:
         type: "boolean"
+      safesearch:
+        type: "boolean"
+      acceptcerttransfers:
+        type: "boolean" 
+      safetylevel:
+        type: "number"
+      buyer_rating:
+        type: "number" 
+        format: "float"
+      buyer_ratingcount:
+        type: "number" 
+      buyer_rating_display:
+        type: "string"
+      seller_rating:
+        type: "number" 
+        format: "float"
+      seller_ratingcount:
+        type: "number" 
+      seller_rating_display:
+        type: "string" 
+      arbiter_rating:
+        type: "number" 
+        format: "float"
+      arbiter_ratingcount:
+        type: "number" 
+      arbiter_rating_display:
+        type: "string"         
       lastupdate_height:
         type: "number"
-      expires_in:
-        type: "number"
-      expires_on:
-        type: "number"
-      expired:
-        type: "boolean"
-  AliasListEntry:
-    required:
-    - "expired"
-    - "expires_in"
-    - "expires_on"
-    - "name"
-    - "pending"
-    - "privatevalue"
-    - "value"
-    properties:
-      name:
-        type: "string"
-      value:
-        type: "string"
-      privatevalue:
-        type: "string"
       expires_in:
         type: "number"
       expires_on:
@@ -2485,30 +2575,10 @@ definitions:
         type: "boolean"
       pending:
         type: "boolean"
-      txid:
-        type: "string"
-  AliasHistoryEntry:
-    properties:
-      name:
-        type: "string"
-      aliastype:
-        type: "string"
-      value:
-        type: "string"
-      privatevalue:
-        type: "string"
-      txid:
-        type: "string"
-      address:
-        type: "string"
-      lastupdate_height:
-        type: "number"
-      expires_in:
-        type: "number"
-      expires_on:
-        type: "number"
-      expired:
-        type: "boolean"
+      multisiginfo:
+        type: "object"
+        items:
+          $ref: "#/definitions/AliasMultisigEntry"         
   CertListEntry:
     properties:
       cert:
