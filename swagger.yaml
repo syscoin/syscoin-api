@@ -2032,7 +2032,7 @@ paths:
         200:
           description: "Success"
           schema:
-            type: "string"
+            $ref: "#/definitions/AliasDecode"
         default:
           description: "Error"
           schema:
@@ -2509,7 +2509,37 @@ definitions:
       aliases:
         type: "array"
         items:
-          $ref: "#/definitions/Alias"           
+          $ref: "#/definitions/Alias"   
+  AliasDecode:
+    properties:
+      txtype:
+        type: "string" 
+      name:
+        type: "string"  
+      alias_peg:
+        type: "string"  
+      public_value:
+        type: "string" 
+      private_value:
+        type: "string"  
+      password:
+        type: "string" 
+      address:
+        type: "string"   
+      safesearch:
+        type: "string"    
+      acceptcerttransfers:
+        type: "string"   
+      renewal:
+        type: "string"  
+      safetylevel:
+        type: "string"
+      multisiginfo:
+        type: "object"
+        items:
+          $ref: "#/definitions/AliasMultisigEntry"  
+      warning:
+        type: "string"        
   Alias:
     properties:
       name:
