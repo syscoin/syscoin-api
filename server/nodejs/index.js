@@ -56,7 +56,7 @@ var swaggerDoc, options;
 function initSwagger() {
   // swaggerRouter configuration
   options = {
-    swaggerUiDir: '../../swagger-ui/dist',
+    /*swaggerUiDir: '../../swagger-ui/dist',*/
     controllers: './controllers',
     useStubs: process.env.NODE_ENV === 'development' ? true : false // Conditionally turn on stubs (mock mode)
   };
