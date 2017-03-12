@@ -1355,30 +1355,6 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /messagehistory:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: messagehistory
-      description: List all stored values of a message.
-      tags:
-      - Messaging
-      parameters:
-      - name: message
-        in: query
-        required: true
-        type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/MessageHistoryEntry"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
   /messageinfo:
     x-swagger-router-controller: rpc
     get:
@@ -1396,25 +1372,6 @@ paths:
           description: Success
           schema:
             $ref: "#/definitions/Message"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /messagelist:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: messagelist
-      description: List my own messages
-      tags:
-      - Messaging
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/MessageListEntry"
         default:
           description: Error
           schema:
@@ -1445,13 +1402,62 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /messagereceivelist:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: messagereceivelist
+      description: List received messages that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in message.
+      tags:
+      - Messaging
+      parameters:
+      - name: aliases
+        in: query
+        required: false
+        type: array
+        items:
+          type: string
+      - name: message
+        in: query
+        required: false
+        type: string
+      - name: privatekey
+        in: query
+        required: false
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/MessageListEntry"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /messagesentlist:
     x-swagger-router-controller: rpc
     get:
       operationId: messagesentlist
-      description: list my sent messages
+      description: List sent messages that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in message.
       tags:
       - Messaging
+      parameters:
+      - name: aliases
+        in: query
+        required: false
+        type: array
+        items:
+          type: string
+      - name: message
+        in: query
+        required: false
+        type: string
+      - name: privatekey
+        in: query
+        required: false
+        type: string
       responses:
         "200":
           description: Success
@@ -2721,22 +2727,6 @@ definitions:
       otheraccount:
         description: For the 'move' category of transactions, the account the funds came from (for receiving funds, positive amounts), or went to (for sending funds, negative amounts).
         type: string
-  MessageHistoryEntry:
-    properties:
-      GUID:
-        type: string
-      messagetype:
-        type: string
-      time:
-        type: number #returns string wrapped number
-      from:
-        type: string
-      to:
-        type: string
-      subject:
-        type: string
-      message:
-        type: string
   Message:
     properties:
       GUID:
@@ -3235,6 +3225,9 @@ definitions:
         type: string
       toalias:
         description: Alias to send message to.
+        type: string
+      hex: #should be boolean
+        description: Is data an hex based message(only To-Message will be displayed). No by default.
         type: string
   MoveRequest:
     required:
