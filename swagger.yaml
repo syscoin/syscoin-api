@@ -614,6 +614,30 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /escrowacknowledge:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: escrowacknowledge
+      description: Acknowledge escrow payment as seller of offer. Deducts qty of offer and increases number of sold inventory.
+      tags:
+      - Escrow
+      parameters:
+      - name: escrowguid
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string #TODO: double check
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /escrowclaimrefund:
     x-swagger-router-controller: rpc
     post:
@@ -659,6 +683,85 @@ paths:
             type: array
             items:
               type: string #TODO: double check
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /escrowcompleterefund:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: escrowcompleterefund
+      description: Completes an escrow refund by creating the escrow complete refund transaction on syscoin blockchain.
+      tags:
+      - Escrow
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/EscrowCompleteRefundRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string #TODO: double check
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /escrowcompleterelease:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: escrowcompleterelease
+      description: Completes an escrow release by creating the escrow complete release transaction on syscoin blockchain.
+      tags:
+      - Escrow
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/EscrowCompleteReleaseRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string #TODO: double check
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /escrowfeedback:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: escrowfeedback
+      description: "Send feedback for primary and secondary users in escrow, depending on who you are. Ratings are numbers from 1 to 5. User Role is either 'buyer', 'seller', 'reseller', or 'arbiter'.
+If you are the buyer, feedbackprimary is for seller and feedbacksecondary is for arbiter.
+If you are the seller, feedbackprimary is for buyer and feedbacksecondary is for arbiter.
+If you are the arbiter, feedbackprimary is for buyer and feedbacksecondary is for seller.
+If arbiter didn't do any work for this escrow you can leave his feedback empty and rating as a 0."
+      tags:
+      - Escrow
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/EscrowFeedbackRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
         default:
           description: Error
           schema:
@@ -792,6 +895,56 @@ paths:
         required: true
         schema:
           $ref: "#/definitions/EscrowNewRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /escrowrefund:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: escrowrefund
+      description: Refunds escrow funds back to buyer, buyer needs to sign the output transaction and send to the network. User role represents either 'seller' or 'arbiter'. Enter in rawTx if this is an external payment refund.
+      tags:
+      - Escrow
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/EscrowRefundRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /escrowrelease:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: escrowrelease
+      description: Releases escrow funds to seller, seller needs to sign the output transaction and send to the network. User role represents either 'buyer' or 'arbiter'. Enter in rawTx if this is an external payment release.
+      tags:
+      - Escrow
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/EscrowReleaseRequest"
       responses:
         "200":
           description: Success
@@ -1430,7 +1583,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/definitions/MessageListEntry"
+              $ref: "#/definitions/Message"
         default:
           description: Error
           schema:
@@ -1464,7 +1617,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/definitions/MessageListEntry"
+              $ref: "#/definitions/Message"
         default:
           description: Error
           schema:
@@ -1506,6 +1659,70 @@ paths:
         required: true
         schema:
           $ref: "#/definitions/OfferAcceptRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /offeracceptacknowledge:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: offeracceptacknowledge
+      description: Acknowledge offer payment as seller of offer. Deducts qty of offer and increases number of sold inventory.
+      tags:
+      - Offers
+      parameters:
+      - name: offerguid
+        in: query
+        required: true
+        type: string
+      - name: offeracceptguid
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /offeracceptfeedback:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: offeracceptfeedback
+      description: Send feedback and rating for offer accept specified. Ratings are numbers from 1 to 5
+      tags:
+      - Offers
+      parameters:
+      - name: offerguid
+        in: query
+        required: true
+        type: string
+      - name: offeracceptguid
+        in: query
+        required: true
+        type: string
+      - name: feedback
+        in: query
+        required: false
+        type: string
+      - name: rating
+        in: query
+        required: false
+        type: number
       responses:
         "200":
           description: Success
@@ -2286,48 +2503,59 @@ definitions:
         type: string
   ErrorResponse:
     required:
-      - message
+    - message
     properties:
       message:
         type: string
   Alias:
+    discriminator: name
+    required:
+      - name
     properties:
       name:
         type: string
       value:
         type: string
       privatevalue:
+        type: string
+      password:
         type: string
       txid:
         type: string
       address:
         type: string
+      alias_peg:
+        type: string
+      balance:
+        type: number
       ismine:
         type: boolean
+      safesearch:
+        type: string #should be boolean
+      acceptcerttransfers:
+        type: string #should be boolean
+      safetylevel:
+        type: number
+      buyer_rating:
+        type: number
+      buyer_ratingcount:
+        type: number
+      buyer_rating_display:
+        type: string
+      seller_rating:
+        type: number
+      seller_ratingcount:
+        type: number
+      seller_rating_display:
+        type: string
+      arbiter_rating:
+        type: number
+      arbiter_ratingcount:
+        type: number
+      arbiter_rating_display:
+        type: string
       lastupdate_height:
         type: number
-      expires_in:
-        type: number
-      expires_on:
-        type: number
-      expired:
-        type: boolean #returns 0/1
-  AliasListEntry:
-    required:
-    - name
-    - value
-    - privatevalue
-    - expires_in
-    - expires_on
-    - expired
-    - pending
-    properties:
-      name:
-        type: string
-      value:
-        type: string
-      privatevalue:
-        type: string
       expires_in:
         type: number
       expires_on:
@@ -2336,30 +2564,17 @@ definitions:
         type: boolean #return 0/1
       pending:
         type: boolean #return 0/1
-      txid:
-        type: string #only returned with filter
+      multisiginfo:
+        $ref: "#/definitions/MultiSignatureInfo"
+  AliasListEntry:
+    allOf:
+    - $ref: "#/definitions/Alias"
   AliasHistoryEntry:
+    allOf:
+    - $ref: "#/definitions/Alias"
     properties:
-      name:
+      type:
         type: string
-      aliastype:
-        type: string
-      value:
-        type: string
-      privatevalue:
-        type: string
-      txid:
-        type: string
-      address:
-        type: string
-      lastupdate_height:
-        type: number
-      expires_in:
-        type: number
-      expires_on:
-        type: number
-      expired:
-        type: boolean #returns 0/1
   CertListEntry:
     properties:
       cert:
@@ -2507,6 +2722,28 @@ definitions:
       height:
         type: number #returns string wrapped number
       pay_message:
+        type: string
+  EscrowRefundRequest:
+    required:
+    - escrowguid
+    - userrole
+    properties:
+      escrowguid:
+        type: string
+      userrole:
+        type: string
+      rawtx:
+        type: string
+  EscrowReleaseRequest:
+    required:
+    - escrowguid
+    - userrole
+    properties:
+      escrowguid:
+        type: string
+      userrole:
+        type: string
+      rawtx:
         type: string
   Transaction:
     properties:
@@ -2731,24 +2968,6 @@ definitions:
         description: For the 'move' category of transactions, the account the funds came from (for receiving funds, positive amounts), or went to (for sending funds, negative amounts).
         type: string
   Message:
-    properties:
-      GUID:
-        type: string
-      time:
-        type: number #returns string wrapped number
-      from:
-        type: string
-      to:
-        type: string
-      subject:
-        type: string
-      message:
-        type: string
-      txid:
-        type: string
-      height:
-        type: number #returns string wrapped number
-  MessageListEntry:
     properties:
       GUID:
         type: string
@@ -3118,6 +3337,24 @@ definitions:
     - guid
     properties:
       guid:
+        type: string
+      rawtx:
+        type: string
+  EscrowCompleteRefundRequest:
+    required:
+    - escrowguid
+    - rawtx
+    properties:
+      escrowguid:
+        type: string
+      rawtx:
+        type: string
+  EscrowCompleteReleaseRequest:
+    required:
+    - escrowguid
+    - rawtx
+    properties:
+      escrowguid:
         type: string
       rawtx:
         type: string
@@ -3517,3 +3754,36 @@ definitions:
       newpassphrase:
         description: The new passphrase
         type: string
+  MultiSignatureInfo:
+    required:
+    - reqsigs
+    - reqsigners
+    - redeemscript
+    properties:
+      reqsigs:
+        type: number
+      reqsigners:
+        type: string
+      redeemscript:
+        type: string
+  EscrowFeedbackRequest:
+    required:
+    - escrowguid
+    - userrole
+    - feedbackprimary
+    - ratingprimary
+    - feedbacksecondary
+    - ratingsecondary
+    properties:
+      escrowguid:
+        type: string
+      userrole:
+        type: string
+      feedbackprimary:
+        type: string
+      ratingprimary:
+        type: number
+      feedbacksecondary:
+        type: string
+      ratingsecondary:
+        type: number
