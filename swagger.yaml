@@ -2,7 +2,12 @@ swagger: "2.0"
 info:
   version: "1.0.0"
   title: Syscoin API
-host: localhost:8001
+host: localhost:8000
+securityDefinitions:
+  token:
+    type: apiKey
+    in: header
+    name: token
 basePath: /
 schemes:
   # remove http to make production-grade
@@ -25,19 +30,11 @@ tags:
   description: Operations related to escrow.
 - name: Certificates
   description: Operations related to digital certificates.
-securityDefinitions:
-  token:
-    type: apiKey
-    in: header
-    name: token
-security:
-  - token: []
 paths:
   /login:
     x-swagger-router-controller: rpc
     get:
       operationId: login
-      security: []
       description: Returns a session token for use with subsquent protected calls.
       tags:
       - Blockmarket
@@ -60,8 +57,8 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: getinfo
-      security: []
       description: Returns an object containing various state info.
+      security: []
       tags:
       - General
       responses:
@@ -75,64 +72,66 @@ paths:
             $ref: "#/definitions/ErrorResponse"
 
   /getmininginfo:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: getmininginfo
-      description: Returns a json object containing mining-related information.
-      tags:
-      - General
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: "#/definitions/MiningInfo"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: rpc
+      get:
+        operationId: getmininginfo
+        description: Returns a json object containing mining-related information.
+        security:
+          - token: []
+        tags:
+        - General
+        responses:
+          "200":
+            description: Success
+            schema:
+              $ref: "#/definitions/MiningInfo"
+          default:
+            description: Error
+            schema:
+              $ref: "#/definitions/ErrorResponse"
 
   /getpeerinfo:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: getpeerinfo
-      description: Returns data about each connected network node as a json array of objects.
-      tags:
-      - General
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: "#/definitions/PeerInfoResponse"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: rpc
+      get:
+        operationId: getpeerinfo
+        description: Returns data about each connected network node as a json array of objects.
+        tags:
+        - General
+        responses:
+          "200":
+            description: Success
+            schema:
+              $ref: "#/definitions/PeerInfoResponse"
+          default:
+            description: Error
+            schema:
+              $ref: "#/definitions/ErrorResponse"
 
   /validateaddress:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: validateaddress
-      description: Return information about the given syscoin address.
-      tags:
-      - General
-      parameters:
-      - name: syscoinaddress
-        in: query
-        required: true
-        type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: "#/definitions/ValidateAddressResponse"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: rpc
+      post:
+        operationId: validateaddress
+        description: Return information about the given syscoin address.
+        tags:
+        - General
+        parameters:
+        - name: syscoinaddress
+          in: query
+          required: true
+          type: string
+        responses:
+          "200":
+            description: Success
+            schema:
+              $ref: "#/definitions/ValidateAddressResponse"
+          default:
+            description: Error
+            schema:
+              $ref: "#/definitions/ErrorResponse"
 
   /verifymessage:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: verifymessage
       description: Verify a signed message
       tags:
@@ -209,7 +208,13 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: aliasfilter
-      description: Filter aliases
+      description: "Filter aliases
+        [regexp] : apply [regexp] on aliases, empty means all aliases
+        [from] : show results from this GUID [from], empty means first.
+        [aliasfilter] : shows all aliases that are safe to display (not on the ban list)
+        aliasfilter \"\" 5 = list aliases updated in last 5 blocks
+        aliasfilter \"^alias\" = list all aliases starting with \"alias\"
+        aliasfilter 36000 0 0 stat = display stats (number of aliases) on active aliases"
       tags:
       - Aliases
       parameters:
@@ -218,21 +223,16 @@ paths:
         description: apply [regexp] on aliases, empty means all aliases
         required: true
         type: string
-      - name: maxage
-        in: query
-        description: look in last [maxage] blocks
-        required: false
-        type: number
       - name: from
         in: query
-        description: show results from number [from]
+        description: show results from this GUID [from], empty means first
         required: false
-        type: number
-      - name: nb
+        type: string
+      - name: safesearch
         in: query
-        description: show [nb] results, 0 means all
+        description: shows all aliases that are safe to display (not on the ban list)
         required: false
-        type: number
+        type: string
       responses:
         "200":
           description: Success
@@ -336,34 +336,6 @@ paths:
             type: array
             items:
               type: string
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /aliasscan:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: aliasscan
-      description: Scan all aliases, starting at start-name and returning a maximum number of entries (default 500)
-      tags:
-      - Aliases
-      parameters:
-      - name: start-name
-        in: query
-        required: false
-        type: string
-      - name: max-returned
-        in: query
-        required: false
-        type: number
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              type: string #TODO: could not execute RPC command, error'd
         default:
           description: Error
           schema:
@@ -3036,8 +3008,12 @@ definitions:
   AliasNewRequest:
     required:
     - aliasname
+    - aliaspeg
     - publicvalue
     properties:
+      aliaspeg:
+        description: Alias peg which will be used for conversion operations on all Syscoin services related to this Alias
+        type: string
       aliasname:
         description: Alias name
         type: string
@@ -3047,23 +3023,75 @@ definitions:
       privatevalue:
         description: Alias private profile data, 1023 chars max. Will be private and readable by owner only.
         type: string
+      password:
+        description: "Used to generate your public/private key that controls this alias. Warning: Calling this function over a public network can lead to someone reading your password in plain text."
+        type: string
+      safesearch: #should be boolean
+        description: set to No if this alias should only show in the search when safe search is not selected. Defaults to Yes (alias shows with or without safe search selected in search lists).
+        type: string
+      accepttransfers:
+        description: set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.
+        type: string
+      expire:
+        description: Time in seconds. Future time when to expire alias. It is exponentially more expensive per year, calculation is FEERATE*(1.5^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias. Defaults to 1 year.
+        type: string
+      nrequired:
+        description: For multisig aliases only. The number of required signatures out of the n aliases for a multisig alias update.
+        type: number
+      aliases:
+        description: "For multisig aliases only. A json array of aliases which are used to sign on an update to this alias.
+           [
+             \"alias\"    Existing syscoin alias name
+             ,...
+           ]"
+        type: array
+        items:
+          type: string
   AliasUpdateRequest:
     required:
+    - aliaspeg
     - aliasname
     - publicvalue
     properties:
+      aliaspeg:
+        description: Alias peg which will be used for conversion operations on all Syscoin services related to this Alias
+        type: string
       aliasname:
-        description: alias name.
+        description: Alias name
         type: string
       publicvalue:
-        description: alias public profile data, 1023 chars max.
+        description: Alias public profile data, 1023 chars max.
         type: string
       privatevalue:
-        description: alias private profile data, 1023 chars max. Will be private and readable by owner only.
+        description: Alias private profile data, 1023 chars max. Will be private and readable by owner only.
+        type: string
+      password:
+        description: "Used to generate your public/private key that controls this alias. Warning: Calling this function over a public network can lead to someone reading your password in plain text."
+        type: string
+      safesearch: #should be boolean
+        description: set to No if this alias should only show in the search when safe search is not selected. Defaults to Yes (alias shows with or without safe search selected in search lists).
         type: string
       toalias_pubkey:
         description: receiver syscoin alias pub key, if transferring alias.
         type: string
+      accepttransfers:
+        description: set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.
+        type: string
+      expire:
+        description: Time in seconds. Future time when to expire alias. It is exponentially more expensive per year, calculation is FEERATE*(1.5^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias. Defaults to 1 year.
+        type: string
+      nrequired:
+        description: For multisig aliases only. The number of required signatures out of the n aliases for a multisig alias update.
+        type: number
+      aliases:
+        description: "For multisig aliases only. A json array of aliases which are used to sign on an update to this alias.
+           [
+             \"alias\"    Existing syscoin alias name
+             ,...
+           ]"
+        type: array
+        items:
+          type: string
   CertNewRequest:
     required:
     - alias
