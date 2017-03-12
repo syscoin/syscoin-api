@@ -1927,7 +1927,7 @@ so payments received with the address will be credited to 'account'."
           schema:
             type: array
             items:
-              $ref: "#/definitions/OfferListEntry"
+              $ref: "#/definitions/Offer"
         default:
           description: Error
           schema:
@@ -2033,7 +2033,7 @@ so payments received with the address will be credited to 'account'."
           schema:
             type: array
             items:
-              $ref: "#/definitions/OfferListEntry"
+              $ref: "#/definitions/Offer"
         default:
           description: Error
           schema:
@@ -3171,81 +3171,16 @@ definitions:
         type: number
       offer_discount_percentage:
         type: number #returns string "5%"
-  OfferListEntry:
-    properties:
-      offer:
-        type: string
-      cert:
-        type: string
-      title:
-        type: string
-      category:
-        type: string
-      description:
-        type: string
-      price:
-        type: number #returns string wrapped number
-      currency:
-        type: string
-      commission:
-        type: number #returns string 0%
-      quantity:
-        type: number #returns string wrapped number
-      address:
-        type: string
-      exclusive_resell:
-        type: boolean #returns string ON/OFF
-      btconly:
-        type: boolean #returns string Yes/No
-      alias_peg:
-        type: string
-      private:
-        type: boolean #returns string Yes/No
-      alias:
-        type: string
-      expires_in:
-        type: number
-      expires_on:
-        type: number
-      expired:
-        type: boolean #returns 0/1
-      pending:
-        type: boolean #returns 0/1
   OfferHistoryEntry:
+    allOf:
+    - $ref: "#/definitions/Offer"
     properties:
-      offer:
-        type: string
       offertype:
         type: string
-      cert:
-        type: string
-      title:
-        type: string
-      category:
-        type: string
-      description:
-        type: string
-      price:
-        type: number #returns string wrapped number
-      currency:
-        type: string
-      commission:
-        type: number #retrusn string 0%
-      quantity:
-        type: number #returns string wrapped number
-      txid:
-        type: string
-      alias:
-        type: string
-      expires_in:
-        type: number
-      expires_on:
-        type: number
-      expired:
-        type: boolean #returns 0/1
-      height:
-        type: boolean #returns 0/1
   Offer:
+    discriminator: offer
+    required:
+    - offer
     properties:
       offer:
         type: string
@@ -3261,8 +3196,6 @@ definitions:
         type: boolean #return 0/1
       height:
         type: number #return string wrapped number
-      address:
-        type: string
       category:
         type: string
       title:
@@ -3283,22 +3216,36 @@ definitions:
         type: boolean #returns string wrapped boolean
       offerlink_guid: #what is this
         type: string
-      exclusive_resell:
-        type: boolean #returns string Yes/No
+      offerlink_seller:
+        type: string
       private:
         type: boolean #returns string Yes/No
-      btconly:
-        type: boolean #retursn string Yes/No
+      safesearch:
+        type: string #should be boolean
+      safetylevel:
+        type: number
+      paymentoptions:
+        type: number
+      paymentoptions_display:
+        type: string
       alias_peg:
         type: string
       description:
         type: string
       alias":
         type: string
-      accepts:
-          type: array
-          items:
-            $ref: "#/definitions/OfferAccept"
+      address:
+        type: string
+      alias_rating:
+        type: number
+      alias_rating_count:
+        type: number
+      alias_rating_display:
+        type: string
+      geolocation:
+        type: string
+      offers_sold:
+        type: number
   AddMultisigAddressRequest:
     required:
     - nrequired
