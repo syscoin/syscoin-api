@@ -369,7 +369,10 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: certfilter
-      description: scan and filter certs
+      description: "scan and filter certs
+        certfilter \"\" 5 = list certs updated in last 5 blocks
+        certfilter \"^cert\" = list all certs starting with \"cert\"
+        certfilter 36000 0 0 stat = display stats (number of certs) on active certs"
       tags:
       - Certificates
       parameters:
@@ -378,19 +381,24 @@ paths:
         description: apply [regexp] on certes, empty means all certes
         required: false
         type: string
-      - name: maxage
-        in: query
-        description: look in last [maxage] blocks
-        required: false
-        type: string
       - name: from
         in: query
         description: show results from number [from]
         required: false
         type: string
-      - name: nb
+      - name: certfilter #should be boolean
         in: query
-        description: show [nb] results, 0 means all
+        description: shows all certs that are safe to display (not on the ban list)
+        required: false
+        type: string
+      - name: safesearch #should be boolean
+        in: query
+        description: shows all certs that are safe to display (not on the ban list)
+        required: false
+        type: string
+      - name: category
+        in: query
+        description: category you want to search in, empty for all
         required: false
         type: string
       responses:
@@ -437,7 +445,7 @@ paths:
       tags:
       - Certificates
       parameters:
-      - name: certname
+      - name: guid
         in: query
         required: true
         type: string
@@ -455,9 +463,24 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: certlist
-      description: Show stored values of a single certificate.
+      description: List certificates that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in certificates.
       tags:
       - Certificates
+      parameters:
+      - name: aliases
+        in: query
+        required: false
+        type: array
+        items:
+          type: string
+      - name: cert
+        in: query
+        required: false
+        type: string
+      - name: privatekey
+        in: query
+        required: false
+        type: string
       responses:
         "200":
           description: Success
@@ -490,34 +513,6 @@ paths:
             type: array
             items:
               type: string
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /certscan:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: certscan
-      description: scan all certs, starting at start-cert and returning a maximum number of entries (default 500)
-      tags:
-      - Certificates
-      parameters:
-      - name: start-cert
-        in: query
-        required: false
-        type: string
-      - name: max-returned
-        in: query
-        required: false
-        type: number
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              type: string #TODO: could not execute RPC command, error'd
         default:
           description: Error
           schema:
@@ -3096,7 +3091,8 @@ definitions:
     required:
     - alias
     - title
-    - data
+    - private
+    - public
     properties:
       alias:
         description: An alias you own.
@@ -3104,40 +3100,61 @@ definitions:
       title:
         description: title, 255 bytes max.
         type: string
-      data:
-        description: data, 1KB max.
-        type: string
       private:
-        description: set to 1 if you only want to make the cert data private, only the owner of the cert can view it. Off by default.
-        type: boolean
+        description: private data, 1024 characters max.
+        type: string
+      public:
+        description: public data, 1024 characters max.
+        type: string
+      safesearch: #should be boolean
+        description: "set to No if this cert should only show in the search when safe search is not selected. Defaults to Yes (cert shows with or without safe search selected in search lists)."
+        type: string
+      category:
+        description: category, 25 characters max. Defaults to certificates;
+        type: string
   CertTransferRequest:
     required:
     - certkey
     - alias
     properties:
       certkey:
+        description: Certificate guidkey.
         type: string
       alias:
+        description: Alias to transfer this certificate to.
         type: string
+      viewonly:
+        description: Transfer the certificate as view-only. Recipient cannot edit, transfer or sell this certificate in the future.
+        type: boolean
   CertUpdateRequest:
     required:
     - guid
+    - alias
     - title
-    - data
     - private
+    - public
     properties:
       guid:
         description: certificate guidkey.
         type: string
+      alias:
+        description: an alias you own to associate with this certificate.
+        type: string
       title:
         description: certificate title, 255 bytes max.
         type: string
-      data:
-        description: certificate data, 1KB max.
-        type: string
       private:
-        description: set to 1 if you only want to make the cert data private, only the owner of the cert can view it.
-        type: boolean
+        description: Private certificate data, 1024 characters max.
+        type: string
+      public:
+        description: Public certificate data, 1024 characters max.
+        type: string
+      safesearch: #should be boolean
+        description: "set to No if this cert should only show in the search when safe search is not selected. Defaults to Yes (cert shows with or without safe search selected in search lists)."
+        type: string
+      category:
+        description: "category, 256 characters max. Defaults to certificates"
+        type: string
   EscrowClaimRefundRequest:
     required:
     - guid
