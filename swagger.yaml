@@ -957,6 +957,31 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /generateescrowmultisig:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: generateescrowmultisig
+      description: Generates a multisignature escrow transaction
+      tags:
+      - Escrow
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/GenerateEscrowMultisigRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /getaccount: #deprecated- what is the replacement?
     x-swagger-router-controller: rpc
     get:
@@ -1224,6 +1249,29 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /getzaddress:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getzaddress
+      description: "Returns a new ZCash address for receiving payments in ZCash transaparent tokens.
+so payments received with the address will be credited to 'account'."
+      tags:
+      - General
+      parameters:
+      - name: address
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/WalletInfo"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /importaddress:
     x-swagger-router-controller: rpc
     get:
@@ -1260,6 +1308,32 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
         required: true
         schema:
           $ref: "#/definitions/ImportPrivKeyRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /importprunedfunds:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: importprunedfunds
+      description: Imports funds without rescan. Corresponding address or script must previously be included in wallet. Aimed towards pruned wallets. The end-user is responsible to import additional transactions that subsequently spend the imported outputs or rescan after the point in the blockchain the transaction is included.
+      tags:
+      - General
+      parameters:
+      - name: rawtransaction
+        in: query
+        required: true
+        type: string
+      - name: txoutproof
+        in: query
+        required: true
+        type: string
       responses:
         "200":
           description: Success
@@ -2087,6 +2161,28 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /removeprunedfunds:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: removeprunedfunds
+      description: Deletes the specified transaction from the wallet. Meant for use with pruned wallets and as a companion to importprunedfunds. This will effect wallet balances.
+      tags:
+      - General
+      parameters:
+      - name: txid
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /sendmany:
     x-swagger-router-controller: rpc
     post:
@@ -2209,6 +2305,54 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
         required: true
         schema:
           $ref: "#/definitions/WalletPassphraseChangeRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /syscoindecoderawtransaction:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: syscoindecoderawtransaction
+      description: Decode raw syscoin transaction (serialized, hex-encoded) and display information pertaining to the service that is included in the transactiion data output(OP_RETURN)
+      tags:
+      - General
+      parameters:
+      - name: alias
+        in: query
+        required: true
+        type: string
+      - name: hexstring
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /syscoinsignrawtransaction:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: syscoinsignrawtransaction
+      description: Sign inputs for raw transaction (serialized, hex-encoded) and sends them out to the network if signing is complete
+      tags:
+      - General
+      parameters:
+      - name: hexstring
+        in: query
+        required: true
+        type: string
       responses:
         "200":
           description: Success
@@ -3787,3 +3931,20 @@ definitions:
         type: string
       ratingsecondary:
         type: number
+  GenerateEscrowMultisigRequest:
+    required:
+    - buyer
+    - offerguid
+    - quantity
+    - arbiter
+    properties:
+      buyer:
+        type: string
+      offerguid:
+        type: string
+      quantity:
+        type: number
+      arbiter:
+        type: string
+      paymentoption:
+        type: string
