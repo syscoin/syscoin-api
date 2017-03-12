@@ -1525,6 +1525,21 @@ paths:
       description: list my offer accepts
       tags:
       - Offers
+      parameters:
+      - name: aliases
+        in: query
+        required: false
+        type: array
+        items:
+          type: string
+      - name: acceptguid
+        in: query
+        required: false
+        type: string
+      - name: privatekey
+        in: query
+        required: false
+        type: string
       responses:
         "200":
           description: Success
@@ -1544,7 +1559,7 @@ paths:
       description: Add to the affiliate list of your offer(controls who can resell). Requires wallet passphrase to be set with walletpassphrase call.
       tags:
       - Offers
-      parameters: #TODO: review RPC param names
+      parameters:
       - name: request
         in: body
         required: true
@@ -1569,7 +1584,7 @@ paths:
       description: Clear the affiliate list of your offer(controls who can resell). Requires wallet passphrase to be set with walletpassphrase call.
       tags:
       - Offers
-      parameters: #TODO: review RPC param names
+      parameters:
       - name: request
         in: body
         required: true
@@ -1600,21 +1615,21 @@ paths:
         description: apply [regexp] on offeres, empty means all offeres
         required: true
         type: string
-      - name: maxage
-        in: query
-        description: look in last [maxage] blocks
-        required: false
-        type: number
       - name: from
         in: query
         description: show results from number [from]
         required: false
         type: number
-      - name: nb
+      - name: safesearch #should be boolean
         in: query
-        description: show [nb] results, 0 means all
+        description: shows all offers that are safe to display (not on the ban list)
         required: false
-        type: number
+        type: string
+      - name: category
+        in: query
+        description: Category you want to search in, empty for all
+        required: false
+        type: string
       responses:
         "200":
           description: Success
@@ -1637,6 +1652,7 @@ paths:
       parameters:
       - name: offer
         in: query
+        description: Offer GUID.
         required: true
         type: string
       responses:
@@ -1702,9 +1718,24 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: offerlist
-      description: list my own offers
+      description: List offers that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in offer.
       tags:
       - Offers
+      parameters:
+      - name: aliases
+        in: query
+        required: false
+        type: array
+        items:
+          type: string
+      - name: offer
+        in: query
+        required: false
+        type: string
+      - name: privatekey
+        in: query
+        required: false
+        type: string
       responses:
         "200":
           description: Success
@@ -1749,7 +1780,7 @@ paths:
       description: Remove from the affiliate list of your offer(controls who can resell). Requires wallet passphrase to be set with walletpassphrase call.
       tags:
       - Offers
-      parameters: #TODO: review RPC param names
+      parameters:
       - name: request
         in: body
         required: true
@@ -1762,34 +1793,6 @@ paths:
             type: array
             items:
               type: string
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /offerscan:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: offerscan
-      description: scan all offers, starting at start-offer and returning a maximum number of entries (default 500)
-      tags:
-      - Offers
-      parameters:
-      - name: start-offer
-        in: query
-        required: false
-        type: string
-      - name: max-returned
-        in: query
-        required: false
-        type: number
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              type: string #TODO: could not execute RPC command, error'd
         default:
           description: Error
           schema:
@@ -3254,7 +3257,6 @@ definitions:
     required:
     - alias
     - guid
-    - quantity
     properties:
       alias:
         description: An alias of the buyer.
@@ -3268,20 +3270,16 @@ definitions:
       message:
         description: payment message to seller, 1KB max.
         type: string
-      btcTxId: #TODO: review RPC, params weird
-        description: If you have paid in Bitcoin and the offer is in Bitcoin, enter the transaction ID here. Default is empty.
+      exttxid:
+        description: If paid in another coin, enter the Transaction ID here. Default is empty.
         type: string
-      linkedacceptguidtxhash:
-        description: transaction id of the linking offer accept. For internal use only, leave blank
-        type: string
-      escrowTxHash:
-        description: If this offer accept is done by an escrow release. For internal use only, leave blank
+      paymentoption:
+        description: If Ext TxId is defined, specify a valid payment option used to make payment. Default is SYS.
         type: string
   OfferAddWhitelistRequest:
     required:
     - offerguid
     - aliasguid
-    - discountPercentage
     properties:
       offerguid:
         description: offer guid that you are adding to
@@ -3290,7 +3288,7 @@ definitions:
         description: alias guid representing an alias that you want to add to the affiliate list
         type: string
       discountPercentage:
-        description: percentage of discount given to reseller for this offer. Negative discount adds on top of offer price, acts as an extra commission. -99 to 99.
+        description: Percentage of discount given to affiliate for this offer. 0 to 99.
         type: number
   OfferClearWhitelistRequest:
     required:
@@ -3318,7 +3316,6 @@ definitions:
         type: string
   OfferNewRequest:
     required:
-    - aliaspeg
     - alias
     - category
     - title
@@ -3327,9 +3324,6 @@ definitions:
     - description
     - currency
     properties:
-      aliaspeg:
-        description: Alias peg you wish to use, leave blank to use SYS_RATES.
-        type: string
       alias:
         description: An alias you own.
         type: string
@@ -3354,11 +3348,17 @@ definitions:
       certguid: #TODO: check param name
         description: Set this to the guid of a certificate you wish to sell
         type: string
-      excelusiveResell: #TODO: check param name
-        description: set to 1 if you only want those who control the affiliate's who are able to resell this offer via offerlink. Defaults to 1.
-        type: boolean
-      acceptBTCOnly: #TODO: check param name
-        description: set to 1 if you only want accept Bitcoins for payment and your currency is set to BTC, note you cannot resell or sell a cert in this mode. Defaults to 0.
+      paymentoptions:
+        description: "'SYS' to accept SYS only, 'BTC' for BTC only, 'ZEC' for zcash only, or a |-delimited string to accept multiple currencies (e.g. 'BTC|SYS' to accept BTC or SYS). Leave empty for default. Defaults to 'SYS'."
+        type: string
+      gelocation:
+        description: set to your geolocation. Defaults to empty.
+        type: string
+      safesearch: #should be boolean
+        description: set to No if this offer should only show in the search when safe search is not selected. Defaults to Yes (offer shows with or without safe search selected in search lists).
+        type: string
+      private:
+        description: set to 1 if this offer should be private not be searchable. Defaults to 0.
         type: boolean
   OfferRemoveWhitelistRequest:
     required:
@@ -3371,24 +3371,18 @@ definitions:
         type: string
   OfferUpdateRequest:
     required:
-    - aliaspeg
     - alias
     - guid
     - category
     - title
-    - description
     - quantity
     - price
-    - private
     properties:
-      aliaspeg:
-        description: Alias peg you wish to use, leave blank to use SYS_RATES.
-        type: string
       alias:
         description: An alias you own.
         type: string
       guid:
-        description: Guid of offer to update
+        description: GUID of offer to update.
         type: string
       category:
         description: category, 255 chars max.
@@ -3405,15 +3399,27 @@ definitions:
       description:
         description: description, 1 KB max.
         type: string
-      private: #TODO: rename, private is reserved word
-        description: Can this offer be seen in public search
+      currency:
+        description: The currency code that you want your offer to be in ie USD.
+        type: string
+      private:
+        description: set to 1 if this offer should be private not be searchable. Defaults to 0.
         type: boolean
       certguid: #TODO: check param name
         description: Set this to the guid of a certificate you wish to sell
         type: string
-      excelusiveResell: #TODO: check param name
-        description: set to 1 if you only want those who control the affiliate's who are able to resell this offer via offerlink. Defaults to 1.
-        type: boolean
+      gelocation:
+        description: set to your geolocation. Defaults to empty.
+        type: string
+      safesearch: #should be boolean
+        description: set to No if this offer should only show in the search when safe search is not selected. Defaults to Yes (offer shows with or without safe search selected in search lists).
+        type: string
+      comission:
+        description: For resold offers.
+        type: number
+      paymentoptions:
+        description: "'SYS' to accept SYS only, 'BTC' for BTC only, 'ZEC' for zcash only, or a |-delimited string to accept multiple currencies (e.g. 'BTC|SYS' to accept BTC or SYS). Leave empty for default. Defaults to 'SYS'."
+        type: string
   SendFromRequest:
     required:
     - fromaccount
