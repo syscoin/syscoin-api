@@ -664,31 +664,6 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /escrowcomplete:
-    x-swagger-router-controller: rpc
-    post:
-      operationId: escrowcomplete
-      description: Accepts an offer that's in escrow, to complete the escrow process. Requires wallet passphrase to be set with walletpassphrase call.
-      tags:
-      - Escrow
-      parameters:
-      - name: request
-        in: body
-        required: true
-        schema:
-          $ref: "#/definitions/EscrowCompleteRequest"
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              type: string #TODO: double check
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
   /escrowfilter:
     x-swagger-router-controller: rpc
     get:
@@ -697,24 +672,14 @@ paths:
       tags:
       - Escrow
       parameters:
-      - name: search
+      - name: regexp
         in: query
-        description: Find arbiter or seller via alias name or an escrow GUID, empty means all escrows
+        description: Apply [regexp] on escrows, empty means all escrows
         required: true
         type: string
-      - name: maxage
-        in: query
-        description: look in last [maxage] blocks
-        required: false
-        type: number
       - name: from
         in: query
-        description: show results from number [from]
-        required: false
-        type: number
-      - name: nb
-        in: query
-        description: show [nb] results, 0 means all
+        description: Show results from this GUID [from], 0 means first.
         required: false
         type: number
       responses:
@@ -738,6 +703,7 @@ paths:
       - Escrow
       parameters:
       - name: escrow
+        description: GUID of escrow
         in: query
         required: true
         type: string
@@ -762,6 +728,7 @@ paths:
       - Escrow
       parameters:
       - name: escrow
+        description: GUID of escrow
         in: query
         required: true
         type: string
@@ -779,9 +746,27 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: escrowlist
-      description: list my own escrows
+      description: List escrows that an array of aliases are involved in. Set of aliases to look up based on alias, and private key to decrypt any data found in escrow.
       tags:
       - Escrow
+      parameters:
+      - name: aliases
+        description: List of aliases to display escrows from
+        in: query
+        required: true
+        type: array
+        items:
+          type: string
+      - name: escrow
+        description: GUID of escrow
+        in: query
+        required: false
+        type: string
+      - name: privatekey
+        description: private key for decoding data
+        in: query
+        required: false
+        type: string
       responses:
         "200":
           description: Success
@@ -814,34 +799,6 @@ paths:
             type: array
             items:
               type: string
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /escrowscan:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: escrowscan
-      description: scan all escrows, starting at start-escrow and returning a maximum number of entries (default 500)
-      tags:
-      - Escrow
-      parameters:
-      - name: start-escrow
-        in: query
-        required: false
-        type: string
-      - name: max-returned
-        in: query
-        required: false
-        type: number
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              type: string #TODO: could not execute RPC command, error'd
         default:
           description: Error
           schema:
@@ -3161,35 +3118,51 @@ definitions:
     properties:
       guid:
         type: string
+      rawtx:
+        type: string
   EscrowClaimReleaseRequest:
     required:
     - guid
     properties:
       guid:
         type: string
-  EscrowCompleteRequest:
-    required:
-    - guid
-    properties:
-      guid:
+      rawtx:
         type: string
   EscrowNewRequest:
     required:
     - alias
     - offer
     - quantity
+    - message
     - arbiter
     properties:
       alias:
+        description: An alias you own.
         type: string
       offer:
+        description: GUID of offer that this escrow is managing.
         type: string
       quantity:
+        description: Quantity of items to buy of offer.
         type: number
       message:
+        description: Delivery details to seller. 256 characters max.
         type: string
       arbiter:
+        description: Alias of Arbiter.
         type: string
+      exttx:
+        description: External transaction ID if paid with another blockchain.
+        type: string
+      paymentoption:
+        description: If extTx is defined, specify a valid payment option used to make payment. Default is SYS.
+        type: string
+      redeemscript:
+        description: If paid in external chain, enter redeemScript that generateescrowmultisig returns
+        type: string
+      height:
+        description: If paid in extneral chain, enter height that generateescrowmultisig returns
+        type: number
   GetNewAddressRequest:
     properties:
       account:
