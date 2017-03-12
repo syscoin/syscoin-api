@@ -204,6 +204,34 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /aliasauthenticate:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: aliasauthenticate
+      description: "Authenticates an alias with a provided password and returns the private key if successful. Warning: Calling this function over a public network can lead to someone reading your password/private key in plain text."
+      tags:
+      - Aliases
+      parameters:
+      - name: alias
+        in: query
+        required: true
+        type: string
+      - name: password
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: object #TODO: define type
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /aliasfilter:
     x-swagger-router-controller: rpc
     get:

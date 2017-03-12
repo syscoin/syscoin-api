@@ -2,6 +2,23 @@
 
 var syscoinClient = require('../index').syscoinClient;
 
+exports.escrowacknowledge = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+  * escrowguid (String)
+  **/
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
+}
+
 exports.escrowclaimrefund = function(args, res, next) {
   /**
    * parameters expected in the args:
@@ -38,10 +55,27 @@ exports.escrowclaimrelease = function(args, res, next) {
   });
 }
 
-exports.escrowcomplete = function(args, res, next) {
+exports.escrowcompleterefund = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * request (EscrowCompleteRequest)
+  * request (EscrowCompleteRefundRequest)
+  **/
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
+}
+
+exports.escrowcompleterelease = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+  * request (EscrowCompleteReleaseRequest)
   **/
   syscoinClient.escrowComplete(args.request.value.guid, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -54,16 +88,30 @@ exports.escrowcomplete = function(args, res, next) {
     console.log('Escrow complete:', result);
     res.end(JSON.stringify(result));
   });
+}
+
+exports.escrowfeedback = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+  * request (EscrowFeedbackRequest)
+  **/
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
   
 }
 
 exports.escrowfilter = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * search (String)
-  * maxage (BigDecimal)
+  * regexp (String)
   * from (BigDecimal)
-  * nb (BigDecimal)
   **/
   syscoinClient.escrowFilter(args.search.value, args.maxage.value, args.from.value, args.nb.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -117,6 +165,9 @@ exports.escrowinfo = function(args, res, next) {
 exports.escrowlist = function(args, res, next) {
   /**
    * parameters expected in the args:
+  * aliases (List)
+  * escrow (String)
+  * privatekey (String)
   **/
   syscoinClient.escrowList(function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -149,22 +200,54 @@ exports.escrownew = function(args, res, next) {
   });
 }
 
-exports.escrowscan = function(args, res, next) {
+exports.escrowrefund = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * startEscrow (String)
-  * maxReturned (BigDecimal)
+  * request (EscrowRefundRequest)
   **/
-  syscoinClient.escrowScan(args.startEscrow.value, args.maxReturned.value, function(err, result, resHeaders) {
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
+}
 
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
+exports.escrowrelease = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+  * request (EscrowReleaseRequest)
+  **/
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
+}
 
-    console.log('Escrow scan:', result);
-    res.end(JSON.stringify(result));
-  });
+exports.generateescrowmultisig = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+  * request (GenerateEscrowMultisigRequest)
+  **/
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 

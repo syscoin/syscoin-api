@@ -26,10 +26,6 @@ module.exports.certnew = function certnew (req, res, next) {
   Certificates.certnew(req.swagger.params, res, next);
 };
 
-module.exports.certscan = function certscan (req, res, next) {
-  Certificates.certscan(req.swagger.params, res, next);
-};
-
 module.exports.certtransfer = function certtransfer (req, res, next) {
   Certificates.certtransfer(req.swagger.params, res, next);
 };

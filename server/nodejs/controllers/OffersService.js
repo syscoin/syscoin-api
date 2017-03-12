@@ -20,9 +20,50 @@ exports.offeraccept = function(args, res, next) {
   });
 }
 
+exports.offeracceptacknowledge = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+  * offerguid (String)
+  * offeracceptguid (String)
+  **/
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
+}
+
+exports.offeracceptfeedback = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+  * offerguid (String)
+  * offeracceptguid (String)
+  * feedback (String)
+  * rating (BigDecimal)
+  **/
+    var examples = {};
+  examples['application/json'] = [ "aeiou" ];
+  if(Object.keys(examples).length > 0) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
+}
+
 exports.offeracceptlist = function(args, res, next) {
   /**
    * parameters expected in the args:
+  * aliases (List)
+  * acceptguid (String)
+  * privatekey (String)
   **/
   syscoinClient.offerAcceptList(function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -77,9 +118,9 @@ exports.offerfilter = function(args, res, next) {
   /**
    * parameters expected in the args:
   * regexp (String)
-  * maxage (BigDecimal)
   * from (BigDecimal)
-  * nb (BigDecimal)
+  * safesearch (String)
+  * category (String)
   **/
   syscoinClient.offerFilter(args.regexp.value, args.maxage.value, args.from.value, args.nb.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -151,6 +192,9 @@ exports.offerlink = function(args, res, next) {
 exports.offerlist = function(args, res, next) {
   /**
    * parameters expected in the args:
+  * aliases (List)
+  * offer (String)
+  * privatekey (String)
   **/
   syscoinClient.offerList(function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -197,25 +241,6 @@ exports.offerremovewhitelist = function(args, res, next) {
     }
 
     console.log('Offer remove whitelist:', result);
-    res.end(JSON.stringify(result));
-  });
-}
-
-exports.offerscan = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * startOffer (String)
-  * maxReturned (BigDecimal)
-  **/
-  syscoinClient.offerScan(args.startOffer.value, args.maxReturned.value, function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Alias affiliates:', result);
     res.end(JSON.stringify(result));
   });
 }

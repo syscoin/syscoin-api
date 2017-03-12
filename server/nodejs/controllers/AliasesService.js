@@ -5,7 +5,7 @@ var syscoinClient = require('../index').syscoinClient;
 exports.aliasaffiliates = function(args, res, next) {
   /**
    * parameters expected in the args:
-  **/
+   **/
   syscoinClient.aliasAffiliates(function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -19,13 +19,30 @@ exports.aliasaffiliates = function(args, res, next) {
   });
 }
 
+exports.aliasauthenticate = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * alias (String)
+   * password (String)
+   **/
+  var examples = {};
+  examples['application/json'] = [ "{}" ];
+  if(Object.keys(examples).length > 0) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+
+}
+
 exports.aliasfilter = function(args, res, next) {
   /**
    * parameters expected in the args:
   * regexp (String)
-  * maxage (BigDecimal)
-  * from (BigDecimal)
-  * nb (BigDecimal)
+  * from (String)
+  * safesearch (String)
   **/
   syscoinClient.aliasFilter(args.regexp.value, args.maxage.value, args.from.value, args.nb.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -108,25 +125,6 @@ exports.aliasnew = function(args, res, next) {
     }
 
     console.log('Alias new:', result);
-    res.end(JSON.stringify(result));
-  });
-}
-
-exports.aliasscan = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * startName (String)
-  * maxReturned (BigDecimal)
-  **/
-  syscoinClient.aliasScan(args.start-name.value, args.max-returned.value, function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Alias scan:', result);
     res.end(JSON.stringify(result));
   });
 }

@@ -10,6 +10,10 @@ module.exports.aliasaffiliates = function aliasaffiliates (req, res, next) {
   Aliases.aliasaffiliates(req.swagger.params, res, next);
 };
 
+module.exports.aliasauthenticate = function aliasauthenticate (req, res, next) {
+  Aliases.aliasauthenticate(req.swagger.params, res, next);
+};
+
 module.exports.aliasfilter = function aliasfilter (req, res, next) {
   Aliases.aliasfilter(req.swagger.params, res, next);
 };
@@ -28,10 +32,6 @@ module.exports.aliaslist = function aliaslist (req, res, next) {
 
 module.exports.aliasnew = function aliasnew (req, res, next) {
   Aliases.aliasnew(req.swagger.params, res, next);
-};
-
-module.exports.aliasscan = function aliasscan (req, res, next) {
-  Aliases.aliasscan(req.swagger.params, res, next);
 };
 
 module.exports.aliasupdate = function aliasupdate (req, res, next) {

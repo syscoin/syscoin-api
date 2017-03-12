@@ -74,12 +74,20 @@ module.exports.getwalletinfo = function getwalletinfo (req, res, next) {
   General.getwalletinfo(req.swagger.params, res, next);
 };
 
+module.exports.getzaddress = function getzaddress (req, res, next) {
+  General.getzaddress(req.swagger.params, res, next);
+};
+
 module.exports.importaddress = function importaddress (req, res, next) {
   General.importaddress(req.swagger.params, res, next);
 };
 
 module.exports.importprivkey = function importprivkey (req, res, next) {
   General.importprivkey(req.swagger.params, res, next);
+};
+
+module.exports.importprunedfunds = function importprunedfunds (req, res, next) {
+  General.importprunedfunds(req.swagger.params, res, next);
 };
 
 module.exports.importpubkey = function importpubkey (req, res, next) {
@@ -118,6 +126,10 @@ module.exports.move = function move (req, res, next) {
   General.move(req.swagger.params, res, next);
 };
 
+module.exports.removeprunedfunds = function removeprunedfunds (req, res, next) {
+  General.removeprunedfunds(req.swagger.params, res, next);
+};
+
 module.exports.sendfrom = function sendfrom (req, res, next) {
   General.sendfrom(req.swagger.params, res, next);
 };
@@ -132,6 +144,14 @@ module.exports.sendtoaddress = function sendtoaddress (req, res, next) {
 
 module.exports.signmessage = function signmessage (req, res, next) {
   General.signmessage(req.swagger.params, res, next);
+};
+
+module.exports.syscoindecoderawtransaction = function syscoindecoderawtransaction (req, res, next) {
+  General.syscoindecoderawtransaction(req.swagger.params, res, next);
+};
+
+module.exports.syscoinsignrawtransaction = function syscoinsignrawtransaction (req, res, next) {
+  General.syscoinsignrawtransaction(req.swagger.params, res, next);
 };
 
 module.exports.validateaddress = function validateaddress (req, res, next) {

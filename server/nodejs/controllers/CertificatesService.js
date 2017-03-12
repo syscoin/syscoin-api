@@ -6,9 +6,10 @@ exports.certfilter = function(args, res, next) {
   /**
    * parameters expected in the args:
   * regexp (String)
-  * maxage (String)
   * from (String)
-  * nb (String)
+  * certfilter (String)
+  * safesearch (String)
+  * category (String)
   **/
   syscoinClient.certFilter(args.regexp.value, args.maxage.value, args.from.value, args.nb.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -44,7 +45,7 @@ exports.certhistory = function(args, res, next) {
 exports.certinfo = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * certname (String)
+  * guid (String)
   **/
   syscoinClient.certInfo(args.certname.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -62,6 +63,9 @@ exports.certinfo = function(args, res, next) {
 exports.certlist = function(args, res, next) {
   /**
    * parameters expected in the args:
+  * aliases (List)
+  * cert (String)
+  * privatekey (String)
   **/
   syscoinClient.certList(function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -94,25 +98,6 @@ exports.certnew = function(args, res, next) {
   });
 }
 
-exports.certscan = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * startCert (String)
-  * maxReturned (BigDecimal)
-  **/
-  syscoinClient.certScan(args.start-cert.value, args.max-returned.value, function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
-    }
-
-    console.log('Cert scan', result);
-    res.end(JSON.stringify(result));
-  });
-}
-
 exports.certtransfer = function(args, res, next) {
   /**
    * parameters expected in the args:
@@ -129,7 +114,6 @@ exports.certtransfer = function(args, res, next) {
     console.log('Cert transfer:', result);
     res.end(JSON.stringify(result));
   });
-
 }
 
 exports.certupdate = function(args, res, next) {

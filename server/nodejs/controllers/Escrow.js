@@ -6,6 +6,10 @@ var url = require('url');
 var Escrow = require('./EscrowService');
 
 
+module.exports.escrowacknowledge = function escrowacknowledge (req, res, next) {
+  Escrow.escrowacknowledge(req.swagger.params, res, next);
+};
+
 module.exports.escrowclaimrefund = function escrowclaimrefund (req, res, next) {
   Escrow.escrowclaimrefund(req.swagger.params, res, next);
 };
@@ -14,8 +18,16 @@ module.exports.escrowclaimrelease = function escrowclaimrelease (req, res, next)
   Escrow.escrowclaimrelease(req.swagger.params, res, next);
 };
 
-module.exports.escrowcomplete = function escrowcomplete (req, res, next) {
-  Escrow.escrowcomplete(req.swagger.params, res, next);
+module.exports.escrowcompleterefund = function escrowcompleterefund (req, res, next) {
+  Escrow.escrowcompleterefund(req.swagger.params, res, next);
+};
+
+module.exports.escrowcompleterelease = function escrowcompleterelease (req, res, next) {
+  Escrow.escrowcompleterelease(req.swagger.params, res, next);
+};
+
+module.exports.escrowfeedback = function escrowfeedback (req, res, next) {
+  Escrow.escrowfeedback(req.swagger.params, res, next);
 };
 
 module.exports.escrowfilter = function escrowfilter (req, res, next) {
@@ -38,6 +50,14 @@ module.exports.escrownew = function escrownew (req, res, next) {
   Escrow.escrownew(req.swagger.params, res, next);
 };
 
-module.exports.escrowscan = function escrowscan (req, res, next) {
-  Escrow.escrowscan(req.swagger.params, res, next);
+module.exports.escrowrefund = function escrowrefund (req, res, next) {
+  Escrow.escrowrefund(req.swagger.params, res, next);
+};
+
+module.exports.escrowrelease = function escrowrelease (req, res, next) {
+  Escrow.escrowrelease(req.swagger.params, res, next);
+};
+
+module.exports.generateescrowmultisig = function generateescrowmultisig (req, res, next) {
+  Escrow.generateescrowmultisig(req.swagger.params, res, next);
 };

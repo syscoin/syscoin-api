@@ -8,6 +8,10 @@ var rpcuser = require('../index').rpcuser;
 var rpcpass = require('../index').rpcpass;
 
 exports.login = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+  * auth (String)
+  **/
   var auth = args.auth.value;
   console.log("Got auth with request:" + auth + " checkin against:" + rpcuser + rpcpass);
 
@@ -32,7 +36,5 @@ exports.login = function(args, res, next) {
       token: token
     }));
   }
-
-};
-
+}
 

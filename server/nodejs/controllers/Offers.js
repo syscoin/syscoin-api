@@ -10,6 +10,14 @@ module.exports.offeraccept = function offeraccept (req, res, next) {
   Offers.offeraccept(req.swagger.params, res, next);
 };
 
+module.exports.offeracceptacknowledge = function offeracceptacknowledge (req, res, next) {
+  Offers.offeracceptacknowledge(req.swagger.params, res, next);
+};
+
+module.exports.offeracceptfeedback = function offeracceptfeedback (req, res, next) {
+  Offers.offeracceptfeedback(req.swagger.params, res, next);
+};
+
 module.exports.offeracceptlist = function offeracceptlist (req, res, next) {
   Offers.offeracceptlist(req.swagger.params, res, next);
 };
@@ -48,10 +56,6 @@ module.exports.offernew = function offernew (req, res, next) {
 
 module.exports.offerremovewhitelist = function offerremovewhitelist (req, res, next) {
   Offers.offerremovewhitelist(req.swagger.params, res, next);
-};
-
-module.exports.offerscan = function offerscan (req, res, next) {
-  Offers.offerscan(req.swagger.params, res, next);
 };
 
 module.exports.offerupdate = function offerupdate (req, res, next) {
