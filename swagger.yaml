@@ -2,7 +2,7 @@ swagger: "2.0"
 info:
   version: "1.0.0"
   title: Syscoin API
-host: localhost:8000
+host: localhost:8001
 securityDefinitions:
   token:
     type: apiKey
