@@ -3707,7 +3707,7 @@ definitions:
       paymentoptions:
         description: "'SYS' to accept SYS only, 'BTC' for BTC only, 'ZEC' for zcash only, or a |-delimited string to accept multiple currencies (e.g. 'BTC|SYS' to accept BTC or SYS). Leave empty for default. Defaults to 'SYS'."
         type: string
-      gelocation:
+      geolocation:
         description: set to your geolocation. Defaults to empty.
         type: string
       safesearch: #should be boolean
@@ -3764,7 +3764,7 @@ definitions:
       certguid: #TODO: check param name
         description: Set this to the guid of a certificate you wish to sell
         type: string
-      gelocation:
+      geolocation:
         description: set to your geolocation. Defaults to empty.
         type: string
       safesearch: #should be boolean

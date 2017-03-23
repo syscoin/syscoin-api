@@ -7,7 +7,7 @@ exports.offeraccept = function(args, res, next) {
    * parameters expected in the args:
   * request (OfferAcceptRequest)
   **/
-  syscoinClient.offerAccept(args.request.value.alias, args.request.value.guid, args.request.value.quantity, args.request.value.message, args.request.value.btcTxId, args.request.value.linkedacceptguidtxhash, args.request.value.escrowTxHash, function(err, result, resHeaders) {
+  syscoinClient.offerAccept(args.request.value.alias, args.request.value.guid, args.request.value.quantity, args.request.value.message, args.request.value.exttxid, args.request.value.paymentoption, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -26,16 +26,17 @@ exports.offeracceptacknowledge = function(args, res, next) {
   * offerguid (String)
   * offeracceptguid (String)
   **/
-    var examples = {};
-  examples['application/json'] = [ "aeiou" ];
-  if(Object.keys(examples).length > 0) {
+  syscoinClient.offerAcceptAcknowledge(args.offerguid.value, args.offeracceptguid.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-  }
-  else {
-    res.end();
-  }
-  
+
+    if (err) {
+      console.log(err);
+      return res.end(JSON.stringify(err.toString()));
+    }
+
+    console.log('Offer accept acknowledge:', result);
+    res.end(JSON.stringify(result));
+  });
 }
 
 exports.offeracceptfeedback = function(args, res, next) {
@@ -46,16 +47,17 @@ exports.offeracceptfeedback = function(args, res, next) {
   * feedback (String)
   * rating (BigDecimal)
   **/
-    var examples = {};
-  examples['application/json'] = [ "aeiou" ];
-  if(Object.keys(examples).length > 0) {
+  syscoinClient.offerAcceptFeedback(args.offerguid.value, args.offeracceptguid.value, args.feedback.value, args.rating.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-  }
-  else {
-    res.end();
-  }
-  
+
+    if (err) {
+      console.log(err);
+      return res.end(JSON.stringify(err.toString()));
+    }
+
+    console.log('Offer accept feedback:', result);
+    res.end(JSON.stringify(result));
+  });
 }
 
 exports.offeracceptlist = function(args, res, next) {
@@ -65,7 +67,7 @@ exports.offeracceptlist = function(args, res, next) {
   * acceptguid (String)
   * privatekey (String)
   **/
-  syscoinClient.offerAcceptList(function(err, result, resHeaders) {
+  syscoinClient.offerAcceptList(args.aliases.value, args.acceptguid.value, args.privatekey.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -122,7 +124,7 @@ exports.offerfilter = function(args, res, next) {
   * safesearch (String)
   * category (String)
   **/
-  syscoinClient.offerFilter(args.regexp.value, args.maxage.value, args.from.value, args.nb.value, function(err, result, resHeaders) {
+  syscoinClient.offerFilter(args.regexp.value, args.from.value, args.safesearch.value, args.category.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -196,7 +198,7 @@ exports.offerlist = function(args, res, next) {
   * offer (String)
   * privatekey (String)
   **/
-  syscoinClient.offerList(function(err, result, resHeaders) {
+  syscoinClient.offerList(args.aliases.value, args.offer.value, args.privatekey.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -214,7 +216,7 @@ exports.offernew = function(args, res, next) {
    * parameters expected in the args:
   * request (OfferNewRequest)
   **/
-  syscoinClient.offerNew(args.request.value.aliaspeg, args.request.value.alias, args.request.value.category, args.request.value.title, args.request.value.quantity, args.request.value.price, args.request.value.description, args.request.value.currency, args.request.value.certguid, args.request.value.excelusiveResell, args.request.value.acceptBTCOnly, function(err, result, resHeaders) {
+  syscoinClient.offerNew(args.request.value.alias, args.request.value.category, args.request.value.title, args.request.value.quantity, args.request.value.price, args.request.value.description, args.request.value.currency, args.request.value.certguid, args.request.value.paymentoptions, args.request.value.geolocation, args.request.value.safesearch, args.request.value.private, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -250,7 +252,7 @@ exports.offerupdate = function(args, res, next) {
    * parameters expected in the args:
   * request (OfferUpdateRequest)
   **/
-  syscoinClient.offerUpdate(args.request.value.aliaspeg, args.request.value.alias, args.request.value.guid, args.request.value.category, args.request.value.title, args.request.value.quantity, args.request.value.price, args.request.value.description, args.request.value.private, args.request.value.certguid, args.request.value.excelusiveResell, function(err, result, resHeaders) {
+  syscoinClient.offerUpdate(args.request.value.alias, args.request.value.guid, args.request.value.category, args.request.value.title, args.request.value.quantity, args.request.value.price, args.request.value.description, args.request.value.currency, args.request.value.private, args.request.value.certguid, args.request.value.geolocation, args.request.value.safesearch, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
