@@ -11,7 +11,7 @@ exports.certfilter = function(args, res, next) {
   * safesearch (String)
   * category (String)
   **/
-  syscoinClient.certFilter(args.regexp.value, args.maxage.value, args.from.value, args.nb.value, function(err, result, resHeaders) {
+  syscoinClient.certFilter(args.regexp.value, args.from.value, args.certfilter.value, args.safesearch.value, args.category.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -37,7 +37,7 @@ exports.certhistory = function(args, res, next) {
       return res.end(JSON.stringify(err.toString()));
     }
 
-    console.log('Alias history:', result);
+    console.log('Cert history:', result);
     res.end(JSON.stringify(result));
   });
 }
@@ -47,7 +47,7 @@ exports.certinfo = function(args, res, next) {
    * parameters expected in the args:
   * guid (String)
   **/
-  syscoinClient.certInfo(args.certname.value, function(err, result, resHeaders) {
+  syscoinClient.certInfo(args.guid.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -55,7 +55,7 @@ exports.certinfo = function(args, res, next) {
       return res.end(JSON.stringify(err.toString()));
     }
 
-    console.log('Alias info:', result);
+    console.log('Cert info:', result);
     res.end(JSON.stringify(result));
   });
 }
@@ -67,7 +67,7 @@ exports.certlist = function(args, res, next) {
   * cert (String)
   * privatekey (String)
   **/
-  syscoinClient.certList(function(err, result, resHeaders) {
+  syscoinClient.certList(args.aliases.value, args.cert.value, args.privatekey.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -85,7 +85,7 @@ exports.certnew = function(args, res, next) {
    * parameters expected in the args:
   * request (CertNewRequest)
   **/
-  syscoinClient.certNew(args.request.value.alias, args.request.value.title, args.request.value.data, args.request.value.private, function(err, result, resHeaders) {
+  syscoinClient.certNew(args.request.value.alias, args.request.value.title, args.request.value.private, args.request.value.public, args.request.value.safesaerch, args.request.value.category, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -103,7 +103,7 @@ exports.certtransfer = function(args, res, next) {
    * parameters expected in the args:
   * request (CertTransferRequest)
   **/
-  syscoinClient.certTransfer(args.request.value.certkey, args.request.value.alias, function(err, result, resHeaders) {
+  syscoinClient.certTransfer(args.request.value.certkey, args.request.value.alias, args.request.value.viewonly, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -121,7 +121,7 @@ exports.certupdate = function(args, res, next) {
    * parameters expected in the args:
   * request (CertUpdateRequest)
   **/
-  syscoinClient.certUpdate(args.request.value.guid, args.request.value.title, args.request.value.data, args.request.value.private, function(err, result, resHeaders) {
+  syscoinClient.certUpdate(args.request.value.guid, args.request.value.alias, args.request.value.title, args.request.value.private, args.request.value.public, args.request.value.safesearch, args.request.value.category, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
