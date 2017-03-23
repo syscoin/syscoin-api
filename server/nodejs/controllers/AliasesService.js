@@ -25,16 +25,17 @@ exports.aliasauthenticate = function(args, res, next) {
    * alias (String)
    * password (String)
    **/
-  var examples = {};
-  examples['application/json'] = [ "{}" ];
-  if(Object.keys(examples).length > 0) {
+  syscoinClient.aliasAuthenticate(args.alias.value, args.password.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-  }
-  else {
-    res.end();
-  }
 
+    if (err) {
+      console.log(err);
+      return res.end(JSON.stringify(err.toString()));
+    }
+
+    console.log('Alias authenticate:', result);
+    res.end(JSON.stringify(result));
+  });
 }
 
 exports.aliasfilter = function(args, res, next) {
@@ -44,7 +45,7 @@ exports.aliasfilter = function(args, res, next) {
   * from (String)
   * safesearch (String)
   **/
-  syscoinClient.aliasFilter(args.regexp.value, args.maxage.value, args.from.value, args.nb.value, function(err, result, resHeaders) {
+  syscoinClient.aliasFilter(args.regexp.value, args.from.value, args.safesearch.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -116,7 +117,7 @@ exports.aliasnew = function(args, res, next) {
    * parameters expected in the args:
   * request (AliasNewRequest)
   **/
-  syscoinClient.aliasNew(args.request.value.aliasname, args.request.value.publicvalue, args.request.value.privatevalue, function(err, result, resHeaders) {
+  syscoinClient.aliasNew(args.request.value.aliasname, args.request.value.aliaspeg, args.request.value.publicvalue, args.request.value.privatevalue, args.request.value.password, args.request.value.safesearch, args.request.value.accepttransfers, args.request.value.expire, args.request.value.nrequired, args.request.value.aliases, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -134,7 +135,7 @@ exports.aliasupdate = function(args, res, next) {
    * parameters expected in the args:
   * request (AliasUpdateRequest)
   **/
-  syscoinClient.aliasUpdate(args.request.value.aliasname, args.request.value.publicvalue, args.request.value.privatevalue, args.request.value.toalias_pubkey, function(err, result, resHeaders) {
+  syscoinClient.aliasUpdate(args.request.value.aliaspeg, args.request.value.aliasname, args.request.value.publicvalue, args.request.value.privatevalue, args.request.value.password, args.request.value.safesearch, args.request.value.toalias_pubkey, args.request.value.accepttransfers, args.request.value.expire, args.request.value.nrequired, args.request.value.aliases, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
