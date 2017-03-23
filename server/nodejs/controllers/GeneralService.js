@@ -308,26 +308,17 @@ exports.getzaddress = function(args, res, next) {
    * parameters expected in the args:
    * address (String)
    **/
-  var examples = {};
-  examples['application/json'] = {
-    "unlocked_until" : 1.3579000000000001069366817318950779736042022705078125,
-    "balance" : 1.3579000000000001069366817318950779736042022705078125,
-    "paytxfee" : 1.3579000000000001069366817318950779736042022705078125,
-    "unconfirmed_balance" : 1.3579000000000001069366817318950779736042022705078125,
-    "txcount" : 1.3579000000000001069366817318950779736042022705078125,
-    "immature_balance" : 1.3579000000000001069366817318950779736042022705078125,
-    "keypoololdest" : 1.3579000000000001069366817318950779736042022705078125,
-    "walletversion" : 1.3579000000000001069366817318950779736042022705078125,
-    "keypoolsize" : 1.3579000000000001069366817318950779736042022705078125
-  };
-  if(Object.keys(examples).length > 0) {
+  syscoinClient.getZAddress(args.address.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-  }
-  else {
-    res.end();
-  }
 
+    if (err) {
+      console.log(err);
+      return res.end(JSON.stringify(err.toString()));
+    }
+
+    console.log('Get Z Address', result);
+    res.end(JSON.stringify(result));
+  });
 }
 
 exports.importaddress = function(args, res, next) {
@@ -372,16 +363,17 @@ exports.importprunedfunds = function(args, res, next) {
    * rawtransaction (String)
    * txoutproof (String)
    **/
-  var examples = {};
-  examples['application/json'] = "aeiou";
-  if(Object.keys(examples).length > 0) {
+  syscoinClient.importPrunedFunds(args.rawtransaction.value, args.txoutproof.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-  }
-  else {
-    res.end();
-  }
 
+    if (err) {
+      console.log(err);
+      return res.end(JSON.stringify(err.toString()));
+    }
+
+    console.log('Import pruned funds ', result);
+    res.end(JSON.stringify(result));
+  });
 }
 
 exports.importpubkey = function(args, res, next) {
@@ -560,16 +552,17 @@ exports.removeprunedfunds = function(args, res, next) {
    * parameters expected in the args:
    * txid (String)
    **/
-  var examples = {};
-  examples['application/json'] = "aeiou";
-  if(Object.keys(examples).length > 0) {
+  syscoinClient.removePrunedFunds(args.txid.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-  }
-  else {
-    res.end();
-  }
 
+    if (err) {
+      console.log(err);
+      return res.end(JSON.stringify(err.toString()));
+    }
+
+    console.log('Remove pruned funds ', result);
+    res.end(JSON.stringify(result));
+  });
 }
 
 exports.sendfrom = function(args, res, next) {
@@ -650,16 +643,17 @@ exports.syscoindecoderawtransaction = function(args, res, next) {
    * alias (String)
    * hexstring (String)
    **/
-  var examples = {};
-  examples['application/json'] = "aeiou";
-  if(Object.keys(examples).length > 0) {
+  syscoinClient.syscoinDecodeRawTransaction(args.alias.value, args.hexstring.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-  }
-  else {
-    res.end();
-  }
 
+    if (err) {
+      console.log(err);
+      return res.end(JSON.stringify(err.toString()));
+    }
+
+    console.log('Syscoin decode raw transaction ', result);
+    res.end(JSON.stringify(result));
+  });
 }
 
 exports.syscoinsignrawtransaction = function(args, res, next) {
@@ -667,16 +661,17 @@ exports.syscoinsignrawtransaction = function(args, res, next) {
    * parameters expected in the args:
    * hexstring (String)
    **/
-  var examples = {};
-  examples['application/json'] = "aeiou";
-  if(Object.keys(examples).length > 0) {
+  syscoinClient.syscoinSignRawTransaction(args.hexstring.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-  }
-  else {
-    res.end();
-  }
 
+    if (err) {
+      console.log(err);
+      return res.end(JSON.stringify(err.toString()));
+    }
+
+    console.log('Syscoin sign raw transaction ', result);
+    res.end(JSON.stringify(result));
+  });
 }
 
 exports.validateaddress = function(args, res, next) {
