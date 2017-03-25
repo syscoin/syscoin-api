@@ -56,14 +56,13 @@ var swaggerDoc, options;
 function initSwagger() {
   // swaggerRouter configuration
   options = {
-    /*swaggerUiDir: '../../swagger-ui/dist',*/
+    swaggerUiDir: '../../swagger-ui/dist',
     controllers: './controllers',
     useStubs: process.env.NODE_ENV === 'development' ? true : false // Conditionally turn on stubs (mock mode)
   };
 
   // The Swagger document (require it, build it programmatically, fetch it from a URL, ...)
-  var spec = fs.readFileSync('./api/swagger.yaml', 'utf8');
-  swaggerDoc = jsyaml.safeLoad(spec);
+  swaggerDoc = require('./../../swagger.json');
 }
 
 function initHttp() {
