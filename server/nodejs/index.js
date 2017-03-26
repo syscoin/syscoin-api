@@ -62,7 +62,7 @@ function initSwagger() {
   };
 
   // The Swagger document (require it, build it programmatically, fetch it from a URL, ...)
-  swaggerDoc = require('./../../swagger.json');
+  swaggerDoc = require('./../../generated-json/swagger.json');
 }
 
 function initHttp() {
