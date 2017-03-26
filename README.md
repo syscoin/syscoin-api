@@ -3,6 +3,8 @@
 To generate the API first download swagger-codegen () and build it. After its built, create an alias:
 alias swagger-codegen='java -jar [/path/to/built/swagger-codegen]/swagger-codegen/modules/swagger-codegen-cli/target/swagger-codegen-cli.jar'
 
+To rebuild the JSON API spec due to YAML changes (required for docs UI to be accurate): `generate -i swagger.yaml -o ./generated-json -l swagger`
+
 To build the server stub (node): `swagger-codegen generate -i swagger.yaml -o ./server/generated-server -l nodejs-server`
 
 To build the client (typescript): `swagger-codegen generate -i swagger.yaml -o ./client/generated-client -l typescript-node`

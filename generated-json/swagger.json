@@ -55,7 +55,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -82,7 +85,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -119,7 +125,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -163,7 +172,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -194,7 +206,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -222,7 +237,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -254,7 +272,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -287,7 +308,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -320,7 +344,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -376,7 +403,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -407,7 +437,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -435,7 +468,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -479,7 +515,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -512,7 +551,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -545,7 +587,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -578,7 +623,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -607,7 +655,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -636,7 +687,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -667,7 +721,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -700,7 +757,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -733,7 +793,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -766,7 +829,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -799,7 +865,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -832,7 +901,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -870,7 +942,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -902,7 +977,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -931,7 +1009,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -978,7 +1059,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1011,7 +1095,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1044,7 +1131,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1077,7 +1167,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1110,7 +1203,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1139,7 +1235,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1168,7 +1267,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1199,7 +1301,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1240,7 +1345,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1264,7 +1372,9 @@
             }
           }
         },
-        "security" : [ ]
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1320,7 +1430,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1343,7 +1456,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1378,7 +1494,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1413,7 +1532,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1448,7 +1570,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1471,7 +1596,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1500,7 +1628,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1523,7 +1654,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1551,7 +1685,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1581,7 +1718,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1611,7 +1751,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1644,7 +1787,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1674,7 +1820,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1704,7 +1853,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1740,7 +1892,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1769,7 +1924,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1813,7 +1971,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1857,7 +2018,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1900,7 +2064,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -1950,7 +2117,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -2007,7 +2177,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -2040,7 +2213,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -2084,7 +2260,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -2158,7 +2337,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -2191,7 +2373,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -2227,7 +2412,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -2273,7 +2461,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -2317,7 +2508,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -2350,7 +2544,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -2383,14 +2580,17 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
     "/offerfilter" : {
       "get" : {
         "tags" : [ "Offers" ],
-        "description" : "scan and filter offeres",
+        "description" : "scan and filter offers",
         "operationId" : "offerfilter",
         "parameters" : [ {
           "name" : "regexp",
@@ -2433,7 +2633,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -2465,7 +2668,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -2493,7 +2699,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -2526,7 +2735,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -2570,7 +2782,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -2603,7 +2818,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -2636,7 +2854,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -2669,7 +2890,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -2700,7 +2924,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -2728,7 +2955,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -2758,7 +2988,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -2788,7 +3021,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -2818,7 +3054,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -2848,7 +3087,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -2881,7 +3123,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -2909,7 +3154,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -2937,7 +3185,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -2978,7 +3229,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -3001,7 +3255,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -3031,7 +3288,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -3061,7 +3321,10 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     }

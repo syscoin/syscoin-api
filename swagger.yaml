@@ -58,7 +58,8 @@ paths:
     get:
       operationId: getinfo
       description: Returns an object containing various state info.
-      security: []
+      security:
+          - token: []
       tags:
       - General
       responses:
@@ -95,6 +96,8 @@ paths:
       get:
         operationId: getpeerinfo
         description: Returns data about each connected network node as a json array of objects.
+        security:
+          - token: []
         tags:
         - General
         responses:
@@ -112,6 +115,8 @@ paths:
       post:
         operationId: validateaddress
         description: Return information about the given syscoin address.
+        security:
+          - token: []
         tags:
         - General
         parameters:
@@ -134,6 +139,8 @@ paths:
     post:
       operationId: verifymessage
       description: Verify a signed message
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -167,6 +174,8 @@ paths:
     post:
       operationId: addmultisigaddress
       description: Add a nrequired-to-sign multisignature address to the wallet. Each key is a Syscoin address or hex-encoded public key. If 'account' is specified (DEPRECATED), assign address to that account.
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -190,6 +199,8 @@ paths:
     get:
       operationId: aliasaffiliates
       description: list affiliations with merchant offers.
+      security:
+          - token: []
       tags:
       - Aliases
       responses:
@@ -209,6 +220,8 @@ paths:
     get:
       operationId: aliasauthenticate
       description: "Authenticates an alias with a provided password and returns the private key if successful. Warning: Calling this function over a public network can lead to someone reading your password/private key in plain text."
+      security:
+          - token: []
       tags:
       - Aliases
       parameters:
@@ -243,6 +256,8 @@ paths:
         aliasfilter \"\" 5 = list aliases updated in last 5 blocks
         aliasfilter \"^alias\" = list all aliases starting with \"alias\"
         aliasfilter 36000 0 0 stat = display stats (number of aliases) on active aliases"
+      security:
+        - token: []
       tags:
       - Aliases
       parameters:
@@ -278,6 +293,8 @@ paths:
     get:
       operationId: aliashistory
       description: List all stored values of an alias.
+      security:
+          - token: []
       tags:
       - Aliases
       parameters:
@@ -302,6 +319,8 @@ paths:
     get:
       operationId: aliasinfo
       description: Show values of an alias.
+      security:
+          - token: []
       tags:
       - Aliases
       parameters:
@@ -324,6 +343,8 @@ paths:
     get:
       operationId: aliaslist
       description: List my own aliases.
+      security:
+          - token: []
       tags:
       - Aliases
       parameters:
@@ -349,6 +370,8 @@ paths:
     post:
       operationId: aliasnew
       description: Creates a new Syscoin Alias. Requires wallet passphrase to be set with walletpassphrase call.
+      security:
+          - token: []
       tags:
       - Aliases
       parameters:
@@ -374,6 +397,8 @@ paths:
     post:
       operationId: aliasupdate
       description: Update and possibly transfer an alias. Requires wallet passphrase to be set with walletpassphrase call.
+      security:
+          - token: []
       tags:
       - Aliases
       parameters:
@@ -401,6 +426,8 @@ paths:
         certfilter \"\" 5 = list certs updated in last 5 blocks
         certfilter \"^cert\" = list all certs starting with \"cert\"
         certfilter 36000 0 0 stat = display stats (number of certs) on active certs"
+      security:
+          - token: []
       tags:
       - Certificates
       parameters:
@@ -446,6 +473,8 @@ paths:
     get:
       operationId: certhistory
       description: List all stored values of an cert.
+      security:
+          - token: []
       tags:
       - Certificates
       parameters:
@@ -470,6 +499,8 @@ paths:
     get:
       operationId: certinfo
       description: Show stored values of a single certificate.
+      security:
+          - token: []
       tags:
       - Certificates
       parameters:
@@ -492,6 +523,8 @@ paths:
     get:
       operationId: certlist
       description: List certificates that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in certificates.
+      security:
+          - token: []
       tags:
       - Certificates
       parameters:
@@ -526,6 +559,8 @@ paths:
     post:
       operationId: certnew
       description: Create a new Syscoin Certificate. Requires wallet passphrase to be set with walletpassphrase call.
+      security:
+          - token: []
       tags:
       - Certificates
       parameters:
@@ -551,6 +586,8 @@ paths:
     post:
       operationId: certtransfer
       description: Transfer certificate from one user to another. Requires wallet passphrase to be set with walletpassphrase call.
+      security:
+          - token: []
       tags:
       - Certificates
       parameters:
@@ -576,6 +613,8 @@ paths:
     post:
       operationId: certupdate
       description: Perform an update on an certificate you control. Requires wallet passphrase to be set with walletpassphrase call.
+      security:
+          - token: []
       tags:
       - Certificates
       parameters:
@@ -601,6 +640,8 @@ paths:
     get:
       operationId: dumpprivkey
       description: Reveals the private key corresponding to 'syscoinaddress'. Then the importprivkey can be used with this output.
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -624,6 +665,8 @@ paths:
     get:
       operationId: dumpwallet
       description: Dumps all wallet keys in a human-readable format.
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -647,6 +690,8 @@ paths:
     post:
       operationId: escrowacknowledge
       description: Acknowledge escrow payment as seller of offer. Deducts qty of offer and increases number of sold inventory.
+      security:
+          - token: []
       tags:
       - Escrow
       parameters:
@@ -671,6 +716,8 @@ paths:
     post:
       operationId: escrowclaimrefund
       description: Claim escrow funds released from seller or arbiter using escrowrefund. Requires wallet passphrase to be set with walletpassphrase call.
+      security:
+          - token: []
       tags:
       - Escrow
       parameters:
@@ -696,6 +743,8 @@ paths:
     post:
       operationId: escrowclaimrelease
       description: Claim escrow funds released from buyer or arbiter using escrowrelease. Requires wallet passphrase to be set with walletpassphrase call.
+      security:
+          - token: []
       tags:
       - Escrow
       parameters:
@@ -721,6 +770,8 @@ paths:
     post:
       operationId: escrowcompleterefund
       description: Completes an escrow refund by creating the escrow complete refund transaction on syscoin blockchain.
+      security:
+          - token: []
       tags:
       - Escrow
       parameters:
@@ -746,6 +797,8 @@ paths:
     post:
       operationId: escrowcompleterelease
       description: Completes an escrow release by creating the escrow complete release transaction on syscoin blockchain.
+      security:
+          - token: []
       tags:
       - Escrow
       parameters:
@@ -775,6 +828,8 @@ If you are the buyer, feedbackprimary is for seller and feedbacksecondary is for
 If you are the seller, feedbackprimary is for buyer and feedbacksecondary is for arbiter.
 If you are the arbiter, feedbackprimary is for buyer and feedbacksecondary is for seller.
 If arbiter didn't do any work for this escrow you can leave his feedback empty and rating as a 0."
+      security:
+          - token: []
       tags:
       - Escrow
       parameters:
@@ -800,6 +855,8 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
     get:
       operationId: escrowfilter
       description: scan and filter escrows
+      security:
+          - token: []
       tags:
       - Escrow
       parameters:
@@ -830,6 +887,8 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
     get:
       operationId: escrowhistory
       description: List all stored values of an escrow.
+      security:
+          - token: []
       tags:
       - Escrow
       parameters:
@@ -855,6 +914,8 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
     get:
       operationId: escrowinfo
       description: Show stored values of a single escrow
+      security:
+          - token: []
       tags:
       - Escrow
       parameters:
@@ -878,6 +939,8 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
     get:
       operationId: escrowlist
       description: List escrows that an array of aliases are involved in. Set of aliases to look up based on alias, and private key to decrypt any data found in escrow.
+      security:
+          - token: []
       tags:
       - Escrow
       parameters:
@@ -915,6 +978,8 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
     post:
       operationId: escrownew
       description: Create new arbitrated Syscoin escrow.
+      security:
+          - token: []
       tags:
       - Escrow
       parameters:
@@ -940,6 +1005,8 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
     post:
       operationId: escrowrefund
       description: Refunds escrow funds back to buyer, buyer needs to sign the output transaction and send to the network. User role represents either 'seller' or 'arbiter'. Enter in rawTx if this is an external payment refund.
+      security:
+          - token: []
       tags:
       - Escrow
       parameters:
@@ -965,6 +1032,8 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
     post:
       operationId: escrowrelease
       description: Releases escrow funds to seller, seller needs to sign the output transaction and send to the network. User role represents either 'buyer' or 'arbiter'. Enter in rawTx if this is an external payment release.
+      security:
+          - token: []
       tags:
       - Escrow
       parameters:
@@ -990,6 +1059,8 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
     post:
       operationId: generateescrowmultisig
       description: Generates a multisignature escrow transaction
+      security:
+          - token: []
       tags:
       - Escrow
       parameters:
@@ -1015,6 +1086,8 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
     get:
       operationId: getaccount
       description: DEPRECATED. Returns the account associated with the given address.
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -1038,6 +1111,8 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
     get:
       operationId: getaccountaddress
       description: DEPRECATED. Returns the current Syscoin address for receiving payments to this account.
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -1061,6 +1136,8 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
     get:
       operationId: getaddressesbyaccount
       description: DEPRECATED. Returns the list of addresses for the given account.
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -1085,6 +1162,8 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
     get:
       operationId: getbalance
       description: If account is not specified, returns the server's total available balance. If account is specified (DEPRECATED), returns the balance in the account. Note that the account "" is not the same as leaving the parameter out. The server total may be different to the balance in the default "" account.
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -1118,6 +1197,8 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
     post:
       operationId: getnewaddress
       description: Returns a new Syscoin address for receiving payments. If 'account' is specified (DEPRECATED), it is added to the address book so payments received with the address will be credited to 'account'.
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -1141,6 +1222,8 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
     get:
       operationId: getreceivedbyaccount
       description: DEPRECATED. Returns the total amount received by addresses with <account> in transactions with at least [minconf] confirmations.
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -1169,6 +1252,8 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
     get:
       operationId: getreceivedbyaddress
       description: Returns the total amount received by the given syscoinaddress in transactions with at least minconf confirmations.
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -1197,6 +1282,8 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
     get:
       operationId: gettransaction
       description: Get detailed information about in-wallet transaction <txid>
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -1225,6 +1312,8 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
     get:
       operationId: getunconfirmedbalance
       description: Returns the server's total unconfirmed balance
+      security:
+          - token: []
       tags:
       - General
       responses:
@@ -1242,6 +1331,8 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
     get:
       operationId: getv2address
       description: Returns a new Syscoin (starts with 1) address for receiving payments. If 'account' is specified (DEPRECATED), it is added to the address book so payments received with the address will be credited to 'account'.
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -1265,6 +1356,8 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
     get:
       operationId: getwalletinfo
       description: Returns an object containing various wallet state info.
+      security:
+          - token: []
       tags:
       - General
       responses:
@@ -1283,6 +1376,8 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
       operationId: getzaddress
       description: "Returns a new ZCash address for receiving payments in ZCash transaparent tokens.
 so payments received with the address will be credited to 'account'."
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -1305,6 +1400,8 @@ so payments received with the address will be credited to 'account'."
     get:
       operationId: importaddress
       description: Adds a script (in hex) or address that can be watched as if it were in your wallet but cannot be used to spend.
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -1328,6 +1425,8 @@ so payments received with the address will be credited to 'account'."
     get:
       operationId: importprivkey
       description: Adds a private key (as returned by dumpprivkey) to your wallet.
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -1351,6 +1450,8 @@ so payments received with the address will be credited to 'account'."
     get:
       operationId: importprunedfunds
       description: Imports funds without rescan. Corresponding address or script must previously be included in wallet. Aimed towards pruned wallets. The end-user is responsible to import additional transactions that subsequently spend the imported outputs or rescan after the point in the blockchain the transaction is included.
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -1377,6 +1478,8 @@ so payments received with the address will be credited to 'account'."
     get:
       operationId: importpubkey
       description: Adds a public key (in hex) that can be watched as if it were in your wallet but cannot be used to spend.
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -1400,6 +1503,8 @@ so payments received with the address will be credited to 'account'."
     get:
       operationId: importwallet
       description: Imports keys from a wallet dump file (see dumpwallet).
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -1423,6 +1528,8 @@ so payments received with the address will be credited to 'account'."
     get:
       operationId: listaccounts
       description: DEPRECATED. Returns Object that has account names as keys, account balances as values.
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -1451,6 +1558,8 @@ so payments received with the address will be credited to 'account'."
     get:
       operationId: listaddressgroupings
       description: Lists groups of addresses which have had their common ownership made public by common use as inputs or as the resulting change in past transactions
+      security:
+          - token: []
       tags:
       - General
       responses:
@@ -1472,6 +1581,8 @@ so payments received with the address will be credited to 'account'."
     get:
       operationId: listreceivedbyaccount
       description: DEPRECATED. List balances by account.
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -1507,6 +1618,8 @@ so payments received with the address will be credited to 'account'."
     get:
       operationId: listreceivedbyaddress
       description: List balances by receiving address.
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -1542,6 +1655,8 @@ so payments received with the address will be credited to 'account'."
     get:
       operationId: listsinceblock
       description: Get all transactions in blocks since block [blockhash], or all transactions if omitted
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -1576,6 +1691,8 @@ so payments received with the address will be credited to 'account'."
     get:
       operationId: listtransactions
       description: Returns up to 'count' most recent transactions skipping the first 'from' transactions for account 'account'.
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -1615,6 +1732,8 @@ so payments received with the address will be credited to 'account'."
     get:
       operationId: messageinfo
       description: Show stored values of a single message.
+      security:
+          - token: []
       tags:
       - Messaging
       parameters:
@@ -1637,6 +1756,8 @@ so payments received with the address will be credited to 'account'."
     post:
       operationId: messagenew
       description: Create a new Syscoin encrypted message.
+      security:
+          - token: []
       tags:
       - Messaging
       parameters:
@@ -1662,6 +1783,8 @@ so payments received with the address will be credited to 'account'."
     get:
       operationId: messagereceivelist
       description: List received messages that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in message.
+      security:
+          - token: []
       tags:
       - Messaging
       parameters:
@@ -1730,6 +1853,8 @@ so payments received with the address will be credited to 'account'."
     post:
       operationId: move
       description: DEPRECATED. Move a specified amount from one account in your wallet to another.
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -1753,6 +1878,8 @@ so payments received with the address will be credited to 'account'."
     post:
       operationId: offeraccept
       description: Accept&Pay for a confirmed offer.
+      security:
+          - token: []
       tags:
       - Offers
       parameters:
@@ -1778,6 +1905,8 @@ so payments received with the address will be credited to 'account'."
     post:
       operationId: offeracceptacknowledge
       description: Acknowledge offer payment as seller of offer. Deducts qty of offer and increases number of sold inventory.
+      security:
+          - token: []
       tags:
       - Offers
       parameters:
@@ -1806,6 +1935,8 @@ so payments received with the address will be credited to 'account'."
     post:
       operationId: offeracceptfeedback
       description: Send feedback and rating for offer accept specified. Ratings are numbers from 1 to 5
+      security:
+          - token: []
       tags:
       - Offers
       parameters:
@@ -1842,6 +1973,8 @@ so payments received with the address will be credited to 'account'."
     get:
       operationId: offeracceptlist
       description: list my offer accepts
+      security:
+          - token: []
       tags:
       - Offers
       parameters:
@@ -1876,6 +2009,8 @@ so payments received with the address will be credited to 'account'."
     post:
       operationId: offeraddwhitelist
       description: Add to the affiliate list of your offer(controls who can resell). Requires wallet passphrase to be set with walletpassphrase call.
+      security:
+          - token: []
       tags:
       - Offers
       parameters:
@@ -1901,6 +2036,8 @@ so payments received with the address will be credited to 'account'."
     post:
       operationId: offerclearwhitelist
       description: Clear the affiliate list of your offer(controls who can resell). Requires wallet passphrase to be set with walletpassphrase call.
+      security:
+          - token: []
       tags:
       - Offers
       parameters:
@@ -1925,7 +2062,9 @@ so payments received with the address will be credited to 'account'."
     x-swagger-router-controller: rpc
     get:
       operationId: offerfilter
-      description: scan and filter offeres
+      description: scan and filter offers
+      security:
+          - token: []
       tags:
       - Offers
       parameters:
@@ -1966,6 +2105,8 @@ so payments received with the address will be credited to 'account'."
     get:
       operationId: offerhistory
       description: List all stored values of an offer.
+      security:
+          - token: []
       tags:
       - Offers
       parameters:
@@ -1991,6 +2132,8 @@ so payments received with the address will be credited to 'account'."
     get:
       operationId: offerinfo
       description: Show values of an offer.
+      security:
+          - token: []
       tags:
       - Offers
       parameters:
@@ -2013,6 +2156,8 @@ so payments received with the address will be credited to 'account'."
     post:
       operationId: offerlink
       description: Requires wallet passphrase to be set with walletpassphrase call.
+      security:
+          - token: []
       tags:
       - Offers
       parameters:
@@ -2038,6 +2183,8 @@ so payments received with the address will be credited to 'account'."
     get:
       operationId: offerlist
       description: List offers that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in offer.
+      security:
+          - token: []
       tags:
       - Offers
       parameters:
@@ -2072,6 +2219,8 @@ so payments received with the address will be credited to 'account'."
     post:
       operationId: offernew
       description: Create a new offer on the Syscoin decentralized marketplace. Requires wallet passphrase to be set with walletpassphrase call.
+      security:
+          - token: []
       tags:
       - Offers
       parameters:
@@ -2097,6 +2246,8 @@ so payments received with the address will be credited to 'account'."
     post:
       operationId: offerremovewhitelist
       description: Remove from the affiliate list of your offer(controls who can resell). Requires wallet passphrase to be set with walletpassphrase call.
+      security:
+          - token: []
       tags:
       - Offers
       parameters:
@@ -2122,6 +2273,8 @@ so payments received with the address will be credited to 'account'."
     post:
       operationId: offerupdate
       description: Perform an update on an offer you control. Requires wallet passphrase to be set with walletpassphrase call.
+      security:
+          - token: []
       tags:
       - Offers
       parameters:
@@ -2147,6 +2300,8 @@ so payments received with the address will be credited to 'account'."
     get:
       operationId: offerwhitelist
       description: List all affiliates for this offer.
+      security:
+          - token: []
       tags:
       - Offers
       parameters: #TODO: review RPC param names
@@ -2171,6 +2326,8 @@ so payments received with the address will be credited to 'account'."
     post:
       operationId: sendfrom
       description: DEPRECATED (use sendtoaddress). Sent an amount from an account to a syscoin address. The amount is a real and is rounded to the nearest 0.00000001. Requires wallet passphrase to be set with walletpassphrase call.
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -2194,6 +2351,8 @@ so payments received with the address will be credited to 'account'."
     get:
       operationId: removeprunedfunds
       description: Deletes the specified transaction from the wallet. Meant for use with pruned wallets and as a companion to importprunedfunds. This will effect wallet balances.
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -2216,6 +2375,8 @@ so payments received with the address will be credited to 'account'."
     post:
       operationId: sendmany
       description: Send multiple times. Amounts are double-precision floating point numbers. Requires wallet passphrase to be set with walletpassphrase call.
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -2239,6 +2400,8 @@ so payments received with the address will be credited to 'account'."
     post:
       operationId: sendtoaddress
       description: Send an amount to a given address. The amount is a real and is rounded to the nearest 0.00000001. Requires wallet passphrase to be set with walletpassphrase call.
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -2262,6 +2425,8 @@ so payments received with the address will be credited to 'account'."
     post:
       operationId: signmessage
       description: Sign a message with the private key of an address. Requires wallet passphrase to be set with walletpassphrase call.
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -2285,6 +2450,8 @@ so payments received with the address will be credited to 'account'."
     post:
       operationId: walletlock
       description: Removes the wallet encryption key from memory, locking the wallet. After calling this method, you will need to call walletpassphrase again before being able to call any methods which require the wallet to be unlocked.
+      security:
+          - token: []
       tags:
       - General
       responses:
@@ -2302,6 +2469,8 @@ so payments received with the address will be credited to 'account'."
     post:
       operationId: walletpassphrase
       description: Stores the wallet decryption key in memory for 'timeout' seconds. This is needed prior to performing transactions related to private keys such as sending syscoins
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -2325,6 +2494,8 @@ so payments received with the address will be credited to 'account'."
     post:
       operationId: walletpassphrasechange
       description: Changes the wallet passphrase from 'oldpassphrase' to 'newpassphrase'.
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -2348,6 +2519,8 @@ so payments received with the address will be credited to 'account'."
     post:
       operationId: syscoindecoderawtransaction
       description: Decode raw syscoin transaction (serialized, hex-encoded) and display information pertaining to the service that is included in the transactiion data output(OP_RETURN)
+      security:
+          - token: []
       tags:
       - General
       parameters:
@@ -2374,6 +2547,8 @@ so payments received with the address will be credited to 'account'."
     post:
       operationId: syscoinsignrawtransaction
       description: Sign inputs for raw transaction (serialized, hex-encoded) and sends them out to the network if signing is complete
+      security:
+          - token: []
       tags:
       - General
       parameters:
