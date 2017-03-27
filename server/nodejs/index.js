@@ -15,13 +15,14 @@ var syscoin = require('syscoin');
 var syscoinClient,
 rpcuser = "u",
 rpcpass = "p",
-rpcport = 8369; //mainnet default; 18369 = testnet default; 18444 = regtest default;
+rpcport = 8336;
 
 var inputStreamError = false;
 var inputStream = fs.createReadStream(config.sys_location + "syscoin.conf");
 inputStream.on('error', function (e) {
   console.log("Error reading syscoin.conf specified at " + config.sys_location + " falling back to defaults. Exact error is:" + JSON.stringify(e));
-  initAPI();
+  console.log("Syscoin.conf must be present, with rpcuser, rpcpass, and rpcport set in order to run the Syscoin API Server.");
+  process.exit();
 });
 
 if(!inputStreamError) {

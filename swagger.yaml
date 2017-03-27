@@ -39,7 +39,7 @@ paths:
       - Blockmarket
       parameters:
       - name: auth
-        description: MD5 hash of the user's authentication information- username:password.
+        description: SHA1 hash of the user's authentication information- usernamepassword.
         in: query
         required: true
         type: string

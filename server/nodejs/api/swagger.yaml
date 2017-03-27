@@ -1716,7 +1716,7 @@ paths:
       parameters:
       - name: "auth"
         in: "query"
-        description: "MD5 hash of the user's authentication information- username:password."
+        description: "SHA1 hash of the user's authentication information- usernamepassword."
         required: true
         type: "string"
       responses:
