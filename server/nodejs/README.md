@@ -12,13 +12,14 @@ To run the server, follow these simple steps:
 
 ```
 npm install
-node .
+npm run start
 ```
 
-To view the Swagger UI interface:
+### Running the server in daemon mode
+To run the server as a daemon use the below command after `npm install` completes:
 
 ```
-open http://localhost:8000/docs
+npm run startd
 ```
 
 This project leverages the mega-awesome [swagger-tools](https://github.com/apigee-127/swagger-tools) middleware which does most all the work.
