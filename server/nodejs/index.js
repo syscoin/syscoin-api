@@ -11,34 +11,47 @@ var cors = require('cors');
 //load external config
 var config = require('./config');
 var syscoin = require('syscoin');
-var lineReader = require('readline').createInterface({
-  input: fs.createReadStream(config.sys_location + "syscoin.conf")
+
+var syscoinClient,
+rpcuser = "u",
+rpcpass = "p",
+rpcport = 8369; //mainnet default; 18369 = testnet default; 18444 = regtest default;
+
+var inputStreamError = false;
+var inputStream = fs.createReadStream(config.sys_location + "syscoin.conf");
+inputStream.on('error', function (e) {
+  console.log("Error reading syscoin.conf specified at " + config.sys_location + " falling back to defaults. Exact error is:" + JSON.stringify(e));
+  initAPI();
 });
 
-var syscoinClient, rpcuser, rpcpass, rpcport;
+if(!inputStreamError) {
+  var lineReader = require('readline').createInterface({
+    input: inputStream
+  });
 
-//read syscoin.conf for login creds, if it doesn't exist use defaults.
-lineReader.on('line', function (line) {
-  if(line.indexOf('rpcuser') != -1) {
-    rpcuser = line.substr(line.indexOf('=') + 1);
-  }else{
-    rpcuser = "u"; //default rpcuser
-  }
+  //read syscoin.conf for login creds, if it doesn't exist use defaults.
+  lineReader.on('line', function (line) {
+    if (line.indexOf('rpcuser') != -1) {
+      rpcuser = line.substr(line.indexOf('=') + 1);
+    }
 
-  if(line.indexOf('rpcpassword') != -1) {
-    rpcpass = line.substr(line.indexOf('=') + 1);
-  }else{
-    rpcpass = "p";
-  }
+    if (line.indexOf('rpcpassword') != -1) {
+      rpcpass = line.substr(line.indexOf('=') + 1);
+    }
 
-  if(line.indexOf('rpcport') != -1) {
-    rpcport = line.substr(line.indexOf('=') + 1);
-  }else{
-    rpcport = "8369"; //mainnet default; 18369 = testnet default; 18444 = regtest default;
-  }
-});
+    if (line.indexOf('rpcport') != -1) {
+      rpcport = line.substr(line.indexOf('=') + 1);
+    }
+  });
 
-lineReader.on('close', function (line) {
+  //init SYS API on close of config file read
+  lineReader.on('close', function (line) {
+    initAPI();
+  });
+}
+
+
+function initAPI() {
   console.log("RPCUSER:", rpcuser);
   console.log("RPCPASS:", rpcpass);
   console.log("RPCPORT:", rpcport);
@@ -57,7 +70,7 @@ lineReader.on('close', function (line) {
 
   initSwagger();
   initHttp();
-});
+}
 
 var swaggerDoc, options;
 function initSwagger() {

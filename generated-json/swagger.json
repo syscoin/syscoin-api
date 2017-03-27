@@ -2150,7 +2150,7 @@
           }
         }
       },
-      "x-swagger-router-controller" : "rpc"
+      "x-swagger-router-controller" : "blockmarket"
     },
     "/messageinfo" : {
       "get" : {
