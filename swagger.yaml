@@ -8,7 +8,6 @@ securityDefinitions:
     type: apiKey
     in: header
     name: token
-basePath: /
 schemes:
   # remove http to make production-grade
   - http

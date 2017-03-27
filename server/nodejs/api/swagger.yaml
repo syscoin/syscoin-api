@@ -4,7 +4,6 @@ info:
   version: "1.0.0"
   title: "Syscoin API"
 host: "localhost:8001"
-basePath: "/"
 tags:
 - name: "General"
   description: "All general wallet operations."

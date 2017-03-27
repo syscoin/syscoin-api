@@ -17,17 +17,24 @@ var lineReader = require('readline').createInterface({
 
 var syscoinClient, rpcuser, rpcpass, rpcport;
 
+//read syscoin.conf for login creds, if it doesn't exist use defaults.
 lineReader.on('line', function (line) {
   if(line.indexOf('rpcuser') != -1) {
     rpcuser = line.substr(line.indexOf('=') + 1);
+  }else{
+    rpcuser = "u"; //default rpcuser
   }
 
   if(line.indexOf('rpcpassword') != -1) {
     rpcpass = line.substr(line.indexOf('=') + 1);
+  }else{
+    rpcpass = "p";
   }
 
   if(line.indexOf('rpcport') != -1) {
     rpcport = line.substr(line.indexOf('=') + 1);
+  }else{
+    rpcport = "8369"; //mainnet default; 18369 = testnet default; 18444 = regtest default;
   }
 });
 
@@ -45,7 +52,7 @@ lineReader.on('close', function (line) {
   });
 
   exports.syscoinClient = syscoinClient;
-  exports.rpcuser = rpcuser
+  exports.rpcuser = rpcuser;
   exports.rpcpass = rpcpass;
 
   initSwagger();
