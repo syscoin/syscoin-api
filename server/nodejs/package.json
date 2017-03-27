@@ -2,6 +2,10 @@
   "name": "syscoin-api",
   "version": "1.0.0",
   "description": "",
+  "scripts": {
+    "start": "node .",
+    "startd": "pm2 start node . $CONFIG --name \"sys-api-server\""
+  },
   "main": "index.js",
   "keywords": [
     "swagger"
@@ -17,6 +21,10 @@
     "jsonwebtoken": "^7.0.1",
     "serve-static": "^1.12.1",
     "swagger-tools": "0.10.1",
-    "syscoin": "^2.2.0"
-  }
+    "syscoin": "^2.3.0"
+  },
+  "bugs": {
+    "url": "https://github.com/syscoin/syscoin-api/issues"
+  },
+  "homepage": "https://github.com/syscoin/syscoin-api"
 }
