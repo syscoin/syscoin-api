@@ -82,7 +82,8 @@ function initSwagger() {
   };
 
   // The Swagger document (require it, build it programmatically, fetch it from a URL, ...)
-  swaggerDoc = require('./../../generated-json/swagger.json');
+  var spec = fs.readFileSync('./api/swagger.yaml', 'utf8');
+  swaggerDoc = jsyaml.safeLoad(spec);
 }
 
 function initHttp() {

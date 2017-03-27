@@ -1729,7 +1729,7 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
       x-swagger-router-controller: "Blockmarket"
-    x-swagger-router-controller: "rpc"
+    x-swagger-router-controller: "blockmarket"
   /messageinfo:
     get:
       tags:

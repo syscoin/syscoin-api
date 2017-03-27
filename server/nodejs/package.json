@@ -11,9 +11,11 @@
   "dependencies": {
     "connect": "^3.2.0",
     "cors": "^2.7.1",
+    "finalhandler": "^1.0.1",
     "js-yaml": "^3.3.0",
     "jshashes": "^1.0.5",
     "jsonwebtoken": "^7.0.1",
+    "serve-static": "^1.12.1",
     "swagger-tools": "0.10.1",
     "syscoin": "^2.2.0"
   }

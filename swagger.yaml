@@ -31,7 +31,7 @@ tags:
   description: Operations related to digital certificates.
 paths:
   /login:
-    x-swagger-router-controller: rpc
+    x-swagger-router-controller: blockmarket
     get:
       operationId: login
       description: Returns a session token for use with subsquent protected calls.
