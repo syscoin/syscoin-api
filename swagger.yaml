@@ -47,7 +47,7 @@ paths:
         "200":
           description: Success
           schema:
-            type: string
+            $ref: "#/definitions/LoginResponse"
         default:
           description: Error
           schema:
@@ -4096,4 +4096,16 @@ definitions:
       arbiter:
         type: string
       paymentoption:
+        type: string
+  LoginResponse:
+    required:
+    - success
+    - message
+    - token
+    properties:
+      success:
+        type: boolean
+      message:
+        type: string
+      token:
         type: string
