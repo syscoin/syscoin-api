@@ -1,16 +1,20 @@
 ## Running the server
+Prior to running the server a Syscoin node must be installed and properly configured as a JSON-RPC server. After being configured the syscoin-api server 
+needs to know the location of syscoin.conf using the `SYS_LOCATION` environmental variable, replacing DATALOCATION in the examples below 
+with the path to your Syscoin data directory, including the trailing slash.
+
 To run the server, follow these simple steps:
 
 ```
 npm install
-npm run start
+SYS_LOCATION=DATALOCATION npm run start
 ```
 
 ## Running the server in daemon mode
 Running the server in daemon mode is dependent on [pm2](https://www.npmjs.com/package/pm2). To run the server as a daemon use the below command after `npm install` completes:
 
 ```
-npm run startd
+SYS_LOCATION=DATALOCATION npm run startd
 ```
 
 ## Configuring for Production Use
