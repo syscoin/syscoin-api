@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "start": "node .",
-    "startd": "pm2 start node . $CONFIG --name \"sys-api-server\""
+    "startd": "pm2 start node . $CONFIG --name 'sys-api-server'",
+    "test": "mocha **/*.spec.js -R spec"
   },
   "main": "index.js",
   "keywords": [
@@ -13,12 +14,14 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "chai": "^3.5.0",
     "connect": "^3.2.0",
     "cors": "^2.7.1",
     "finalhandler": "^1.0.1",
     "js-yaml": "^3.3.0",
     "jshashes": "^1.0.5",
     "jsonwebtoken": "^7.0.1",
+    "mocha": "^3.2.0",
     "serve-static": "^1.12.1",
     "swagger-tools": "0.10.1",
     "syscoin": "^2.3.0"
