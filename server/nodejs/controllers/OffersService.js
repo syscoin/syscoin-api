@@ -216,7 +216,8 @@ exports.offernew = function(args, res, next) {
    * parameters expected in the args:
   * request (OfferNewRequest)
   **/
-  syscoinClient.offerNew(args.request.value.alias, args.request.value.category, args.request.value.title, args.request.value.quantity, args.request.value.price, args.request.value.description, args.request.value.currency, args.request.value.certguid, args.request.value.paymentoptions, args.request.value.geolocation, args.request.value.safesearch, args.request.value.private, function(err, result, resHeaders) {
+  console.log(JSON.stringify(args.request.value));
+  syscoinClient.offerNew(args.request.value.alias, args.request.value.category, args.request.value.title, args.request.value.quantity, args.request.value.price.toString(), args.request.value.description.toString(), args.request.value.currency, args.request.value.certguid, args.request.value.paymentoptions.toString(), args.request.value.geolocation.toString(), args.request.value.safesearch.toString(), /*args.request.value.private,*/ function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
