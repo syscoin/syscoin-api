@@ -26,7 +26,7 @@ exports.login = function(args, res, next) {
     // if user is found and password is right
     // create a token
     var token = jwt.sign({ auth: validAuth }, config.api_secret, {
-      expiresIn: 1440 // expires in 24 hours
+      expiresIn: 60 * 60 * 24 // expires in 24 hours
     });
 
     // return the information including token as JSON

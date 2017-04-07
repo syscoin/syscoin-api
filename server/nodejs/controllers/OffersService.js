@@ -217,7 +217,19 @@ exports.offernew = function(args, res, next) {
   * request (OfferNewRequest)
   **/
   console.log(JSON.stringify(args.request.value));
-  syscoinClient.offerNew(args.request.value.alias, args.request.value.category, args.request.value.title, args.request.value.quantity, args.request.value.price.toString(), args.request.value.description.toString(), args.request.value.currency, args.request.value.certguid, args.request.value.paymentoptions.toString(), args.request.value.geolocation.toString(), args.request.value.safesearch.toString(), /*args.request.value.private,*/ function(err, result, resHeaders) {
+
+  //correct type issues
+  if(args.request.value.private) {
+    args.request.value.private = args.request.value.private ? "1" : "0"; //bool converted string
+  }
+
+  if(args.request.value.quantity) //int to string
+    args.request.value.quantity = args.request.value.quantity.toString();
+
+  if(args.request.value.price) //float to string
+    args.request.value.price = args.request.value.price.toString();
+
+  syscoinClient.offerNew(args.request.value.alias, args.request.value.category, args.request.value.title, args.request.value.quantity, args.request.value.price, args.request.value.description, args.request.value.currency, args.request.value.certguid, args.request.value.paymentoptions, args.request.value.geolocation, args.request.value.safesearch, args.request.value.private, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {

@@ -1,48 +1,37 @@
 var expect  = require("chai").expect;
 var request = require("request");
-var jwt    = require('jsonwebtoken');
-var Hashes   = require('jshashes');
 
-var config = require('../../config');
+var AuthHelper = require("./AuthHelper");
+AuthHelper.doAuth();
 
 describe("Offer Service API", function() {
 
   describe("offernew", function() {
-
     var url = "http://localhost:8001/offernew";
-    var token = new Hashes.SHA1().hex("u" + "p");
-    token = jwt.sign({ auth: token }, config.api_secret, {
-      expiresIn: 1440 // expires in 24 hours
-    });
 
-    var body = {
-      "alias": "testuser",
-      "category": "testing",
-      "title": "test offer",
-      "quantity": 10,
-      "price": 100,
-      "description": "test description",
-      "currency": "SYS",
-      "certguid": null,
-      "paymentoptions": "SYS",
-      "geolocation": null,
-      "safesearch": "NO",
-      "private": true
-    };
+    it("Returns an array with the tx id and offer guid", function(done) {
+      var requestOptions = AuthHelper.requestOptions;
+      requestOptions.method =  "POST";
+      requestOptions.json = {
+        "alias": "testuser",
+        "category": "unit testing",
+        "title": "title here",
+        "quantity": 10,
+        "price": 1,
+        "description": "Description goes here",
+        "currency": "SYS",
+        "certguid": "",
+        "paymentoptions": "SYS",
+        "geolocation": "",
+        "safesearch": "Yes",
+        "private": true
+      };
 
-    var options = {
-      headers: {
-        token: token
-      }
-    };
-
-
-
-    it("returns an object with the correct version property", function(done) {
-      request(url, options, function(error, response, body) {
-        var info = JSON.parse(body);
+      request(url, requestOptions, function(error, response, result) {
         expect(response.statusCode).to.equal(200);
-        expect(info.sysversion).to.equal("2.1.3");
+        expect(result.length).to.equal(2);
+        expect(result[0].length).to.equal(64); //tx id
+        expect(result[1].length).to.equal(16); //offer guid
         done();
       });
     });
