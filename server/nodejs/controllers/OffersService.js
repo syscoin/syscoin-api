@@ -265,7 +265,22 @@ exports.offerupdate = function(args, res, next) {
    * parameters expected in the args:
   * request (OfferUpdateRequest)
   **/
-  syscoinClient.offerUpdate(args.request.value.alias, args.request.value.guid, args.request.value.category, args.request.value.title, args.request.value.quantity, args.request.value.price, args.request.value.description, args.request.value.currency, args.request.value.private, args.request.value.certguid, args.request.value.geolocation, args.request.value.safesearch, function(err, result, resHeaders) {
+
+  //correct type issues
+  if(args.request.value.private) {
+    args.request.value.private = args.request.value.private ? "1" : "0"; //bool converted string
+  }
+
+  if(args.request.value.quantity) //int to string
+    args.request.value.quantity = args.request.value.quantity.toString();
+
+  if(args.request.value.price) //float to string
+    args.request.value.price = args.request.value.price.toString();
+
+  if(args.request.value.comission) //float to string
+    args.request.value.comission = args.request.value.comission.toString();
+  
+  syscoinClient.offerUpdate(args.request.value.alias, args.request.value.guid, args.request.value.category, args.request.value.title, args.request.value.quantity, args.request.value.price, args.request.value.description, args.request.value.currency, args.request.value.private, args.request.value.certguid, args.request.value.geolocation, args.request.value.safesearch, /*args.request.value.comission, args.request.value.paymentoptions,*/ function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {

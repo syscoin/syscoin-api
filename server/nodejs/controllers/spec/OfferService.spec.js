@@ -36,4 +36,36 @@ describe("Offer Service API", function() {
       });
     });
   });
+
+  describe("offerupdate", function() {
+    var url = "http://localhost:8001/offerupdate";
+
+    it("Returns an array with the tx id", function(done) {
+      var requestOptions = AuthHelper.requestOptions;
+      requestOptions.method =  "POST";
+      requestOptions.json = {
+        "alias": "testuser",
+        "guid": "1c3889997c39e979",
+        "category": "unit testing",
+        "title": "title here updated",
+        "quantity": 10,
+        "price": 1,
+        "description": "Description goes here updated",
+        "currency": "SYS",
+        "certguid": "",
+        "paymentoptions": "SYS",
+        "geolocation": "",
+        "safesearch": "Yes",
+        "private": true,
+        "comission": 0
+      };
+
+      request(url, requestOptions, function(error, response, result) {
+        expect(response.statusCode).to.equal(200);
+        expect(result.length).to.equal(1);
+        expect(result[0].length).to.equal(64); //tx id
+        done();
+      });
+    });
+  });
 });
