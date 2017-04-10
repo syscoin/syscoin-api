@@ -4,7 +4,7 @@ var Hashes   = require('jshashes');
 
 var AuthHelper = require("./helper/authHelper");
 
-describe.skip("Blockmarket Service API", function() {
+describe("Blockmarket Service API", function() {
 
   describe("login", function () {
     it("Returns a token when proper user/pass supplied", function (done) {

@@ -1,6 +1,7 @@
 'use strict';
 
 var syscoinClient = require('../index').syscoinClient;
+var varUtils = require('./util/varUtils');
 
 exports.aliasaffiliates = function(args, res, next) {
   /**
@@ -99,6 +100,12 @@ exports.aliaslist = function(args, res, next) {
    * parameters expected in the args:
   * aliasname (String)
   **/
+
+  var defaultArgs = {
+    aliasname: ""
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args);
+
   syscoinClient.aliasList(args.aliasname.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -117,7 +124,11 @@ exports.aliasnew = function(args, res, next) {
    * parameters expected in the args:
   * request (AliasNewRequest)
   **/
-  syscoinClient.aliasNew(args.request.value.aliasname, args.request.value.aliaspeg, args.request.value.publicvalue, args.request.value.privatevalue, args.request.value.password, args.request.value.safesearch, args.request.value.accepttransfers, args.request.value.expire, args.request.value.nrequired, args.request.value.aliases, function(err, result, resHeaders) {
+
+  //correct type issues
+  args.request.value.nrequired = args.request.value.nrequired ? args.request.value.nrequired.toString() : "0"; //number to string
+
+  syscoinClient.aliasNew(args.request.value.aliaspeg, args.request.value.aliasname, args.request.value.password, args.request.value.publicvalue, args.request.value.privatevalue, args.request.value.safesearch, args.request.value.accepttransfers, args.request.value.expire, args.request.value.nrequired, args.request.value.aliases, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -135,7 +146,26 @@ exports.aliasupdate = function(args, res, next) {
    * parameters expected in the args:
   * request (AliasUpdateRequest)
   **/
-  syscoinClient.aliasUpdate(args.request.value.aliaspeg, args.request.value.aliasname, args.request.value.publicvalue, args.request.value.privatevalue, args.request.value.password, args.request.value.safesearch, args.request.value.toalias_pubkey, args.request.value.accepttransfers, args.request.value.expire, args.request.value.nrequired, args.request.value.aliases, function(err, result, resHeaders) {
+
+  //TODO: all fields should be REQUIRED *OR* this API should first fetch the current values for the alias and only replace
+    // supplied values or the defaultArgs will overwrite the non-supplied fields
+  var defaultArgs = {
+    privatevalue: "",
+    password: "",
+    safesearch: "Yes",
+    toalias_pubkey: "",
+    accepttransfers: "Yes",
+    expire: "100000",
+    nrequired: 0,
+    aliases: []
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args, "POST");
+
+  //correct type issues
+  args.request.value.nrequired = args.request.value.nrequired ? args.request.value.nrequired.toString() : "0"; //number to string
+
+  //TODO: update core RPC docs on param ordering
+  syscoinClient.aliasUpdate(args.request.value.aliaspeg, args.request.value.aliasname, args.request.value.publicvalue, args.request.value.privatevalue,  args.request.value.safesearch, args.request.value.toalias_pubkey, args.request.value.password, args.request.value.accepttransfers, args.request.value.expire, args.request.value.nrequired, args.request.value.aliases, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
