@@ -3,7 +3,7 @@ var rp = require("request-promise");
 
 var AuthHelper = require("./helper/authHelper");
 
-describe.skip("Offer Service API", function() {
+describe("Offer Service API", function() {
 
   describe("offeraccept", function () {
     it("Returns txid and guid of offeraccept", function (done) {

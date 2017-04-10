@@ -1,6 +1,7 @@
 'use strict';
 
 var syscoinClient = require('../index').syscoinClient;
+var varUtils = require('./util/varUtils');
 
 exports.messageinfo = function(args, res, next) {
   /**
@@ -25,6 +26,12 @@ exports.messagenew = function(args, res, next) {
    * parameters expected in the args:
   * request (MessageNewRequest)
   **/
+
+  var defaultArgs = {
+    hex: "No"
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args, "POST");
+
   syscoinClient.messageNew(args.request.value.subject, args.request.value.message, args.request.value.fromalias, args.request.value.toalias, args.request.value.hex, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -45,6 +52,14 @@ exports.messagereceivelist = function(args, res, next) {
   * message (String)
   * privatekey (String)
   **/
+
+  var defaultArgs = {
+    aliases: "",
+    message: "",
+    privatekey: ""
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args, "GET");
+
   syscoinClient.messageReceiveList(args.aliases.value, args.message.value, args.privatekey.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -65,6 +80,14 @@ exports.messagesentlist = function(args, res, next) {
   * message (String)
   * privatekey (String)
   **/
+
+  var defaultArgs = {
+    aliases: "",
+    message: "",
+    privatekey: ""
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args, "GET");
+  
   syscoinClient.messageSentList(args.aliases.value, args.message.value, args.privatekey.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 

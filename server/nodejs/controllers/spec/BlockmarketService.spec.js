@@ -3,12 +3,13 @@ var rp = require("request-promise");
 var Hashes   = require('jshashes');
 
 var AuthHelper = require("./helper/authHelper");
+var Config = require("../../spec/config");
 
 describe("Blockmarket Service API", function() {
 
   describe("login", function () {
     it("Returns a token when proper user/pass supplied", function (done) {
-      var url = "http://localhost:8001/login";
+      var url = Config.HOST + "login";
       var auth = new Hashes.SHA1().hex("u" + "p");
       var requestOptions = AuthHelper.requestOptions();
       requestOptions.qs = {
@@ -25,7 +26,7 @@ describe("Blockmarket Service API", function() {
     });
 
     it("Returns an error when invalid user/pass supplied", function (done) {
-      var url = "http://localhost:8001/login";
+      var url = Config.HOST +  "login";
       var auth = new Hashes.SHA1().hex("WRONGUSER" + "WRONGPASS");
       var requestOptions = AuthHelper.requestOptions();
       requestOptions.qs = {

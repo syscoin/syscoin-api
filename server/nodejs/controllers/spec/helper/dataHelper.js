@@ -2,10 +2,11 @@ var Q = require('q');
 var rp = require("request-promise");
 
 var AuthHelper = require("./authHelper");
+var Config = require("../../../spec/config");
 
 function getAccountAddress(account) {
   var deferred = Q.defer();
-  var url = "http://localhost:8001/getaccountaddress";
+  var url = Config.HOST + "getaccountaddress";
   var requestOptions = AuthHelper.requestOptions();
   requestOptions.qs = {
     "account": account
@@ -26,7 +27,7 @@ function getAccountAddress(account) {
 
 function sendSyscoin(toAddress, amount, comment, commentto, subtractFeeFromAmount) {
   var deferred = Q.defer();
-  var url = "http://localhost:8001/sendtoaddress";
+  var url = Config.HOST + "sendtoaddress";
   var requestOptions = AuthHelper.requestOptions();
   requestOptions.method = "POST";
   requestOptions.json = {
@@ -52,7 +53,7 @@ function sendSyscoin(toAddress, amount, comment, commentto, subtractFeeFromAmoun
 
 function signMessage(address, message) {
   var deferred = Q.defer();
-  var url = "http://localhost:8001/signmessage";
+  var url = Config.HOST + "signmessage";
   var requestOptions = AuthHelper.requestOptions();
   requestOptions.method = "POST";
   requestOptions.json = {

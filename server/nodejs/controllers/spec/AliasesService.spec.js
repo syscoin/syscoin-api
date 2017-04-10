@@ -5,7 +5,7 @@ var AuthHelper = require("./helper/authHelper");
 var VerifyHelper = require("./helper/verifyHelper");
 var Config = require("../../spec/config");
 
-describe.only("Aliases Service API", function() {
+describe("Aliases Service API", function() {
 
   describe("aliasauthenticate", function () {
     it("Returns privkey when authenticating with valid alias and password", function (done) {

@@ -4,13 +4,14 @@ var rp = require("request-promise");
 var AuthHelper = require("./helper/authHelper");
 var DataHelper = require("./helper/dataHelper");
 var VerifyHelper = require("./helper/verifyHelper");
+var Config = require("../../spec/config");
 
-describe.skip("General Service API", function() {
+describe("General Service API", function() {
 
   describe("getaccount", function() {
     it("Returns account name", function(done) {
       DataHelper.getAccountAddress("").then(function(getAddressResult) {
-        url = "http://localhost:8001/getaccount";
+        url = Config.HOST + "getaccount";
         requestOptions = AuthHelper.requestOptions();
         requestOptions.qs = {
           "syscoinaddress": getAddressResult.address
@@ -37,7 +38,7 @@ describe.skip("General Service API", function() {
 
   describe("getaddressesbyaccount", function() {
     it("Returns list of addresses", function(done) {
-      var url = "http://localhost:8001/getaddressesbyaccount";
+      var url = Config.HOST + "getaddressesbyaccount";
       var requestOptions = AuthHelper.requestOptions();
       requestOptions.qs = {
         "account": ""
@@ -55,7 +56,7 @@ describe.skip("General Service API", function() {
 
   describe("getbalance", function() {
     it("Returns balance", function(done) {
-      url = "http://localhost:8001/getbalance";
+      url = Config.HOST + "getbalance";
       var requestOptions = AuthHelper.requestOptions();
       requestOptions.qs = {
         "account": "*"
@@ -71,7 +72,7 @@ describe.skip("General Service API", function() {
 
   describe("getinfo", function() {
     it("Returns an object with the version property defined", function(done) {
-      var url = "http://localhost:8001/getinfo";
+      var url = Config.HOST + "getinfo";
       rp(url, AuthHelper.requestOptions()).then(function(result) {
         var info = JSON.parse(result.body);
         expect(result.statusCode).to.equal(200);
@@ -83,7 +84,7 @@ describe.skip("General Service API", function() {
 
   describe("getmininginfo", function() {
     it("Returns object with hashrate", function(done) {
-      var url = "http://localhost:8001/getmininginfo";
+      var url = Config.HOST + "getmininginfo";
       rp(url, AuthHelper.requestOptions()).then(function(result) {
         var info = JSON.parse(result.body);
         expect(result.statusCode).to.equal(200);
@@ -95,7 +96,7 @@ describe.skip("General Service API", function() {
 
   describe("getnewaddress", function() {
     it("Returns new address for default account", function(done) {
-      var url = "http://localhost:8001/getnewaddress";
+      var url = Config.HOST + "getnewaddress";
       var requestOptions = AuthHelper.requestOptions();
       requestOptions.method = "POST";
       requestOptions.json = {
@@ -113,7 +114,7 @@ describe.skip("General Service API", function() {
   describe("getreceivedbyaddress", function() {
     it("Returns total received by a syscoin address", function(done) {
       DataHelper.getAccountAddress("").then(function(getAddressResult) {
-        var url = "http://localhost:8001/getreceivedbyaddress";
+        var url = Config.HOST + "getreceivedbyaddress";
         var requestOptions = AuthHelper.requestOptions();
         requestOptions.qs = {
           "syscoinaddress": getAddressResult.address
@@ -142,7 +143,7 @@ describe.skip("General Service API", function() {
 
   describe("getwalletinfo", function() {
     it("Returns wallet info", function(done) {
-      var url = "http://localhost:8001/getwalletinfo";
+      var url = Config.HOST + "getwalletinfo";
       rp(url, AuthHelper.requestOptions()).then(function(result) {
         var info = JSON.parse(result.body);
         expect(result.statusCode).to.equal(200);
@@ -155,7 +156,7 @@ describe.skip("General Service API", function() {
 
   describe("listaccounts", function() {
     it("Returns a list of accounts", function(done) {
-      var url = "http://localhost:8001/listaccounts";
+      var url = Config.HOST + "listaccounts";
       rp(url, AuthHelper.requestOptions()).then(function(result) {
         var accountList = JSON.parse(result.body);
         var accountCount = 0;
@@ -174,7 +175,7 @@ describe.skip("General Service API", function() {
 
   describe("listreceivedbyaddress", function() {
     it("Returns a list of object with balances per address", function(done) {
-      var url = "http://localhost:8001/listreceivedbyaddress";
+      var url = Config.HOST + "listreceivedbyaddress";
       rp(url, AuthHelper.requestOptions()).then(function(result) {
         var addressList = JSON.parse(result.body);
         var addressCount = 0;
@@ -194,7 +195,7 @@ describe.skip("General Service API", function() {
 
   describe("listtransactions", function() {
     it("Returns a list of transactions", function(done) {
-      var url = "http://localhost:8001/listtransactions";
+      var url = Config.HOST + "listtransactions";
       var requestOptions = AuthHelper.requestOptions();
       var account = "";
 
@@ -246,7 +247,7 @@ describe.skip("General Service API", function() {
         DataHelper.signMessage(getAddressResult.address, message).then(function(signResult) {
           expect(signResult.signature[signResult.signature.length-1]).to.equal("=");
 
-          var url = "http://localhost:8001/verifymessage";
+          var url = Config.HOST + "verifymessage";
           var requestOptions = AuthHelper.requestOptions();
           requestOptions.qs = {
             "syscoinaddress": getAddressResult.address,

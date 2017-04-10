@@ -5,7 +5,7 @@ var AuthHelper = require("./helper/authHelper");
 var DataHelper = require("./helper/dataHelper");
 var VerifyHelper = require("./helper/verifyHelper");
 
-describe.skip("Certificate Service API", function() {
+describe.only("Certificate Service API", function() {
 
   describe("certhistory", function () {
     it("Returns history info for certificate", function (done) {
