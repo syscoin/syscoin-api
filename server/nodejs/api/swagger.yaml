@@ -2549,7 +2549,7 @@ paths:
       x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
   /verifymessage:
-    post:
+    get:
       tags:
       - "General"
       description: "Verify a signed message"
@@ -4208,7 +4208,7 @@ definitions:
           \ to which you're sending the transaction. This is not part of the transaction,\
           \ it is just kept in your wallet."
       subtractfeefromamount:
-        type: "string"
+        type: "boolean"
         description: "The fee will be deducted from the amount being sent. The recipient\
           \ will receive less syscoins than you enter in the amount field."
   SignMessageRequest:
@@ -4220,7 +4220,7 @@ definitions:
         type: "string"
         description: "The syscoin address to use for the private key."
       message:
-        type: "number"
+        type: "string"
         description: "The message to create a signature of."
   WalletPassphraseRequest:
     required:

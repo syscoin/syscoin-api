@@ -135,7 +135,7 @@ paths:
 
   /verifymessage:
     x-swagger-router-controller: rpc
-    post:
+    get:
       operationId: verifymessage
       description: Verify a signed message
       security:
@@ -4013,7 +4013,7 @@ definitions:
         type: string
       subtractfeefromamount:
         description: The fee will be deducted from the amount being sent. The recipient will receive less syscoins than you enter in the amount field.
-        type: string
+        type: boolean
   SignMessageRequest:
     required:
     - syscoinaddress
@@ -4024,7 +4024,7 @@ definitions:
         type: string
       message:
         description: The message to create a signature of.
-        type: number
+        type: string
   WalletPassphraseRequest:
     required:
     - passphrase

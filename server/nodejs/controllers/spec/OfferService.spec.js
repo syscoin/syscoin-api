@@ -1,7 +1,7 @@
 var expect  = require("chai").expect;
 var rp = require("request-promise");
 
-var AuthHelper = require("./helpers/authHelper");
+var AuthHelper = require("./helper/authHelper");
 
 describe.skip("Offer Service API", function() {
 

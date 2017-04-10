@@ -1,6 +1,7 @@
 'use strict';
 
 var syscoinClient = require('../index').syscoinClient;
+var varUtils = require('./util/varUtils');
 
 exports.addmultisigaddress = function(args, res, next) {
   /**
@@ -118,13 +119,11 @@ exports.getbalance = function(args, res, next) {
    * includeWatchonly (Boolean)
    **/
 
-  if(!args.minconf.value) {
-    args.minconf.value = 0;
-  }
-
-  if(!args.includeWatchonly.value) {
-    args.includeWatchonly.value = false;
-  }
+  var defaultArgs = {
+    minconf: 0,
+    includeWatchonly: true
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args);
 
   syscoinClient.getBalance(args.account.value, args.minconf.value, args.includeWatchonly.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -186,10 +185,6 @@ exports.getnewaddress = function(args, res, next) {
 }
 
 exports.getpeerinfo = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-   **/
-  var examples = {};
   syscoinClient.getPeerInfo(function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -209,6 +204,12 @@ exports.getreceivedbyaccount = function(args, res, next) {
    * account (String)
    * minconf (BigDecimal)
    **/
+
+  var defaultArgs = {
+    minconf: 0
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args);
+
   syscoinClient.getReceivedByAccount(args.account.value, args.minconf.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -229,9 +230,10 @@ exports.getreceivedbyaddress = function(args, res, next) {
    * minconf (BigDecimal)
    **/
 
-  if(!args.minconf.value) {
-    args.minconf.value = 0;
-  }
+  var defaultArgs = {
+    minconf: 0
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args);
 
   syscoinClient.getReceivedByAddress(args.syscoinaddress.value, args.minconf.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -252,6 +254,12 @@ exports.gettransaction = function(args, res, next) {
    * txid (String)
    * includeWatchonly (Boolean)
    **/
+
+  var defaultArgs = {
+    includeWatchonly: true
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args);
+
   syscoinClient.getTransaction(args.txid.value, args.includeWatchonly.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -266,9 +274,6 @@ exports.gettransaction = function(args, res, next) {
 }
 
 exports.getunconfirmedbalance = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-   **/
   syscoinClient.getUnconfirmedBalance(function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -301,9 +306,6 @@ exports.getv2address = function(args, res, next) {
 }
 
 exports.getwalletinfo = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-   **/
   syscoinClient.getWalletInfo(function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -432,6 +434,13 @@ exports.listaccounts = function(args, res, next) {
    * minconf (BigDecimal)
    * includeWatchonly (Boolean)
    **/
+
+  var defaultArgs = {
+    minconf: 0,
+    includeWatchonly: true
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args);
+
   syscoinClient.listAccounts(args.minconf.value, args.includeWatchonly.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -446,9 +455,6 @@ exports.listaccounts = function(args, res, next) {
 }
 
 exports.listaddressgroupings = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-   **/
   syscoinClient.listAddressGroupings(function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -469,6 +475,14 @@ exports.listreceivedbyaccount = function(args, res, next) {
    * includeempty (Boolean)
    * includeWatchonly (Boolean)
    **/
+
+  var defaultArgs = {
+    minconf: 0,
+    includeempty: true,
+    includeWatchonly: true
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args);
+
   syscoinClient.listReceivedByAccount(args.minconf.value, args.includeempty.value, args.includeWatchonly.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -489,6 +503,14 @@ exports.listreceivedbyaddress = function(args, res, next) {
    * includeempty (Boolean)
    * includeWatchonly (Boolean)
    **/
+
+  var defaultArgs = {
+    minconf: 0,
+    includeempty: true,
+    includeWatchonly: true
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args);
+
   syscoinClient.listReceivedByAddress(args.minconf.value, args.includeempty.value, args.includeWatchonly.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -509,7 +531,15 @@ exports.listsinceblock = function(args, res, next) {
    * includeWatchonly (Boolean)
    * targetConfirmations (BigDecimal)
    **/
-  syscoinClient.listSinceBlock(args.blockchain.value, args.includeWatchonly.value, args.targetConfirmations.value, function(err, result, resHeaders) {
+
+  var defaultArgs = {
+    blockhash: "",
+    targetConfirmations: 0,
+    includeWatchonly: true
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args);
+  
+  syscoinClient.listSinceBlock(args.blockhash.value, args.includeWatchonly.value, args.targetConfirmations.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -530,6 +560,15 @@ exports.listtransactions = function(args, res, next) {
    * from (BigDecimal)
    * includeWatchonly (Boolean)
    **/
+
+  var defaultArgs = {
+    account: "*",
+    count: 10,
+    from: 0,
+    includeWatchonly: true
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args);
+
   syscoinClient.listTransactions(args.account.value, args.count.value, args.from.value, args.includeWatchonly.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -727,9 +766,6 @@ exports.verifymessage = function(args, res, next) {
 }
 
 exports.walletlock = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-   **/
   syscoinClient.walletLock(function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
