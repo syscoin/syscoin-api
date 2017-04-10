@@ -5,6 +5,36 @@ var AuthHelper = require("./helper/authHelper");
 
 describe.skip("Offer Service API", function() {
 
+  describe("offeraccept", function () {
+    it("Returns txid and guid of offeraccept", function (done) {
+    });
+  });
+
+  describe("offeracceptfeedback", function () {
+    it("Returns txid of feedback tx", function (done) {
+    });
+  });
+
+  describe("offeracceptlist", function () {
+    it("Returns list of accepted offers", function (done) {
+    });
+  });
+
+  describe("offerhistory", function () {
+    it("Returns history of offer", function (done) {
+    });
+  });
+
+  describe("offerinfo", function () {
+    it("Returns offer details", function (done) {
+    });
+  });
+
+  describe("offerlist", function () {
+    it("Returns list of offers owned by wallet", function (done) {
+    });
+  });
+
   describe("offernew", function() {
     var url = "http://localhost:8001/offernew";
 
@@ -65,6 +95,11 @@ describe.skip("Offer Service API", function() {
         expect(result.body[0].length).to.equal(64); //tx id
         done();
       });
+    });
+  });
+
+  describe("offerwhitelist", function () {
+    it("Returns whitelist info for an offer", function (done) {
     });
   });
 });
