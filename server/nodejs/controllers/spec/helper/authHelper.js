@@ -5,8 +5,8 @@ var config = require('../../../config');
 var _requestOptions = {};
 
 function _doAuth() {
-  var token = new Hashes.SHA1().hex("u" + "p");
-  token = jwt.sign({ auth: token }, config.api_secret, {
+  var hash = new Hashes.SHA1().hex("u" + "p");
+  var token = jwt.sign({ auth: hash }, config.api_secret, {
     expiresIn: 60 * 60 * 24 // expires in 24 hours
   });
 

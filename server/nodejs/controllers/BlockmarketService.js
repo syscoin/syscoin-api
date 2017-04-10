@@ -20,6 +20,7 @@ exports.login = function(args, res, next) {
   console.log("Valid pass:" + validAuth + " vs " + auth);
 
   if (auth != validAuth) {
+    res.writeHead(401);
     res.end(JSON.stringify({ success: false, message: 'Authentication failed. Wrong password.' }));
   } else {
 

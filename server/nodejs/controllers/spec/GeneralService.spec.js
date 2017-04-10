@@ -5,7 +5,7 @@ var AuthHelper = require("./helper/authHelper");
 var DataHelper = require("./helper/dataHelper");
 var VerifyHelper = require("./helper/verifyHelper");
 
-describe("General Service API", function() {
+describe.skip("General Service API", function() {
 
   describe("getaccount", function() {
     it("Returns account name", function(done) {
