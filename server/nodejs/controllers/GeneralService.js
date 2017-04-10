@@ -117,6 +117,15 @@ exports.getbalance = function(args, res, next) {
    * minconf (BigDecimal)
    * includeWatchonly (Boolean)
    **/
+
+  if(!args.minconf.value) {
+    args.minconf.value = 0;
+  }
+
+  if(!args.includeWatchonly.value) {
+    args.includeWatchonly.value = false;
+  }
+
   syscoinClient.getBalance(args.account.value, args.minconf.value, args.includeWatchonly.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -219,6 +228,11 @@ exports.getreceivedbyaddress = function(args, res, next) {
    * syscoinaddress (String)
    * minconf (BigDecimal)
    **/
+
+  if(!args.minconf.value) {
+    args.minconf.value = 0;
+  }
+
   syscoinClient.getReceivedByAddress(args.syscoinaddress.value, args.minconf.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 

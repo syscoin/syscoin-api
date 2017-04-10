@@ -24,10 +24,9 @@
     }
   ],
   "repository": "https://github.com/syscoin/syscoin-api.git",
-  "dependencies": {},
+  "dependencies": {
+  },
   "devDependencies": {
-    "gulp-exec": "^2.1.2",
-    "gulp-shell": "^0.5.2"
   },
   "bugs": {
     "url": "https://github.com/syscoin/syscoin-api/issues"
