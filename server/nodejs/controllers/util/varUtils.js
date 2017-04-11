@@ -1,3 +1,5 @@
+var Config = require("../../spec/config");
+
 /**
  * Takes an object which describes the default properties expected to be on an object, and if that value is not defined
  * the function set it to the default value specified in argList.
@@ -7,27 +9,33 @@
 function setDefaultArgs(argList, requestArgs, requestMethod) {
   if(!requestMethod || requestMethod == "GET") {
     for (var arg in argList) {
-      //console.log("Checking " + arg);
+      log("Checking GET var " + arg);
       if (requestArgs[arg] === undefined || requestArgs[arg].value === undefined) {
-        //console.log(arg + " is not defined, setting to: " + argList[arg]);
+        log(arg + " is not defined, setting to: " + argList[arg]);
         requestArgs[arg].value = argList[arg];
       } else {
-        //console.log("Request has prop " + arg + " set to " + JSON.stringify(requestArgs[arg]));
+        log("Request has prop " + arg + " set to " + JSON.stringify(requestArgs[arg].value));
       }
     }
   }else if(requestMethod == "POST") {
     for (var arg in argList) {
-      console.log("Checking " + arg);
+      log("Checking POST var " + arg);
       if (requestArgs.request.value[arg] === undefined) {
-        console.log(arg + " is not defined, setting to: " + argList[arg]);
+        log(arg + " is not defined, setting to: " + argList[arg]);
         requestArgs.request.value[arg] = argList[arg];
       } else {
-        console.log("Request has prop " + arg + " set to " + JSON.stringify(requestArgs.request.value[arg]));
+        log("Request has prop " + arg + " set to " + JSON.stringify(requestArgs.request.value[arg]));
       }
     }
   }
 
   return requestArgs;
+}
+
+function log(msg) {
+  if(Config.DEBUG_ENABLED) {
+    console.log(msg);
+  }
 }
 
 module.exports.setDefaultArgs = setDefaultArgs;

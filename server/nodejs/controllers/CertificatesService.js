@@ -1,6 +1,7 @@
 'use strict';
 
 var syscoinClient = require('../index').syscoinClient;
+var varUtils = require('./util/varUtils');
 
 exports.certfilter = function(args, res, next) {
   /**
@@ -67,6 +68,14 @@ exports.certlist = function(args, res, next) {
   * cert (String)
   * privatekey (String)
   **/
+
+  var defaultArgs = {
+    aliases: [],
+    cert: "",
+    privatekey: ""
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args);
+
   syscoinClient.certList(args.aliases.value, args.cert.value, args.privatekey.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -85,7 +94,14 @@ exports.certnew = function(args, res, next) {
    * parameters expected in the args:
   * request (CertNewRequest)
   **/
-  syscoinClient.certNew(args.request.value.alias, args.request.value.title, args.request.value.private, args.request.value.public, args.request.value.safesaerch, args.request.value.category, function(err, result, resHeaders) {
+
+  var defaultArgs = {
+    safesearch: "Yes",
+    category: "certificates"
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args, "POST");
+
+  syscoinClient.certNew(args.request.value.alias, args.request.value.title, args.request.value.private, args.request.value.public, args.request.value.safesearch, args.request.value.category, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {

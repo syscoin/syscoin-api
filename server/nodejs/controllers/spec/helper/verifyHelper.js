@@ -12,11 +12,11 @@ function verifyAliasNewTransactionId(txid) {
   expect(txid.length).to.equal(66);
 }
 
-function verifyMessageId(msgId) {
+function verifySyscoinGUID(msgId) {
   expect(msgId.length).to.equal(16);
 }
 
 module.exports.verifySyscoinAddress = verifySyscoinAddress;
 module.exports.verifyTransactionId = verifyTransactionId;
 module.exports.verifyAliasNewTransactionId = verifyAliasNewTransactionId;
-module.exports.verifyMessageId = verifyMessageId;
+module.exports.verifySyscoinGUID = verifySyscoinGUID;

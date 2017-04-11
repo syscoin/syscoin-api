@@ -1,16 +1,14 @@
-var HOST = "http://localhost:8001/";  //include trailing slash
+module.exports = {
+  HOST: "http://localhost:8001/", //include trailing slash
+  DEBUG_ENABLED: true,
 
-var TEST_ALIAS_PEG = "sysrates.peg";
-var TEST_ALIAS = "testuser";
-var TEST_ALIAS_PASSWORD = "testpassword";
-var TEST_OFFER_GUID = "";
-var TEST_CERT_GUID = "";
-var TEST_MESSAGE_GUID = "303e8986016b142c";
+  TEST_ALIAS_PEG: "sysrates.peg",
+  TEST_ALIAS: "testuser",
+  TEST_ALIAS_PASSWORD: "testpassword",
 
-module.exports.TEST_ALIAS = TEST_ALIAS;
-module.exports.TEST_OFFER_GUID = TEST_OFFER_GUID;
-module.exports.TEST_CERT_GUID = TEST_CERT_GUID;
-module.exports.TEST_ALIAS_PASSWORD = TEST_ALIAS_PASSWORD;
-module.exports.HOST = HOST;
-module.exports.TEST_ALIAS_PEG = TEST_ALIAS_PEG;
-module.exports.TEST_MESSAGE_GUID = TEST_MESSAGE_GUID;
+  TEST_OFFER_GUID: "02ac590247af2d48",
+
+  TEST_CERT_GUID: "cc8c85f466a2e054",
+
+  TEST_MESSAGE_GUID: "303e8986016b142c"
+};

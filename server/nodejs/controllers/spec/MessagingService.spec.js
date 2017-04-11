@@ -22,7 +22,7 @@ describe("Messaging Service API", function() {
         var messageInfo = JSON.parse(result.body);
         expect(messageInfo.subject).to.exist;
         expect(messageInfo.message).to.exist;
-        VerifyHelper.verifyMessageId(messageInfo.GUID);
+        VerifyHelper.verifySyscoinGUID(messageInfo.GUID);
         done();
       });
     });
@@ -45,7 +45,7 @@ describe("Messaging Service API", function() {
 
         var messageInfo = result.body;
         VerifyHelper.verifyTransactionId(messageInfo[0]);
-        VerifyHelper.verifyMessageId(messageInfo[1]);
+        VerifyHelper.verifySyscoinGUID(messageInfo[1]);
         done();
       });
     });
@@ -63,7 +63,7 @@ describe("Messaging Service API", function() {
         expect(messageList.length).to.be.at.least(0);
         for(var i = 0; i < messageList.length; i++) {
           expect(messageList[i].message).to.exist;
-          VerifyHelper.verifyMessageId(messageList[i].GUID);
+          VerifyHelper.verifySyscoinGUID(messageList[i].GUID);
         }
         done();
       });
@@ -82,7 +82,7 @@ describe("Messaging Service API", function() {
         expect(messageList.length).to.be.at.least(0);
         for(var i = 0; i < messageList.length; i++) {
           expect(messageList[i].message).to.exist;
-          VerifyHelper.verifyMessageId(messageList[i].GUID);
+          VerifyHelper.verifySyscoinGUID(messageList[i].GUID);
         }
         done();
       });

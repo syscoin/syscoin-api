@@ -16,6 +16,7 @@ exports.login = function(args, res, next) {
   console.log("Got auth with request:" + auth + " checkin against:" + rpcuser + rpcpass);
 
   var validAuth = new Hashes.SHA1().hex(rpcuser + rpcpass);
+  res.setHeader('Content-Type', 'application/json');
 
   console.log("Valid pass:" + validAuth + " vs " + auth);
 
