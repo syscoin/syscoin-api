@@ -1,12 +1,24 @@
-'use strict';
-
 var syscoinClient = require('../index').syscoinClient;
+var varUtils = require('./util/varUtils');
+
 
 exports.offeraccept = function(args, res, next) {
   /**
    * parameters expected in the args:
   * request (OfferAcceptRequest)
   **/
+
+  var defaultArgs = {
+    quantity: 1,
+    message: "",
+    exttxid: "",
+    paymentoption: ""
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args, "POST");
+
+  //correct type issues
+  args.request.value.quantity = args.request.value.quantity.toString(); //int to string
+
   syscoinClient.offerAccept(args.request.value.alias, args.request.value.guid, args.request.value.quantity, args.request.value.message, args.request.value.exttxid, args.request.value.paymentoption, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -47,6 +59,16 @@ exports.offeracceptfeedback = function(args, res, next) {
   * feedback (String)
   * rating (BigDecimal)
   **/
+
+  var defaultArgs = {
+    feedback: "",
+    rating: 5
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args);
+
+  //correct type issues
+  args.rating.value = args.rating.value.toString(); //int to string
+
   syscoinClient.offerAcceptFeedback(args.offerguid.value, args.offeracceptguid.value, args.feedback.value, args.rating.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -67,6 +89,14 @@ exports.offeracceptlist = function(args, res, next) {
   * acceptguid (String)
   * privatekey (String)
   **/
+
+  var defaultArgs = {
+    aliases: [],
+    acceptguid: "",
+    privatekey: ""
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args);
+
   syscoinClient.offerAcceptList(args.aliases.value, args.acceptguid.value, args.privatekey.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -198,6 +228,14 @@ exports.offerlist = function(args, res, next) {
   * offer (String)
   * privatekey (String)
   **/
+
+  var defaultArgs = {
+    aliases: [],
+    offer: "",
+    privatekey: ""
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args);
+
   syscoinClient.offerList(args.aliases.value, args.offer.value, args.privatekey.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -219,15 +257,9 @@ exports.offernew = function(args, res, next) {
   console.log(JSON.stringify(args.request.value));
 
   //correct type issues
-  if(args.request.value.private) {
-    args.request.value.private = args.request.value.private ? "1" : "0"; //bool converted string
-  }
-
-  if(args.request.value.quantity) //int to string
-    args.request.value.quantity = args.request.value.quantity.toString();
-
-  if(args.request.value.price) //float to string
-    args.request.value.price = args.request.value.price.toString();
+  args.request.value.private = args.request.value.private ? "1" : "0"; //bool converted string
+  args.request.value.quantity = args.request.value.quantity.toString(); //int to string
+  args.request.value.price = args.request.value.price.toString(); //float to string
 
   syscoinClient.offerNew(args.request.value.alias, args.request.value.category, args.request.value.title, args.request.value.quantity, args.request.value.price, args.request.value.description, args.request.value.currency, args.request.value.certguid, args.request.value.paymentoptions, args.request.value.geolocation, args.request.value.safesearch, args.request.value.private, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -267,18 +299,10 @@ exports.offerupdate = function(args, res, next) {
   **/
 
   //correct type issues
-  if(args.request.value.private) {
-    args.request.value.private = args.request.value.private ? "1" : "0"; //bool converted string
-  }
-
-  if(args.request.value.quantity) //int to string
-    args.request.value.quantity = args.request.value.quantity.toString();
-
-  if(args.request.value.price) //float to string
-    args.request.value.price = args.request.value.price.toString();
-
-  if(args.request.value.comission) //float to string
-    args.request.value.comission = args.request.value.comission.toString();
+  args.request.value.private = args.request.value.private ? "1" : "0"; //bool converted string
+  args.request.value.quantity =  args.request.value.quantity.toString(); //int to string
+  args.request.value.price = args.request.value.price.toString(); //float to string
+  args.request.value.comission = args.request.value.comission.toString(); //float to string
   
   syscoinClient.offerUpdate(args.request.value.alias, args.request.value.guid, args.request.value.category, args.request.value.title, args.request.value.quantity, args.request.value.price, args.request.value.description, args.request.value.currency, args.request.value.private, args.request.value.certguid, args.request.value.geolocation, args.request.value.safesearch, /*args.request.value.comission, args.request.value.paymentoptions,*/ function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');

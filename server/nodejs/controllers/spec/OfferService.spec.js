@@ -2,36 +2,135 @@ var expect  = require("chai").expect;
 var rp = require("request-promise");
 
 var AuthHelper = require("./helper/authHelper");
+var VerifyHelper = require("./helper/verifyHelper");
+var DataHelper = require("./helper/dataHelper");
+var Config = require("../../spec/config");
 
 describe("Offer Service API", function() {
 
   describe("offeraccept", function () {
     it("Returns txid and guid of offeraccept", function (done) {
+      DataHelper.offerAccept(Config.TEST_ALIAS, Config.TEST_OFFER_GUID, 1,
+        "test accept " + Date.now().toString(), "", "").then(function(acceptResult) {
+        expect(acceptResult.response.statusCode).to.equal(200);
+
+        var acceptInfo = acceptResult.tx;
+        VerifyHelper.verifyTransactionId(acceptInfo[0]);
+        VerifyHelper.verifySyscoinGUID(acceptInfo[1]);
+        done();
+      });
     });
   });
 
   describe("offeracceptfeedback", function () {
     it("Returns txid of feedback tx", function (done) {
+      DataHelper.offerAccept(Config.TEST_ALIAS, Config.TEST_OFFER_GUID, 1,
+        "test accept " + Date.now().toString(), "", "").then(function(acceptResult) {
+        var url = Config.HOST + "offeracceptfeedback";
+        var requestOptions = AuthHelper.requestOptions();
+        requestOptions.method =  "POST";
+        requestOptions.qs = {
+          "offerguid": Config.TEST_OFFER_GUID,
+          "offeracceptguid": acceptResult.tx[1],
+          "feedback": "Unit test feedback",
+          "rating": 5
+        };
+
+        rp(url, requestOptions).then(function(result) {
+          expect(result.statusCode).to.equal(200);
+          //expect(result.body.length).to.equal(2);
+          //expect(result.body[0].length).to.equal(64); //tx id
+          //expect(result.body[1].length).to.equal(16); //offer guid
+          done();
+        });
+      });
     });
   });
 
   describe("offeracceptlist", function () {
     it("Returns list of accepted offers", function (done) {
+      var url = Config.HOST + "offeracceptlist";
+      var requestOptions = AuthHelper.requestOptions();
+      requestOptions.qs = {
+        "aliases": [Config.TEST_ALIAS]
+      };
+
+      rp(url, requestOptions).then(function (result) {
+        expect(result.statusCode).to.equal(200);
+
+        var offerList = JSON.parse(result.body);
+        expect(offerList.length).to.be.at.least(1);
+        for(var i = 0; i < offerList.length; i++) {
+          expect(offerList[i].offer).to.exist;
+          expect(offerList[i].total).to.be.at.least(0);
+        }
+        done();
+      });
     });
   });
 
   describe("offerhistory", function () {
     it("Returns history of offer", function (done) {
+      var url = Config.HOST + "offerhistory";
+      var requestOptions = AuthHelper.requestOptions();
+      requestOptions.qs = {
+        "offer": Config.TEST_OFFER_GUID
+      };
+
+      rp(url, requestOptions).then(function (result) {
+        expect(result.statusCode).to.equal(200);
+
+        var offerHistoryList = JSON.parse(result.body);
+        expect(offerHistoryList.length).to.be.at.least(1);
+        for(var i = 0; i < offerHistoryList.length; i++) {
+          expect(offerHistoryList[i].offertype).to.exist;
+          expect(offerHistoryList[i].height).to.be.at.least(1);
+          expect(offerHistoryList[i].price).to.be.at.least(0);
+        }
+        done();
+      });
     });
   });
 
   describe("offerinfo", function () {
     it("Returns offer details", function (done) {
+      var url = Config.HOST + "offerinfo";
+      var requestOptions = AuthHelper.requestOptions();
+      requestOptions.qs = {
+        "guid": Config.TEST_OFFER_GUID
+      };
+
+      rp(url, requestOptions).then(function (result) {
+        expect(result.statusCode).to.equal(200);
+
+        var offer = JSON.parse(result.body);
+        expect(offer.title).to.exist;
+        expect(offer.height).to.be.at.least(1);
+        done()
+      });
     });
   });
 
   describe("offerlist", function () {
     it("Returns list of offers owned by wallet", function (done) {
+      var url = Config.HOST + "offerlist";
+      var requestOptions = AuthHelper.requestOptions();
+      requestOptions.qs = {
+        "aliases": [Config.TEST_ALIAS]
+      };
+
+      rp(url, requestOptions).then(function (result) {
+        expect(result.statusCode).to.equal(200);
+
+        var offerList = JSON.parse(result.body);
+        expect(offerList.length).to.be.at.least(1);
+        for(var i = 0; i < offerList.length; i++) {
+          expect(offerList[i].title).to.exist;
+          expect(offerList[i].height).to.be.at.least(1);
+          expect(offerList[i].price).to.be.at.least(0);
+        }
+        done();
+      });
     });
   });
 
@@ -100,6 +199,19 @@ describe("Offer Service API", function() {
 
   describe("offerwhitelist", function () {
     it("Returns whitelist info for an offer", function (done) {
+      var url = Config.HOST + "offerwhitelist";
+      var requestOptions = AuthHelper.requestOptions();
+      requestOptions.qs = {
+        "offerguid": [Config.TEST_OFFER_GUID]
+      };
+
+      rp(url, requestOptions).then(function (result) {
+        expect(result.statusCode).to.equal(200);
+
+        var offerWhitelist = JSON.parse(result.body);
+        expect(offerWhitelist.length).to.be.at.least(0);
+        done();
+      });
     });
   });
 });

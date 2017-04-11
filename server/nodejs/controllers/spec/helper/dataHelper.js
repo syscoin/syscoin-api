@@ -74,6 +74,36 @@ function signMessage(address, message) {
   return deferred.promise;
 }
 
-module.exports.getAccountAddress = getAccountAddress;
-module.exports.sendSyscoin = sendSyscoin;
-module.exports.signMessage = signMessage;
+function offerAccept(alias, guid, quantity, message, exttxid, paymentoption) {
+  var deferred = Q.defer();
+  var url = Config.HOST + "offeraccept";
+  var requestOptions = AuthHelper.requestOptions();
+  requestOptions.method = "POST";
+  requestOptions.json = {
+    "alias": alias,
+    "guid": guid,
+    "quantity": quantity,
+    "message": message,
+    "exttxid": exttxid,
+    "paymentoption": paymentoption
+  };
+
+  rp(url, requestOptions)
+    .then(function(result) {
+      var tx = result.body;
+      deferred.resolve({ tx: tx, response: result })
+    })
+    .catch(function(error) {
+      console.log("Error accepting offer: " + JSON.stringify(error));
+      deferred.reject(error);
+    });
+
+  return deferred.promise;
+}
+
+module.exports = {
+  getAccountAddress: getAccountAddress,
+  sendSyscoin: sendSyscoin,
+  signMessage: signMessage,
+  offerAccept: offerAccept
+};
