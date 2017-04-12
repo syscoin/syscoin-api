@@ -1,6 +1,6 @@
-'use strict';
-
 var syscoinClient = require('../index').syscoinClient;
+var varUtils = require('./util/varUtils');
+
 
 exports.escrowacknowledge = function(args, res, next) {
   /**
@@ -190,6 +190,19 @@ exports.escrownew = function(args, res, next) {
    * parameters expected in the args:
   * request (EscrowNewRequest)
   **/
+
+  var defaultArgs = {
+    exttx: "",
+    paymentoption: "",
+    redeemscript: "",
+    height: 0
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args, "POST");
+
+  //correct type issues
+  args.request.value.quantity = args.request.value.quantity.toString(); //int to string
+  args.request.value.height = args.request.value.height.toString(); //int to string
+
   syscoinClient.escrowNew(args.request.value.alias, args.request.value.offer, args.request.value.quantity, args.request.value.message, args.request.value.arbiter, args.request.value.exttx, args.request.value.paymentoption, args.request.value.redeemscript, args.request.value.height, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
