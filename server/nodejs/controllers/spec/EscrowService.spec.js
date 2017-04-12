@@ -10,16 +10,70 @@ describe("Escrow Service API", function() {
 
   describe("escrowclaimrelease", function () {
     it("Returns tx id for escrow release", function (done) {
+      var url = Config.HOST + "escrowclaimrelease";
+      var requestOptions = AuthHelper.requestOptions();
+      requestOptions.qs = {
+        "offer": Config.TEST_OFFER_GUID
+      };
+
+      rp(url, requestOptions).then(function (result) {
+        expect(result.statusCode).to.equal(200);
+
+        var offerHistoryList = JSON.parse(result.body);
+        expect(offerHistoryList.length).to.be.at.least(1);
+        for(var i = 0; i < offerHistoryList.length; i++) {
+          expect(offerHistoryList[i].offertype).to.exist;
+          expect(offerHistoryList[i].height).to.be.at.least(1);
+          expect(offerHistoryList[i].price).to.be.at.least(0);
+        }
+        done();
+      });
     });
   });
 
   describe("escrowcompleterelease", function () {
     it("Returns tx id for completed escrow release", function (done) {
+      var url = Config.HOST + "escrowcompleterelease";
+      var requestOptions = AuthHelper.requestOptions();
+      requestOptions.qs = {
+        "offer": Config.TEST_OFFER_GUID
+      };
+
+      rp(url, requestOptions).then(function (result) {
+        expect(result.statusCode).to.equal(200);
+
+        var offerHistoryList = JSON.parse(result.body);
+        expect(offerHistoryList.length).to.be.at.least(1);
+        for(var i = 0; i < offerHistoryList.length; i++) {
+          expect(offerHistoryList[i].offertype).to.exist;
+          expect(offerHistoryList[i].height).to.be.at.least(1);
+          expect(offerHistoryList[i].price).to.be.at.least(0);
+        }
+        done();
+      });
     });
   });
 
   describe("escrowfeedback", function () {
     it("Returns tx id for compeleted feedback", function (done) {
+      var url = Config.HOST + "escrowfeedback";
+      var requestOptions = AuthHelper.requestOptions();
+      requestOptions.qs = {
+        "offer": Config.TEST_OFFER_GUID
+      };
+
+      rp(url, requestOptions).then(function (result) {
+        expect(result.statusCode).to.equal(200);
+
+        var offerHistoryList = JSON.parse(result.body);
+        expect(offerHistoryList.length).to.be.at.least(1);
+        for(var i = 0; i < offerHistoryList.length; i++) {
+          expect(offerHistoryList[i].offertype).to.exist;
+          expect(offerHistoryList[i].height).to.be.at.least(1);
+          expect(offerHistoryList[i].price).to.be.at.least(0);
+        }
+        done();
+      });
     });
   });
 
@@ -112,6 +166,24 @@ describe("Escrow Service API", function() {
 
   describe("escrowrelease", function () {
     it("Returns a txid for the released escrow", function (done) {
+      var url = Config.HOST + "escrowrelease";
+      var requestOptions = AuthHelper.requestOptions();
+      requestOptions.method =  "POST";
+      requestOptions.json = {
+        "alias": Config.TEST_ALIAS,
+        "offer": Config.TEST_OFFER_GUID,
+        "quantity": 1,
+        "message": "unit test escrow",
+        "arbiter": Config.TEST_ALIAS
+      };
+
+      rp(url, requestOptions).then(function(result) {
+        //expect(result.statusCode).to.equal(200);
+        //expect(result.body.length).to.equal(2);
+        //expect(result.body[0].length).to.equal(64); //tx id
+        //expect(result.body[1].length).to.equal(16); //offer guid
+        done();
+      });
     });
   });
   
