@@ -44,6 +44,13 @@ exports.aliasfilter = function(args, res, next) {
   * from (String)
   * safesearch (String)
   **/
+
+  var defaultArgs = {
+    from: "",
+    safesearch: "Yes"
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args);
+
   syscoinClient.aliasFilter(args.regexp.value, args.from.value, args.safesearch.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -123,8 +130,19 @@ exports.aliasnew = function(args, res, next) {
   * request (AliasNewRequest)
   **/
 
+  var defaultArgs = {
+    privatevalue: "",
+    password: "",
+    safesearch: "Yes",
+    accepttransfers: "Yes",
+    expire: "525600", /* 1 yr */
+    nrequired: 0,
+    aliases: []
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args, "POST");
+
   //correct type issues
-  args.request.value.nrequired = args.request.value.nrequired ? args.request.value.nrequired.toString() : "0"; //number to string
+  args.request.value.nrequired = args.request.value.nrequired.toString(); //number to string
 
   syscoinClient.aliasNew(args.request.value.aliaspeg, args.request.value.aliasname, args.request.value.password, args.request.value.publicvalue, args.request.value.privatevalue, args.request.value.safesearch, args.request.value.accepttransfers, args.request.value.expire, args.request.value.nrequired, args.request.value.aliases, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -153,14 +171,14 @@ exports.aliasupdate = function(args, res, next) {
     safesearch: "Yes",
     toalias_pubkey: "",
     accepttransfers: "Yes",
-    expire: "100000",
+    expire: "525600",
     nrequired: 0,
     aliases: []
   };
   args = varUtils.setDefaultArgs(defaultArgs, args, "POST");
 
   //correct type issues
-  args.request.value.nrequired = args.request.value.nrequired ? args.request.value.nrequired.toString() : "0"; //number to string
+  args.request.value.nrequired = args.request.value.nrequired.toString(); //number to string
 
   //TODO: update core RPC docs on param ordering
   syscoinClient.aliasUpdate(args.request.value.aliaspeg, args.request.value.aliasname, args.request.value.publicvalue, args.request.value.privatevalue,  args.request.value.safesearch, args.request.value.toalias_pubkey, args.request.value.password, args.request.value.accepttransfers, args.request.value.expire, args.request.value.nrequired, args.request.value.aliases, function(err, result, resHeaders) {

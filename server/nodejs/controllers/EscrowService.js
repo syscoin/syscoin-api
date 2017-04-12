@@ -25,6 +25,12 @@ exports.escrowclaimrefund = function(args, res, next) {
    * parameters expected in the args:
   * request (EscrowClaimRefundRequest)
   **/
+
+  var defaultArgs = {
+    rawtx: ""
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args, "POST");
+
   syscoinClient.escrowClaimRefund(args.request.value.guid, args.request.value.rawtx, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -43,6 +49,12 @@ exports.escrowclaimrelease = function(args, res, next) {
    * parameters expected in the args:
   * request (EscrowClaimReleaseRequest)
   **/
+
+  var defaultArgs = {
+    rawtx: ""
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args, "POST");
+
   syscoinClient.escrowClaimRelease(args.request.value.guid, args.request.value.rawtx, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -116,6 +128,15 @@ exports.escrowfilter = function(args, res, next) {
   * regexp (String)
   * from (BigDecimal)
   **/
+
+  var defaultArgs = {
+    from: 0
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args);
+
+  //correct type issus
+  args.from.value = args.from.value.toString(); //int to string
+
   syscoinClient.escrowFilter(args.regexp.value, args.from.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -172,6 +193,13 @@ exports.escrowlist = function(args, res, next) {
   * escrow (String)
   * privatekey (String)
   **/
+
+  var defaultArgs = {
+    escrow: "",
+    privatekey: ""
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args, "POST");
+
   syscoinClient.escrowList(function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -193,7 +221,7 @@ exports.escrownew = function(args, res, next) {
 
   var defaultArgs = {
     exttx: "",
-    paymentoption: "",
+    paymentoption: "SYS",
     redeemscript: "",
     height: 0
   };
@@ -221,6 +249,11 @@ exports.escrowrefund = function(args, res, next) {
    * parameters expected in the args:
   * request (EscrowRefundRequest)
   **/
+
+  var defaultArgs = {
+    rawtx: 0
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args, "POST");
   syscoinClient.escrowRefund(args.request.value.escrowguid, args.request.value.userrole, args.request.value.rawtx, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -239,6 +272,12 @@ exports.escrowrelease = function(args, res, next) {
    * parameters expected in the args:
   * request (EscrowReleaseRequest)
   **/
+
+  var defaultArgs = {
+    rawtx: ""
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args, "POST");
+
   syscoinClient.escrowRelease(args.request.value.escrowguid, args.request.value.userrole, args.request.value.rawtx, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -257,6 +296,15 @@ exports.generateescrowmultisig = function(args, res, next) {
    * parameters expected in the args:
   * request (GenerateEscrowMultisigRequest)
   **/
+
+  var defaultArgs = {
+    paymentoption: "SYS"
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args);
+
+  //correct type issus
+  args.from.value = args.from.value.toString(); //int to string
+
   syscoinClient.generateEscrowMultisig(args.request.value.buyer, args.request.value.offerguid, args.request.value.quantity, args.request.value.arbiter, args.request.value.paymentoption, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 

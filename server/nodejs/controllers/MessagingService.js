@@ -54,7 +54,7 @@ exports.messagereceivelist = function(args, res, next) {
   **/
 
   var defaultArgs = {
-    aliases: "",
+    aliases: [],
     message: "",
     privatekey: ""
   };
@@ -82,7 +82,7 @@ exports.messagesentlist = function(args, res, next) {
   **/
 
   var defaultArgs = {
-    aliases: "",
+    aliases: [],
     message: "",
     privatekey: ""
   };

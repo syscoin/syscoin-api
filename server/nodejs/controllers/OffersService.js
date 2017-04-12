@@ -115,6 +115,15 @@ exports.offeraddwhitelist = function(args, res, next) {
    * parameters expected in the args:
   * request (OfferAddWhitelistRequest)
   **/
+
+  var defaultArgs = {
+    discountPercentage: 0
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args, "POST");
+
+  //correct type issues
+  args.request.value.discountPercentage = args.request.value.discountPercentage.toString();
+
   syscoinClient.offerAddWhitelist(args.request.value.offerguid, args.request.value.aliasguid, args.request.value.discountPercentage, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -154,6 +163,17 @@ exports.offerfilter = function(args, res, next) {
   * safesearch (String)
   * category (String)
   **/
+
+  var defaultArgs = {
+    from: 0,
+    safesearch: "Yes",
+    category: ""
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args);
+
+  //correct type issues
+  args.from.value = args.from.value.toString();
+
   syscoinClient.offerFilter(args.regexp.value, args.from.value, args.safesearch.value, args.category.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -208,6 +228,12 @@ exports.offerlink = function(args, res, next) {
    * parameters expected in the args:
   * request (OfferLinkRequest)
   **/
+
+  var defaultArgs = {
+    description: ""
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args);
+
   syscoinClient.offerLink(args.request.value.alias, args.request.value.guid, args.request.value.comission, args.request.value.description, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -254,7 +280,15 @@ exports.offernew = function(args, res, next) {
    * parameters expected in the args:
   * request (OfferNewRequest)
   **/
-  console.log(JSON.stringify(args.request.value));
+
+  var defaultArgs = {
+    certguid: "",
+    paymentoptions: "",
+    geolocation: "",
+    safesearch: "Yes",
+    private: false
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args, "POST");
 
   //correct type issues
   args.request.value.private = args.request.value.private ? "1" : "0"; //bool converted string
@@ -297,6 +331,18 @@ exports.offerupdate = function(args, res, next) {
    * parameters expected in the args:
   * request (OfferUpdateRequest)
   **/
+
+  var defaultArgs = {
+    description: "",
+    currency: "SYS",
+    private: false,
+    certguid: "",
+    geolocation: "",
+    safesearch: "Yes",
+    commission: 0,
+    paymentoptions: ""
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args, "POST");
 
   //correct type issues
   args.request.value.private = args.request.value.private ? "1" : "0"; //bool converted string

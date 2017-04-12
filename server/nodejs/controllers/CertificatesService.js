@@ -12,6 +12,16 @@ exports.certfilter = function(args, res, next) {
   * safesearch (String)
   * category (String)
   **/
+
+  var defaultArgs = {
+    regexp: "",
+    from: "",
+    certfilter: "",
+    safesearch: "Yes",
+    category: ""
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args);
+
   syscoinClient.certFilter(args.regexp.value, args.from.value, args.certfilter.value, args.safesearch.value, args.category.value, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -119,6 +129,12 @@ exports.certtransfer = function(args, res, next) {
    * parameters expected in the args:
   * request (CertTransferRequest)
   **/
+
+  var defaultArgs = {
+    viewonly: false
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args, "POST");
+
   syscoinClient.certTransfer(args.request.value.certkey, args.request.value.alias, args.request.value.viewonly, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -137,6 +153,12 @@ exports.certupdate = function(args, res, next) {
    * parameters expected in the args:
   * request (CertUpdateRequest)
   **/
+  var defaultArgs = {
+    safesearch: "Yes",
+    category: "Certificates"
+  };
+  args = varUtils.setDefaultArgs(defaultArgs, args, "POST");
+
   syscoinClient.certUpdate(args.request.value.guid, args.request.value.alias, args.request.value.title, args.request.value.private, args.request.value.public, args.request.value.safesearch, args.request.value.category, function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
