@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  version: "2.1.3"
+  version: "1.0.0"
   title: Syscoin API
 host: localhost:8001
 securityDefinitions:
@@ -135,7 +135,7 @@ paths:
 
   /verifymessage:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: verifymessage
       description: Verify a signed message
       security:
@@ -987,6 +987,33 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
         required: true
         schema:
           $ref: "#/definitions/EscrowNewRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /aliaspay:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: aliaspay
+      description: Send multiple times from an alias. Amounts are double-precision floating point numbers.
+      security:
+          - token: []
+      tags:
+      - Escrow
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/AliasPayRequest"
       responses:
         "200":
           description: Success
@@ -3686,6 +3713,27 @@ definitions:
       height:
         description: If paid in extneral chain, enter height that generateescrowmultisig returns
         type: number
+  AliasPayRequest:
+    required:
+    - alias
+    - amounts
+    properties:
+      alias:
+        description: Alias you own to pay from
+        type: string
+      amounts:
+        description: "A json object with aliases and amounts
+    {
+      \"address\":amount   (numeric or string) The syscoin alias is the key, the numeric amount (can be string) in SYS is the value
+      ,...
+    }"
+        type: string
+      minconf:
+        description: Only use the balance confirmed at least this many times.
+        type: number
+      comment:
+        description: A comment
+        type: string
   GetNewAddressRequest:
     properties:
       account:
@@ -4013,7 +4061,7 @@ definitions:
         type: string
       subtractfeefromamount:
         description: The fee will be deducted from the amount being sent. The recipient will receive less syscoins than you enter in the amount field.
-        type: boolean
+        type: string
   SignMessageRequest:
     required:
     - syscoinaddress
@@ -4024,7 +4072,7 @@ definitions:
         type: string
       message:
         description: The message to create a signature of.
-        type: string
+        type: number
   WalletPassphraseRequest:
     required:
     - passphrase

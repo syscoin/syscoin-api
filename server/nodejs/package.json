@@ -27,7 +27,7 @@
     "request-promise": "^4.2.0",
     "serve-static": "^1.12.1",
     "swagger-tools": "0.10.1",
-    "syscoin": "^2.3.0"
+    "syscoin": "2.3.1"
   },
   "bugs": {
     "url": "https://github.com/syscoin/syscoin-api/issues"

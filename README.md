@@ -13,7 +13,7 @@ Anytime the root swagger.yaml is modified the JSON spec should be updated and co
 To regenerate the JSON API spec due to YAML changes (required for docs UI to be accurate): 
 
 ```
-generate -i swagger.yaml -o ./generated-json -l swagger
+swagger-codegen generate -i swagger.yaml -o ./generated-json -l swagger
 ```
  
 The generated JSON can be deleted after its been copied to `swagger-spec.js`.

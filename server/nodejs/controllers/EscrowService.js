@@ -244,6 +244,29 @@ exports.escrownew = function(args, res, next) {
   });
 }
 
+exports.aliaspay = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * request (AliasPayRequest)
+   **/
+
+  //correct type issues
+  args.request.value.minconf = args.request.value.minconf.toString(); //int to string
+
+  syscoinClient.aliaspay(args.request.value.alias, args.request.value.amounts, args.request.value.minconf, args.request.value.comment, function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      console.log(err);
+      return res.end(JSON.stringify(err.toString()));
+    }
+
+    console.log('Alias pay:', result);
+    res.end(JSON.stringify(result));
+  });
+}
+
+
 exports.escrowrefund = function(args, res, next) {
   /**
    * parameters expected in the args:
