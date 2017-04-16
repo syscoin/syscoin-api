@@ -8,7 +8,8 @@ exports.messageinfo = function(args, res, next) {
    * parameters expected in the args:
   * guid (String)
   **/
-  syscoinClient.messageInfo(args.guid.value, function(err, result, resHeaders) {
+  var argList = ["guid"];
+  var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -18,7 +19,10 @@ exports.messageinfo = function(args, res, next) {
 
     console.log('Message info:', result);
     res.end(JSON.stringify(result));
-  });
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.messageInfo.apply(syscoinClient, arr);
 }
 
 exports.messagenew = function(args, res, next) {
@@ -26,13 +30,8 @@ exports.messagenew = function(args, res, next) {
    * parameters expected in the args:
   * request (MessageNewRequest)
   **/
-
-  var defaultArgs = {
-    hex: "No"
-  };
-  args = varUtils.setDefaultArgs(defaultArgs, args, "POST");
-
-  syscoinClient.messageNew(args.request.value.subject, args.request.value.message, args.request.value.fromalias, args.request.value.toalias, args.request.value.hex, function(err, result, resHeaders) {
+  var argList = ["subject", "message", "fromalias", "toalias", "hex"];
+  var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -42,7 +41,10 @@ exports.messagenew = function(args, res, next) {
 
     console.log('Message new:', result);
     res.end(JSON.stringify(result));
-  });
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+  syscoinClient.messageNew.apply(syscoinClient, arr);
 }
 
 exports.messagereceivelist = function(args, res, next) {
@@ -52,15 +54,8 @@ exports.messagereceivelist = function(args, res, next) {
   * message (String)
   * privatekey (String)
   **/
-
-  var defaultArgs = {
-    aliases: [],
-    message: "",
-    privatekey: ""
-  };
-  args = varUtils.setDefaultArgs(defaultArgs, args, "GET");
-
-  syscoinClient.messageReceiveList(args.aliases.value, args.message.value, args.privatekey.value, function(err, result, resHeaders) {
+  var argList = ["aliases", "message", "privatekey"];
+  var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -70,7 +65,10 @@ exports.messagereceivelist = function(args, res, next) {
 
     console.log('Message receive list:', result);
     res.end(JSON.stringify(result));
-  });
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.messageReceiveList.apply(syscoinClient, arr);
 }
 
 exports.messagesentlist = function(args, res, next) {
@@ -80,15 +78,8 @@ exports.messagesentlist = function(args, res, next) {
   * message (String)
   * privatekey (String)
   **/
-
-  var defaultArgs = {
-    aliases: [],
-    message: "",
-    privatekey: ""
-  };
-  args = varUtils.setDefaultArgs(defaultArgs, args, "GET");
-  
-  syscoinClient.messageSentList(args.aliases.value, args.message.value, args.privatekey.value, function(err, result, resHeaders) {
+  var argList = ["aliases", "message", "privatekey"];
+  var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -98,6 +89,9 @@ exports.messagesentlist = function(args, res, next) {
 
     console.log('Message sent list:', result);
     res.end(JSON.stringify(result));
-  });
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.messageSentList.apply(syscoinClient, arr);
 }
 
