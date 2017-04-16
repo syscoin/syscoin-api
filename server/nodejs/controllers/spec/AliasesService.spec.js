@@ -5,7 +5,7 @@ var AuthHelper = require("./helper/authHelper");
 var VerifyHelper = require("./helper/verifyHelper");
 var Config = require("../../spec/config");
 
-describe("Aliases Service API", function() {
+describe.only("Aliases Service API", function() {
 
   describe("aliasauthenticate", function () {
     it("Returns privkey when authenticating with valid alias and password", function (done) {
@@ -28,6 +28,7 @@ describe("Aliases Service API", function() {
 
   describe("aliashistory", function () {
     it("Returns history information for a given alias", function (done) {
+      this.timeout(8000);
       var url = Config.HOST + "aliashistory";
       var requestOptions = AuthHelper.requestOptions();
       requestOptions.qs = {
@@ -66,7 +67,7 @@ describe("Aliases Service API", function() {
     });
   });
 
-  describe.only("aliaslist", function () {
+  describe("aliaslist", function () {
     it("Returns all aliases this wallet controls", function (done) {
       var url = Config.HOST + "aliaslist";
       var requestOptions = AuthHelper.requestOptions();

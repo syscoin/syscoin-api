@@ -5,7 +5,8 @@ exports.aliasaffiliates = function(args, res, next) {
   /**
    * parameters expected in the args:
    **/
-  syscoinClient.aliasAffiliates(function(err, result, resHeaders) {
+  var argList = [];
+  var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -15,7 +16,10 @@ exports.aliasaffiliates = function(args, res, next) {
 
     console.log('Alias affiliates:', result);
     res.end(JSON.stringify(result));
-  });
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.aliasAffiliates.apply(syscoinClient, arr);
 }
 
 exports.aliasauthenticate = function(args, res, next) {
@@ -24,7 +28,8 @@ exports.aliasauthenticate = function(args, res, next) {
    * alias (String)
    * password (String)
    **/
-  syscoinClient.aliasAuthenticate(args.alias.value, args.password.value, function(err, result, resHeaders) {
+  var argList = ["alias", "password"];
+  var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -34,7 +39,10 @@ exports.aliasauthenticate = function(args, res, next) {
 
     console.log('Alias authenticate:', result);
     res.end(JSON.stringify(result));
-  });
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.aliasAuthenticate.apply(syscoinClient, arr);
 }
 
 exports.aliasfilter = function(args, res, next) {
@@ -45,13 +53,8 @@ exports.aliasfilter = function(args, res, next) {
   * safesearch (String)
   **/
 
-  var defaultArgs = {
-    from: "",
-    safesearch: "Yes"
-  };
-  args = varUtils.setDefaultArgs(defaultArgs, args);
-
-  syscoinClient.aliasFilter(args.regexp.value, args.from.value, args.safesearch.value, function(err, result, resHeaders) {
+  var argList = ["regexp", "from", "safesearch"];
+  var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -61,7 +64,10 @@ exports.aliasfilter = function(args, res, next) {
 
     console.log('Alias filter:', result);
     res.end(JSON.stringify(result));
-  });
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.aliasFilter.apply(syscoinClient, arr);
 }
 
 exports.aliashistory = function(args, res, next) {
@@ -69,7 +75,8 @@ exports.aliashistory = function(args, res, next) {
    * parameters expected in the args:
   * aliasname (String)
   **/
-  syscoinClient.aliasHistory(args.aliasname.value, function(err, result, resHeaders) {
+  var argList = ["aliasname"];
+  var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -77,9 +84,12 @@ exports.aliashistory = function(args, res, next) {
       return res.end(JSON.stringify(err.toString()));
     }
 
-    console.log('Alias history:', result);
+    console.log('Alias history:');
     res.end(JSON.stringify(result));
-  });
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.aliasHistory.apply(syscoinClient, arr);
 }
 
 exports.aliasinfo = function(args, res, next) {
@@ -87,7 +97,8 @@ exports.aliasinfo = function(args, res, next) {
    * parameters expected in the args:
   * aliasname (String)
   **/
-  syscoinClient.aliasInfo(args.aliasname.value, function(err, result, resHeaders) {
+  var argList = ["aliasname"];
+  var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -97,7 +108,10 @@ exports.aliasinfo = function(args, res, next) {
 
     console.log('Alias info:', result);
     res.end(JSON.stringify(result));
-  });
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.aliasInfo.apply(syscoinClient, arr);
 }
 
 exports.aliaslist = function(args, res, next) {
@@ -106,18 +120,7 @@ exports.aliaslist = function(args, res, next) {
   * aliasname (String)
   **/
 
-  var defaultArgs = {
-    aliasname: ""
-  };
-  args = varUtils.setDefaultArgs(defaultArgs, args);
-
-
-  var arr = [];
-  if(args.aliasname.value)
-    arr.push(args.aliasname.value);
-  else
-    arr.push("");
-
+  var argList = [];
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -130,8 +133,7 @@ exports.aliaslist = function(args, res, next) {
     res.end(JSON.stringify(result));
   };
 
-  arr.push(cb);
-
+  var arr = varUtils.getArgsArr(argList, args, argList, cb);
   syscoinClient.aliasList.apply(syscoinClient, arr);
 }
 
@@ -140,22 +142,13 @@ exports.aliasnew = function(args, res, next) {
    * parameters expected in the args:
   * request (AliasNewRequest)
   **/
-
-  var defaultArgs = {
-    privatevalue: "",
-    password: "",
-    safesearch: "Yes",
-    accepttransfers: "Yes",
-    expire: "525600", /* 1 yr */
-    nrequired: 0,
-    aliases: []
-  };
-  args = varUtils.setDefaultArgs(defaultArgs, args, "POST");
+  var argList = ["aliaspeg", "aliasname", "publicvalue", "privatevalue", "password", "safesearch", "accepttransfers", "expire", "nrequired", "aliases"];
 
   //correct type issues
-  args.request.value.nrequired = args.request.value.nrequired.toString(); //number to string
+  if(args.request.value.nrequired != undefined)
+    args.request.value.nrequired = args.request.value.nrequired.toString(); //number to string
 
-  syscoinClient.aliasNew(args.request.value.aliaspeg, args.request.value.aliasname, args.request.value.password, args.request.value.publicvalue, args.request.value.privatevalue, args.request.value.safesearch, args.request.value.accepttransfers, args.request.value.expire, args.request.value.nrequired, args.request.value.aliases, function(err, result, resHeaders) {
+  var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -165,7 +158,10 @@ exports.aliasnew = function(args, res, next) {
 
     console.log('Alias new:', result);
     res.end(JSON.stringify(result));
-  });
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+  syscoinClient.aliasNew.apply(syscoinClient, arr);
 }
 
 exports.aliasupdate = function(args, res, next) {
@@ -174,25 +170,14 @@ exports.aliasupdate = function(args, res, next) {
   * request (AliasUpdateRequest)
   **/
 
-  //TODO: all fields should be REQUIRED *OR* this API should first fetch the current values for the alias and only replace
-    // supplied values or the defaultArgs will overwrite the non-supplied fields
-  var defaultArgs = {
-    privatevalue: "",
-    password: "",
-    safesearch: "Yes",
-    toalias_pubkey: "",
-    accepttransfers: "Yes",
-    expire: "525600",
-    nrequired: 0,
-    aliases: []
-  };
-  args = varUtils.setDefaultArgs(defaultArgs, args, "POST");
+  //TODO: update core RPC docs on param ordering- order of this array MATTERS!!!!
+  var argList = ["aliaspeg", "aliasname", "publicvalue", "privatevalue", "safesearch", "toalias_pubkey", "password", "accepttransfers", "expire", "nrequired", "aliases"];
 
   //correct type issues
-  args.request.value.nrequired = args.request.value.nrequired.toString(); //number to string
+  if(varUtils.notNullOrUndefined(args.request.value.nrequired))
+    args.request.value.nrequired = args.request.value.nrequired.toString(); //number to string
 
-  //TODO: update core RPC docs on param ordering
-  syscoinClient.aliasUpdate(args.request.value.aliaspeg, args.request.value.aliasname, args.request.value.publicvalue, args.request.value.privatevalue,  args.request.value.safesearch, args.request.value.toalias_pubkey, args.request.value.password, args.request.value.accepttransfers, args.request.value.expire, args.request.value.nrequired, args.request.value.aliases, function(err, result, resHeaders) {
+  var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -202,6 +187,9 @@ exports.aliasupdate = function(args, res, next) {
 
     console.log('Alias update:', result);
     res.end(JSON.stringify(result));
-  });
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+  syscoinClient.aliasUpdate.apply(syscoinClient, arr);
 }
 

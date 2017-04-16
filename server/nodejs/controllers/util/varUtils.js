@@ -32,15 +32,17 @@ function setDefaultArgs(argList, requestArgs, requestMethod) {
   return requestArgs;
 }
 
-function getArgsArr(requiredArgList, requestArgs, requestMethod, callback) {
+function getArgsArr(fullArgList, requestArgs, requestMethod, callback) {
   var arr = [];
   if(!requestMethod || requestMethod == "GET") {
-    for (var arg in requiredArgList) {
-      arr.push(requestArgs[requiredArgList[arg]].value);
+    for (var arg in fullArgList) {
+      if(notNullOrUndefined(requestArgs[fullArgList[arg]].value))
+        arr.push(requestArgs[fullArgList[arg]].value);
     }
   }else if(requestMethod == "POST") {
-    for (var arg in requiredArgList) {
-      arr.push(requestArgs.request.value[requiredArgList[arg]]);
+    for (var arg in fullArgList) {
+      if(notNullOrUndefined(requestArgs.request.value[fullArgList[arg]]))
+        arr.push(requestArgs.request.value[fullArgList[arg]]);
     }
   }
 
@@ -57,5 +59,13 @@ function log(msg) {
   }
 }
 
+function notNullOrUndefined(param) {
+  if(param === null || param === undefined)
+    return false;
+  else
+    return true;
+}
+
 module.exports.setDefaultArgs = setDefaultArgs;
 module.exports.getArgsArr = getArgsArr;
+module.exports.notNullOrUndefined = notNullOrUndefined;

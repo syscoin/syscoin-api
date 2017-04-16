@@ -1,10 +1,8 @@
 var expect  = require("chai").expect;
 
-var Config = require("../../../spec/config");
 var varUtils = require("../varUtils");
 
-
-describe.only("VerUtils Helper", function() {
+describe("VerUtils Helper", function() {
 
   describe("setDefaultArgs", function () {
     it("Sets default arguments in GET mode when no method is supplied", function (done) {
@@ -98,7 +96,7 @@ describe.only("VerUtils Helper", function() {
     });
   });
 
-  describe.only("setArgsArr", function () {
+  describe("setArgsArr", function () {
     it("Creates and array out of the arguments passed, in order via GET", function (done) {
       var args = {
         title: { value: "test" },
