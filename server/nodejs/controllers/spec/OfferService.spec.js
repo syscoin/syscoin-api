@@ -23,26 +23,28 @@ describe("Offer Service API", function() {
   });
 
   describe("offeracceptfeedback", function () {
-    it("Returns txid of feedback tx", function (done) {
+    it("Returns txid of feedback tx (dependent on confirmations, which may result in false failures)", function (done) {
+      this.timeout(60 * 2 * 1000); //this test can take up to 2min to complete due to confirmations
       DataHelper.offerAccept(Config.TEST_ALIAS, Config.TEST_OFFER_GUID, 1,
         "test accept " + Date.now().toString(), "", "").then(function(acceptResult) {
-        var url = Config.HOST + "offeracceptfeedback";
-        var requestOptions = AuthHelper.requestOptions();
-        requestOptions.method =  "POST";
-        requestOptions.qs = {
-          "offerguid": Config.TEST_OFFER_GUID,
-          "offeracceptguid": acceptResult.tx[1],
-          "feedback": "Unit test feedback",
-          "rating": 5
-        };
+        console.log("Waiting for confimations on offerAccept...");
+        setTimeout(function() {
+          var url = Config.HOST + "offeracceptfeedback";
+          var requestOptions = AuthHelper.requestOptions();
+          requestOptions.method =  "POST";
+          requestOptions.qs = {
+            "offerguid": Config.TEST_OFFER_GUID,
+            "offeracceptguid": acceptResult.tx[1],
+            "feedback": "Unit test feedback",
+            "rating": 5
+          };
 
-        rp(url, requestOptions).then(function(result) {
-          expect(result.statusCode).to.equal(200);
-          //expect(result.body.length).to.equal(2);
-          //expect(result.body[0].length).to.equal(64); //tx id
-          //expect(result.body[1].length).to.equal(16); //offer guid
-          done();
-        });
+          rp(url, requestOptions).then(function(result) {
+            expect(result.statusCode).to.equal(200);
+            expect(result.body.length).to.equal(68); //accept feedback tx id
+            done();
+          });
+        }, 60 * 1.5 * 1000); //wait 1.5min for a confirm before attempting to place feedback on the new acceptfeedback
       });
     });
   });

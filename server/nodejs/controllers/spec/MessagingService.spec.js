@@ -6,7 +6,7 @@ var DataHelper = require("./helper/dataHelper");
 var VerifyHelper = require("./helper/verifyHelper");
 var Config = require("../../spec/config");
 
-describe.only("Messaging Service API", function() {
+describe("Messaging Service API", function() {
 
   describe("messageinfo", function () {
     it("Returns info about a message", function (done) {
