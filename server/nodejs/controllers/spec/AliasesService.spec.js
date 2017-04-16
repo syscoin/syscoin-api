@@ -66,7 +66,7 @@ describe("Aliases Service API", function() {
     });
   });
 
-  describe("aliaslist", function () {
+  describe.only("aliaslist", function () {
     it("Returns all aliases this wallet controls", function (done) {
       var url = Config.HOST + "aliaslist";
       var requestOptions = AuthHelper.requestOptions();

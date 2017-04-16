@@ -12,9 +12,33 @@ function setDefaultArgs(argList, requestArgs, requestMethod) {
       log("Checking GET var " + arg);
       if (requestArgs[arg] === undefined || requestArgs[arg].value === undefined) {
         log(arg + " is not defined, setting to: " + argList[arg]);
-        requestArgs[arg].value = argList[arg];
+        requestArgs[arg] = { value: argList[arg] };
       } else {
         log("Request has prop " + arg + " set to " + JSON.stringify(requestArgs[arg].value));
+      }
+    }
+  }else if(requestMethod == "POST") {
+    for (var arg in argList) {
+      log("Checking POST var " + arg);
+      if (requestArgs.request.value[arg] === undefined) {
+        log(arg + " is not defined, setting to: " + argList[arg]);
+        requestArgs.request.value[arg] = argList[arg];
+      } else {
+        log("Request has prop " + arg + " set to " + JSON.stringify(requestArgs.request.value[arg]));
+      }
+    }
+  }
+
+  return requestArgs;
+}
+
+function setArgsArr(argList, requestArgs, requestMethod) {
+  if(!requestMethod || requestMethod == "GET") {
+    for (var arg in argList) {
+      log("Checking GET var " + arg);
+      if (requestArgs[arg] !== undefined || requestArgs[arg].value !== undefined) {
+        log("Request has prop " + arg + " set to " + JSON.stringify(requestArgs[arg].value));
+        arr.push(requestArgs[arg].value);
       }
     }
   }else if(requestMethod == "POST") {

@@ -141,7 +141,7 @@ describe("Escrow Service API", function() {
     });
   });
 
-  describe.only("escrownew", function () {
+  describe("escrownew", function () {
     it("Returns a tx id and guid of new escrow", function (done) {
       var url = Config.HOST + "escrownew";
       var requestOptions = AuthHelper.requestOptions();

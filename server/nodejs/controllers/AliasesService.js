@@ -111,7 +111,14 @@ exports.aliaslist = function(args, res, next) {
   };
   args = varUtils.setDefaultArgs(defaultArgs, args);
 
-  syscoinClient.aliasList(args.aliasname.value, function(err, result, resHeaders) {
+
+  var arr = [];
+  if(args.aliasname.value)
+    arr.push(args.aliasname.value);
+  else
+    arr.push("");
+
+  var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -121,7 +128,11 @@ exports.aliaslist = function(args, res, next) {
 
     console.log('Alias list:', result);
     res.end(JSON.stringify(result));
-  });
+  };
+
+  arr.push(cb);
+
+  syscoinClient.aliasList.apply(syscoinClient, arr);
 }
 
 exports.aliasnew = function(args, res, next) {
