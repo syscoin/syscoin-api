@@ -97,4 +97,63 @@ describe.only("VerUtils Helper", function() {
       done();
     });
   });
+
+  describe.only("setArgsArr", function () {
+    it("Creates and array out of the arguments passed, in order via GET", function (done) {
+      var args = {
+        title: { value: "test" },
+        description: { value: "hello" }
+      };
+
+      var requiredArgs = ["title", "description"];
+
+      var argList = varUtils.getArgsArr(requiredArgs, args);
+
+      expect(argList.length).to.equal(2);
+      expect(argList[0]).to.equal("test");
+      expect(argList[1]).to.equal("hello");
+      done();
+    });
+
+    it("Creates and array out of the arguments passed, in order via POST", function (done) {
+      var args = {
+        request: {
+          value: {
+            title: "test",
+            description: "hello"
+          }
+        }
+      };
+
+      var requiredArgs = ["title", "description"];
+
+      var argList = varUtils.getArgsArr(requiredArgs, args, "POST");
+
+      expect(argList.length).to.equal(2);
+      expect(argList[0]).to.equal("test");
+      expect(argList[1]).to.equal("hello");
+      done();
+    });
+
+    it("Creates and array out of the arguments passed and adds the callback last, in order via POST", function (done) {
+      var args = {
+        request: {
+          value: {
+            title: "test",
+            description: "hello"
+          }
+        }
+      };
+      var cb = function() { };
+      var requiredArgs = ["title", "description"];
+
+      var argList = varUtils.getArgsArr(requiredArgs, args, "POST", cb);
+
+      expect(argList.length).to.equal(3);
+      expect(argList[0]).to.equal("test");
+      expect(argList[1]).to.equal("hello");
+      expect(argList[2]).to.equal(cb);
+      done();
+    });
+  });
 });
