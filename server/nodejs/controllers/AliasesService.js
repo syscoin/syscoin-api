@@ -145,7 +145,7 @@ exports.aliasnew = function(args, res, next) {
   var argList = ["aliaspeg", "aliasname", "publicvalue", "privatevalue", "password", "safesearch", "accepttransfers", "expire", "nrequired", "aliases"];
 
   //correct type issues
-  if(args.request.value.nrequired != undefined)
+  if(varUtils.notNullOrUndefined(args.request.value.nrequired))
     args.request.value.nrequired = args.request.value.nrequired.toString(); //number to string
 
   var cb = function(err, result, resHeaders) {

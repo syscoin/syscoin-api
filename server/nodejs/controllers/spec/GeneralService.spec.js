@@ -198,6 +198,9 @@ describe("General Service API", function() {
       var url = Config.HOST + "listtransactions";
       var requestOptions = AuthHelper.requestOptions();
       var account = "";
+      requestOptions.qs = {
+        account: account
+      };
 
       rp(url, requestOptions).then(function(result) {
         var txList = JSON.parse(result.body);

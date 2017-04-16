@@ -33,9 +33,9 @@ function sendSyscoin(toAddress, amount, comment, commentto, subtractFeeFromAmoun
   requestOptions.json = {
     "syscoinaddress": toAddress,
     "amount": amount,
-    "comment": !comment ? "" : comment,
-    "commentto": !commentto ? "" : commentto,
-    "subtractfeefromamount": !subtractFeeFromAmount ? false : subtractFeeFromAmount
+    "comment": comment,
+    "commentto": commentto,
+    "subtractfeefromamount": subtractFeeFromAmount
   };
 
   rp(url, requestOptions)
