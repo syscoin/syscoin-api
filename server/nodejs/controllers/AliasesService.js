@@ -84,7 +84,7 @@ exports.aliashistory = function(args, res, next) {
       return res.end(JSON.stringify(err.toString()));
     }
 
-    console.log('Alias history:');
+    console.log('Alias history:', result);
     res.end(JSON.stringify(result));
   };
 

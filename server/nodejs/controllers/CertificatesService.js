@@ -12,17 +12,8 @@ exports.certfilter = function(args, res, next) {
   * safesearch (String)
   * category (String)
   **/
-
-  var defaultArgs = {
-    regexp: "",
-    from: "",
-    certfilter: "",
-    safesearch: "Yes",
-    category: ""
-  };
-  args = varUtils.setDefaultArgs(defaultArgs, args);
-
-  syscoinClient.certFilter(args.regexp.value, args.from.value, args.certfilter.value, args.safesearch.value, args.category.value, function(err, result, resHeaders) {
+  var argList = ["regexp", "from", "certfilter", "safesearch", "category"];
+  var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -32,7 +23,10 @@ exports.certfilter = function(args, res, next) {
 
     console.log('Cert filter:', result);
     res.end(JSON.stringify(result));
-  });
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.certFilter.apply(syscoinClient, arr);
 }
 
 exports.certhistory = function(args, res, next) {
@@ -40,7 +34,8 @@ exports.certhistory = function(args, res, next) {
    * parameters expected in the args:
   * certname (String)
   **/
-  syscoinClient.certHistory(args.certname.value, function(err, result, resHeaders) {
+  var argList = ["certname"];
+  var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -50,7 +45,10 @@ exports.certhistory = function(args, res, next) {
 
     console.log('Cert history:', result);
     res.end(JSON.stringify(result));
-  });
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.certHistory.apply(syscoinClient, arr);
 }
 
 exports.certinfo = function(args, res, next) {
@@ -58,7 +56,8 @@ exports.certinfo = function(args, res, next) {
    * parameters expected in the args:
   * guid (String)
   **/
-  syscoinClient.certInfo(args.guid.value, function(err, result, resHeaders) {
+  var argList = ["guid"];
+  var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -68,7 +67,10 @@ exports.certinfo = function(args, res, next) {
 
     console.log('Cert info:', result);
     res.end(JSON.stringify(result));
-  });
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.certInfo.apply(syscoinClient, arr);
 }
 
 exports.certlist = function(args, res, next) {
@@ -78,15 +80,8 @@ exports.certlist = function(args, res, next) {
   * cert (String)
   * privatekey (String)
   **/
-
-  var defaultArgs = {
-    aliases: [],
-    cert: "",
-    privatekey: ""
-  };
-  args = varUtils.setDefaultArgs(defaultArgs, args);
-
-  syscoinClient.certList(args.aliases.value, args.cert.value, args.privatekey.value, function(err, result, resHeaders) {
+  var argList = ["aliases", "cert", "privatekey"];
+  var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -96,7 +91,10 @@ exports.certlist = function(args, res, next) {
 
     console.log('Cert list:', result);
     res.end(JSON.stringify(result));
-  });
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.certList.apply(syscoinClient, arr);
 }
 
 exports.certnew = function(args, res, next) {
@@ -104,14 +102,8 @@ exports.certnew = function(args, res, next) {
    * parameters expected in the args:
   * request (CertNewRequest)
   **/
-
-  var defaultArgs = {
-    safesearch: "Yes",
-    category: "certificates"
-  };
-  args = varUtils.setDefaultArgs(defaultArgs, args, "POST");
-
-  syscoinClient.certNew(args.request.value.alias, args.request.value.title, args.request.value.private, args.request.value.public, args.request.value.safesearch, args.request.value.category, function(err, result, resHeaders) {
+  var argList = ["alias", "title", "private", "public", "safesearch", "category"];
+  var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -121,7 +113,10 @@ exports.certnew = function(args, res, next) {
 
     console.log('Cert new:', result);
     res.end(JSON.stringify(result));
-  });
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+  syscoinClient.certNew.apply(syscoinClient, arr);
 }
 
 exports.certtransfer = function(args, res, next) {
@@ -129,13 +124,8 @@ exports.certtransfer = function(args, res, next) {
    * parameters expected in the args:
   * request (CertTransferRequest)
   **/
-
-  var defaultArgs = {
-    viewonly: false
-  };
-  args = varUtils.setDefaultArgs(defaultArgs, args, "POST");
-
-  syscoinClient.certTransfer(args.request.value.certkey, args.request.value.alias, args.request.value.viewonly, function(err, result, resHeaders) {
+  var argList = ["certkey", "alias", "viewonly"];
+  var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -145,7 +135,10 @@ exports.certtransfer = function(args, res, next) {
 
     console.log('Cert transfer:', result);
     res.end(JSON.stringify(result));
-  });
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+  syscoinClient.certTransfer.apply(syscoinClient, arr);
 }
 
 exports.certupdate = function(args, res, next) {
@@ -153,13 +146,8 @@ exports.certupdate = function(args, res, next) {
    * parameters expected in the args:
   * request (CertUpdateRequest)
   **/
-  var defaultArgs = {
-    safesearch: "Yes",
-    category: "Certificates"
-  };
-  args = varUtils.setDefaultArgs(defaultArgs, args, "POST");
-
-  syscoinClient.certUpdate(args.request.value.guid, args.request.value.alias, args.request.value.title, args.request.value.private, args.request.value.public, args.request.value.safesearch, args.request.value.category, function(err, result, resHeaders) {
+  var argList = ["guid", "alias", "title", "private", "public", "safesearch", "category"];
+  var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -169,6 +157,9 @@ exports.certupdate = function(args, res, next) {
 
     console.log('Cert Update:', result);
     res.end(JSON.stringify(result));
-  });
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+  syscoinClient.certUpdate.apply(syscoinClient, arr);
 }
 
