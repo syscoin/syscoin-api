@@ -30,7 +30,7 @@ editing `syscoin.conf` and specifying `testnet=1`.
 1. Transfer at least 100 syscoin to the root wallet address (can be acquired by running `getaccountaddress ""` via syscoind 
 or QT debug console)
 1. Manually create the following entities on the Syscoin network, and populate the result values mentioned below into 
-[`server/nodejs/spec/config.js`](server/nodejs/spec/config.js):
+[`server/nodejs/spec/config.js`](spec/config.js):
     1. Create an alias with a password. Set `TEST_ALIAS` and `TEST_ALIAS_PASSWORD` to the alias and password.
     1. Create an offer with 100 qty and a price of 1 SYS using `TEST_ALIAS` and set `TEST_OFFER_GUID` to the guid of the new offer.
     1. Create a certificate using `TEST_ALIAS`, and set `TEST_CERT_GUID` to the guid of the new cert.
@@ -52,7 +52,7 @@ or QT debug console)
 Before deploying syscoin-api for production use you will need to modify the following files:
 
 1. `host` value in [`/api/swagger.yaml`](api/swagger.yaml)
-1. `swaggerSpec.host` value located in [`../../swagger-ui/dist/swagger-spec.js`](../../swagger-ui/dist/swagger-spec.js)
+1. `swaggerSpec.host` value located in [`../../swagger-ui/dist/swagger-spec.js`](https://github.com/syscoin/swagger-ui/blob/858d2b341291fd477dab4e629d93df0b16aea9a6/dist/swagger-spec.js)
 1. `HOST` value in [`/spec/config.js`](spec/config.js)
  
 In all these files modify the specified value from `localhost:8001` to `SERVERIP:8001`. Replacing `SERVERIP` with your server's 
