@@ -46,9 +46,12 @@ or QT debug console)
 ## Configuring for Production Use
 Before deploying syscoin-api for production use you will need to modify the following files:
 
-1. `host` value in `/api/swagger.yaml`
-1. `swaggerSpec.host` value located in `../../swagger-ui/dist/swagger-spec.js` 
+1. `host` value in [`/api/swagger.yaml`](api/swagger.yaml)
+1. `swaggerSpec.host` value located in [`../../swagger-ui/dist/swagger-spec.js`](../../swagger-ui/dist/swagger-spec.js)
+1. `HOST` value in [`/spec/config.js`](spec/config.js)
  
-In both these files modify the `host` value from `localhost:8001` to `SERVERIP:8001`. Replacing SERVERIP with your server's 
-production IP or domain. You can also optionally change the port. It is highly recommended that you allow only HTTPS 
-access in production and secure connections with a valid SSL certificate.
+In all these files modify the specified value from `localhost:8001` to `SERVERIP:8001`. Replacing `SERVERIP` with your server's 
+production IP or domain. You can also optionally change the port. 
+
+**It is highly recommended that you allow only HTTPS 
+access in production deployments and secure all connections with a valid SSL certificate. Failure to do this can expose the wallet to attack.**

@@ -1,6 +1,6 @@
 module.exports = {
   HOST: "http://localhost:8001/", //include trailing slash
-  DEBUG_ENABLED: true,
+  DEBUG_ENABLED: false,
 
   TEST_ALIAS_PEG: "sysrates.peg",
   TEST_ALIAS: "testuser",
