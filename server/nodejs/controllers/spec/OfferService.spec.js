@@ -22,7 +22,7 @@ describe("Offer Service API", function() {
     });
   });
 
-  describe.only("offeracceptfeedback", function () {
+  describe("offeracceptfeedback", function () {
     it("Returns txid of feedback tx (dependent on confirmations, which may result in false failures)", function (done) {
       this.timeout(60 * 2 * 1000); //this test can take up to 2min to complete due to confirmations
       DataHelper.offerAccept(Config.TEST_ALIAS, Config.TEST_OFFER_GUID, 1,
