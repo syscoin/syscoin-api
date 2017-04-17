@@ -9,10 +9,7 @@ exports.addmultisigaddress = function(args, res, next) {
    * request (AddMultisigAddressRequest)
    **/
   var argList = ["nrequired", "keysobject", "account"];
-
-  //correct type issues
-  if(varUtils.notNullOrUndefined(args.request.value.nrequired))
-    args.request.value.nrequired = args.request.value.nrequired.toString(); //number to string
+  args.request.value.nrequired = varUtils.correctTypes(args.request.value.nrequired, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');

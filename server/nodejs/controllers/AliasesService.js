@@ -143,10 +143,7 @@ exports.aliasnew = function(args, res, next) {
   * request (AliasNewRequest)
   **/
   var argList = ["aliaspeg", "aliasname", "publicvalue", "privatevalue", "password", "safesearch", "accepttransfers", "expire", "nrequired", "aliases"];
-
-  //correct type issues
-  if(varUtils.notNullOrUndefined(args.request.value.nrequired))
-    args.request.value.nrequired = args.request.value.nrequired.toString(); //number to string
+  args.request.value.nrequired = varUtils.correctTypes(args.request.value.nrequired, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -172,10 +169,7 @@ exports.aliasupdate = function(args, res, next) {
 
   //TODO: update core RPC docs on param ordering- order of this array MATTERS!!!!
   var argList = ["aliaspeg", "aliasname", "publicvalue", "privatevalue", "safesearch", "toalias_pubkey", "password", "accepttransfers", "expire", "nrequired", "aliases"];
-
-  //correct type issues
-  if(varUtils.notNullOrUndefined(args.request.value.nrequired))
-    args.request.value.nrequired = args.request.value.nrequired.toString(); //number to string
+  args.request.value.nrequired = varUtils.correctTypes(args.request.value.nrequired, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');

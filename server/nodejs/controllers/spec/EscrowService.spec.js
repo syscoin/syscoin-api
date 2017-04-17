@@ -6,7 +6,7 @@ var VerifyHelper = require("./helper/verifyHelper");
 var DataHelper = require("./helper/dataHelper");
 var Config = require("../../spec/config");
 
-describe("Escrow Service API", function() {
+describe.skip("Escrow Service API", function() {
 
   describe("escrowclaimrelease", function () {
     it("Returns tx id for escrow release", function (done) {

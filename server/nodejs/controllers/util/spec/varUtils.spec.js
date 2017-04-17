@@ -154,4 +154,40 @@ describe("VerUtils Helper", function() {
       done();
     });
   });
+
+  describe("correctTypes", function () {
+    it("Converts a number to a string", function (done) {
+      var args = {
+        title: { value: 1 }
+      };
+
+      args.title.value = varUtils.correctTypes(args.title.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+
+      expect(args.title.value ).to.equal("1");
+      done();
+    });
+
+    it("Converts a boolean to a string", function (done) {
+      var args = {
+        title: { value: true }
+      };
+
+      args.title.value = varUtils.correctTypes(args.title.value, varUtils.TYPE_CONVERSION.BOOL_TO_STRING);
+
+      expect(args.title.value ).to.equal("true");
+      done();
+    });
+
+    it("Creates and array out of the arguments passed and adds the callback last, in order via POST", function (done) {
+      var args = {
+        title: { value: true }
+      };
+
+      args.title.value = varUtils.correctTypes(args.title.value, varUtils.TYPE_CONVERSION.BOOL_TO_NUM_STRING);
+
+      expect(args.title.value ).to.equal("1");
+      done();
+    });
+  });
+
 });

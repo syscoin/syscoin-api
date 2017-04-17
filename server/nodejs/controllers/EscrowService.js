@@ -142,10 +142,7 @@ exports.escrowfilter = function(args, res, next) {
   * from (BigDecimal)
   **/
   var argList = ["regexp", "from"];
-
-  //correct type issus
-  if(varUtils.notNullOrUndefined(args.from.value))
-    args.from.value = args.from.value.toString(); //number to string
+  args.from.value = varUtils.correctTypes(args.from.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -237,10 +234,7 @@ exports.escrownew = function(args, res, next) {
   * request (EscrowNewRequest)
   **/
   var argList = ["alias", "offer", "quantity", "message", "arbiter", "paymentoption", "redeemscript", "height"];
-
-  //correct type issues
-  if(varUtils.notNullOrUndefined(args.request.value.quantity))
-    args.request.value.quantity = args.request.value.quantity.toString(); //number to string
+  args.request.value.quantity = varUtils.correctTypes(args.request.value.quantity, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   if(varUtils.notNullOrUndefined(args.request.value.height))
     args.request.value.height = args.request.value.height.toString(); //number to string
@@ -337,10 +331,7 @@ exports.generateescrowmultisig = function(args, res, next) {
   * request (GenerateEscrowMultisigRequest)
   **/
   var argList = ["buyer", "offerguid", "quantity", "arbiter", "paymentoption"];
-
-  //correct type issus
-  if(varUtils.notNullOrUndefined(args.request.value.quantity))
-    args.request.value.quantity = args.request.value.quantity.toString(); //number to string
+  args.request.value.quantity = varUtils.correctTypes(args.request.value.quantity, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');

@@ -8,10 +8,7 @@ exports.offeraccept = function(args, res, next) {
   * request (OfferAcceptRequest)
   **/
   var argList = ["alias", "guid", "quantity", "message", "exttxid", "paymentoption"];
-
-  //correct type issues
-  if(varUtils.notNullOrUndefined(args.request.value.quantity))
-    args.request.value.quantity = args.request.value.quantity.toString(); //number to string
+  args.request.value.quantity = varUtils.correctTypes(args.request.value.quantity, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -61,10 +58,7 @@ exports.offeracceptfeedback = function(args, res, next) {
   * rating (BigDecimal)
   **/
   var argList = ["offerguid", "offeracceptguid", "feedback", "rating"];
-
-  //correct type issues
-  if(varUtils.notNullOrUndefined(args.rating.value))
-    args.rating.value = args.rating.value.toString(); //number to string
+  args.rating.value = varUtils.correctTypes(args.rating.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -112,10 +106,7 @@ exports.offeraddwhitelist = function(args, res, next) {
   * request (OfferAddWhitelistRequest)
   **/
   var argList = ["offerguid", "aliasguid", "discountPercentage"];
-
-  //correct type issues
-  if(varUtils.notNullOrUndefined(args.request.value.discountPercentage))
-    args.request.value.discountPercentage = args.request.value.discountPercentage.toString(); //number to string
+  args.request.value.discountPercentage = varUtils.correctTypes(args.request.value.discountPercentage, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -164,10 +155,7 @@ exports.offerfilter = function(args, res, next) {
   * category (String)
   **/
   var argList = ["regexp", "from", "safesearch", "category"];
-
-  //correct type issues
-  if(varUtils.notNullOrUndefined(args.from.value))
-    args.from.value = args.request.from.value.toString(); //number to string
+  args.from.value = varUtils.correctTypes(args.from.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -281,16 +269,9 @@ exports.offernew = function(args, res, next) {
   * request (OfferNewRequest)
   **/
   var argList = ["alias", "category", "title", "quantity", "price", "description", "currency", "certguid", "paymentoptions", "geolocation", "safesearch", "private"];
-
-  //correct type issues
-  if(varUtils.notNullOrUndefined(args.request.value.private))
-    args.request.value.private = args.request.value.private ? "1" : "0"; //bool converted string
-
-  if(varUtils.notNullOrUndefined(args.request.value.quantity))
-    args.request.value.quantity = args.request.value.quantity.toString(); //number to string
-
-  if(varUtils.notNullOrUndefined(args.request.value.price))
-    args.request.value.price = args.request.value.price.toString(); //number to string
+  args.request.value.private = varUtils.correctTypes(args.request.value.private, varUtils.TYPE_CONVERSION.BOOL_TO_NUM_STRING);
+  args.request.value.quantity = varUtils.correctTypes(args.request.value.quantity, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+  args.request.value.price = varUtils.correctTypes(args.request.value.price, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -337,19 +318,10 @@ exports.offerupdate = function(args, res, next) {
   * request (OfferUpdateRequest)
   **/
   var argList = ["alias", "guid", "category", "title", "quantity", "price", "description", "currency", "private", "certguid", "geolocation", "safesearch", "comission", "paymentoptions"];
-
-  //correct type issues
-  if(varUtils.notNullOrUndefined(args.request.value.private))
-    args.request.value.private = args.request.value.private ? "1" : "0"; //bool converted string
-
-  if(varUtils.notNullOrUndefined(args.request.value.quantity))
-    args.request.value.quantity = args.request.value.quantity.toString(); //number to string
-
-  if(varUtils.notNullOrUndefined(args.request.value.price))
-    args.request.value.price = args.request.value.price.toString(); //number to string
-
-  if(varUtils.notNullOrUndefined(args.request.value.comission))
-    args.request.value.comission = args.request.value.comission.toString(); //number to string
+  args.request.value.private = varUtils.correctTypes(args.request.value.private, varUtils.TYPE_CONVERSION.BOOL_TO_NUM_STRING);
+  args.request.value.quantity = varUtils.correctTypes(args.request.value.quantity, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+  args.request.value.price = varUtils.correctTypes(args.request.value.price, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+  args.request.value.comission = varUtils.correctTypes(args.request.value.comission, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
   
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
