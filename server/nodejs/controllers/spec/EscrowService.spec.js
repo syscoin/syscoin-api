@@ -6,7 +6,7 @@ var VerifyHelper = require("./helper/verifyHelper");
 var DataHelper = require("./helper/dataHelper");
 var Config = require("../../spec/config");
 
-describe.only("Escrow Service API", function() {
+describe("Escrow Service API", function() {
 
   describe("escrowhistory", function () {
     it("Returns history of given escrow", function (done) {

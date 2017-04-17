@@ -1,3 +1,14 @@
+# Overview
+
+Firstly this repository serves as a single point of entry for all language-variants of the Syscoin API. All 
+variants can be found on `/server`. The variant officially supported by Blockchain Foundry, 
+the primary developers of Syscoin is the NodeJS variant located in `/server/nodejs`. Deployment specifics can be found 
+in the [README](server/nodejs/README.md) file relative to the desired variant (ie: `/server/nodejs/README`).
+
+Secondly this repository allows users to generate Syscoin-API server stubs based on the provided OpenAPI spec in 
+swagger.yaml. They can then complete the implementation of the business logic within that variant and issue a pull 
+request- for more information see the [Contributing](#contributing) section.
+
 # Generating API
 
 To generate the API first download [swagger-codegen](https://github.com/swagger-api/swagger-codegen) and build it. After its built, create an alias:
@@ -27,9 +38,9 @@ in the desired language. To generate the Server stub use the command below repla
 swagger-codegen generate -i swagger.yaml -o ./server/generated-server -l LANGUAGE
 ```
 
-We encourage anyone who does this to submit a pull request to have their server API added to the official repo. 
-Package your server API using folder names mirroring the swagger language name, ie: 'nodejs-server'. Client API's can also be submitted using the same \
- format.
+We encourage anyone who does this to submit a pull request to have their server API added to the official repo. Package your 
+server API using folder names mirroring the swagger language name, ie: 'nodejs-server'. Client API's can also be submitted 
+using the same format.
 
 ##Generating the Client SDK
 To quickly start communicating with an instance of the Syscoin API server simply generate a client-side SDK 
@@ -39,3 +50,9 @@ the [supported SwaggerJS client values](https://generator.swagger.io/#!/clients/
 ```
 swagger-codegen generate -i swagger.yaml -o ./client/generated-client -l LANGUAGE
 ```
+
+# Contributing
+This project is fully open source and welcomes pull requests at all levels. Simply fork the repository, apply your changes to the fork and then issue a pull request. Once reviewed the pull request will be integrated into master and (if warranted) released as a new official Syscoin API version.
+
+# Credits
+This project leverages the mega-awesome [swagger-tools](https://github.com/apigee-127/swagger-tools) middleware which does most all the work.

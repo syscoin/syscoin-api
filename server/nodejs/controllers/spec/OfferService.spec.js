@@ -8,44 +8,53 @@ var Config = require("../../spec/config");
 
 describe("Offer Service API", function() {
 
-  describe("offeraccept", function () {
+  describe.only("offeraccept", function () {
     it("Returns txid and guid of offeraccept", function (done) {
-      DataHelper.offerAccept(Config.TEST_ALIAS, Config.TEST_OFFER_GUID, 1,
-        "test accept " + Date.now().toString(), "", "").then(function(acceptResult) {
-        expect(acceptResult.response.statusCode).to.equal(200);
+      //because this test may run after Alias tests, wait for confirmation on prev
+      //  txs
+      this.timeout(60 * 3 * 1000);
+      setTimeout(function() {
+        DataHelper.offerAccept(Config.TEST_ALIAS, Config.TEST_OFFER_GUID, 1,
+          "test accept " + Date.now().toString(), "", "").then(function(acceptResult) {
+          expect(acceptResult.response.statusCode).to.equal(200);
 
-        var acceptInfo = acceptResult.tx;
-        VerifyHelper.verifyTransactionId(acceptInfo[0]);
-        VerifyHelper.verifySyscoinGUID(acceptInfo[1]);
-        done();
-      });
+          var acceptInfo = acceptResult.tx;
+          VerifyHelper.verifyTransactionId(acceptInfo[0]);
+          VerifyHelper.verifySyscoinGUID(acceptInfo[1]);
+          done();
+        });
+      }, 60 * 2 * 1000);
     });
   });
 
-  describe("offeracceptfeedback", function () {
+  describe.only("offeracceptfeedback", function () {
     it("Returns txid of feedback tx (dependent on confirmations, which may result in false failures)", function (done) {
-      this.timeout(60 * 2 * 1000); //this test can take up to 2min to complete due to confirmations
-      DataHelper.offerAccept(Config.TEST_ALIAS, Config.TEST_OFFER_GUID, 1,
-        "test accept " + Date.now().toString(), "", "").then(function(acceptResult) {
-        console.log("Waiting for confimations on offerAccept...");
-        setTimeout(function() {
-          var url = Config.HOST + "offeracceptfeedback";
-          var requestOptions = AuthHelper.requestOptions();
-          requestOptions.method =  "POST";
-          requestOptions.qs = {
-            "offerguid": Config.TEST_OFFER_GUID,
-            "offeracceptguid": acceptResult.tx[1],
-            "feedback": "Unit test feedback",
-            "rating": 5
-          };
+      //because this test may run after Alias tests AND after Offer accept tests,
+      // wait for confirmation on prev txs
+      this.timeout(60 * 8 * 1000);
+      setTimeout(function() {
+        DataHelper.offerAccept(Config.TEST_ALIAS, Config.TEST_OFFER_GUID, 1,
+          "test accept " + Date.now().toString(), "", "").then(function(acceptResult) {
+          console.log("Waiting for confimations on offerAccept...");
+          setTimeout(function() {
+            var url = Config.HOST + "offeracceptfeedback";
+            var requestOptions = AuthHelper.requestOptions();
+            requestOptions.method =  "POST";
+            requestOptions.qs = {
+              "offerguid": Config.TEST_OFFER_GUID,
+              "offeracceptguid": acceptResult.tx[1],
+              "feedback": "Unit test feedback",
+              "rating": 5
+            };
 
-          rp(url, requestOptions).then(function(result) {
-            expect(result.statusCode).to.equal(200);
-            expect(result.body.length).to.equal(68); //accept feedback tx id
-            done();
-          });
-        }, 60 * 1.5 * 1000); //wait 1.5min for a confirm before attempting to place feedback on the new acceptfeedback
-      });
+            rp(url, requestOptions).then(function(result) {
+              expect(result.statusCode).to.equal(200);
+              expect(result.body.length).to.equal(68); //accept feedback tx id
+              done();
+            });
+          }, 60 * 3 * 1000); //wait 2min for a confirm on the offeraccept before attempting to place feedback
+        });
+      }, 60 * 3 * 1000); //wait 2min for any prev txs to confirm
     });
   });
 

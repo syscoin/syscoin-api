@@ -30,16 +30,22 @@ editing syscoin.conf and specifying `testnet=1`.
    1. Create an offer with 100 qty and a price of 1 SYS using `TEST_ALIAS` and set `TEST_OFFER_GUID` to the guid of the new offer.
    1. Create a certificate using `TEST_ALIAS`, and set `TEST_CERT_GUID` to the guid of the new cert.
    1. Create a new message from `TEST_ALIAS` to `TEST_ALIAS`, and set `TEST_MESSAGE_GUID` to the guid of the new message.
-1. Run the test suite using the commend below, ensuring both Syscoin API Server and the Syscoin Core RPC Server are running.  
+   1. Create a new escrow using `TEST_ALIAS` as buyer and arbiter, purchasing `TEST_OFFER_GUID`, and set `TEST_ESCROW_GUID` to the guid of the new escrow.
+1. Run the test suite using the commend below, ensuring both Syscoin API Server and the Syscoin Core RPC Server are running. 
+
+   **Note**: Depending on network variables some tests may fail due to lack of confirmation on transactions/operations earlier in 
+     the test suite. These are typically `offerAccept` and `offerAcceptFeedback` tests; these are technically false 
+     positive failures.
    ```
    npm run test
    ```
 
 ## Configuring for Production Use
-Before deploying syscoin-api for production use you will need to modify the `swaggerSpec.host` value located in `../../swagger-ui/dist/swagger-spec.js` from 
-`localhost:8001` to `SERVERIP:8001`. Replacing SERVERIP with your server's production IP or domain. You can also optionally change the port. It is highly recommended that you 
-allow only HTTPS access in production and secure connections with a valid SSL certificate.
+Before deploying syscoin-api for production use you will need to modify the following files:
 
-
-### Credits
-This project leverages the mega-awesome [swagger-tools](https://github.com/apigee-127/swagger-tools) middleware which does most all the work.
+1. `host` value in `/api/swagger.yaml`
+1. `swaggerSpec.host` value located in `../../swagger-ui/dist/swagger-spec.js` 
+ 
+In both these files modify the `host` value from `localhost:8001` to `SERVERIP:8001`. Replacing SERVERIP with your server's 
+production IP or domain. You can also optionally change the port. It is highly recommended that you allow only HTTPS 
+access in production and secure connections with a valid SSL certificate.
