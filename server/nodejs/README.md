@@ -35,8 +35,10 @@ or QT debug console)
 1. Run the test suite using the commend below, ensuring both Syscoin API Server and the Syscoin Core RPC Server are running. 
 
    **Note**: Depending on network variables some tests may fail due to lack of confirmation on transactions/operations earlier in 
-     the test suite. These are typically `offerAccept` and `offerAcceptFeedback` tests; these are technically false 
-     positive failures.
+     the test suite. The test try to accomodate this by waiting 3mins for confirmations around these confirmation-sensitive 
+     transaction types. These are typically `offerAccept` and `offerAcceptFeedback` tests. Additionally if the `TEST_*` identifiers
+     you're using in `Config.js` have large result lists you may need to modify the specifics tests by adding a `this.timeout(n)` where `n` 
+     represents a time in ms that allows for the full response to be returned. The default is 2000ms. 
    ```
    npm run test
    ```
