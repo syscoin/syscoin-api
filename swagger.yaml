@@ -2257,7 +2257,7 @@ so payments received with the address will be credited to 'account'."
           $ref: "#/definitions/OfferNewRequest"
       responses:
         "200":
-          description: Success
+          description: Success; Returns an array of 2 elements- tx id and offer GUID.
           schema:
             type: array
             items:
@@ -2311,7 +2311,7 @@ so payments received with the address will be credited to 'account'."
           $ref: "#/definitions/OfferUpdateRequest"
       responses:
         "200":
-          description: Success
+          description: Success; Returns an array with 1 element- tx id.
           schema:
             type: array
             items:
