@@ -101,9 +101,40 @@ function offerAccept(alias, guid, quantity, message, exttxid, paymentoption) {
   return deferred.promise;
 }
 
+function escrowNew(alias, offer, quantity, message, arbiterAlias, extTx, paymentOption, redeemScript, height) {
+  var deferred = Q.defer();
+  var url = Config.HOST + "escrownew";
+  var requestOptions = AuthHelper.requestOptions();
+  requestOptions.method = "POST";
+  requestOptions.json = {
+    "alias": alias,
+    "offer": offer,
+    "quantity": quantity,
+    "message": message,
+    "arbiter": arbiterAlias,
+    "exttx": extTx,
+    "paymentoption": paymentOption,
+    "redeemscript": redeemScript,
+    "height": height
+  };
+
+  rp(url, requestOptions)
+    .then(function(result) {
+      var tx = result.body;
+      deferred.resolve({ tx: tx, response: result })
+    })
+    .catch(function(error) {
+      console.log("Error creating new escrow: " + JSON.stringify(error));
+      deferred.reject(error);
+    });
+
+  return deferred.promise;
+}
+
 module.exports = {
   getAccountAddress: getAccountAddress,
   sendSyscoin: sendSyscoin,
   signMessage: signMessage,
-  offerAccept: offerAccept
+  offerAccept: offerAccept,
+  escrowNew: escrowNew
 };

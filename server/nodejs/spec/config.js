@@ -7,6 +7,7 @@ module.exports = {
   TEST_ALIAS_PASSWORD: "testpassword",
 
   TEST_OFFER_GUID: "02ac590247af2d48",
+  TEST_ESCROW_GUID: "a965c649fc25f902",
 
   TEST_CERT_GUID: "cc8c85f466a2e054",
 
