@@ -9,6 +9,7 @@ var Config = require("../../spec/config");
 describe("Escrow Service API", function() {
 
   describe("escrowhistory", function () {
+    this.timeout(60 * 1000); //increase timeout in the case of long escrow history
     it("Returns history of given escrow", function (done) {
       var url = Config.HOST + "escrowhistory";
       var requestOptions = AuthHelper.requestOptions();
@@ -51,6 +52,7 @@ describe("Escrow Service API", function() {
   });
 
   describe("escrowlist", function () {
+    this.timeout(60 * 1000); //increase timeout in the case of long escrow history
     it("Returns list of all escrows", function (done) {
       var url = Config.HOST + "escrowlist";
       var requestOptions = AuthHelper.requestOptions();

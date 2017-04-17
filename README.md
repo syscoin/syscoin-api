@@ -1,12 +1,12 @@
 # Overview
 
 Firstly this repository serves as a single point of entry for all language-variants of the Syscoin API. All 
-variants can be found on `/server`. The variant officially supported by Blockchain Foundry, 
-the primary developers of Syscoin is the NodeJS variant located in `/server/nodejs`. Deployment specifics can be found 
+variants can be found in the [`/server` directory](/server). The variant officially supported by Blockchain Foundry, 
+the primary developers of Syscoin is the NodeJS variant located in [`/server/nodejs`](server/nodejs). Deployment specifics can be found 
 in the [README](server/nodejs/README.md) file relative to the desired variant (ie: `/server/nodejs/README`).
 
-Secondly this repository allows users to generate Syscoin-API server stubs based on the provided OpenAPI spec in 
-swagger.yaml. They can then complete the implementation of the business logic within that variant and issue a pull 
+Secondly this repository allows users to generate various Syscoin-API server *and* client stubs based on the provided OpenAPI spec in 
+swagger.yaml. They can then complete the implementation of the business logic (if working on the server side) within that variant and issue a pull 
 request- for more information see the [Contributing](#contributing) section.
 
 # Generating API

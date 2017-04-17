@@ -24,13 +24,14 @@ services before running the tests. Follow the steps below before running the tes
 
 1. First ensure your wallet is running on a working testnet as the test suite will spend SYS in its execution. You can do this by 
 editing syscoin.conf and specifying `testnet=1`.
-1. Transfer at least 50 syscoin to the root wallet address (can be acquired by running `getaccountaddress ""` via syscoind)
+1. Transfer at least 100 syscoin to the root wallet address (can be acquired by running `getaccountaddress ""` via syscoind 
+or QT debug console)
 1. Manually create the following entities on the syscoin network:
-   1. Create an alias with a password. Set `TEST_ALIAS` and `TEST_ALIAS_PASSWORD` in `server/nodejs/spec/config.js` to the alias and password.
-   1. Create an offer with 100 qty and a price of 1 SYS using `TEST_ALIAS` and set `TEST_OFFER_GUID` to the guid of the new offer.
-   1. Create a certificate using `TEST_ALIAS`, and set `TEST_CERT_GUID` to the guid of the new cert.
-   1. Create a new message from `TEST_ALIAS` to `TEST_ALIAS`, and set `TEST_MESSAGE_GUID` to the guid of the new message.
-   1. Create a new escrow using `TEST_ALIAS` as buyer and arbiter, purchasing `TEST_OFFER_GUID`, and set `TEST_ESCROW_GUID` to the guid of the new escrow.
+    1. Create an alias with a password. Set `TEST_ALIAS` and `TEST_ALIAS_PASSWORD` in `server/nodejs/spec/config.js` to the alias and password.
+    1. Create an offer with 100 qty and a price of 1 SYS using `TEST_ALIAS` and set `TEST_OFFER_GUID` to the guid of the new offer.
+    1. Create a certificate using `TEST_ALIAS`, and set `TEST_CERT_GUID` to the guid of the new cert.
+    1. Create a new message from `TEST_ALIAS` to `TEST_ALIAS`, and set `TEST_MESSAGE_GUID` to the guid of the new message.
+    1. Create a new escrow using `TEST_ALIAS` as buyer and arbiter, purchasing `TEST_OFFER_GUID`, and set `TEST_ESCROW_GUID` to the guid of the new escrow.
 1. Run the test suite using the commend below, ensuring both Syscoin API Server and the Syscoin Core RPC Server are running. 
 
    **Note**: Depending on network variables some tests may fail due to lack of confirmation on transactions/operations earlier in 

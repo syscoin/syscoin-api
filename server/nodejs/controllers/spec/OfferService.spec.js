@@ -8,7 +8,7 @@ var Config = require("../../spec/config");
 
 describe("Offer Service API", function() {
 
-  describe.only("offeraccept", function () {
+  describe("offeraccept", function () {
     it("Returns txid and guid of offeraccept", function (done) {
       //because this test may run after Alias tests, wait for confirmation on prev
       //  txs
@@ -27,7 +27,7 @@ describe("Offer Service API", function() {
     });
   });
 
-  describe.only("offeracceptfeedback", function () {
+  describe("offeracceptfeedback", function () {
     it("Returns txid of feedback tx (dependent on confirmations, which may result in false failures)", function (done) {
       //because this test may run after Alias tests AND after Offer accept tests,
       // wait for confirmation on prev txs
@@ -59,6 +59,7 @@ describe("Offer Service API", function() {
   });
 
   describe("offeracceptlist", function () {
+    this.timeout(60 * 1000); //increase timeout in the case of long escrow history
     it("Returns list of accepted offers", function (done) {
       var url = Config.HOST + "offeracceptlist";
       var requestOptions = AuthHelper.requestOptions();
@@ -81,6 +82,7 @@ describe("Offer Service API", function() {
   });
 
   describe("offerhistory", function () {
+    this.timeout(60 * 1000); //increase timeout in the case of long escrow history
     it("Returns history of offer", function (done) {
       var url = Config.HOST + "offerhistory";
       var requestOptions = AuthHelper.requestOptions();
