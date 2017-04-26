@@ -3042,6 +3042,8 @@ definitions:
         type: "boolean"
       pending:
         type: "boolean"
+      time:
+        type: "string"
       multisiginfo:
         $ref: "#/definitions/MultiSignatureInfo"
   AliasListEntry:
@@ -3070,6 +3072,8 @@ definitions:
         type: "string"
       alias:
         type: "string"
+      time:
+        type: "string"
   Cert:
     properties:
       cert:
@@ -3096,6 +3100,8 @@ definitions:
         type: "number"
       expired:
         type: "boolean"
+      time:
+        type: "string"
   CertHistoryEntry:
     properties:
       cert:
@@ -3118,6 +3124,8 @@ definitions:
         type: "number"
       expired:
         type: "boolean"
+      time:
+        type: "string"
   EscrowHistoryEntry:
     properties:
       escrow:
@@ -3144,6 +3152,8 @@ definitions:
         type: "boolean"
       height:
         type: "number"
+      time:
+        type: "string"
   EscrowListEntry:
     properties:
       escrow:
@@ -3526,6 +3536,8 @@ definitions:
         type: "string"
       pay_message:
         type: "string"
+      time:
+        type: "string"
   OfferWhitelistEntry:
     properties:
       alias:
@@ -3606,6 +3618,8 @@ definitions:
         type: "string"
       offers_sold:
         type: "number"
+      time:
+        type: "string"
   AddMultisigAddressRequest:
     required:
     - "keysobject"
