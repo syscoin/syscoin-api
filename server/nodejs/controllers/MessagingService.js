@@ -8,7 +8,10 @@ exports.messageinfo = function(args, res, next) {
    * parameters expected in the args:
   * guid (String)
   **/
-  var argList = ["guid"];
+  var argList = [
+    { prop: "guid" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -30,7 +33,14 @@ exports.messagenew = function(args, res, next) {
    * parameters expected in the args:
   * request (MessageNewRequest)
   **/
-  var argList = ["subject", "message", "fromalias", "toalias", "hex"];
+  var argList = [
+    { prop: "subject" },
+    { prop: "message" },
+    { prop: "fromalias" },
+    { prop: "toalias" },
+    { prop: "hex", defaultValue: "No" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -54,7 +64,12 @@ exports.messagereceivelist = function(args, res, next) {
   * message (String)
   * privatekey (String)
   **/
-  var argList = ["aliases", "message", "privatekey"];
+  var argList = [
+    { prop: "aliases", defaultValue: [] },
+    { prop: "message", defaultValue: "" },
+    { prop: "privatekey", defaultValue: "" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -78,7 +93,12 @@ exports.messagesentlist = function(args, res, next) {
   * message (String)
   * privatekey (String)
   **/
-  var argList = ["aliases", "message", "privatekey"];
+  var argList = [
+    { prop: "aliases", defaultValue: [] },
+    { prop: "message", defaultValue: "" },
+    { prop: "privatekey", defaultValue: "" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 

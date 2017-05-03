@@ -28,7 +28,11 @@ exports.aliasauthenticate = function(args, res, next) {
    * alias (String)
    * password (String)
    **/
-  var argList = ["alias", "password"];
+  var argList = [
+    { prop: "alias" },
+    { prop: "password" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -53,7 +57,12 @@ exports.aliasfilter = function(args, res, next) {
   * safesearch (String)
   **/
 
-  var argList = ["regexp", "from", "safesearch"];
+  var argList = [
+    { propr: "regexp", defaultValue: "" },
+    { prop:"from", defaultValue: 0 },
+    { prop: "safesearch", defaultValue: "Yes" }
+  ];
+  
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -75,7 +84,10 @@ exports.aliashistory = function(args, res, next) {
    * parameters expected in the args:
   * aliasname (String)
   **/
-  var argList = ["aliasname"];
+  var argList = [
+    { prop: "aliasname" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -97,7 +109,10 @@ exports.aliasinfo = function(args, res, next) {
    * parameters expected in the args:
   * aliasname (String)
   **/
-  var argList = ["aliasname"];
+  var argList = [
+    { prop: "aliasname" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -118,9 +133,13 @@ exports.aliaslist = function(args, res, next) {
   /**
    * parameters expected in the args:
   * aliasname (String)
+   * TODO: add private key to spec
   **/
 
-  var argList = [];
+  var argList = [
+    { prop: "aliasname" },
+    { prop: "privatekey" }
+  ];
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -142,7 +161,19 @@ exports.aliasnew = function(args, res, next) {
    * parameters expected in the args:
   * request (AliasNewRequest)
   **/
-  var argList = ["aliaspeg", "aliasname", "publicvalue", "privatevalue", "password", "safesearch", "accepttransfers", "expire", "nrequired", "aliases"];
+  var argList = [
+    { prop: "aliaspeg" },
+    { prop: "aliasname" },
+    { prop: "password"},
+    { prop: "publicvalue" },
+    { prop: "privatevalue", defaultValue: "" },
+    { prop: "safesearch", defaultValue: "Yes" },
+    { prop: "accepttransfers", defaultValue: "Yes" },
+    { prop: "expire", defaultValue: 0 },
+    { prop: "nrequired", defaultValue: 0 },
+    { prop: "aliases", defaultValue: "[]" }
+  ];
+
   args.request.value.nrequired = varUtils.correctTypes(args.request.value.nrequired, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
@@ -168,7 +199,20 @@ exports.aliasupdate = function(args, res, next) {
   **/
 
   //TODO: update core RPC docs on param ordering- order of this array MATTERS!!!!
-  var argList = ["aliaspeg", "aliasname", "publicvalue", "privatevalue", "safesearch", "toalias_pubkey", "password", "accepttransfers", "expire", "nrequired", "aliases"];
+  var argList = [
+    { prop: "aliaspeg" },
+    { prop: "aliasname" },
+    { prop: "publicvalue" },
+    { prop: "privatevalue", defaultValue: "" },
+    { prop: "safesearch", defaultValue: "Yes" },
+    { prop: "toalias_pubkey", defaultValue: "" },
+    { prop: "password", defaultValue: "" },
+    { prop: "accepttransfers", defaultValue: "Yes" },
+    { prop: "expire", defaultValue: 0 },
+    { prop: "nrequired", defaultValue: 0 },
+    { prop: "aliases", defaultValue: "[]" }
+  ];
+
   args.request.value.nrequired = varUtils.correctTypes(args.request.value.nrequired, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {

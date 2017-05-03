@@ -7,7 +7,15 @@ exports.offeraccept = function(args, res, next) {
    * parameters expected in the args:
   * request (OfferAcceptRequest)
   **/
-  var argList = ["alias", "guid", "quantity", "message", "exttxid", "paymentoption"];
+  var argList = [
+    { prop: "alias" },
+    { prop: "guid" },
+    { prop: "quantity", defaultValue: 1 },
+    { prop: "message", defaultValue: "" },
+    { prop: "exttxid", defaultValue: "" },
+    { prop: "paymentoption", defaultValue: "SYS" }
+  ];
+
   args.request.value.quantity = varUtils.correctTypes(args.request.value.quantity, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
@@ -32,7 +40,11 @@ exports.offeracceptacknowledge = function(args, res, next) {
   * offerguid (String)
   * offeracceptguid (String)
   **/
-  var argList = ["offerguid", "offeracceptguid"];
+  var argList = [
+    { prop: "offerguid" },
+    { prop: "offeracceptguid" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -57,7 +69,13 @@ exports.offeracceptfeedback = function(args, res, next) {
   * feedback (String)
   * rating (BigDecimal)
   **/
-  var argList = ["offerguid", "offeracceptguid", "feedback", "rating"];
+  var argList = [
+    { prop: "offerguid" },
+    { prop: "offeracceptguid" },
+    { prop: "feedback", defaultValue: "" },
+    { prop: "rating", defaultValue: 5 }
+  ];
+
   args.rating.value = varUtils.correctTypes(args.rating.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
@@ -83,7 +101,12 @@ exports.offeracceptlist = function(args, res, next) {
   * acceptguid (String)
   * privatekey (String)
   **/
-  var argList = ["aliases", "acceptguid", "privatekey"];
+  var argList = [
+    { prop: "aliases", defaultValue: [] },
+    { prop: "acceptguid", defaultValue: "" },
+    { prop: "privatekey", defaultValue: "" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -105,7 +128,12 @@ exports.offeraddwhitelist = function(args, res, next) {
    * parameters expected in the args:
   * request (OfferAddWhitelistRequest)
   **/
-  var argList = ["offerguid", "aliasguid", "discountPercentage"];
+  var argList = [
+    { prop: "offerguid" },
+    { prop: "aliasguid" },
+    { prop: "discountPercentage", defaultValue: 0 }
+  ];
+
   args.request.value.discountPercentage = varUtils.correctTypes(args.request.value.discountPercentage, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
@@ -129,7 +157,10 @@ exports.offerclearwhitelist = function(args, res, next) {
    * parameters expected in the args:
   * request (OfferClearWhitelistRequest)
   **/
-  var argList = ["offerguid"];
+  var argList = [
+    { prop: "offerguid" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -154,7 +185,13 @@ exports.offerfilter = function(args, res, next) {
   * safesearch (String)
   * category (String)
   **/
-  var argList = ["regexp", "from", "safesearch", "category"];
+  var argList = [
+    { prop: "regexp", defaultValue: "" },
+    { prop: "from", defaultValue: 0 },
+    { prop: "safesearch", defaultValue: "Yes" },
+    { prop: "category", defaultValue: "" }
+  ];
+
   args.from.value = varUtils.correctTypes(args.from.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
@@ -178,7 +215,10 @@ exports.offerhistory = function(args, res, next) {
    * parameters expected in the args:
   * offer (String)
   **/
-  var argList = ["offer"];
+  var argList = [
+    { prop: "offer" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -200,7 +240,10 @@ exports.offerinfo = function(args, res, next) {
    * parameters expected in the args:
   * guid (String)
   **/
-  var argList = ["guid"];
+  var argList = [
+    { prop: "guid" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -222,7 +265,13 @@ exports.offerlink = function(args, res, next) {
    * parameters expected in the args:
   * request (OfferLinkRequest)
   **/
-  var argList = ["alias", "guid", "comission", "description"];
+  var argList = [
+    { prop: "alias" },
+    { prop: "guid" },
+    { prop: "comission" },
+    { prop: "description", defaultValue: "" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -246,7 +295,12 @@ exports.offerlist = function(args, res, next) {
   * offer (String)
   * privatekey (String)
   **/
-  var argList = ["aliases", "offer", "privatekey"];
+  var argList = [
+    { prop: "aliases", defaultValue: [] },
+    { prop: "offer", defaultValue: "" },
+    { prop: "privatekey", defaultValue: "" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -268,7 +322,21 @@ exports.offernew = function(args, res, next) {
    * parameters expected in the args:
   * request (OfferNewRequest)
   **/
-  var argList = ["alias", "category", "title", "quantity", "price", "description", "currency", "certguid", "paymentoptions", "geolocation", "safesearch", "private"];
+  var argList = [
+    { prop: "alias" },
+    { prop: "category" },
+    { prop: "title" },
+    { prop: "quantity" },
+    { prop: "price" },
+    { prop: "description" },
+    { prop: "currency" },
+    { prop: "certguid", defaultValue: "" },
+    { prop: "paymentoptions", defaultValue: "SYS" },
+    { prop: "geolocation", defaultValue: "" },
+    { prop: "safesearch", defaultValue: "Yes" },
+    { prop: "private", defaultValue: 0 }
+  ];
+
   args.request.value.private = varUtils.correctTypes(args.request.value.private, varUtils.TYPE_CONVERSION.BOOL_TO_NUM_STRING);
   args.request.value.quantity = varUtils.correctTypes(args.request.value.quantity, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
   args.request.value.price = varUtils.correctTypes(args.request.value.price, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
@@ -294,7 +362,10 @@ exports.offerremovewhitelist = function(args, res, next) {
    * parameters expected in the args:
   * request (OfferRemoveWhitelistRequest)
   **/
-  var argList = ["offerguid", "aliasguid"];
+  var argList = [
+    { prop: "offerguid" },
+    { prop: "aliasguid" }
+  ];
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -317,7 +388,23 @@ exports.offerupdate = function(args, res, next) {
    * parameters expected in the args:
   * request (OfferUpdateRequest)
   **/
-  var argList = ["alias", "guid", "category", "title", "quantity", "price", "description", "currency", "private", "certguid", "geolocation", "safesearch", "comission", "paymentoptions"];
+  var argList = [
+    { prop: "alias" },
+    { prop: "guid" },
+    { prop: "category" },
+    { prop: "title" },
+    { prop: "quantity" },
+    { prop: "price" },
+    { prop: "description" },
+    { prop: "currency" },
+    { prop: "private", defaultValue: 0 },
+    { prop: "certguid", defaultValue: "" },
+    { prop: "geolocation", defaultValue: "" },
+    { prop: "safesearch", defaultValue: "Yes" },
+    { prop: "comission", defaultValue: 0 },
+    { prop: "paymentoptions", defaultValue: 0 }
+  ];
+
   args.request.value.private = varUtils.correctTypes(args.request.value.private, varUtils.TYPE_CONVERSION.BOOL_TO_NUM_STRING);
   args.request.value.quantity = varUtils.correctTypes(args.request.value.quantity, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
   args.request.value.price = varUtils.correctTypes(args.request.value.price, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
@@ -344,7 +431,10 @@ exports.offerwhitelist = function(args, res, next) {
    * parameters expected in the args:
   * offerguid (String)
   **/
-  var argList = ["offerguid"];
+  var argList = [
+    { prop: "offerguid" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 

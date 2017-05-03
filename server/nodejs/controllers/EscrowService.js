@@ -7,7 +7,10 @@ exports.escrowacknowledge = function(args, res, next) {
    * parameters expected in the args:
   * escrowguid (String)
   **/
-  var argList = ["escrowguid"];
+  var argList = [
+    { prop: "escrowguid" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -29,7 +32,11 @@ exports.escrowclaimrefund = function(args, res, next) {
    * parameters expected in the args:
   * request (EscrowClaimRefundRequest)
   **/
-  var argList = ["guid", "rawtx"];
+  var argList = [
+    { prop: "guid" },
+    { prop: "rawtx", defaultValue: "" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -51,7 +58,11 @@ exports.escrowclaimrelease = function(args, res, next) {
    * parameters expected in the args:
   * request (EscrowClaimReleaseRequest)
   **/
-  var argList = ["guid", "rawtx"];
+  var argList = [
+    { prop: "guid" },
+    { prop: "rawtx", defaultValue: "" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -73,7 +84,10 @@ exports.escrowcompleterefund = function(args, res, next) {
    * parameters expected in the args:
   * request (EscrowCompleteRefundRequest)
   **/
-  var argList = ["escrowguid", "rawtx"];
+  var argList = [
+    { prop: "escrowguid" },
+    { prop: "rawtx", defaultValue: "" }
+  ];
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -96,7 +110,11 @@ exports.escrowcompleterelease = function(args, res, next) {
    * parameters expected in the args:
   * request (EscrowCompleteReleaseRequest)
   **/
-  var argList = ["escrowguid", "rawtx"];
+  var argList = [
+    { prop: "escrowguid" },
+    { prop: "rawtx", defaultValue: "" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -118,7 +136,15 @@ exports.escrowfeedback = function(args, res, next) {
    * parameters expected in the args:
   * request (EscrowFeedbackRequest)
   **/
-  var argList = ["escrowguid", "userrole", "feedbackprimary", "ratingprimary", "feedbacksecondary", "ratingsecondary"];
+  var argList = [
+    { prop: "escrowguid" },
+    { prop: "userrole" },
+    { prop: "feedbackprimary" },
+    { prop: "ratingprimary" },
+    { prop: "feedbacksecondary" },
+    { prop: "ratingsecondary" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -141,7 +167,11 @@ exports.escrowfilter = function(args, res, next) {
   * regexp (String)
   * from (BigDecimal)
   **/
-  var argList = ["regexp", "from"];
+  var argList = [
+    { prop: "regexp", defaultValue: "" },
+    { prop: "from", defaultValue: "" }
+  ];
+
   args.from.value = varUtils.correctTypes(args.from.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
@@ -165,7 +195,10 @@ exports.escrowhistory = function(args, res, next) {
    * parameters expected in the args:
   * escrow (String)
   **/
-  var argList = ["escrow"];
+  var argList = [
+    { prop: "escrow" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -187,7 +220,10 @@ exports.escrowinfo = function(args, res, next) {
    * parameters expected in the args:
   * escrow (String)
   **/
-  var argList = ["escrow"];
+  var argList = [
+    { prop: "escrow" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -211,7 +247,12 @@ exports.escrowlist = function(args, res, next) {
   * escrow (String)
   * privatekey (String)
   **/
-  var argList = ["aliases", "escrow", "privatekey"];
+  var argList = [
+    { prop: "aliases", defaultValue: [] },
+    { prop: "escrow", defaultValue: "" },
+    { prop: "privatekey", defaultValue: "" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -231,9 +272,20 @@ exports.escrowlist = function(args, res, next) {
 exports.escrownew = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * request (EscrowNewRequest)
+  * request (EscrowNewRequest)   //TODO: verify extTx is in spec
   **/
-  var argList = ["alias", "offer", "quantity", "message", "arbiter", "paymentoption", "redeemscript", "height"];
+  var argList = [
+    { prop: "alias" },
+    { prop: "offer" },
+    { prop: "quantity" },
+    { prop: "message" },
+    { prop: "arbiter" },
+    { prop: "exttx", defaultValue: "" },
+    { prop: "paymentoption", defaultValue: "SYS" },
+    { prop: "redeemscript", defaultValue: "" },
+    { prop: "height", defaultValue: 0 }
+  ];
+
   args.request.value.quantity = varUtils.correctTypes(args.request.value.quantity, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   if(varUtils.notNullOrUndefined(args.request.value.height))
@@ -260,7 +312,12 @@ exports.aliaspay = function(args, res, next) {
    * parameters expected in the args:
    * request (AliasPayRequest)
    **/
-  var argList = ["alias", "amounts", "minconf", "comment"];
+  var argList = [
+    { prop: "alias" },
+    { prop: "amounts" },
+    { prop: "minconf", defaultValue: 0 },
+    { prop: "comment", defaultValue: "" }
+  ];
 
   if(varUtils.notNullOrUndefined(args.request.value.minconf))
     args.request.value.nrequired = args.request.value.minconf.toString(); //number to string
@@ -286,7 +343,12 @@ exports.escrowrefund = function(args, res, next) {
    * parameters expected in the args:
   * request (EscrowRefundRequest)
   **/
-  var argList = ["escrowguid", "userrole", "rawtx"];
+  var argList = [
+    { prop: "escrowguid" },
+    { prop: "userrole" },
+    { prop: "rawtx", defaultValue: "" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -308,7 +370,12 @@ exports.escrowrelease = function(args, res, next) {
    * parameters expected in the args:
   * request (EscrowReleaseRequest)
   **/
-  var argList = ["escrowguid", "userrole", "rawtx"];
+  var argList = [
+    { prop: "escrowguid" },
+    { prop: "userrole" },
+    { prop: "rawtx", defaultValue: "" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -330,7 +397,14 @@ exports.generateescrowmultisig = function(args, res, next) {
    * parameters expected in the args:
   * request (GenerateEscrowMultisigRequest)
   **/
-  var argList = ["buyer", "offerguid", "quantity", "arbiter", "paymentoption"];
+  var argList = [
+    { prop: "buyer" },
+    { prop: "offerguid" },
+    { prop: "quantity" },
+    { prop: "arbiter" },
+    { prop: "paymentoption", defaultValue: "SYS" }
+  ];
+  
   args.request.value.quantity = varUtils.correctTypes(args.request.value.quantity, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {

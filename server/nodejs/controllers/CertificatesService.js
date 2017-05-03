@@ -8,11 +8,18 @@ exports.certfilter = function(args, res, next) {
    * parameters expected in the args:
   * regexp (String)
   * from (String)
-  * certfilter (String)
+  * certfilter (String) TODO: remove this, dont pass thru
   * safesearch (String)
   * category (String)
   **/
-  var argList = ["regexp", "from", "certfilter", "safesearch", "category"];
+  var argList = [
+    { prop: "regexp", defaultValue: "" },
+    { prop: "from", defaultValue: 0 },
+    //{ prop: "certfilter", defaultValue: "" },
+    { prop: "safesearch", defaultValue: "Yes" },
+    { prop: "category", defaultValue: "" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -34,7 +41,10 @@ exports.certhistory = function(args, res, next) {
    * parameters expected in the args:
   * certname (String)
   **/
-  var argList = ["certname"];
+  var argList = [
+    { prop: "certname" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -56,7 +66,10 @@ exports.certinfo = function(args, res, next) {
    * parameters expected in the args:
   * guid (String)
   **/
-  var argList = ["guid"];
+  var argList = [
+    { prop: "guid" }
+  ];
+  
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -80,7 +93,12 @@ exports.certlist = function(args, res, next) {
   * cert (String)
   * privatekey (String)
   **/
-  var argList = ["aliases", "cert", "privatekey"];
+  var argList = [
+    { prop: "aliases" },
+    { prop: "cert" },
+    { prop: "privatekey", defaultValue: "" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -102,7 +120,15 @@ exports.certnew = function(args, res, next) {
    * parameters expected in the args:
   * request (CertNewRequest)
   **/
-  var argList = ["alias", "title", "private", "public", "safesearch", "category"];
+  var argList = [
+    { prop: "alias" },
+    { prop: "title" },
+    { prop: "private" },
+    { prop: "public" },
+    { prop: "safesearch", defaultValue: "Yes" },
+    { prop: "category", defaultValue: "certificates" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -124,7 +150,12 @@ exports.certtransfer = function(args, res, next) {
    * parameters expected in the args:
   * request (CertTransferRequest)
   **/
-  var argList = ["certkey", "alias", "viewonly"];
+  var argList = [
+    { prop: "certkey" },
+    { prop: "alias" },
+    { prop: "viewonly", defaultValue: 0 }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -146,7 +177,16 @@ exports.certupdate = function(args, res, next) {
    * parameters expected in the args:
   * request (CertUpdateRequest)
   **/
-  var argList = ["guid", "alias", "title", "private", "public", "safesearch", "category"];
+  var argList = [
+    { prop: "guid" },
+    { prop: "alias" },
+    { prop: "title" },
+    { prop: "private" },
+    { prop: "public" },
+    { prop: "safesearch", defaultValue: "Yes" },
+    { prop: "category", defaultValue: "certificates" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
