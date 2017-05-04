@@ -1,0 +1,6129 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.2",
+    "title": "Syscoin API"
+  },
+  "host": "localhost:8001",
+  "securityDefinitions": {
+    "token": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "token"
+    }
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "tags": [
+    {
+      "name": "General",
+      "description": "All general wallet operations."
+    },
+    {
+      "name": "Aliases",
+      "description": "Operations related to aliases."
+    },
+    {
+      "name": "Messaging",
+      "description": "Operations related to messaging."
+    },
+    {
+      "name": "Offers",
+      "description": "Operations related to offers and the decentralized marketplace functionality."
+    },
+    {
+      "name": "Escrow",
+      "description": "Operations related to escrow."
+    },
+    {
+      "name": "Certificates",
+      "description": "Operations related to digital certificates."
+    }
+  ],
+  "paths": {
+    "/login": {
+      "x-swagger-router-controller": "blockmarket",
+      "get": {
+        "operationId": "login",
+        "description": "Returns a session token for use with subsquent protected calls.",
+        "tags": [
+          "Blockmarket"
+        ],
+        "parameters": [
+          {
+            "name": "auth",
+            "description": "SHA1 hash of the user's authentication information- usernamepassword.",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/LoginResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/getinfo": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "getinfo",
+        "description": "Returns an object containing various state info.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Info"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/getmininginfo": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "getmininginfo",
+        "description": "Returns a json object containing mining-related information.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/MiningInfo"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/getpeerinfo": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "getpeerinfo",
+        "description": "Returns data about each connected network node as a json array of objects.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/PeerInfoResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/validateaddress": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "validateaddress",
+        "description": "Return information about the given syscoin address.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "syscoinaddress",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/ValidateAddressResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/verifymessage": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "verifymessage",
+        "description": "Verify a signed message",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "syscoinaddress",
+            "description": "The syscoin address to use for the signature.",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "signature",
+            "description": "The signature provided by the signer in base 64 encoding (see signmessage).",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "message",
+            "description": "The message that was signed.",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If the signature is verified or not.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/addmultisigaddress": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "addmultisigaddress",
+        "description": "Add a nrequired-to-sign multisignature address to the wallet. Each key is a Syscoin address or hex-encoded public key. If 'account' is specified (DEPRECATED), assign address to that account.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddMultisigAddressRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A syscoin address associated with the keys.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/aliasaffiliates": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "aliasaffiliates",
+        "description": "list affiliations with merchant offers.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Aliases"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/aliasauthenticate": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "aliasauthenticate",
+        "description": "Authenticates an alias with a provided password and returns the private key if successful. Warning: Calling this function over a public network can lead to someone reading your password/private key in plain text.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Aliases"
+        ],
+        "parameters": [
+          {
+            "name": "alias",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/aliasfilter": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "aliasfilter",
+        "description": "Filter aliases [regexp] : apply [regexp] on aliases, empty means all aliases [from] : show results from this GUID [from], empty means first. [aliasfilter] : shows all aliases that are safe to display (not on the ban list) aliasfilter \"\" 5 = list aliases updated in last 5 blocks aliasfilter \"^alias\" = list all aliases starting with \"alias\" aliasfilter 36000 0 0 stat = display stats (number of aliases) on active aliases",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Aliases"
+        ],
+        "parameters": [
+          {
+            "name": "regexp",
+            "in": "query",
+            "description": "apply [regexp] on aliases, empty means all aliases",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "show results from this GUID [from], empty means first",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "safesearch",
+            "in": "query",
+            "description": "shows all aliases that are safe to display (not on the ban list)",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Alias"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/aliashistory": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "aliashistory",
+        "description": "List all stored values of an alias.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Aliases"
+        ],
+        "parameters": [
+          {
+            "name": "aliasname",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/AliasHistoryEntry"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/aliasinfo": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "aliasinfo",
+        "description": "Show values of an alias.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Aliases"
+        ],
+        "parameters": [
+          {
+            "name": "aliasname",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Alias"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/aliaslist": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "aliaslist",
+        "description": "List my own aliases.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Aliases"
+        ],
+        "parameters": [
+          {
+            "name": "aliasname",
+            "description": "Alias name to use as filter.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Alias"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/aliasnew": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "aliasnew",
+        "description": "Creates a new Syscoin Alias. Requires wallet passphrase to be set with walletpassphrase call.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Aliases"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AliasNewRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/aliasupdate": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "aliasupdate",
+        "description": "Update and possibly transfer an alias. Requires wallet passphrase to be set with walletpassphrase call.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Aliases"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AliasUpdateRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/certfilter": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "certfilter",
+        "description": "scan and filter certs certfilter \"\" 5 = list certs updated in last 5 blocks certfilter \"^cert\" = list all certs starting with \"cert\" certfilter 36000 0 0 stat = display stats (number of certs) on active certs",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Certificates"
+        ],
+        "parameters": [
+          {
+            "name": "regexp",
+            "in": "query",
+            "description": "apply [regexp] on certes, empty means all certes",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "show results from number [from]",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "certfilter",
+            "in": "query",
+            "description": "shows all certs that are safe to display (not on the ban list)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "safesearch",
+            "in": "query",
+            "description": "shows all certs that are safe to display (not on the ban list)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "description": "category you want to search in, empty for all",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Cert"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/certhistory": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "certhistory",
+        "description": "List all stored values of an cert.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Certificates"
+        ],
+        "parameters": [
+          {
+            "name": "certname",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/CertHistoryEntry"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/certinfo": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "certinfo",
+        "description": "Show stored values of a single certificate.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Certificates"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Cert"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/certlist": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "certlist",
+        "description": "List certificates that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in certificates.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Certificates"
+        ],
+        "parameters": [
+          {
+            "name": "aliases",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cert",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "privatekey",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Cert"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/certnew": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "certnew",
+        "description": "Create a new Syscoin Certificate. Requires wallet passphrase to be set with walletpassphrase call.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Certificates"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CertNewRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/certtransfer": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "certtransfer",
+        "description": "Transfer certificate from one user to another. Requires wallet passphrase to be set with walletpassphrase call.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Certificates"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CertTransferRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/certupdate": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "certupdate",
+        "description": "Perform an update on an certificate you control. Requires wallet passphrase to be set with walletpassphrase call.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Certificates"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CertUpdateRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/dumpprivkey": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "dumpprivkey",
+        "description": "Reveals the private key corresponding to 'syscoinaddress'. Then the importprivkey can be used with this output.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "address",
+            "description": "The syscoin address for the private key",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/dumpwallet": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "dumpwallet",
+        "description": "Dumps all wallet keys in a human-readable format.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "filename",
+            "description": "The filename",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/escrowacknowledge": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "escrowacknowledge",
+        "description": "Acknowledge escrow payment as seller of offer. Deducts qty of offer and increases number of sold inventory.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Escrow"
+        ],
+        "parameters": [
+          {
+            "name": "escrowguid",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/escrowclaimrefund": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "escrowclaimrefund",
+        "description": "Claim escrow funds released from seller or arbiter using escrowrefund. Requires wallet passphrase to be set with walletpassphrase call.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Escrow"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EscrowClaimRefundRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/escrowclaimrelease": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "escrowclaimrelease",
+        "description": "Claim escrow funds released from buyer or arbiter using escrowrelease. Requires wallet passphrase to be set with walletpassphrase call.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Escrow"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EscrowClaimReleaseRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/escrowcompleterefund": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "escrowcompleterefund",
+        "description": "Completes an escrow refund by creating the escrow complete refund transaction on syscoin blockchain.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Escrow"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EscrowCompleteRefundRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/escrowcompleterelease": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "escrowcompleterelease",
+        "description": "Completes an escrow release by creating the escrow complete release transaction on syscoin blockchain.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Escrow"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EscrowCompleteReleaseRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/escrowfeedback": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "escrowfeedback",
+        "description": "Send feedback for primary and secondary users in escrow, depending on who you are. Ratings are numbers from 1 to 5. User Role is either 'buyer', 'seller', 'reseller', or 'arbiter'. If you are the buyer, feedbackprimary is for seller and feedbacksecondary is for arbiter. If you are the seller, feedbackprimary is for buyer and feedbacksecondary is for arbiter. If you are the arbiter, feedbackprimary is for buyer and feedbacksecondary is for seller. If arbiter didn't do any work for this escrow you can leave his feedback empty and rating as a 0.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Escrow"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EscrowFeedbackRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/escrowfilter": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "escrowfilter",
+        "description": "scan and filter escrows",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Escrow"
+        ],
+        "parameters": [
+          {
+            "name": "regexp",
+            "in": "query",
+            "description": "Apply [regexp] on escrows, empty means all escrows",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "Show results from this GUID [from], 0 means first.",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EscrowListEntry"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/escrowhistory": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "escrowhistory",
+        "description": "List all stored values of an escrow.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Escrow"
+        ],
+        "parameters": [
+          {
+            "name": "escrow",
+            "description": "GUID of escrow",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EscrowHistoryEntry"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/escrowinfo": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "escrowinfo",
+        "description": "Show stored values of a single escrow",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Escrow"
+        ],
+        "parameters": [
+          {
+            "name": "escrow",
+            "description": "GUID of escrow",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Escrow"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/escrowlist": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "escrowlist",
+        "description": "List escrows that an array of aliases are involved in. Set of aliases to look up based on alias, and private key to decrypt any data found in escrow.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Escrow"
+        ],
+        "parameters": [
+          {
+            "name": "aliases",
+            "description": "List of aliases to display escrows from",
+            "in": "query",
+            "required": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "escrow",
+            "description": "GUID of escrow",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "privatekey",
+            "description": "private key for decoding data",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EscrowListEntry"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/escrownew": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "escrownew",
+        "description": "Create new arbitrated Syscoin escrow.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Escrow"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EscrowNewRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/aliaspay": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "aliaspay",
+        "description": "Send multiple times from an alias. Amounts are double-precision floating point numbers.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Escrow"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AliasPayRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/escrowrefund": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "escrowrefund",
+        "description": "Refunds escrow funds back to buyer, buyer needs to sign the output transaction and send to the network. User role represents either 'seller' or 'arbiter'. Enter in rawTx if this is an external payment refund.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Escrow"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EscrowRefundRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/escrowrelease": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "escrowrelease",
+        "description": "Releases escrow funds to seller, seller needs to sign the output transaction and send to the network. User role represents either 'buyer' or 'arbiter'. Enter in rawTx if this is an external payment release.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Escrow"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EscrowReleaseRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/generateescrowmultisig": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "generateescrowmultisig",
+        "description": "Generates a multisignature escrow transaction",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Escrow"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GenerateEscrowMultisigRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/getaccount": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "getaccount",
+        "description": "DEPRECATED. Returns the account associated with the given address.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "syscoinaddress",
+            "description": "The syscoin address for account lookup.",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/getaccountaddress": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "getaccountaddress",
+        "description": "DEPRECATED. Returns the current Syscoin address for receiving payments to this account.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "account",
+            "description": "The account name for the address. It can also be set to the empty string \"\" to represent the default account. The account does not need to exist, it will be created and a new address created  if there is no account by the given name.",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/getaddressesbyaccount": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "getaddressesbyaccount",
+        "description": "DEPRECATED. Returns the list of addresses for the given account.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "account",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/getbalance": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "getbalance",
+        "description": "If account is not specified, returns the server's total available balance. If account is specified (DEPRECATED), returns the balance in the account. Note that the account \"\" is not the same as leaving the parameter out. The server total may be different to the balance in the default \"\" account.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "account",
+            "in": "query",
+            "description": "DEPRECATED. The selected account, or \"*\" for entire wallet. It may be the default account using \"\".",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "minconf",
+            "in": "query",
+            "description": "Only include transactions confirmed at least this many times.",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "includeWatchonly",
+            "in": "query",
+            "description": "Also include balance in watchonly addresses (see 'importaddress')",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "number"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/getnewaddress": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "getnewaddress",
+        "description": "Returns a new Syscoin address for receiving payments. If 'account' is specified (DEPRECATED), it is added to the address book so payments received with the address will be credited to 'account'.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/GetNewAddressRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/getreceivedbyaccount": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "getreceivedbyaccount",
+        "description": "DEPRECATED. Returns the total amount received by addresses with <account> in transactions with at least [minconf] confirmations.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "account",
+            "in": "query",
+            "description": "The selected account, may be the default account using \"\".",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "minconf",
+            "in": "query",
+            "description": "Only include transactions confirmed at least this many times.",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "number"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/getreceivedbyaddress": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "getreceivedbyaddress",
+        "description": "Returns the total amount received by the given syscoinaddress in transactions with at least minconf confirmations.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "syscoinaddress",
+            "in": "query",
+            "description": "The syscoin address for transactions.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "minconf",
+            "in": "query",
+            "description": "Only include transactions confirmed at least this many times.",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "number"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/gettransaction": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "gettransaction",
+        "description": "Get detailed information about in-wallet transaction <txid>",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "txid",
+            "in": "query",
+            "description": "The transaction id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "includeWatchonly",
+            "in": "query",
+            "description": "Whether to include watchonly addresses in balance calculation and details[]",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Transaction"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/getunconfirmedbalance": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "getunconfirmedbalance",
+        "description": "Returns the server's total unconfirmed balance",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "number"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/getv2address": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "getv2address",
+        "description": "Returns a new Syscoin (starts with 1) address for receiving payments. If 'account' is specified (DEPRECATED), it is added to the address book so payments received with the address will be credited to 'account'.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "account",
+            "in": "query",
+            "description": "DEPRECATED. The account name for the address to be linked to. If not provided, the default account \"\" is used. It can also be set to the empty string \"\" to represent the default account. The account does not need to exist, it will be created if there is no account by the given name.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/getwalletinfo": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "getwalletinfo",
+        "description": "Returns an object containing various wallet state info.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/WalletInfo"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/getzaddress": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "getzaddress",
+        "description": "Returns a new ZCash address for receiving payments in ZCash transaparent tokens. so payments received with the address will be credited to 'account'.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "address",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/WalletInfo"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/importaddress": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "importaddress",
+        "description": "Adds a script (in hex) or address that can be watched as if it were in your wallet but cannot be used to spend.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ImportAddressRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/importprivkey": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "importprivkey",
+        "description": "Adds a private key (as returned by dumpprivkey) to your wallet.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ImportPrivKeyRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/importprunedfunds": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "importprunedfunds",
+        "description": "Imports funds without rescan. Corresponding address or script must previously be included in wallet. Aimed towards pruned wallets. The end-user is responsible to import additional transactions that subsequently spend the imported outputs or rescan after the point in the blockchain the transaction is included.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "rawtransaction",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "txoutproof",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/importpubkey": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "importpubkey",
+        "description": "Adds a public key (in hex) that can be watched as if it were in your wallet but cannot be used to spend.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ImportPubKeyRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/importwallet": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "importwallet",
+        "description": "Imports keys from a wallet dump file (see dumpwallet).",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ImportWalletRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/listaccounts": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "listaccounts",
+        "description": "DEPRECATED. Returns Object that has account names as keys, account balances as values.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "minconf",
+            "in": "query",
+            "description": "Only include transactions with at least this many confirmations",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "includeWatchonly",
+            "in": "query",
+            "description": "Include balances in watchonly addresses (see 'importaddress')",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/listaddressgroupings": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "listaddressgroupings",
+        "description": "Lists groups of addresses which have had their common ownership made public by common use as inputs or as the resulting change in past transactions",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/AddressGrouping"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/listreceivedbyaccount": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "listreceivedbyaccount",
+        "description": "DEPRECATED. List balances by account.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "minconf",
+            "in": "query",
+            "description": "Only include transactions confirmed at least this many times.",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "includeempty",
+            "in": "query",
+            "description": "Whether to include accounts that haven't received any payments.",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "includeWatchonly",
+            "in": "query",
+            "description": "Whether to include watchonly addresses (see 'importaddress').",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Account"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/listreceivedbyaddress": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "listreceivedbyaddress",
+        "description": "List balances by receiving address.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "minconf",
+            "in": "query",
+            "description": "Only include transactions confirmed at least this many times.",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "includeempty",
+            "in": "query",
+            "description": "Whether to include accounts that haven't received any payments.",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "includeWatchonly",
+            "in": "query",
+            "description": "Whether to include watchonly addresses (see 'importaddress').",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Account"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/listsinceblock": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "listsinceblock",
+        "description": "Get all transactions in blocks since block [blockhash], or all transactions if omitted",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "blockhash",
+            "in": "query",
+            "description": "The block hash to list transactions since",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "includeWatchonly",
+            "in": "query",
+            "description": "Whether to include watchonly addresses (see 'importaddress').",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "target-confirmations",
+            "in": "query",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ListSinceBlockResponse"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/listtransactions": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "listtransactions",
+        "description": "Returns up to 'count' most recent transactions skipping the first 'from' transactions for account 'account'.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "account",
+            "in": "query",
+            "description": "DEPRECATED. The account name. Should be \"*\".",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "description": "The number of transactions to return",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "The number of transactions to skip",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "includeWatchonly",
+            "in": "query",
+            "description": "Include transactions to watchonly addresses (see 'importaddress')",
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TransactionListEntry"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/messageinfo": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "messageinfo",
+        "description": "Show stored values of a single message.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Messaging"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/messagenew": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "messagenew",
+        "description": "Create a new Syscoin encrypted message.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Messaging"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MessageNewRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/messagereceivelist": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "messagereceivelist",
+        "description": "List received messages that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in message.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Messaging"
+        ],
+        "parameters": [
+          {
+            "name": "aliases",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "message",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "privatekey",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Message"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/messagesentlist": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "messagesentlist",
+        "description": "List sent messages that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in message.",
+        "tags": [
+          "Messaging"
+        ],
+        "parameters": [
+          {
+            "name": "aliases",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "message",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "privatekey",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Message"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/move": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "move",
+        "description": "DEPRECATED. Move a specified amount from one account in your wallet to another.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MoveRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/offeraccept": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "offeraccept",
+        "description": "Accept&Pay for a confirmed offer.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Offers"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OfferAcceptRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/offeracceptacknowledge": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "offeracceptacknowledge",
+        "description": "Acknowledge offer payment as seller of offer. Deducts qty of offer and increases number of sold inventory.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Offers"
+        ],
+        "parameters": [
+          {
+            "name": "offerguid",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "offeracceptguid",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/offeracceptfeedback": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "offeracceptfeedback",
+        "description": "Send feedback and rating for offer accept specified. Ratings are numbers from 1 to 5",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Offers"
+        ],
+        "parameters": [
+          {
+            "name": "offerguid",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "offeracceptguid",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "feedback",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "rating",
+            "in": "query",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/offeracceptlist": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "offeracceptlist",
+        "description": "list my offer accepts",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Offers"
+        ],
+        "parameters": [
+          {
+            "name": "aliases",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "acceptguid",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "privatekey",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/OfferAccept"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/offeraddwhitelist": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "offeraddwhitelist",
+        "description": "Add to the affiliate list of your offer(controls who can resell). Requires wallet passphrase to be set with walletpassphrase call.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Offers"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OfferAddWhitelistRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/offerclearwhitelist": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "offerclearwhitelist",
+        "description": "Clear the affiliate list of your offer(controls who can resell). Requires wallet passphrase to be set with walletpassphrase call.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Offers"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OfferClearWhitelistRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/offerfilter": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "offerfilter",
+        "description": "scan and filter offers",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Offers"
+        ],
+        "parameters": [
+          {
+            "name": "regexp",
+            "in": "query",
+            "description": "apply [regexp] on offeres, empty means all offeres",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "show results from number [from]",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "safesearch",
+            "in": "query",
+            "description": "shows all offers that are safe to display (not on the ban list)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "description": "Category you want to search in, empty for all",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Offer"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/offerhistory": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "offerhistory",
+        "description": "List all stored values of an offer.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Offers"
+        ],
+        "parameters": [
+          {
+            "name": "offer",
+            "in": "query",
+            "description": "Offer GUID.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/OfferHistoryEntry"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/offerinfo": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "offerinfo",
+        "description": "Show values of an offer.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Offers"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Offer"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/offerlink": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "offerlink",
+        "description": "Requires wallet passphrase to be set with walletpassphrase call.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Offers"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OfferLinkRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/offerlist": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "offerlist",
+        "description": "List offers that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in offer.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Offers"
+        ],
+        "parameters": [
+          {
+            "name": "aliases",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offer",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "privatekey",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Offer"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/offernew": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "offernew",
+        "description": "Create a new offer on the Syscoin decentralized marketplace. Requires wallet passphrase to be set with walletpassphrase call.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Offers"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OfferNewRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success; Returns an array of 2 elements- tx id and offer GUID.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/offerremovewhitelist": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "offerremovewhitelist",
+        "description": "Remove from the affiliate list of your offer(controls who can resell). Requires wallet passphrase to be set with walletpassphrase call.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Offers"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OfferRemoveWhitelistRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/offerupdate": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "offerupdate",
+        "description": "Perform an update on an offer you control. Requires wallet passphrase to be set with walletpassphrase call.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Offers"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OfferUpdateRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success; Returns an array with 1 element- tx id.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/offerwhitelist": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "offerwhitelist",
+        "description": "List all affiliates for this offer.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "Offers"
+        ],
+        "parameters": [
+          {
+            "name": "offerguid",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/OfferWhitelistEntry"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sendfrom": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "sendfrom",
+        "description": "DEPRECATED (use sendtoaddress). Sent an amount from an account to a syscoin address. The amount is a real and is rounded to the nearest 0.00000001. Requires wallet passphrase to be set with walletpassphrase call.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SendFromRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/removeprunedfunds": {
+      "x-swagger-router-controller": "rpc",
+      "get": {
+        "operationId": "removeprunedfunds",
+        "description": "Deletes the specified transaction from the wallet. Meant for use with pruned wallets and as a companion to importprunedfunds. This will effect wallet balances.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "txid",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sendmany": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "sendmany",
+        "description": "Send multiple times. Amounts are double-precision floating point numbers. Requires wallet passphrase to be set with walletpassphrase call.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SendManyRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sendtoaddress": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "sendtoaddress",
+        "description": "Send an amount to a given address. The amount is a real and is rounded to the nearest 0.00000001. Requires wallet passphrase to be set with walletpassphrase call.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SendToAddressRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/signmessage": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "signmessage",
+        "description": "Sign a message with the private key of an address. Requires wallet passphrase to be set with walletpassphrase call.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SignMessageRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/walletlock": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "walletlock",
+        "description": "Removes the wallet encryption key from memory, locking the wallet. After calling this method, you will need to call walletpassphrase again before being able to call any methods which require the wallet to be unlocked.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/walletpassphrase": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "walletpassphrase",
+        "description": "Stores the wallet decryption key in memory for 'timeout' seconds. This is needed prior to performing transactions related to private keys such as sending syscoins",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/WalletPassphraseRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/walletpassphrasechange": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "walletpassphrasechange",
+        "description": "Changes the wallet passphrase from 'oldpassphrase' to 'newpassphrase'.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/WalletPassphraseChangeRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/syscoindecoderawtransaction": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "syscoindecoderawtransaction",
+        "description": "Decode raw syscoin transaction (serialized, hex-encoded) and display information pertaining to the service that is included in the transactiion data output(OP_RETURN)",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "alias",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "hexstring",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/syscoinsignrawtransaction": {
+      "x-swagger-router-controller": "rpc",
+      "post": {
+        "operationId": "syscoinsignrawtransaction",
+        "description": "Sign inputs for raw transaction (serialized, hex-encoded) and sends them out to the network if signing is complete",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "tags": [
+          "General"
+        ],
+        "parameters": [
+          {
+            "name": "hexstring",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Info": {
+      "required": [
+        "version",
+        "protocolversion",
+        "walletversion",
+        "balance",
+        "blocks",
+        "timeoffset",
+        "connections",
+        "proxy",
+        "difficulty",
+        "testnet",
+        "keypoololdest",
+        "keypoolsize",
+        "unlocked_until",
+        "paytxfee",
+        "relayfee",
+        "errors"
+      ],
+      "properties": {
+        "version": {
+          "description": "the server version",
+          "type": "number"
+        },
+        "protocolversion": {
+          "description": "the protocol version",
+          "type": "number"
+        },
+        "walletversion": {
+          "description": "the wallet version",
+          "type": "number"
+        },
+        "balance": {
+          "description": "the total syscoin balance of the wallet",
+          "type": "number"
+        },
+        "blocks": {
+          "description": "the current number of blocks processed in the server",
+          "type": "number"
+        },
+        "timeoffset": {
+          "description": "the time offset",
+          "type": "number"
+        },
+        "connections": {
+          "description": "the number of connections",
+          "type": "number"
+        },
+        "proxy": {
+          "description": "the proxy used by the server",
+          "type": "string"
+        },
+        "difficulty": {
+          "description": "the current difficulty",
+          "type": "number"
+        },
+        "testnet": {
+          "description": "if the server is using testnet or not",
+          "type": "boolean"
+        },
+        "keypoololdest": {
+          "description": "the timestamp (seconds since GMT epoch) of the oldest pre-generated key in the key pool",
+          "type": "number"
+        },
+        "keypoolsize": {
+          "description": "how many new keys are pre-generated",
+          "type": "number"
+        },
+        "unlocked_until": {
+          "description": "the timestamp in seconds since epoch (midnight Jan 1 1970 GMT) that the wallet is unlocked for transfers, or 0 if the wallet is locked",
+          "type": "number"
+        },
+        "paytxfee": {
+          "description": "the transaction fee set in SYS/kB",
+          "type": "number"
+        },
+        "relayfee": {
+          "description": "minimum relay fee for non-free transactions in SYS/kB",
+          "type": "number"
+        },
+        "errors": {
+          "description": "any error messages",
+          "type": "string"
+        }
+      }
+    },
+    "MiningInfo": {
+      "required": [
+        "blocks",
+        "currentblocksize",
+        "currentblocktx",
+        "difficulty",
+        "errors",
+        "genproclimit",
+        "pooledtx",
+        "testnet",
+        "chain",
+        "generate"
+      ],
+      "properties": {
+        "blocks": {
+          "description": "The current block",
+          "type": "number"
+        },
+        "currentblocksize": {
+          "description": "The last block size",
+          "type": "number"
+        },
+        "currentblocktx": {
+          "description": "The last block transaction",
+          "type": "number"
+        },
+        "difficulty": {
+          "description": "The current difficulty",
+          "type": "number"
+        },
+        "errors": {
+          "description": "Current errors",
+          "type": "string"
+        },
+        "genproclimit": {
+          "description": "The processor limit for generation. -1 if no generation.",
+          "type": "number"
+        },
+        "networkhashps": {
+          "description": "Current network hashrate in kbs",
+          "type": "number"
+        },
+        "pooledtx": {
+          "description": "The size of the mem pool",
+          "type": "number"
+        },
+        "testnet": {
+          "description": "If using testnet or not",
+          "type": "boolean"
+        },
+        "chain": {
+          "description": "current network name as defined in BIP70 (main, test, regtest)",
+          "type": "string"
+        },
+        "generate": {
+          "description": "If the generation is on or off (see getgenerate or setgenerate calls)",
+          "type": "boolean"
+        }
+      }
+    },
+    "PeerInfoResponse": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/PeerInfo"
+      }
+    },
+    "PeerInfo": {
+      "required": [
+        "id",
+        "addr",
+        "addrlocal",
+        "services",
+        "relaytxes",
+        "lastsend",
+        "lastrecv",
+        "bytessent",
+        "bytesrecv",
+        "conntime",
+        "timeoffset",
+        "pingtime",
+        "minping",
+        "version",
+        "subver",
+        "inbound",
+        "startingheight",
+        "banscore",
+        "synced_headers",
+        "synced_blocks",
+        "inflight",
+        "whitelisted",
+        "bytessent_per_msg",
+        "bytesrecv_per_msg"
+      ],
+      "properties": {
+        "id": {
+          "description": "Peer index",
+          "type": "number"
+        },
+        "addr": {
+          "description": "The ip address and port of the peer",
+          "type": "string"
+        },
+        "addrlocal": {
+          "description": "local address",
+          "type": "string"
+        },
+        "services": {
+          "description": "The services offered",
+          "type": "string"
+        },
+        "relaytxes": {
+          "description": "Whether peer has asked us to relay transactions to it",
+          "type": "boolean"
+        },
+        "lastsend": {
+          "description": "The time in seconds since epoch (Jan 1 1970 GMT) of the last send",
+          "type": "number"
+        },
+        "lastrecv": {
+          "description": "The time in seconds since epoch (Jan 1 1970 GMT) of the last receive",
+          "type": "number"
+        },
+        "bytessent": {
+          "description": "The total bytes sent",
+          "type": "number"
+        },
+        "bytesrecv": {
+          "description": "The total bytes received",
+          "type": "number"
+        },
+        "conntime": {
+          "description": "The connection time in seconds since epoch (Jan 1 1970 GMT)",
+          "type": "number"
+        },
+        "timeoffset": {
+          "description": "The time offset in seconds",
+          "type": "number"
+        },
+        "pingtime": {
+          "description": "ping time",
+          "type": "number"
+        },
+        "minping": {
+          "description": "minimum observed ping time",
+          "type": "number"
+        },
+        "version": {
+          "description": "The peer version, such as 7001",
+          "type": "number"
+        },
+        "subver": {
+          "description": "The string version",
+          "type": "string"
+        },
+        "inbound": {
+          "description": "Inbound (true) or Outbound (false)",
+          "type": "boolean"
+        },
+        "startingheight": {
+          "description": "The starting height (block) of the peer",
+          "type": "number"
+        },
+        "banscore": {
+          "description": "The ban score",
+          "type": "number"
+        },
+        "synced_headers": {
+          "description": "The last header we have in common with this peer",
+          "type": "number"
+        },
+        "synced_blocks": {
+          "description": "The last block we have in common with this peer",
+          "type": "number"
+        },
+        "inflight": {
+          "description": "The heights of blocks we're currently asking from this peer",
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "whitelisted": {
+          "description": "If this peer is whitelisted",
+          "type": "boolean"
+        },
+        "bytessent_per_msg": {
+          "$ref": "#/definitions/ByteMessageInfo"
+        },
+        "bytesrecv_per_msg": {
+          "$ref": "#/definitions/ByteMessageInfo"
+        }
+      }
+    },
+    "ByteMessageInfo": {
+      "required": [
+        "addr",
+        "getheaders",
+        "headers",
+        "inv",
+        "ping",
+        "pong",
+        "sendheaders",
+        "verack",
+        "version"
+      ],
+      "properties": {
+        "addr": {
+          "type": "number"
+        },
+        "block": {
+          "type": "number"
+        },
+        "getaddr": {
+          "type": "number"
+        },
+        "getdata": {
+          "type": "number"
+        },
+        "getheaders": {
+          "type": "number"
+        },
+        "headers": {
+          "type": "number"
+        },
+        "inv": {
+          "type": "number"
+        },
+        "ping": {
+          "type": "number"
+        },
+        "pong": {
+          "type": "number"
+        },
+        "sendheaders": {
+          "type": "number"
+        },
+        "tx": {
+          "type": "number"
+        },
+        "verack": {
+          "type": "number"
+        },
+        "version": {
+          "type": "number"
+        }
+      }
+    },
+    "ValidateAddressResponse": {
+      "properties": {
+        "isvalid": {
+          "description": "If the address is valid or not. If not, this is the only property returned.",
+          "type": "boolean"
+        },
+        "address": {
+          "description": "The syscoin address validated",
+          "type": "string"
+        },
+        "ismine": {
+          "description": "If the address is yours or not",
+          "type": "boolean"
+        },
+        "iswatchonly": {
+          "description": "If the address is watchonly",
+          "type": "boolean"
+        },
+        "isscript": {
+          "description": "If the key is a script",
+          "type": "boolean"
+        },
+        "pubkey": {
+          "description": "The hex value of the raw public key",
+          "type": "string"
+        },
+        "iscompressed": {
+          "description": "If the address is compressed",
+          "type": "boolean"
+        },
+        "account": {
+          "description": "DEPRECATED. The account associated with the address, \"\" is the default account",
+          "type": "string"
+        }
+      }
+    },
+    "ErrorResponse": {
+      "required": [
+        "message"
+      ],
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Alias": {
+      "discriminator": "name",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "privatevalue": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "txid": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "alias_peg": {
+          "type": "string"
+        },
+        "balance": {
+          "type": "number"
+        },
+        "ismine": {
+          "type": "boolean"
+        },
+        "safesearch": {
+          "type": "string"
+        },
+        "acceptcerttransfers": {
+          "type": "string"
+        },
+        "safetylevel": {
+          "type": "number"
+        },
+        "buyer_rating": {
+          "type": "number"
+        },
+        "buyer_ratingcount": {
+          "type": "number"
+        },
+        "buyer_rating_display": {
+          "type": "string"
+        },
+        "seller_rating": {
+          "type": "number"
+        },
+        "seller_ratingcount": {
+          "type": "number"
+        },
+        "seller_rating_display": {
+          "type": "string"
+        },
+        "arbiter_rating": {
+          "type": "number"
+        },
+        "arbiter_ratingcount": {
+          "type": "number"
+        },
+        "arbiter_rating_display": {
+          "type": "string"
+        },
+        "lastupdate_height": {
+          "type": "number"
+        },
+        "expires_in": {
+          "type": "number"
+        },
+        "expires_on": {
+          "type": "number"
+        },
+        "expired": {
+          "type": "boolean"
+        },
+        "pending": {
+          "type": "boolean"
+        },
+        "time": {
+          "type": "string"
+        },
+        "multisiginfo": {
+          "$ref": "#/definitions/MultiSignatureInfo"
+        }
+      }
+    },
+    "AliasHistoryEntry": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Alias"
+        }
+      ],
+      "properties": {
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "Cert": {
+      "properties": {
+        "cert": {
+          "type": "string"
+        },
+        "txid": {
+          "type": "string"
+        },
+        "height": {
+          "type": "number"
+        },
+        "title": {
+          "type": "string"
+        },
+        "time": {
+          "type": "string"
+        },
+        "data": {
+          "type": "string"
+        },
+        "pubdata": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "safesearch": {
+          "type": "string"
+        },
+        "safetylevel": {
+          "type": "number"
+        },
+        "ismine": {
+          "type": "string"
+        },
+        "alias": {
+          "type": "string"
+        },
+        "transferviewonly": {
+          "type": "string"
+        },
+        "expires_in": {
+          "type": "number"
+        },
+        "expires_on": {
+          "type": "number"
+        },
+        "expired": {
+          "type": "boolean"
+        }
+      }
+    },
+    "CertHistoryEntry": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Cert"
+        }
+      ],
+      "properties": {
+        "certtype": {
+          "type": "string"
+        }
+      }
+    },
+    "EscrowHistoryEntry": {
+      "properties": {
+        "escrow": {
+          "type": "string"
+        },
+        "escrowtype": {
+          "type": "string"
+        },
+        "txid": {
+          "type": "string"
+        },
+        "seller": {
+          "type": "string"
+        },
+        "arbiter": {
+          "type": "string"
+        },
+        "buyer": {
+          "type": "string"
+        },
+        "offer": {
+          "type": "string"
+        },
+        "offertitle": {
+          "type": "string"
+        },
+        "offeracceptlink": {
+          "type": "string"
+        },
+        "total": {
+          "type": "number"
+        },
+        "expired": {
+          "type": "boolean"
+        },
+        "height": {
+          "type": "number"
+        },
+        "time": {
+          "type": "string"
+        }
+      }
+    },
+    "EscrowListEntry": {
+      "properties": {
+        "escrow": {
+          "type": "string"
+        },
+        "time": {
+          "type": "number"
+        },
+        "seller": {
+          "type": "string"
+        },
+        "arbiter": {
+          "type": "string"
+        },
+        "buyer": {
+          "type": "string"
+        },
+        "offer": {
+          "type": "string"
+        },
+        "offertitle": {
+          "type": "string"
+        },
+        "offeracceptlink": {
+          "type": "string"
+        },
+        "total": {
+          "type": "number"
+        },
+        "status": {
+          "type": "string"
+        },
+        "expired": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Escrow": {
+      "properties": {
+        "escrow": {
+          "type": "string"
+        },
+        "time": {
+          "type": "string"
+        },
+        "seller": {
+          "type": "string"
+        },
+        "arbiter": {
+          "type": "string"
+        },
+        "buyer": {
+          "type": "string"
+        },
+        "offer": {
+          "type": "string"
+        },
+        "offertitle": {
+          "type": "string"
+        },
+        "offeracceptlink": {
+          "type": "string"
+        },
+        "systotal": {
+          "type": "number"
+        },
+        "sysfee": {
+          "type": "number"
+        },
+        "total": {
+          "type": "number"
+        },
+        "txid": {
+          "type": "string"
+        },
+        "height": {
+          "type": "number"
+        },
+        "pay_message": {
+          "type": "string"
+        }
+      }
+    },
+    "EscrowRefundRequest": {
+      "required": [
+        "escrowguid",
+        "userrole"
+      ],
+      "properties": {
+        "escrowguid": {
+          "type": "string"
+        },
+        "userrole": {
+          "type": "string"
+        },
+        "rawtx": {
+          "type": "string"
+        }
+      }
+    },
+    "EscrowReleaseRequest": {
+      "required": [
+        "escrowguid",
+        "userrole"
+      ],
+      "properties": {
+        "escrowguid": {
+          "type": "string"
+        },
+        "userrole": {
+          "type": "string"
+        },
+        "rawtx": {
+          "type": "string"
+        }
+      }
+    },
+    "Transaction": {
+      "properties": {
+        "amount": {
+          "description": "The transaction amount in SYS",
+          "type": "string"
+        },
+        "confirmations": {
+          "description": "The number of confirmations",
+          "type": "number"
+        },
+        "blockhash": {
+          "description": "The block hash",
+          "type": "string"
+        },
+        "blockindex": {
+          "description": "The block index",
+          "type": "number"
+        },
+        "blocktime": {
+          "description": "The time in seconds since epoch (1 Jan 1970 GMT)",
+          "type": "number"
+        },
+        "txid": {
+          "description": "The transaction id.",
+          "type": "string"
+        },
+        "time": {
+          "description": "The transaction time in seconds since epoch (1 Jan 1970 GMT)",
+          "type": "number"
+        },
+        "timereceived": {
+          "description": "The time received in seconds since epoch (1 Jan 1970 GMT)",
+          "type": "number"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TransactionDetailEntry"
+          }
+        },
+        "hex": {
+          "description": "Raw data for transaction",
+          "type": "string"
+        }
+      }
+    },
+    "TransactionDetailEntry": {
+      "properties": {
+        "account": {
+          "description": "DEPRECATED. The account name involved in the transaction, can be \"\" for the default account.",
+          "type": "string"
+        },
+        "address": {
+          "description": "The syscoin address involved in the transaction",
+          "type": "string"
+        },
+        "category": {
+          "description": "The category, either 'send' or 'receive'",
+          "type": "string"
+        },
+        "amount": {
+          "description": "The amount in SYS",
+          "type": "number"
+        },
+        "label": {
+          "description": "A comment for the address/transaction, if any",
+          "type": "string"
+        },
+        "vout": {
+          "description": "the vout value",
+          "type": "number"
+        }
+      }
+    },
+    "WalletInfo": {
+      "properties": {
+        "walletversion": {
+          "description": "the wallet version",
+          "type": "number"
+        },
+        "balance": {
+          "description": "the total confirmed balance of the wallet in SYS",
+          "type": "number"
+        },
+        "unconfirmed_balance": {
+          "description": "the total unconfirmed balance of the wallet in SYS",
+          "type": "number"
+        },
+        "immature_balance": {
+          "description": "the total immature balance of the wallet in SYS",
+          "type": "number"
+        },
+        "txcount": {
+          "description": "the total number of transactions in the wallet",
+          "type": "number"
+        },
+        "keypoololdest": {
+          "description": "the timestamp (seconds since GMT epoch) of the oldest pre-generated key in the key pool",
+          "type": "number"
+        },
+        "keypoolsize": {
+          "description": "how many new keys are pre-generated",
+          "type": "number"
+        },
+        "unlocked_until": {
+          "description": "the timestamp in seconds since epoch (midnight Jan 1 1970 GMT) that the wallet is unlocked for transfers, or 0 if the wallet is locked",
+          "type": "number"
+        },
+        "paytxfee": {
+          "description": "the transaction fee configuration, set in SYS/kB",
+          "type": "number"
+        }
+      }
+    },
+    "AddressGrouping": {
+      "properties": {
+        "syscoinaddress": {
+          "description": "The syscoin address",
+          "type": "string"
+        },
+        "amount": {
+          "description": "The amount in SYS",
+          "type": "number"
+        },
+        "account": {
+          "description": "(optional) The account (DEPRECATED)",
+          "type": "string"
+        }
+      }
+    },
+    "Account": {
+      "properties": {
+        "involvesWatchonly": {
+          "description": "Only returned if imported addresses were involved in transaction",
+          "type": "boolean"
+        },
+        "account": {
+          "description": "The account name of the receiving account",
+          "type": "string"
+        },
+        "amount": {
+          "description": "The total amount received by addresses with this account",
+          "type": "number"
+        },
+        "confirmations": {
+          "description": "The number of confirmations of the most recent transaction included",
+          "type": "number"
+        },
+        "label": {
+          "description": "A comment for the address/transaction, if any",
+          "type": "string"
+        }
+      }
+    },
+    "ListSinceBlockResponse": {
+      "properties": {
+        "transactions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SinceBlockTransactionEntry"
+          }
+        },
+        "lastblock": {
+          "description": "The hash of the last block",
+          "type": "string"
+        }
+      }
+    },
+    "SinceBlockTransactionEntry": {
+      "properties": {
+        "account": {
+          "description": "DEPRECATED. The account name associated with the transaction. Will be \"\" for the default account.",
+          "type": "string"
+        },
+        "address": {
+          "description": "The syscoin address of the transaction. Not present for move transactions (category = move).",
+          "type": "string"
+        },
+        "category": {
+          "description": "The transaction category. 'send' has negative amounts, 'receive' has positive amounts.",
+          "type": "string"
+        },
+        "amount": {
+          "description": "The amount in SYS. This is negative for the 'send' category, and for the 'move' category for moves outbound. It is positive for the 'receive' category, and for the 'move' category for inbound funds.",
+          "type": "number"
+        },
+        "vout": {
+          "description": "the vout value",
+          "type": "number"
+        },
+        "fee": {
+          "description": "The amount of the fee in SYS. This is negative and only available for the 'send' category of transactions.",
+          "type": "number"
+        },
+        "confirmations": {
+          "description": "The number of confirmations for the transaction. Available for 'send' and 'receive' category of transactions.",
+          "type": "number"
+        },
+        "blockhash": {
+          "description": "The block hash containing the transaction. Available for 'send' and 'receive' category of transactions.",
+          "type": "string"
+        },
+        "blockindex": {
+          "description": "The block index containing the transaction. Available for 'send' and 'receive' category of transactions.",
+          "type": "number"
+        },
+        "blocktime": {
+          "description": "The block time in seconds since epoch (1 Jan 1970 GMT).",
+          "type": "number"
+        },
+        "txid": {
+          "description": "The transaction id. Available for 'send' and 'receive' category of transactions.",
+          "type": "string"
+        },
+        "time": {
+          "description": "The transaction time in seconds since epoch (Jan 1 1970 GMT).",
+          "type": "number"
+        },
+        "timereceived": {
+          "description": "The time received in seconds since epoch (Jan 1 1970 GMT). Available for 'send' and 'receive' category of transactions.",
+          "type": "number"
+        },
+        "comment": {
+          "description": "If a comment is associated with the transaction.",
+          "type": "string"
+        },
+        "label": {
+          "description": "A comment for the address/transaction, if any",
+          "type": "string"
+        },
+        "to": {
+          "description": "If a comment to is associated with the transaction.",
+          "type": "string"
+        }
+      }
+    },
+    "TransactionListEntry": {
+      "properties": {
+        "account": {
+          "description": "DEPRECATED. The account name associated with the transaction. It will be \"\" for the default account.",
+          "type": "string"
+        },
+        "address": {
+          "description": "The syscoin address of the transaction. Not present for move transactions (category = move).",
+          "type": "string"
+        },
+        "category": {
+          "description": "The transaction category. 'move' is a local (off blockchain) transaction between accounts, and not associated with an address, transaction id or block. 'send' and 'receive' transactions are associated with an address, transaction id and block details",
+          "type": "string"
+        },
+        "amount": {
+          "description": "The amount in SYS. This is negative for the 'send' category, and for the 'move' category for moves outbound. It is positive for the 'receive' category, and for the 'move' category for inbound funds.",
+          "type": "number"
+        },
+        "vout": {
+          "description": "the vout value",
+          "type": "number"
+        },
+        "fee": {
+          "description": "The amount of the fee in SYS. This is negative and only available for the 'send' category of transactions.",
+          "type": "number"
+        },
+        "confirmations": {
+          "description": "The number of confirmations for the transaction. Available for 'send' and'receive' category of transactions. Negative confirmations indicate the transation conflicts with the block chain",
+          "type": "number"
+        },
+        "trusted": {
+          "description": "Whether we consider the outputs of this unconfirmed transaction safe to spend.",
+          "type": "boolean"
+        },
+        "blockhash": {
+          "description": "The block hash containing the transaction. Available for 'send' and 'receive' category of transactions.",
+          "type": "string"
+        },
+        "blockindex": {
+          "description": "The block index containing the transaction. Available for 'send' and 'receive' category of transactions.",
+          "type": "string"
+        },
+        "blocktime": {
+          "description": "The block time in seconds since epoch (1 Jan 1970 GMT).",
+          "type": "number"
+        },
+        "txid": {
+          "description": "The transaction id. Available for 'send' and 'receive' category of transactions.",
+          "type": "string"
+        },
+        "time": {
+          "description": "The transaction time in seconds since epoch (midnight Jan 1 1970 GMT).",
+          "type": "number"
+        },
+        "timereceived": {
+          "description": "The time received in seconds since epoch (midnight Jan 1 1970 GMT). Available for 'send' and 'receive' category of transactions.",
+          "type": "number"
+        },
+        "comment": {
+          "description": "If a comment is associated with the transaction.",
+          "type": "string"
+        },
+        "label": {
+          "description": "A comment for the address/transaction, if any",
+          "type": "string"
+        },
+        "otheraccount": {
+          "description": "For the 'move' category of transactions, the account the funds came from (for receiving funds, positive amounts), or went to (for sending funds, negative amounts).",
+          "type": "string"
+        }
+      }
+    },
+    "Message": {
+      "properties": {
+        "GUID": {
+          "type": "string"
+        },
+        "time": {
+          "type": "number"
+        },
+        "from": {
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        },
+        "subject": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "OfferAccept": {
+      "properties": {
+        "offer": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "btctxid": {
+          "type": "string"
+        },
+        "alias": {
+          "type": "string"
+        },
+        "buyer": {
+          "type": "string"
+        },
+        "height": {
+          "type": "number"
+        },
+        "quantity": {
+          "type": "number"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "linkofferaccept": {
+          "type": "string"
+        },
+        "offer_discount_percentage": {
+          "type": "number"
+        },
+        "escrowlink": {
+          "type": "string"
+        },
+        "systotal": {
+          "type": "number"
+        },
+        "price": {
+          "type": "number"
+        },
+        "total": {
+          "type": "number"
+        },
+        "ismine": {
+          "type": "boolean"
+        },
+        "status": {
+          "type": "string"
+        },
+        "pay_message": {
+          "type": "string"
+        },
+        "time": {
+          "type": "string"
+        }
+      }
+    },
+    "OfferWhitelistEntry": {
+      "properties": {
+        "alias": {
+          "type": "string"
+        },
+        "expiresin": {
+          "type": "number"
+        },
+        "offer_discount_percentage": {
+          "type": "number"
+        }
+      }
+    },
+    "OfferHistoryEntry": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Offer"
+        }
+      ],
+      "properties": {
+        "offertype": {
+          "type": "string"
+        }
+      }
+    },
+    "Offer": {
+      "discriminator": "offer",
+      "required": [
+        "offer"
+      ],
+      "properties": {
+        "offer": {
+          "type": "string"
+        },
+        "cert": {
+          "type": "string"
+        },
+        "txid": {
+          "type": "string"
+        },
+        "expires_in": {
+          "type": "number"
+        },
+        "expired_block": {
+          "type": "number"
+        },
+        "expired": {
+          "type": "boolean"
+        },
+        "height": {
+          "type": "number"
+        },
+        "category": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "quantity": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "sysprice": {
+          "type": "number"
+        },
+        "price": {
+          "type": "number"
+        },
+        "ismine": {
+          "type": "boolean"
+        },
+        "commission": {
+          "type": "number"
+        },
+        "offerlink": {
+          "type": "boolean"
+        },
+        "offerlink_guid": {
+          "type": "string"
+        },
+        "offerlink_seller": {
+          "type": "string"
+        },
+        "private": {
+          "type": "boolean"
+        },
+        "safesearch": {
+          "type": "string"
+        },
+        "safetylevel": {
+          "type": "number"
+        },
+        "paymentoptions": {
+          "type": "number"
+        },
+        "paymentoptions_display": {
+          "type": "string"
+        },
+        "alias_peg": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "alias\"": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "alias_rating": {
+          "type": "number"
+        },
+        "alias_rating_count": {
+          "type": "number"
+        },
+        "alias_rating_display": {
+          "type": "string"
+        },
+        "geolocation": {
+          "type": "string"
+        },
+        "offers_sold": {
+          "type": "number"
+        },
+        "time": {
+          "type": "string"
+        }
+      }
+    },
+    "AddMultisigAddressRequest": {
+      "required": [
+        "nrequired",
+        "keysobject"
+      ],
+      "properties": {
+        "nrequired": {
+          "description": "The number of required signatures out of the n keys or addresses.",
+          "type": "number"
+        },
+        "keysobject": {
+          "description": "A json array of syscoin addresses or hex-encoded public keys. [ \"address\"  (string) syscoin address or hex-encoded public key ... ]",
+          "type": "string"
+        },
+        "account": {
+          "description": "DEPRECATED. An account to assign the addresses to.",
+          "type": "string"
+        }
+      }
+    },
+    "AliasNewRequest": {
+      "required": [
+        "aliasname",
+        "aliaspeg",
+        "publicvalue"
+      ],
+      "properties": {
+        "aliaspeg": {
+          "description": "Alias peg which will be used for conversion operations on all Syscoin services related to this Alias",
+          "type": "string"
+        },
+        "aliasname": {
+          "description": "Alias name",
+          "type": "string"
+        },
+        "publicvalue": {
+          "description": "Alias public profile data, 1023 chars max.",
+          "type": "string"
+        },
+        "privatevalue": {
+          "description": "Alias private profile data, 1023 chars max. Will be private and readable by owner only.",
+          "type": "string"
+        },
+        "password": {
+          "description": "Used to generate your public/private key that controls this alias. Warning: Calling this function over a public network can lead to someone reading your password in plain text.",
+          "type": "string"
+        },
+        "safesearch": {
+          "description": "set to No if this alias should only show in the search when safe search is not selected. Defaults to Yes (alias shows with or without safe search selected in search lists).",
+          "type": "string"
+        },
+        "accepttransfers": {
+          "description": "set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.",
+          "type": "string"
+        },
+        "expire": {
+          "description": "Time in seconds. Future time when to expire alias. It is exponentially more expensive per year, calculation is FEERATE*(1.5^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias. Defaults to 1 year.",
+          "type": "string"
+        },
+        "nrequired": {
+          "description": "For multisig aliases only. The number of required signatures out of the n aliases for a multisig alias update.",
+          "type": "number"
+        },
+        "aliases": {
+          "description": "For multisig aliases only. A json array of aliases which are used to sign on an update to this alias. [ \"alias\"    Existing syscoin alias name ,... ]",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "AliasUpdateRequest": {
+      "required": [
+        "aliaspeg",
+        "aliasname",
+        "publicvalue"
+      ],
+      "properties": {
+        "aliaspeg": {
+          "description": "Alias peg which will be used for conversion operations on all Syscoin services related to this Alias",
+          "type": "string"
+        },
+        "aliasname": {
+          "description": "Alias name",
+          "type": "string"
+        },
+        "publicvalue": {
+          "description": "Alias public profile data, 1023 chars max.",
+          "type": "string"
+        },
+        "privatevalue": {
+          "description": "Alias private profile data, 1023 chars max. Will be private and readable by owner only.",
+          "type": "string"
+        },
+        "password": {
+          "description": "Used to generate your public/private key that controls this alias. Warning: Calling this function over a public network can lead to someone reading your password in plain text.",
+          "type": "string"
+        },
+        "safesearch": {
+          "description": "set to No if this alias should only show in the search when safe search is not selected. Defaults to Yes (alias shows with or without safe search selected in search lists).",
+          "type": "string"
+        },
+        "toalias_pubkey": {
+          "description": "receiver syscoin alias pub key, if transferring alias.",
+          "type": "string"
+        },
+        "accepttransfers": {
+          "description": "set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.",
+          "type": "string"
+        },
+        "expire": {
+          "description": "Time in seconds. Future time when to expire alias. It is exponentially more expensive per year, calculation is FEERATE*(1.5^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias. Defaults to 1 year.",
+          "type": "string"
+        },
+        "nrequired": {
+          "description": "For multisig aliases only. The number of required signatures out of the n aliases for a multisig alias update.",
+          "type": "number"
+        },
+        "aliases": {
+          "description": "For multisig aliases only. A json array of aliases which are used to sign on an update to this alias. [ \"alias\"    Existing syscoin alias name ,... ]",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "CertNewRequest": {
+      "required": [
+        "alias",
+        "title",
+        "private",
+        "public"
+      ],
+      "properties": {
+        "alias": {
+          "description": "An alias you own.",
+          "type": "string"
+        },
+        "title": {
+          "description": "title, 255 bytes max.",
+          "type": "string"
+        },
+        "private": {
+          "description": "private data, 1024 characters max.",
+          "type": "string"
+        },
+        "public": {
+          "description": "public data, 1024 characters max.",
+          "type": "string"
+        },
+        "safesearch": {
+          "description": "set to No if this cert should only show in the search when safe search is not selected. Defaults to Yes (cert shows with or without safe search selected in search lists).",
+          "type": "string"
+        },
+        "category": {
+          "description": "category, 25 characters max. Defaults to certificates;",
+          "type": "string"
+        }
+      }
+    },
+    "CertTransferRequest": {
+      "required": [
+        "certkey",
+        "alias"
+      ],
+      "properties": {
+        "certkey": {
+          "description": "Certificate guidkey.",
+          "type": "string"
+        },
+        "alias": {
+          "description": "Alias to transfer this certificate to.",
+          "type": "string"
+        },
+        "viewonly": {
+          "description": "Transfer the certificate as view-only. Recipient cannot edit, transfer or sell this certificate in the future.",
+          "type": "boolean"
+        }
+      }
+    },
+    "CertUpdateRequest": {
+      "required": [
+        "guid",
+        "alias",
+        "title",
+        "private",
+        "public"
+      ],
+      "properties": {
+        "guid": {
+          "description": "certificate guidkey.",
+          "type": "string"
+        },
+        "alias": {
+          "description": "an alias you own to associate with this certificate.",
+          "type": "string"
+        },
+        "title": {
+          "description": "certificate title, 255 bytes max.",
+          "type": "string"
+        },
+        "private": {
+          "description": "Private certificate data, 1024 characters max.",
+          "type": "string"
+        },
+        "public": {
+          "description": "Public certificate data, 1024 characters max.",
+          "type": "string"
+        },
+        "safesearch": {
+          "description": "set to No if this cert should only show in the search when safe search is not selected. Defaults to Yes (cert shows with or without safe search selected in search lists).",
+          "type": "string"
+        },
+        "category": {
+          "description": "category, 256 characters max. Defaults to certificates",
+          "type": "string"
+        }
+      }
+    },
+    "EscrowClaimRefundRequest": {
+      "required": [
+        "guid"
+      ],
+      "properties": {
+        "guid": {
+          "type": "string"
+        },
+        "rawtx": {
+          "type": "string"
+        }
+      }
+    },
+    "EscrowClaimReleaseRequest": {
+      "required": [
+        "guid"
+      ],
+      "properties": {
+        "guid": {
+          "type": "string"
+        },
+        "rawtx": {
+          "type": "string"
+        }
+      }
+    },
+    "EscrowCompleteRefundRequest": {
+      "required": [
+        "escrowguid",
+        "rawtx"
+      ],
+      "properties": {
+        "escrowguid": {
+          "type": "string"
+        },
+        "rawtx": {
+          "type": "string"
+        }
+      }
+    },
+    "EscrowCompleteReleaseRequest": {
+      "required": [
+        "escrowguid",
+        "rawtx"
+      ],
+      "properties": {
+        "escrowguid": {
+          "type": "string"
+        },
+        "rawtx": {
+          "type": "string"
+        }
+      }
+    },
+    "EscrowNewRequest": {
+      "required": [
+        "alias",
+        "offer",
+        "quantity",
+        "message",
+        "arbiter"
+      ],
+      "properties": {
+        "alias": {
+          "description": "An alias you own.",
+          "type": "string"
+        },
+        "offer": {
+          "description": "GUID of offer that this escrow is managing.",
+          "type": "string"
+        },
+        "quantity": {
+          "description": "Quantity of items to buy of offer.",
+          "type": "number"
+        },
+        "message": {
+          "description": "Delivery details to seller. 256 characters max.",
+          "type": "string"
+        },
+        "arbiter": {
+          "description": "Alias of Arbiter.",
+          "type": "string"
+        },
+        "exttx": {
+          "description": "External transaction ID if paid with another blockchain.",
+          "type": "string"
+        },
+        "paymentoption": {
+          "description": "If extTx is defined, specify a valid payment option used to make payment. Default is SYS.",
+          "type": "string"
+        },
+        "redeemscript": {
+          "description": "If paid in external chain, enter redeemScript that generateescrowmultisig returns",
+          "type": "string"
+        },
+        "height": {
+          "description": "If paid in extneral chain, enter height that generateescrowmultisig returns",
+          "type": "number"
+        }
+      }
+    },
+    "AliasPayRequest": {
+      "required": [
+        "alias",
+        "amounts"
+      ],
+      "properties": {
+        "alias": {
+          "description": "Alias you own to pay from",
+          "type": "string"
+        },
+        "amounts": {
+          "description": "A json object with aliases and amounts { \"address\":amount   (numeric or string) The syscoin alias is the key, the numeric amount (can be string) in SYS is the value ,... }",
+          "type": "string"
+        },
+        "minconf": {
+          "description": "Only use the balance confirmed at least this many times.",
+          "type": "number"
+        },
+        "comment": {
+          "description": "A comment",
+          "type": "string"
+        }
+      }
+    },
+    "GetNewAddressRequest": {
+      "properties": {
+        "account": {
+          "description": "DEPRECATED. The account name for the address to be linked to. If not provided, the default account \"\" is used. It can also be set to the empty string \"\" to represent the default account. The account does not need to exist, it will be created if there is no account by the given name.",
+          "type": "string"
+        }
+      }
+    },
+    "ImportAddressRequest": {
+      "required": [
+        "script"
+      ],
+      "properties": {
+        "script": {
+          "description": "The hex-encoded script (or address)",
+          "type": "string"
+        },
+        "label": {
+          "description": "An optional label",
+          "type": "string"
+        },
+        "rescan": {
+          "description": "Rescan the wallet for transactions",
+          "type": "boolean"
+        },
+        "p2sh": {
+          "description": "Add the P2SH version of the script as well",
+          "type": "boolean"
+        }
+      }
+    },
+    "ImportPrivKeyRequest": {
+      "required": [
+        "syscoinprivkey"
+      ],
+      "properties": {
+        "syscoinprivkey": {
+          "description": "The private key (see dumpprivkey)",
+          "type": "string"
+        },
+        "label": {
+          "description": "An optional label",
+          "type": "string"
+        },
+        "rescan": {
+          "description": "Rescan the wallet for transactions",
+          "type": "boolean"
+        }
+      }
+    },
+    "ImportPubKeyRequest": {
+      "required": [
+        "pubkey"
+      ],
+      "properties": {
+        "pubkey": {
+          "description": "The hex-encoded public key",
+          "type": "string"
+        },
+        "label": {
+          "description": "An optional label",
+          "type": "string"
+        },
+        "rescan": {
+          "description": "Rescan the wallet for transactions",
+          "type": "boolean"
+        }
+      }
+    },
+    "ImportWalletRequest": {
+      "required": [
+        "filename"
+      ],
+      "properties": {
+        "filename": {
+          "description": "The wallet file",
+          "type": "string"
+        }
+      }
+    },
+    "MessageNewRequest": {
+      "required": [
+        "subject",
+        "message",
+        "fromalias",
+        "toalias"
+      ],
+      "properties": {
+        "subject": {
+          "description": "Subject of message.",
+          "type": "string"
+        },
+        "message": {
+          "description": "Message to send to alias.",
+          "type": "string"
+        },
+        "fromalias": {
+          "description": "Alias to send message from.",
+          "type": "string"
+        },
+        "toalias": {
+          "description": "Alias to send message to.",
+          "type": "string"
+        },
+        "hex": {
+          "description": "Is data an hex based message(only To-Message will be displayed). No by default.",
+          "type": "string"
+        }
+      }
+    },
+    "MoveRequest": {
+      "required": [
+        "fromaccount",
+        "toaccount",
+        "amount"
+      ],
+      "properties": {
+        "fromaccount": {
+          "description": "The name of the account to move funds from. May be the default account using \"\".",
+          "type": "string"
+        },
+        "toaccount": {
+          "description": "The name of the account to move funds to. May be the default account using \"\".",
+          "type": "string"
+        },
+        "amount": {
+          "description": "Quantity of SYS to move between accounts.",
+          "type": "number"
+        },
+        "minconf": {
+          "description": "Only use funds with at least this many confirmations.",
+          "type": "string"
+        },
+        "comment": {
+          "description": "An optional comment, stored in the wallet only.",
+          "type": "string"
+        }
+      }
+    },
+    "OfferAcceptRequest": {
+      "required": [
+        "alias",
+        "guid"
+      ],
+      "properties": {
+        "alias": {
+          "description": "An alias of the buyer.",
+          "type": "string"
+        },
+        "guid": {
+          "description": "guidkey from offer.",
+          "type": "string"
+        },
+        "quantity": {
+          "description": "quantity to buy. Defaults to 1.",
+          "type": "number"
+        },
+        "message": {
+          "description": "payment message to seller, 1KB max.",
+          "type": "string"
+        },
+        "exttxid": {
+          "description": "If paid in another coin, enter the Transaction ID here. Default is empty.",
+          "type": "string"
+        },
+        "paymentoption": {
+          "description": "If Ext TxId is defined, specify a valid payment option used to make payment. Default is SYS.",
+          "type": "string"
+        }
+      }
+    },
+    "OfferAddWhitelistRequest": {
+      "required": [
+        "offerguid",
+        "aliasguid"
+      ],
+      "properties": {
+        "offerguid": {
+          "description": "offer guid that you are adding to",
+          "type": "string"
+        },
+        "aliasguid": {
+          "description": "alias guid representing an alias that you want to add to the affiliate list",
+          "type": "string"
+        },
+        "discountPercentage": {
+          "description": "Percentage of discount given to affiliate for this offer. 0 to 99.",
+          "type": "number"
+        }
+      }
+    },
+    "OfferClearWhitelistRequest": {
+      "required": [
+        "offerguid"
+      ],
+      "properties": {
+        "offerguid": {
+          "type": "string"
+        }
+      }
+    },
+    "OfferLinkRequest": {
+      "required": [
+        "alias",
+        "guid",
+        "comission"
+      ],
+      "properties": {
+        "alias": {
+          "description": "An alias you own.",
+          "type": "string"
+        },
+        "guid": {
+          "description": "offer guid that you are linking to",
+          "type": "string"
+        },
+        "comission": {
+          "description": "percentage of profit desired over original offer price, > 0, ie 5 for 5%",
+          "type": "string"
+        },
+        "description": {
+          "description": "description, 1 KB max. Defaults to original description. Leave as '' to use default.",
+          "type": "string"
+        }
+      }
+    },
+    "OfferNewRequest": {
+      "required": [
+        "alias",
+        "category",
+        "title",
+        "quantity",
+        "price",
+        "description",
+        "currency"
+      ],
+      "properties": {
+        "alias": {
+          "description": "An alias you own.",
+          "type": "string"
+        },
+        "category": {
+          "description": "category, 255 chars max.",
+          "type": "string"
+        },
+        "title": {
+          "description": "title, 255 chars max.",
+          "type": "string"
+        },
+        "quantity": {
+          "description": "quantity, > 0 or -1 for infinite",
+          "type": "number"
+        },
+        "price": {
+          "description": "price in <currency>, > 0",
+          "type": "number"
+        },
+        "description": {
+          "description": "description, 1 KB max.",
+          "type": "string"
+        },
+        "currency": {
+          "description": "The currency code that you want your offer to be in ie USD.",
+          "type": "string"
+        },
+        "certguid": {
+          "description": "Set this to the guid of a certificate you wish to sell",
+          "type": "string"
+        },
+        "paymentoptions": {
+          "description": "'SYS' to accept SYS only, 'BTC' for BTC only, 'ZEC' for zcash only, or a |-delimited string to accept multiple currencies (e.g. 'BTC|SYS' to accept BTC or SYS). Leave empty for default. Defaults to 'SYS'.",
+          "type": "string"
+        },
+        "geolocation": {
+          "description": "set to your geolocation. Defaults to empty.",
+          "type": "string"
+        },
+        "safesearch": {
+          "description": "set to No if this offer should only show in the search when safe search is not selected. Defaults to Yes (offer shows with or without safe search selected in search lists).",
+          "type": "string"
+        },
+        "private": {
+          "description": "set to 1 if this offer should be private not be searchable. Defaults to 0.",
+          "type": "boolean"
+        }
+      }
+    },
+    "OfferRemoveWhitelistRequest": {
+      "required": [
+        "offerguid",
+        "aliasguid"
+      ],
+      "properties": {
+        "offerguid": {
+          "type": "string"
+        },
+        "aliasguid": {
+          "type": "string"
+        }
+      }
+    },
+    "OfferUpdateRequest": {
+      "required": [
+        "alias",
+        "guid",
+        "category",
+        "title",
+        "quantity",
+        "price"
+      ],
+      "properties": {
+        "alias": {
+          "description": "An alias you own.",
+          "type": "string"
+        },
+        "guid": {
+          "description": "GUID of offer to update.",
+          "type": "string"
+        },
+        "category": {
+          "description": "category, 255 chars max.",
+          "type": "string"
+        },
+        "title": {
+          "description": "title, 255 chars max.",
+          "type": "string"
+        },
+        "quantity": {
+          "description": "quantity, > 0 or -1 for infinite",
+          "type": "number"
+        },
+        "price": {
+          "description": "price in <currency>, > 0",
+          "type": "number"
+        },
+        "description": {
+          "description": "description, 1 KB max.",
+          "type": "string"
+        },
+        "currency": {
+          "description": "The currency code that you want your offer to be in ie USD.",
+          "type": "string"
+        },
+        "private": {
+          "description": "set to 1 if this offer should be private not be searchable. Defaults to 0.",
+          "type": "boolean"
+        },
+        "certguid": {
+          "description": "Set this to the guid of a certificate you wish to sell",
+          "type": "string"
+        },
+        "geolocation": {
+          "description": "set to your geolocation. Defaults to empty.",
+          "type": "string"
+        },
+        "safesearch": {
+          "description": "set to No if this offer should only show in the search when safe search is not selected. Defaults to Yes (offer shows with or without safe search selected in search lists).",
+          "type": "string"
+        },
+        "comission": {
+          "description": "For resold offers.",
+          "type": "number"
+        },
+        "paymentoptions": {
+          "description": "'SYS' to accept SYS only, 'BTC' for BTC only, 'ZEC' for zcash only, or a |-delimited string to accept multiple currencies (e.g. 'BTC|SYS' to accept BTC or SYS). Leave empty for default. Defaults to 'SYS'.",
+          "type": "string"
+        }
+      }
+    },
+    "SendFromRequest": {
+      "required": [
+        "fromaccount",
+        "tosyscoinaddress",
+        "amount"
+      ],
+      "properties": {
+        "fromaccount": {
+          "description": "The name of the account to send funds from. May be the default account using \"\".",
+          "type": "string"
+        },
+        "tosyscoinaddress": {
+          "description": "The syscoin address to send funds to.",
+          "type": "string"
+        },
+        "amount": {
+          "description": "he amount in SYS (transaction fee is added on top).",
+          "type": "number"
+        },
+        "minconf": {
+          "description": "Only use funds with at least this many confirmations.",
+          "type": "number"
+        },
+        "comment": {
+          "description": "A comment used to store what the transaction is for. This is not part of the transaction, just kept in your wallet.",
+          "type": "string"
+        },
+        "commentto": {
+          "description": "An optional comment to store the name of the person or organization to which you're sending the transaction. This is not part of the transaction, it is just kept in your wallet.",
+          "type": "string"
+        }
+      }
+    },
+    "SendManyRequest": {
+      "required": [
+        "fromaccount",
+        "amounts"
+      ],
+      "properties": {
+        "fromaccount": {
+          "description": "DEPRECATED. The account to send the funds from. Should be \"\" for the default account",
+          "type": "string"
+        },
+        "amounts": {
+          "description": "A json object with addresses and amounts { \"address\":amount   (numeric) The syscoin address is the key, the numeric amount in SYS is the value,...}",
+          "type": "string"
+        },
+        "minconf": {
+          "description": "Only use the balance confirmed at least this many times.",
+          "type": "number"
+        },
+        "comment": {
+          "description": "A comment used to store what the transaction is for. This is not part of the transaction, just kept in your wallet.",
+          "type": "string"
+        },
+        "subtractfeefromamount": {
+          "description": "A json array with addresses. The fee will be equally deducted from the amount of each selected address. Those recipients will receive less syscoins than you enter in their corresponding amount field. If no addresses are specified here, the sender pays the fee. [ \"address\" Subtract fee from this address,... ]",
+          "type": "string"
+        }
+      }
+    },
+    "SendToAddressRequest": {
+      "required": [
+        "syscoinaddress",
+        "amount"
+      ],
+      "properties": {
+        "syscoinaddress": {
+          "description": "The syscoin address to send to.",
+          "type": "string"
+        },
+        "amount": {
+          "description": "The amount in SYS to send. eg 0.1",
+          "type": "number"
+        },
+        "comment": {
+          "description": "A comment used to store what the transaction is for. This is not part of the transaction, just kept in your wallet.",
+          "type": "string"
+        },
+        "commentto": {
+          "description": "An optional comment to store the name of the person or organization to which you're sending the transaction. This is not part of the transaction, it is just kept in your wallet.",
+          "type": "string"
+        },
+        "subtractfeefromamount": {
+          "description": "The fee will be deducted from the amount being sent. The recipient will receive less syscoins than you enter in the amount field.",
+          "type": "string"
+        }
+      }
+    },
+    "SignMessageRequest": {
+      "required": [
+        "syscoinaddress",
+        "message"
+      ],
+      "properties": {
+        "syscoinaddress": {
+          "description": "The syscoin address to use for the private key.",
+          "type": "string"
+        },
+        "message": {
+          "description": "The message to create a signature of.",
+          "type": "string"
+        }
+      }
+    },
+    "WalletPassphraseRequest": {
+      "required": [
+        "passphrase",
+        "timeout"
+      ],
+      "properties": {
+        "passphrase": {
+          "description": "The wallet passphrase",
+          "type": "string"
+        },
+        "timeout": {
+          "description": "The time to keep the decryption key in seconds.",
+          "type": "number"
+        }
+      }
+    },
+    "WalletPassphraseChangeRequest": {
+      "required": [
+        "oldpassphrase",
+        "newpassphrase"
+      ],
+      "properties": {
+        "oldpassphrase": {
+          "description": "The current passphrase",
+          "type": "string"
+        },
+        "newpassphrase": {
+          "description": "The new passphrase",
+          "type": "string"
+        }
+      }
+    },
+    "MultiSignatureInfo": {
+      "required": [
+        "reqsigs",
+        "reqsigners",
+        "redeemscript"
+      ],
+      "properties": {
+        "reqsigs": {
+          "type": "number"
+        },
+        "reqsigners": {
+          "type": "string"
+        },
+        "redeemscript": {
+          "type": "string"
+        }
+      }
+    },
+    "EscrowFeedbackRequest": {
+      "required": [
+        "escrowguid",
+        "userrole",
+        "feedbackprimary",
+        "ratingprimary",
+        "feedbacksecondary",
+        "ratingsecondary"
+      ],
+      "properties": {
+        "escrowguid": {
+          "type": "string"
+        },
+        "userrole": {
+          "type": "string"
+        },
+        "feedbackprimary": {
+          "type": "string"
+        },
+        "ratingprimary": {
+          "type": "number"
+        },
+        "feedbacksecondary": {
+          "type": "string"
+        },
+        "ratingsecondary": {
+          "type": "number"
+        }
+      }
+    },
+    "GenerateEscrowMultisigRequest": {
+      "required": [
+        "buyer",
+        "offerguid",
+        "quantity",
+        "arbiter"
+      ],
+      "properties": {
+        "buyer": {
+          "type": "string"
+        },
+        "offerguid": {
+          "type": "string"
+        },
+        "quantity": {
+          "type": "number"
+        },
+        "arbiter": {
+          "type": "string"
+        },
+        "paymentoption": {
+          "type": "string"
+        }
+      }
+    },
+    "LoginResponse": {
+      "required": [
+        "success",
+        "message",
+        "token"
+      ],
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
