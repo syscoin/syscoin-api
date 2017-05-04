@@ -18,9 +18,9 @@ function getArgsArr(fullArgList, requestArgs, requestMethod, callback) {
   if(!requestMethod || requestMethod == "GET") {
     for(var i = 0; i < fullArgList.length; i ++) {
       argObj = fullArgList[i];
-      if(notNullOrUndefined(requestArgs[argObj.prop].value)) {
+      if(notNullOrUndefined(requestArgs) && notNullOrUndefined(requestArgs[argObj.prop]) && notNullOrUndefined(requestArgs[argObj.prop].value)) {
         arr.push(requestArgs[argObj.prop].value);
-      }else if(argObj.defaultValue) {
+    } else if (argObj && argObj.defaultValue) {
         arr.push(argObj.defaultValue);
       }else{
         console.error("ERROR: No value defined in request for " + argObj.prop + " and no defaultValue specified. Is this a required param?");
@@ -29,9 +29,9 @@ function getArgsArr(fullArgList, requestArgs, requestMethod, callback) {
   }else if(requestMethod == "POST") {
     for(var i = 0; i < fullArgList.length; i ++) {
       argObj = fullArgList[i];
-      if(notNullOrUndefined(requestArgs.request.value[argObj.prop])) {
+      if(notNullOrUndefined(requestArgs) && notNullOrUndefined(requestArgs.request) && notNullOrUndefined(requestArgs.request.value) && notNullOrUndefined(requestArgs.request.value[argObj.prop])) {
         arr.push(requestArgs.request.value[argObj.prop]);
-      }else if(argObj.defaultValue) {
+    } else if (argObj && argObj.defaultValue) {
         arr.push(argObj.defaultValue);
       }else{
         console.error("ERROR: No value defined in request for " + argObj.prop + " and no defaultValue specified. Is this a required param?");
