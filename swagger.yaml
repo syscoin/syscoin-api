@@ -281,7 +281,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/definitions/AliasListEntry"
+              $ref: "#/definitions/Alias"
         default:
           description: Error
           schema:
@@ -358,7 +358,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/definitions/AliasListEntry"
+              $ref: "#/definitions/Alias"
         default:
           description: Error
           schema:
@@ -461,7 +461,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/definitions/CertListEntry"
+              $ref: "#/definitions/Cert"
         default:
           description: Error
           schema:
@@ -547,7 +547,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/definitions/CertListEntry"
+              $ref: "#/definitions/Cert"
         default:
           description: Error
           schema:
@@ -2941,36 +2941,11 @@ definitions:
         type: string
       multisiginfo:
         $ref: "#/definitions/MultiSignatureInfo"
-  AliasListEntry:
-    allOf:
-    - $ref: "#/definitions/Alias"
   AliasHistoryEntry:
     allOf:
     - $ref: "#/definitions/Alias"
     properties:
       type:
-        type: string
-  CertListEntry:
-    properties:
-      cert:
-        type: string
-      title:
-        type: string
-      data:
-        type: string
-      private:
-        type: boolean #returns string Yes/No
-      expires_in:
-        type: number
-      expires_on:
-        type: number
-      expired:
-        type: boolean #returns 0/1
-      address:
-        type: string
-      alias:
-        type: string
-      time:
         type: string
   Cert:
     properties:
@@ -2982,47 +2957,35 @@ definitions:
         type: number #returns string wrapped num
       title:
         type: string
+      time:
+        type: string
       data:
         type: string
-      private:
-        type: boolean #returns string Yes/No
+      pubdata:
+        type: string
+      category:
+        type: string
+      safesearch:
+        type: string #return string Yes/No
+      safetylevel:
+        type: number
       ismine:
-        type: boolean #returns string wrapped boolean
-      address:
-        type: string
+        type: string #returns string wrapped boolean
       alias:
         type: string
+      transferviewonly:
+        type: string #returns string wrapped boolean
       expires_in:
         type: number
       expires_on:
         type: number
       expired:
         type: boolean #returns 0/1
-      time:
-        type: string
   CertHistoryEntry:
+    allOf:
+      - $ref: "#/definitions/Cert"
     properties:
-      cert:
-        type: string
       certtype:
-        type: string
-      private:
-        type: boolean #returns string Yes/No
-      data:
-        type: string
-      txid:
-        type: string
-      address:
-        type: string
-      alias:
-        type: string
-      expires_in:
-        type: number
-      expires_on:
-        type: number
-      expired:
-        type: boolean #returns 0/1
-      time:
         type: string
   EscrowHistoryEntry:
     properties:
