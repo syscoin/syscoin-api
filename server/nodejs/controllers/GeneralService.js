@@ -8,7 +8,12 @@ exports.addmultisigaddress = function(args, res, next) {
    * parameters expected in the args:
    * request (AddMultisigAddressRequest)
    **/
-  var argList = ["nrequired", "keysobject", "account"];
+  var argList = [
+    { prop: "nrequired" },
+    { prop: "keysobject", defaultValue: "" },
+    { prop: "account", defaultValue: "" }
+  ];
+
   args.request.value.nrequired = varUtils.correctTypes(args.request.value.nrequired, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
@@ -32,7 +37,10 @@ exports.dumpprivkey = function(args, res, next) {
    * parameters expected in the args:
    * address (String)
    **/
-  var argList = ["address"];
+  var argList = [
+    { prop: "address" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -54,7 +62,10 @@ exports.dumpwallet = function(args, res, next) {
    * parameters expected in the args:
    * filename (String)
    **/
-  var argList = ["filename"];
+  var argList = [
+    { prop: "filename" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -76,7 +87,10 @@ exports.getaccount = function(args, res, next) {
    * parameters expected in the args:
    * syscoinaddress (String)
    **/
-  var argList = ["syscoinaddress"];
+  var argList = [
+    { prop: "syscoinaddress" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -98,7 +112,10 @@ exports.getaccountaddress = function(args, res, next) {
    * parameters expected in the args:
    * account (String)
    **/
-  var argList = ["account"];
+  var argList = [
+    { prop: "account" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -120,7 +137,10 @@ exports.getaddressesbyaccount = function(args, res, next) {
    * parameters expected in the args:
    * account (String)
    **/
-  var argList = ["account"];
+  var argList = [
+    { prop: "account" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -144,7 +164,12 @@ exports.getbalance = function(args, res, next) {
    * minconf (BigDecimal)
    * includeWatchonly (Boolean)
    **/
-  var argList = ["account", "minconf", "includeWatchonly"];
+  var argList = [
+    { prop: "account", defaultValue: "*" },
+    { prop: "minconf", defaultValue: 0 },
+    { prop: "includeWatchonly", defaultValue: false },
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -202,7 +227,10 @@ exports.getnewaddress = function(args, res, next) {
    * parameters expected in the args:
    * request (GetNewAddressRequest)
    **/
-  var argList = ["account"];
+  var argList = [
+    { prop: "account" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -243,7 +271,11 @@ exports.getreceivedbyaccount = function(args, res, next) {
    * account (String)
    * minconf (BigDecimal)
    **/
-  var argList = ["account", "minconf"];
+  var argList = [
+    { prop: "account" },
+    { prop: "minconf", defaultValue: 0 }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -266,7 +298,11 @@ exports.getreceivedbyaddress = function(args, res, next) {
    * syscoinaddress (String)
    * minconf (BigDecimal)
    **/
-  var argList = ["syscoinaddress", "minconf"];
+  var argList = [
+    { prop: "syscoinaddress" },
+    { prop: "minconf", defaultValue: 0 }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -289,7 +325,11 @@ exports.gettransaction = function(args, res, next) {
    * txid (String)
    * includeWatchonly (Boolean)
    **/
-  var argList = ["txid", "includeWatchonly"];
+  var argList = [
+    { prop: "txid" },
+    { prop: "includeWatchonly", defaultValue: false },
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -329,7 +369,10 @@ exports.getv2address = function(args, res, next) {
    * parameters expected in the args:
    * account (String)
    **/
-  var argList = ["account"];
+  var argList = [
+    { prop: "account" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -369,7 +412,10 @@ exports.getzaddress = function(args, res, next) {
    * parameters expected in the args:
    * address (String)
    **/
-  var argList = ["address"];
+  var argList = [
+    { prop: "address" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -392,6 +438,13 @@ exports.importaddress = function(args, res, next) {
    * request (ImportAddressRequest)
    **/
   var argList = ["script", "label", "rescan", "p2sh"];
+  var argList = [
+    { prop: "script" },
+    { prop: "label", defaultValue: "" },
+    { prop: "rescan", defaultValue: true },
+    { prop: "p2sh", defaultValue: false }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -414,6 +467,12 @@ exports.importprivkey = function(args, res, next) {
    * request (ImportPrivKeyRequest)
    **/
   var argList = ["syscoinprivkey", "label", "rescan"];
+  var argList = [
+    { prop: "syscoinprivkey" },
+    { prop: "label", defaultValue: "" },
+    { prop: "rescan", defaultValue: true }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -436,7 +495,11 @@ exports.importprunedfunds = function(args, res, next) {
    * rawtransaction (String)
    * txoutproof (String)
    **/
-  var argList = ["rawtransaction", "txoutproof"];
+  var argList = [
+    { prop: "rawtransaction" },
+    { prop: "txoutproof" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -458,7 +521,12 @@ exports.importpubkey = function(args, res, next) {
    * parameters expected in the args:
    * request (ImportPubKeyRequest)
    **/
-  var argList = ["pubkey", "label", "rescan"];
+  var argList = [
+    { prop: "pubkey" },
+    { prop: "label", defaultValue: "" },
+    { prop: "rescan", defaultValue: true }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -480,7 +548,10 @@ exports.importwallet = function(args, res, next) {
    * parameters expected in the args:
    * request (ImportWalletRequest)
    **/
-  var argList = ["filename"];
+  var argList = [
+    { prop: "filename" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -503,7 +574,11 @@ exports.listaccounts = function(args, res, next) {
    * minconf (BigDecimal)
    * includeWatchonly (Boolean)
    **/
-  var argList = ["minconf", "includeWatchonly"];
+  var argList = [
+    { prop: "minconf", defaultValue: 0 },
+    { prop: "includeWatchonly", defaultValue: false }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -545,7 +620,12 @@ exports.listreceivedbyaccount = function(args, res, next) {
    * includeempty (Boolean)
    * includeWatchonly (Boolean)
    **/
-  var argList = ["minconf", "includeempty", "includeWatchonly"];
+  var argList = [
+    { prop: "minconf", defaultValue: 0 },
+    { prop: "includeempty", defaultValue: false },
+    { prop: "includeWatchonly", defaultValue: false }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -569,7 +649,12 @@ exports.listreceivedbyaddress = function(args, res, next) {
    * includeempty (Boolean)
    * includeWatchonly (Boolean)
    **/
-  var argList = ["minconf", "includeempty", "includeWatchonly"];
+  var argList = [
+    { prop: "minconf", defaultValue: 0 },
+    { prop: "includeempty", defaultValue: false },
+    { prop: "includeWatchonly", defaultValue: false }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -593,7 +678,12 @@ exports.listsinceblock = function(args, res, next) {
    * includeWatchonly (Boolean)
    * targetConfirmations (BigDecimal)
    **/
-  var argList = ["blockhash", "includeWatchonly", "targetConfirmations"];
+  var argList = [
+    { prop: "blockhash", defaultValue: "" },
+    { prop: "targetConfirmations", defaultValue: 1 },
+    { prop: "includeWatchonly", defaultValue: false }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -618,7 +708,13 @@ exports.listtransactions = function(args, res, next) {
    * from (BigDecimal)
    * includeWatchonly (Boolean)
    **/
-  var argList = ["account", "count", "from", "includeWatchonly"];
+  var argList = [
+    { prop: "account", defaultValue: "*" },
+    { prop: "count", defaultValue: 10 },
+    { prop: "from", defaultValue: 0 },
+    { prop: "includeWatchonly", defaultValue: false }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -641,6 +737,14 @@ exports.move = function(args, res, next) {
    * request (MoveRequest)
    **/
   var argList = ["fromaccount", "toaccount", "amount", "minconf", "comment"];
+  var argList = [
+    { prop: "fromaccount" },
+    { prop: "toaccount" },
+    { prop: "amount" },
+    { prop: "minconf", defaultValue: 1 },
+    { prop: "comment", defaultValue: "" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -662,7 +766,10 @@ exports.removeprunedfunds = function(args, res, next) {
    * parameters expected in the args:
    * txid (String)
    **/
-  var argList = ["txid"];
+  var argList = [
+    { prop: "txid" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -684,7 +791,15 @@ exports.sendfrom = function(args, res, next) {
    * parameters expected in the args:
    * request (SendFromRequest)
    **/
-  var argList = ["fromaccount", "tosyscoinaddress", "amount", "minconf", "comment", "commentto"];
+  var argList = [
+    { prop: "fromaccount" },
+    { prop: "tosyscoinaddress" },
+    { prop: "amount" },
+    { prop: "minconf", defaultValue: 1 },
+    { prop: "comment", defaultValue: "" },
+    { prop: "commentto", defaultValue: ""}
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -706,7 +821,14 @@ exports.sendmany = function(args, res, next) {
    * parameters expected in the args:
    * request (SendManyRequest)
    **/
-  var argList = ["fromaccount", "amounts", "minconf", "comment", "subtractfeefromamount"];
+  var argList = [
+    { prop: "fromaccount" },
+    { prop: "amounts" },
+    { prop: "minconf", defaultValue: 1 },
+    { prop: "comment", defaultValue: "" },
+    { prop: "subtractfeefromamount", defaultValue: [] }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -728,7 +850,14 @@ exports.sendtoaddress = function(args, res, next) {
    * parameters expected in the args:
    * request (SendToAddressRequest)
    **/
-  var argList = ["syscoinaddress", "amount", "comment", "commentto", "subtractfeefromamount"];
+  var argList = [
+    { prop: "syscoinaddress" },
+    { prop: "amount" },
+    { prop: "comment", defaultValue: "" },
+    { prop: "commentto", defaultValue: "" },
+    { prop: "subtractfeefromamount", defaultValue: [] }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -750,7 +879,11 @@ exports.signmessage = function(args, res, next) {
    * parameters expected in the args:
    * request (SignMessageRequest)
    **/
-  var argList = ["syscoinaddress", "message"];
+  var argList = [
+    { prop: "syscoinaddress" },
+    { prop: "message" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -773,7 +906,11 @@ exports.syscoindecoderawtransaction = function(args, res, next) {
    * alias (String)
    * hexstring (String)
    **/
-  var argList = ["alias", "hexstring"];
+  var argList = [
+    { prop: "alias" },
+    { prop: "hexstring" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -795,7 +932,10 @@ exports.syscoinsignrawtransaction = function(args, res, next) {
    * parameters expected in the args:
    * hexstring (String)
    **/
-  var argList = ["hexstring"];
+  var argList = [
+    { prop: "hexstring" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -817,7 +957,10 @@ exports.validateaddress = function(args, res, next) {
    * parameters expected in the args:
    * syscoinaddress (String)
    **/
-  var argList = ["syscoinaddress"];
+  var argList = [
+    { prop: "syscoinaddress" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -841,7 +984,12 @@ exports.verifymessage = function(args, res, next) {
    * signature (String)
    * message (String)
    **/
-  var argList = ["syscoinaddress", "signature", "message"];
+  var argList = [
+    { prop: "syscoinaddress" },
+    { prop: "signature" },
+    { prop: "message" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -881,7 +1029,11 @@ exports.walletpassphrase = function(args, res, next) {
    * parameters expected in the args:
    * request (WalletPassphraseRequest)
    **/
-  var argList = ["passphrase", "timeout"];
+  var argList = [
+    { prop: "passphrase" },
+    { prop: "timeout" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -903,7 +1055,11 @@ exports.walletpassphrasechange = function(args, res, next) {
    * parameters expected in the args:
    * request (WalletPassphraseChangeRequest)
    **/
-  var argList = ["oldpassphrase", "newpassphrase"];
+  var argList = [
+    { prop: "oldpassphrase" },
+    { prop: "newpassphrase" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
