@@ -152,7 +152,7 @@ exports.aliaslist = function(args, res, next) {
     res.end(JSON.stringify(result));
   };
 
-  var arr = varUtils.getArgsArr(argList, args, argList, cb);
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
   syscoinClient.aliasList.apply(syscoinClient, arr);
 }
 
