@@ -3317,6 +3317,8 @@ definitions:
     properties:
       GUID:
         type: string
+      txid:
+        type: string
       time:
         type: number #returns string wrapped number
       from:
@@ -3331,41 +3333,57 @@ definitions:
     properties:
       offer:
         type: string
-      title:
-        type: string
       id:
         type: string
-      btctxid:
+      txid:
         type: string
-      alias:
+      title:
         type: string
-      buyer:
+      exttxid:
+        type: string
+      paymentoption:
+        type: number
+      paymentoption_display:
         type: string
       height:
         type: number #returns string wrapped number
+      time:
+        type: string
       quantity:
         type: number #returns string wrapped number
       currency:
         type: string
-      linkofferaccept:
-        type: string #TODO: clarify
       offer_discount_percentage:
         type: number #returns string "0%"
-      escrowlink:
-        type: string #TODO: clarify
       systotal:
+        type: number
+      sysprice:
         type: number
       price:
         type: number #returns string wrapped number
       total:
         type: number #returns string wrapped number
+      buyer:
+        type: string
+      seller:
+        type: string
       ismine:
         type: boolean #return string wrapper boolean
       status:
+         type: string
+      buyer_fedback:
+        type: array
+        items:
+          type: string
+      seller_fedback:
+        type: array
+        items:
+          type: string
+      avg_rating:
+        type: number
+      avg_rating_display:
         type: string
       pay_message:
-        type: string
-      time:
         type: string
   OfferWhitelistEntry:
     properties:
