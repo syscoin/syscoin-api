@@ -187,7 +187,7 @@ exports.offerfilter = function(args, res, next) {
   **/
   var argList = [
     { prop: "regexp", defaultValue: "" },
-    { prop: "from", defaultValue: 0 },
+    { prop: "from", defaultValue: "0" },
     { prop: "safesearch", defaultValue: "Yes" },
     { prop: "category", defaultValue: "" }
   ];
