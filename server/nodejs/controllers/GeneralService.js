@@ -855,8 +855,10 @@ exports.sendtoaddress = function(args, res, next) {
     { prop: "amount" },
     { prop: "comment", defaultValue: "" },
     { prop: "commentto", defaultValue: "" },
-    { prop: "subtractfeefromamount", defaultValue: [] }
+    { prop: "subtractfeefromamount", defaultValue: false }
   ];
+
+  args.request.value.amount = varUtils.correctTypes(args.request.value.amount, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
