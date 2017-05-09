@@ -20,7 +20,7 @@ function getArgsArr(fullArgList, requestArgs, requestMethod, callback) {
       argObj = fullArgList[i];
       if(notNullOrUndefined(requestArgs) && notNullOrUndefined(requestArgs[argObj.prop]) && notNullOrUndefined(requestArgs[argObj.prop].value)) {
         arr.push(requestArgs[argObj.prop].value);
-    } else if (argObj && argObj.defaultValue) {
+    } else if (argObj && notNullOrUndefined(argObj.defaultValue)) {
         arr.push(argObj.defaultValue);
       }else{
         console.error("ERROR: No value defined in request for " + argObj.prop + " and no defaultValue specified. Is this a required param?");
@@ -31,7 +31,7 @@ function getArgsArr(fullArgList, requestArgs, requestMethod, callback) {
       argObj = fullArgList[i];
       if(notNullOrUndefined(requestArgs) && notNullOrUndefined(requestArgs.request) && notNullOrUndefined(requestArgs.request.value) && notNullOrUndefined(requestArgs.request.value[argObj.prop])) {
         arr.push(requestArgs.request.value[argObj.prop]);
-    } else if (argObj && argObj.defaultValue) {
+    } else if (argObj && notNullOrUndefined(argObj.defaultValue)) {
         arr.push(argObj.defaultValue);
       }else{
         console.error("ERROR: No value defined in request for " + argObj.prop + " and no defaultValue specified. Is this a required param?");

@@ -337,10 +337,6 @@ exports.offernew = function(args, res, next) {
     { prop: "private", defaultValue: 0 }
   ];
 
-  args.request.value.private = varUtils.correctTypes(args.request.value.private, varUtils.TYPE_CONVERSION.BOOL_TO_NUM_STRING);
-  args.request.value.quantity = varUtils.correctTypes(args.request.value.quantity, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
-  args.request.value.price = varUtils.correctTypes(args.request.value.price, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
-
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -354,6 +350,11 @@ exports.offernew = function(args, res, next) {
   };
 
   var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+
+  args.request.value.private = varUtils.correctTypes(args.request.value.private, varUtils.TYPE_CONVERSION.BOOL_TO_NUM_STRING);
+  args.request.value.quantity = varUtils.correctTypes(args.request.value.quantity, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+  args.request.value.price = varUtils.correctTypes(args.request.value.price, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+
   syscoinClient.offerNew.apply(syscoinClient, arr);
 }
 
@@ -405,11 +406,6 @@ exports.offerupdate = function(args, res, next) {
     { prop: "paymentoptions", defaultValue: 0 }
   ];
 
-  args.request.value.private = varUtils.correctTypes(args.request.value.private, varUtils.TYPE_CONVERSION.BOOL_TO_NUM_STRING);
-  args.request.value.quantity = varUtils.correctTypes(args.request.value.quantity, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
-  args.request.value.price = varUtils.correctTypes(args.request.value.price, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
-  args.request.value.comission = varUtils.correctTypes(args.request.value.comission, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
-  
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -423,6 +419,12 @@ exports.offerupdate = function(args, res, next) {
   };
 
   var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+
+  args.request.value.private = varUtils.correctTypes(args.request.value.private, varUtils.TYPE_CONVERSION.BOOL_TO_NUM_STRING);
+  args.request.value.quantity = varUtils.correctTypes(args.request.value.quantity, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+  args.request.value.price = varUtils.correctTypes(args.request.value.price, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+  args.request.value.comission = varUtils.correctTypes(args.request.value.comission, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+
   syscoinClient.offerUpdate.apply(syscoinClient, arr);
 }
 
