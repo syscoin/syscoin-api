@@ -1,7 +1,6 @@
-'use strict';
-
 var syscoinClient = require('../index').syscoinClient;
 var varUtils = require('./util/varUtils');
+var commonUtils = require('./util/commonUtils');
 
 exports.certfilter = function(args, res, next) {
   /**
@@ -24,8 +23,7 @@ exports.certfilter = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Cert filter:', result);
@@ -49,8 +47,7 @@ exports.certhistory = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Cert history:', result);
@@ -74,8 +71,7 @@ exports.certinfo = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Cert info:', result);
@@ -103,8 +99,7 @@ exports.certlist = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Cert list:', result);
@@ -133,8 +128,7 @@ exports.certnew = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Cert new:', result);
@@ -160,8 +154,7 @@ exports.certtransfer = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Cert transfer:', result);
@@ -191,8 +184,7 @@ exports.certupdate = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Cert Update:', result);

@@ -1,7 +1,6 @@
-'use strict';
-
 var syscoinClient = require('../index').syscoinClient;
 var varUtils = require('./util/varUtils');
+var commonUtils = require('./util/commonUtils');
 
 exports.messageinfo = function(args, res, next) {
   /**
@@ -16,8 +15,7 @@ exports.messageinfo = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Message info:', result);
@@ -45,8 +43,7 @@ exports.messagenew = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Message new:', result);
@@ -74,8 +71,7 @@ exports.messagereceivelist = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Message receive list:', result);
@@ -103,8 +99,7 @@ exports.messagesentlist = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Message sent list:', result);

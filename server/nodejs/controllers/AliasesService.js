@@ -1,5 +1,6 @@
 var syscoinClient = require('../index').syscoinClient;
 var varUtils = require('./util/varUtils');
+var commonUtils = require('./util/commonUtils');
 
 exports.aliasaffiliates = function(args, res, next) {
   /**
@@ -10,8 +11,7 @@ exports.aliasaffiliates = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Alias affiliates:', result);
@@ -37,8 +37,7 @@ exports.aliasauthenticate = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Alias authenticate:', result);
@@ -67,8 +66,7 @@ exports.aliasfilter = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Alias filter:', result);
@@ -92,8 +90,7 @@ exports.aliashistory = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Alias history:', result);
@@ -117,8 +114,7 @@ exports.aliasinfo = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Alias info:', result);
@@ -144,8 +140,7 @@ exports.aliaslist = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Alias list:', result);
@@ -180,8 +175,7 @@ exports.aliasnew = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Alias new:', result);
@@ -219,8 +213,7 @@ exports.aliasupdate = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Alias update:', result);

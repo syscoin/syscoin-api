@@ -1,7 +1,6 @@
-'use strict';
-
 var syscoinClient = require('../index').syscoinClient;
 var varUtils = require('./util/varUtils');
+var commonUtils = require('./util/commonUtils');
 
 exports.addmultisigaddress = function(args, res, next) {
   /**
@@ -20,8 +19,7 @@ exports.addmultisigaddress = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Add multisig address:', result);
@@ -45,8 +43,7 @@ exports.dumpprivkey = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Dump priv key', result);
@@ -70,8 +67,7 @@ exports.dumpwallet = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Dump wallet ', result);
@@ -95,8 +91,7 @@ exports.getaccount = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Get account ', result);
@@ -120,8 +115,7 @@ exports.getaccountaddress = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Get account address ', result);
@@ -145,8 +139,7 @@ exports.getaddressesbyaccount = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Get addresses by account ', result);
@@ -174,8 +167,7 @@ exports.getbalance = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Get balance ', result);
@@ -192,8 +184,7 @@ exports.getinfo = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Info:', result);
@@ -210,8 +201,7 @@ exports.getmininginfo = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Get mining info ', result);
@@ -235,8 +225,7 @@ exports.getnewaddress = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Get new address ', result);
@@ -253,8 +242,7 @@ exports.getpeerinfo = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Get peer info', result);
@@ -280,8 +268,7 @@ exports.getreceivedbyaccount = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Get recieved by account', result);
@@ -307,8 +294,7 @@ exports.getreceivedbyaddress = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Get recieved by address ', result);
@@ -334,8 +320,7 @@ exports.gettransaction = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Get transaction ', result);
@@ -352,8 +337,7 @@ exports.getunconfirmedbalance = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Get unconfirmed balance ', result);
@@ -377,8 +361,7 @@ exports.getv2address = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Get v2 address ', result);
@@ -395,8 +378,7 @@ exports.getwalletinfo = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Get wallet info ', result);
@@ -420,8 +402,7 @@ exports.getzaddress = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Get Z Address', result);
@@ -449,8 +430,7 @@ exports.importaddress = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Import address ', result);
@@ -477,8 +457,7 @@ exports.importprivkey = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Import priv key ', result);
@@ -504,8 +483,7 @@ exports.importprunedfunds = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Import pruned funds ', result);
@@ -531,8 +509,7 @@ exports.importpubkey = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Import pub key ', result);
@@ -556,8 +533,7 @@ exports.importwallet = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Import wallet ', result);
@@ -583,8 +559,7 @@ exports.listaccounts = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('List accounts ', result);
@@ -601,8 +576,7 @@ exports.listaddressgroupings = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('List address groupings ', result);
@@ -630,8 +604,7 @@ exports.listreceivedbyaccount = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('List received by account ', result);
@@ -659,8 +632,7 @@ exports.listreceivedbyaddress = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('List received by address ', result);
@@ -688,8 +660,7 @@ exports.listsinceblock = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('List since block', result);
@@ -719,8 +690,7 @@ exports.listtransactions = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('List transactions ', result);
@@ -749,8 +719,7 @@ exports.move = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Move ', result);
@@ -774,8 +743,7 @@ exports.removeprunedfunds = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Remove pruned funds ', result);
@@ -804,8 +772,7 @@ exports.sendfrom = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Send from ', result);
@@ -833,8 +800,7 @@ exports.sendmany = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Send many ', result);
@@ -864,8 +830,7 @@ exports.sendtoaddress = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Send to address ', result);
@@ -890,8 +855,7 @@ exports.signmessage = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Sign message ', result);
@@ -917,8 +881,7 @@ exports.syscoindecoderawtransaction = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Syscoin decode raw transaction ', result);
@@ -942,8 +905,7 @@ exports.syscoinsignrawtransaction = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Syscoin sign raw transaction ', result);
@@ -967,8 +929,7 @@ exports.validateaddress = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Validate address ', result);
@@ -996,8 +957,7 @@ exports.verifymessage = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Verify message ', result);
@@ -1014,8 +974,7 @@ exports.walletlock = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Wallet lock ', result);
@@ -1040,8 +999,7 @@ exports.walletpassphrase = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Wallet passphrase ', result);
@@ -1066,8 +1024,7 @@ exports.walletpassphrasechange = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Wallet passphrase change ', result);

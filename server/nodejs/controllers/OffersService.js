@@ -1,5 +1,6 @@
 var syscoinClient = require('../index').syscoinClient;
 var varUtils = require('./util/varUtils');
+var commonUtils = require('./util/commonUtils');
 
 
 exports.offeraccept = function(args, res, next) {
@@ -22,8 +23,7 @@ exports.offeraccept = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Offer accept:', result);
@@ -49,8 +49,7 @@ exports.offeracceptacknowledge = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Offer accept acknowledge:', result);
@@ -82,8 +81,7 @@ exports.offeracceptfeedback = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Offer accept feedback:', result);
@@ -111,8 +109,7 @@ exports.offeracceptlist = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Offer accept list:', result);
@@ -140,8 +137,7 @@ exports.offeraddwhitelist = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Offer add whitelist:', result);
@@ -165,8 +161,7 @@ exports.offerclearwhitelist = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Offer clear whitelist:', result);
@@ -198,8 +193,7 @@ exports.offerfilter = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Offer filter:', result);
@@ -223,8 +217,7 @@ exports.offerhistory = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Offer history:', result);
@@ -248,8 +241,7 @@ exports.offerinfo = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Offer info:', result);
@@ -276,8 +268,7 @@ exports.offerlink = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Offer link:', result);
@@ -305,8 +296,7 @@ exports.offerlist = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Offer list:', result);
@@ -345,8 +335,7 @@ exports.offernew = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Offer new:', result);
@@ -371,8 +360,7 @@ exports.offerremovewhitelist = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Offer remove whitelist:', result);
@@ -414,8 +402,7 @@ exports.offerupdate = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Offer update:', result);
@@ -439,8 +426,7 @@ exports.offerwhitelist = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Offer whitelist:', result);
