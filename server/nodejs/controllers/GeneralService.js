@@ -320,7 +320,9 @@ exports.gettransaction = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      return commonUtils.reportError(res, err);
+      //TODO: fix after b1
+      return res.end(JSON.stringify(err.toString()));
+      //return commonUtils.reportError(res, err);
     }
 
     console.log('Get transaction ', result);
