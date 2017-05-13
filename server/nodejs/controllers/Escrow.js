@@ -50,10 +50,6 @@ module.exports.escrownew = function escrownew (req, res, next) {
   Escrow.escrownew(req.swagger.params, res, next);
 };
 
-module.exports.aliaspay = function escrownew (req, res, next) {
-  Escrow.aliaspay(req.swagger.params, res, next);
-};
-
 module.exports.escrowrefund = function escrowrefund (req, res, next) {
   Escrow.escrowrefund(req.swagger.params, res, next);
 };

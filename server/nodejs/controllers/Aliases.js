@@ -14,6 +14,10 @@ module.exports.aliasauthenticate = function aliasauthenticate (req, res, next) {
   Aliases.aliasauthenticate(req.swagger.params, res, next);
 };
 
+module.exports.aliasbalance = function aliasbalance (req, res, next) {
+  Aliases.aliasbalance(req.swagger.params, res, next);
+};
+
 module.exports.aliasfilter = function aliasfilter (req, res, next) {
   Aliases.aliasfilter(req.swagger.params, res, next);
 };
@@ -32,6 +36,10 @@ module.exports.aliaslist = function aliaslist (req, res, next) {
 
 module.exports.aliasnew = function aliasnew (req, res, next) {
   Aliases.aliasnew(req.swagger.params, res, next);
+};
+
+module.exports.aliaspay = function aliaspay (req, res, next) {
+  Aliases.aliaspay(req.swagger.params, res, next);
 };
 
 module.exports.aliasupdate = function aliasupdate (req, res, next) {

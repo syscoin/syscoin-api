@@ -48,6 +48,34 @@ exports.aliasauthenticate = function(args, res, next) {
   syscoinClient.aliasAuthenticate.apply(syscoinClient, arr);
 }
 
+exports.aliasbalance = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * alias (String)
+   * minconf (Number)
+   **/
+  var argList = [
+    { prop: "alias" },
+    { prop: "minconf", defaultValue: 0 }
+  ];
+
+  args.minconf.value = varUtils.correctTypes(args.minconf.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('Alias balance:', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.aliasbalance.apply(syscoinClient, arr);
+}
+
 exports.aliasfilter = function(args, res, next) {
   /**
    * parameters expected in the args:
@@ -186,6 +214,35 @@ exports.aliasnew = function(args, res, next) {
 
   var arr = varUtils.getArgsArr(argList, args, "POST", cb);
   syscoinClient.aliasNew.apply(syscoinClient, arr);
+}
+
+exports.aliaspay = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * request (AliasPayRequest)
+   **/
+  var argList = [
+    { prop: "alias" },
+    { prop: "amounts" },
+    { prop: "minconf", defaultValue: 0 },
+    { prop: "comment", defaultValue: "" }
+  ];
+
+  args.request.value.nrequired = varUtils.correctTypes(args.request.value.nrequired, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('Alias pay:', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+  syscoinClient.aliaspay.apply(syscoinClient, arr);
 }
 
 exports.aliasupdate = function(args, res, next) {

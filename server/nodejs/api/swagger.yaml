@@ -108,6 +108,40 @@ paths:
       - token: []
       x-swagger-router-controller: "Aliases"
     x-swagger-router-controller: "rpc"
+  /aliasbalance:
+    get:
+      tags:
+      - "Aliases"
+      description: "Returns the total amount received by the given alias in transactions\
+        \ with at least minconf confirmations."
+      operationId: "aliasbalance"
+      parameters:
+      - name: "alias"
+        in: "query"
+        description: "The syscoin alias for transactions"
+        required: true
+        type: "string"
+      - name: "minconf"
+        in: "query"
+        description: "﻿Only include transactions confirmed at least this many times.\
+          \ default=1."
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Aliases"
+    x-swagger-router-controller: "rpc"
   /aliasfilter:
     get:
       tags:
@@ -258,7 +292,7 @@ paths:
   /aliaspay:
     post:
       tags:
-      - "Escrow"
+      - "Aliases"
       description: "Send multiple times from an alias. Amounts are double-precision\
         \ floating point numbers."
       operationId: "aliaspay"
@@ -281,7 +315,7 @@ paths:
             $ref: "#/definitions/ErrorResponse"
       security:
       - token: []
-      x-swagger-router-controller: "Escrow"
+      x-swagger-router-controller: "Aliases"
     x-swagger-router-controller: "rpc"
   /aliasupdate:
     post:

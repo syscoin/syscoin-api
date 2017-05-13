@@ -297,36 +297,6 @@ exports.escrownew = function(args, res, next) {
   syscoinClient.escrowNew.apply(syscoinClient, arr);
 }
 
-exports.aliaspay = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-   * request (AliasPayRequest)
-   **/
-  var argList = [
-    { prop: "alias" },
-    { prop: "amounts" },
-    { prop: "minconf", defaultValue: 0 },
-    { prop: "comment", defaultValue: "" }
-  ];
-
-  if(varUtils.notNullOrUndefined(args.request.value.minconf))
-    args.request.value.nrequired = args.request.value.minconf.toString(); //number to string
-
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('Alias pay:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.aliaspay.apply(syscoinClient, arr);
-}
-
 exports.escrowrefund = function(args, res, next) {
   /**
    * parameters expected in the args:

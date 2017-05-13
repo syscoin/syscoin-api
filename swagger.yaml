@@ -244,6 +244,38 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /aliasbalance:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: aliasbalance
+      description: Returns the total amount received by the given alias in transactions with at least minconf confirmations.
+      security:
+          - token: []
+      tags:
+      - Aliases
+      parameters:
+       - name: alias
+         description: The syscoin alias for transactions
+         in: query
+         required: true
+         type: string
+       - name: minconf
+         description: ﻿Only include transactions confirmed at least this many times. default=1.
+         in: query
+         required: true
+         type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /aliasfilter:
     x-swagger-router-controller: rpc
     get:
@@ -379,6 +411,33 @@ paths:
         required: true
         schema:
           $ref: "#/definitions/AliasNewRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /aliaspay:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: aliaspay
+      description: Send multiple times from an alias. Amounts are double-precision floating point numbers.
+      security:
+          - token: []
+      tags:
+      - Aliases
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/AliasPayRequest"
       responses:
         "200":
           description: Success
@@ -987,33 +1046,6 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
         required: true
         schema:
           $ref: "#/definitions/EscrowNewRequest"
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              type: string
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /aliaspay:
-    x-swagger-router-controller: rpc
-    post:
-      operationId: aliaspay
-      description: Send multiple times from an alias. Amounts are double-precision floating point numbers.
-      security:
-          - token: []
-      tags:
-      - Escrow
-      parameters:
-      - name: request
-        in: body
-        required: true
-        schema:
-          $ref: "#/definitions/AliasPayRequest"
       responses:
         "200":
           description: Success
