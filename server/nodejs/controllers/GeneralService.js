@@ -178,6 +178,74 @@ exports.getbalance = function(args, res, next) {
   syscoinClient.getBalance.apply(syscoinClient, arr);
 }
 
+exports.getblock = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * hash (String)
+   * verbose (Boolean)
+   **/
+  var argList = [
+    { prop: "hash", },
+    { prop: "verbose", defaultValue: true }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('Get block ', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.getBlock.apply(syscoinClient, arr);
+}
+
+exports.getblockchaininfo = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   **/
+  var argList = [];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('Get blockchain info ', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.getBlockchainInfo.apply(syscoinClient, arr);
+}
+
+exports.getblockcount = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   **/
+  var argList = [];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('Get block count ', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.getBlockCount.apply(syscoinClient, arr);
+}
+
 exports.getinfo = function(args, res, next) {
   var argList = [];
   var cb = function(err, result, resHeaders) {

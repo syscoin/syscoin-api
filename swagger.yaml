@@ -52,6 +52,74 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+
+  /getblock:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getblock
+      description: "﻿If verbose is false, returns a string that is serialized, hex-encoded data for block 'hash'. \
+                    If verbose is true, returns an Object with information about block <hash>."
+      security:
+        - token: []
+      tags:
+      - General
+      parameters:
+      - name: hash
+        in: query
+        required: true
+        type: string
+      - name: verbose
+        in: query
+        required: false
+        type: boolean
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetBlockResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /getblockchaininfo:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getblockchaininfo
+      description: Returns an object containing various state info regarding block chain processing.
+      security:
+        - token: []
+      tags:
+      - General
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetBlockchainInfoResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /getblockcount:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getblockcount
+      description: Returns the number of blocks in the longest block chain.
+      security:
+        - token: []
+      tags:
+      - General
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: number
+        default:
+          description: Error
+          schema:
+            type: number
+
   /getinfo:
     x-swagger-router-controller: rpc
     get:
@@ -72,66 +140,66 @@ paths:
             $ref: "#/definitions/ErrorResponse"
 
   /getmininginfo:
-      x-swagger-router-controller: rpc
-      get:
-        operationId: getmininginfo
-        description: Returns a json object containing mining-related information.
-        security:
-          - token: []
-        tags:
-        - General
-        responses:
-          "200":
-            description: Success
-            schema:
-              $ref: "#/definitions/MiningInfo"
-          default:
-            description: Error
-            schema:
-              $ref: "#/definitions/ErrorResponse"
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getmininginfo
+      description: Returns a json object containing mining-related information.
+      security:
+        - token: []
+      tags:
+      - General
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/MiningInfo"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
 
   /getpeerinfo:
-      x-swagger-router-controller: rpc
-      get:
-        operationId: getpeerinfo
-        description: Returns data about each connected network node as a json array of objects.
-        security:
-          - token: []
-        tags:
-        - General
-        responses:
-          "200":
-            description: Success
-            schema:
-              $ref: "#/definitions/PeerInfoResponse"
-          default:
-            description: Error
-            schema:
-              $ref: "#/definitions/ErrorResponse"
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getpeerinfo
+      description: Returns data about each connected network node as a json array of objects.
+      security:
+        - token: []
+      tags:
+      - General
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/PeerInfoResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
 
   /validateaddress:
-      x-swagger-router-controller: rpc
-      post:
-        operationId: validateaddress
-        description: Return information about the given syscoin address.
-        security:
-          - token: []
-        tags:
-        - General
-        parameters:
-        - name: syscoinaddress
-          in: query
-          required: true
-          type: string
-        responses:
-          "200":
-            description: Success
-            schema:
-              $ref: "#/definitions/ValidateAddressResponse"
-          default:
-            description: Error
-            schema:
-              $ref: "#/definitions/ErrorResponse"
+    x-swagger-router-controller: rpc
+    post:
+      operationId: validateaddress
+      description: Return information about the given syscoin address.
+      security:
+        - token: []
+      tags:
+      - General
+      parameters:
+      - name: syscoinaddress
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/ValidateAddressResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
 
   /verifymessage:
     x-swagger-router-controller: rpc
@@ -4182,3 +4250,104 @@ definitions:
         type: string
       token:
         type: string
+  GetBlockResponse:
+    properties:
+      hash:
+        type: string
+        description: The block hash (same as provided)
+      confirmations:
+        type: number
+        description: The number of confirmations, or -1 if the block is not on the main chain
+      size:
+        type: number
+        description: The block size
+      strippedsize:
+        type: number
+        description: The block size excluding witness data
+      weight:
+        type: number
+        description: The block weight (BIP 141)
+      height:
+        type: number
+        description: The block height or index
+      version:
+        type: number
+        description: The block version
+      versionHex:
+        type: string
+        description: The block version formatted in hexadecimal
+      merkleroot:
+        type: string
+        description: The merkle root
+      tx:
+        type: array
+        items:
+          type: string
+        description: The transaction ids
+      time:
+        type: number
+        description: The block time in seconds since epoch (Jan 1 1970 GMT)
+      mediantime:
+        type: number
+        description: The median block time in seconds since epoch (Jan 1 1970 GMT)
+      nonce:
+        type: number
+        description: ﻿The nonce
+      bits:
+        type: string
+        description: The bits
+      difficulty:
+        type: number
+        description: ﻿The difficulty
+      chainwork:
+        type: string
+        description: ﻿Expected number of hashes required to produce the chain up to this block (in hex)
+      previousblockhash:
+        type: string
+        description: ﻿The hash of the previous block
+      nextblockhash:
+        type: string
+        description: The hash of the next block
+      data:
+        type: string
+        description: (for verbose=false) A string that is serialized, hex-encoded data for block 'hash'.
+  GetBlockchainInfoResponse:
+    properties:
+      chain:
+        type: string
+        description: Current network name as defined in BIP70 (main, test, regtest)
+      blocks:
+        type: number
+        description: the current number of blocks processed in the server
+      headers:
+        type: number
+        description: the current number of headers we have validated
+      bestblockhash:
+        type: string
+        description: the hash of the currently best block
+      difficulty:
+        type: number
+        description: the current difficulty
+      mediantime:
+        type: number
+        description: median time for the current best block
+      verificationprogress:
+        type: number
+        description: estimate of verification progress [0..1]
+      chainwork:
+        type: string
+        description: total amount of work in active chain, in hexadecimal
+      pruned:
+        type: boolean
+        description: if the blocks are subject to pruning
+      pruneheight:
+        type: number
+        description: lowest-height complete block stored
+      softforks:
+        type: array
+        items:
+          type: object #TODO: define type
+        description: status of softforks in progress
+      bip9_softforks:
+        type: object #TODO: define type
+        description: status of BIP9 softforks in progress

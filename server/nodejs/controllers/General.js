@@ -34,6 +34,18 @@ module.exports.getbalance = function getbalance (req, res, next) {
   General.getbalance(req.swagger.params, res, next);
 };
 
+module.exports.getblock = function getblock (req, res, next) {
+  General.getblock(req.swagger.params, res, next);
+};
+
+module.exports.blockchaininfo = function getblockchaininfo (req, res, next) {
+  General.blockchaininfo(req.swagger.params, res, next);
+};
+
+module.exports.getblockcount = function getblockcount (req, res, next) {
+  General.getblockcount(req.swagger.params, res, next);
+};
+
 module.exports.getinfo = function getinfo (req, res, next) {
   General.getinfo(req.swagger.params, res, next);
 };
