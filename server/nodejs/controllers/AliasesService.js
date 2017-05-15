@@ -85,7 +85,7 @@ exports.aliasfilter = function(args, res, next) {
   **/
 
   var argList = [
-    { propr: "regexp", defaultValue: "" },
+    { prop: "regexp", defaultValue: "" },
     { prop:"from", defaultValue: 0 },
     { prop: "safesearch", defaultValue: "Yes" }
   ];
