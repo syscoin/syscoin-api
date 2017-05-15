@@ -38,8 +38,8 @@ module.exports.getblock = function getblock (req, res, next) {
   General.getblock(req.swagger.params, res, next);
 };
 
-module.exports.blockchaininfo = function getblockchaininfo (req, res, next) {
-  General.blockchaininfo(req.swagger.params, res, next);
+module.exports.getblockchaininfo = function getblockchaininfo (req, res, next) {
+  General.getblockchaininfo(req.swagger.params, res, next);
 };
 
 module.exports.getblockcount = function getblockcount (req, res, next) {
