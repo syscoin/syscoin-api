@@ -73,7 +73,7 @@ exports.aliasbalance = function(args, res, next) {
   };
 
   var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.aliasbalance.apply(syscoinClient, arr);
+  syscoinClient.aliasBalance.apply(syscoinClient, arr);
 }
 
 exports.aliasfilter = function(args, res, next) {
