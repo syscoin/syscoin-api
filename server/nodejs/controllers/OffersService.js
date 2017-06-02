@@ -176,7 +176,7 @@ exports.offerfilter = function(args, res, next) {
   /**
    * parameters expected in the args:
   * regexp (String)
-  * from (BigDecimal)
+  * from (String)
   * safesearch (String)
   * category (String)
   **/
@@ -186,8 +186,6 @@ exports.offerfilter = function(args, res, next) {
     { prop: "safesearch", defaultValue: "Yes" },
     { prop: "category", defaultValue: "" }
   ];
-
-  args.from.value = varUtils.correctTypes(args.from.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');

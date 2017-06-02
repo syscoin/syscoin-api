@@ -160,14 +160,12 @@ exports.escrowfilter = function(args, res, next) {
   /**
    * parameters expected in the args:
   * regexp (String)
-  * from (BigDecimal)
+  * from (String)
   **/
   var argList = [
     { prop: "regexp", defaultValue: "" },
     { prop: "from", defaultValue: "" }
   ];
-
-  args.from.value = varUtils.correctTypes(args.from.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
