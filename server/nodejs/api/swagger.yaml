@@ -155,7 +155,7 @@ paths:
       - name: "regexp"
         in: "query"
         description: "apply [regexp] on aliases, empty means all aliases"
-        required: true
+        required: false
         type: "string"
       - name: "from"
         in: "query"
@@ -354,7 +354,7 @@ paths:
       parameters:
       - name: "regexp"
         in: "query"
-        description: "apply [regexp] on certes, empty means all certes"
+        description: "apply [regexp] on certes, empty means all certs"
         required: false
         type: "string"
       - name: "from"
@@ -798,13 +798,13 @@ paths:
       - name: "regexp"
         in: "query"
         description: "Apply [regexp] on escrows, empty means all escrows"
-        required: true
+        required: false
         type: "string"
       - name: "from"
         in: "query"
         description: "Show results from this GUID [from], 0 means first."
         required: false
-        type: "number"
+        type: "string"
       responses:
         200:
           description: "Success"
@@ -2210,14 +2210,14 @@ paths:
       parameters:
       - name: "regexp"
         in: "query"
-        description: "apply [regexp] on offeres, empty means all offeres"
-        required: true
+        description: "apply [regexp] on offeres, empty means all offers"
+        required: false
         type: "string"
       - name: "from"
         in: "query"
         description: "show results from number [from]"
         required: false
-        type: "number"
+        type: "string"
       - name: "safesearch"
         in: "query"
         description: "shows all offers that are safe to display (not on the ban list)"
