@@ -56,7 +56,7 @@ exports.aliasbalance = function(args, res, next) {
    **/
   var argList = [
     { prop: "alias" },
-    { prop: "minconf", defaultValue: 0 }
+    { prop: "minconf", defaultValue: 1 }
   ];
 
   args.minconf.value = varUtils.correctTypes(args.minconf.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);

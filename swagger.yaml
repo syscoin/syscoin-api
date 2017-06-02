@@ -330,7 +330,7 @@ paths:
        - name: minconf
          description: ﻿Only include transactions confirmed at least this many times. default=1.
          in: query
-         required: true
+         required: false
          type: number
       responses:
         "200":
