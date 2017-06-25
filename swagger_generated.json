@@ -28,6 +28,276 @@
   "consumes" : [ "application/json" ],
   "produces" : [ "application/json" ],
   "paths" : {
+    "/login" : {
+      "get" : {
+        "tags" : [ "Blockmarket" ],
+        "description" : "Returns a session token for use with subsquent protected calls.",
+        "operationId" : "login",
+        "parameters" : [ {
+          "name" : "auth",
+          "in" : "query",
+          "description" : "SHA1 hash of the user's authentication information- usernamepassword.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/LoginResponse"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "x-swagger-router-controller" : "blockmarket"
+    },
+    "/getblock" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "﻿If verbose is false, returns a string that is serialized, hex-encoded data for block 'hash'. If verbose is true, returns an Object with information about block <hash>.",
+        "operationId" : "getblock",
+        "parameters" : [ {
+          "name" : "hash",
+          "in" : "query",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "verbose",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/GetBlockResponse"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/getblockchaininfo" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "Returns an object containing various state info regarding block chain processing.",
+        "operationId" : "getblockchaininfo",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/GetBlockchainInfoResponse"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/getblockcount" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "Returns the number of blocks in the longest block chain.",
+        "operationId" : "getblockcount",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "number"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "type" : "number"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/getinfo" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "Returns an object containing various state info.",
+        "operationId" : "getinfo",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/Info"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/getmininginfo" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "Returns a json object containing mining-related information.",
+        "operationId" : "getmininginfo",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/MiningInfo"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/getpeerinfo" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "Returns data about each connected network node as a json array of objects.",
+        "operationId" : "getpeerinfo",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/PeerInfoResponse"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/validateaddress" : {
+      "post" : {
+        "tags" : [ "General" ],
+        "description" : "Return information about the given syscoin address.",
+        "operationId" : "validateaddress",
+        "parameters" : [ {
+          "name" : "syscoinaddress",
+          "in" : "query",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/ValidateAddressResponse"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/verifymessage" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "Verify a signed message",
+        "operationId" : "verifymessage",
+        "parameters" : [ {
+          "name" : "syscoinaddress",
+          "in" : "query",
+          "description" : "The syscoin address to use for the signature.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "signature",
+          "in" : "query",
+          "description" : "The signature provided by the signer in base 64 encoding (see signmessage).",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "message",
+          "in" : "query",
+          "description" : "The message that was signed.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "If the signature is verified or not.",
+            "schema" : {
+              "type" : "boolean"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
     "/addmultisigaddress" : {
       "post" : {
         "tags" : [ "General" ],
@@ -1005,7 +1275,7 @@
             "schema" : {
               "type" : "array",
               "items" : {
-                "$ref" : "#/definitions/EscrowListEntry"
+                "$ref" : "#/definitions/Escrow"
               }
             }
           },
@@ -1040,7 +1310,7 @@
             "schema" : {
               "type" : "array",
               "items" : {
-                "$ref" : "#/definitions/EscrowHistoryEntry"
+                "$ref" : "#/definitions/Escrow"
               }
             }
           },
@@ -1122,7 +1392,7 @@
             "schema" : {
               "type" : "array",
               "items" : {
-                "$ref" : "#/definitions/EscrowListEntry"
+                "$ref" : "#/definitions/Escrow"
               }
             }
           },
@@ -1425,146 +1695,6 @@
       },
       "x-swagger-router-controller" : "rpc"
     },
-    "/getblock" : {
-      "get" : {
-        "tags" : [ "General" ],
-        "description" : "﻿If verbose is false, returns a string that is serialized, hex-encoded data for block 'hash'. If verbose is true, returns an Object with information about block <hash>.",
-        "operationId" : "getblock",
-        "parameters" : [ {
-          "name" : "hash",
-          "in" : "query",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "verbose",
-          "in" : "query",
-          "required" : false,
-          "type" : "boolean"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "$ref" : "#/definitions/GetBlockResponse"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/getblockchaininfo" : {
-      "get" : {
-        "tags" : [ "General" ],
-        "description" : "Returns an object containing various state info regarding block chain processing.",
-        "operationId" : "getblockchaininfo",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "$ref" : "#/definitions/GetBlockchainInfoResponse"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/getblockcount" : {
-      "get" : {
-        "tags" : [ "General" ],
-        "description" : "Returns the number of blocks in the longest block chain.",
-        "operationId" : "getblockcount",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "number"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "type" : "number"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/getinfo" : {
-      "get" : {
-        "tags" : [ "General" ],
-        "description" : "Returns an object containing various state info.",
-        "operationId" : "getinfo",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "$ref" : "#/definitions/Info"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/getmininginfo" : {
-      "get" : {
-        "tags" : [ "General" ],
-        "description" : "Returns a json object containing mining-related information.",
-        "operationId" : "getmininginfo",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "$ref" : "#/definitions/MiningInfo"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
     "/getnewaddress" : {
       "post" : {
         "tags" : [ "General" ],
@@ -1583,32 +1713,6 @@
             "description" : "Success",
             "schema" : {
               "type" : "string"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/getpeerinfo" : {
-      "get" : {
-        "tags" : [ "General" ],
-        "description" : "Returns data about each connected network node as a json array of objects.",
-        "operationId" : "getpeerinfo",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "$ref" : "#/definitions/PeerInfoResponse"
             }
           },
           "default" : {
@@ -2284,35 +2388,6 @@
         } ]
       },
       "x-swagger-router-controller" : "rpc"
-    },
-    "/login" : {
-      "get" : {
-        "tags" : [ "Blockmarket" ],
-        "description" : "Returns a session token for use with subsquent protected calls.",
-        "operationId" : "login",
-        "parameters" : [ {
-          "name" : "auth",
-          "in" : "query",
-          "description" : "SHA1 hash of the user's authentication information- usernamepassword.",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "$ref" : "#/definitions/LoginResponse"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        }
-      },
-      "x-swagger-router-controller" : "blockmarket"
     },
     "/messageinfo" : {
       "get" : {
@@ -3092,16 +3167,18 @@
       },
       "x-swagger-router-controller" : "rpc"
     },
-    "/removeprunedfunds" : {
-      "get" : {
+    "/sendfrom" : {
+      "post" : {
         "tags" : [ "General" ],
-        "description" : "Deletes the specified transaction from the wallet. Meant for use with pruned wallets and as a companion to importprunedfunds. This will effect wallet balances.",
-        "operationId" : "removeprunedfunds",
+        "description" : "DEPRECATED (use sendtoaddress). Sent an amount from an account to a syscoin address. The amount is a real and is rounded to the nearest 0.00000001. Requires wallet passphrase to be set with walletpassphrase call.",
+        "operationId" : "sendfrom",
         "parameters" : [ {
-          "name" : "txid",
-          "in" : "query",
+          "in" : "body",
+          "name" : "request",
           "required" : true,
-          "type" : "string"
+          "schema" : {
+            "$ref" : "#/definitions/SendFromRequest"
+          }
         } ],
         "responses" : {
           "200" : {
@@ -3123,18 +3200,16 @@
       },
       "x-swagger-router-controller" : "rpc"
     },
-    "/sendfrom" : {
-      "post" : {
+    "/removeprunedfunds" : {
+      "get" : {
         "tags" : [ "General" ],
-        "description" : "DEPRECATED (use sendtoaddress). Sent an amount from an account to a syscoin address. The amount is a real and is rounded to the nearest 0.00000001. Requires wallet passphrase to be set with walletpassphrase call.",
-        "operationId" : "sendfrom",
+        "description" : "Deletes the specified transaction from the wallet. Meant for use with pruned wallets and as a companion to importprunedfunds. This will effect wallet balances.",
+        "operationId" : "removeprunedfunds",
         "parameters" : [ {
-          "in" : "body",
-          "name" : "request",
+          "name" : "txid",
+          "in" : "query",
           "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/SendFromRequest"
-          }
+          "type" : "string"
         } ],
         "responses" : {
           "200" : {
@@ -3255,148 +3330,6 @@
       },
       "x-swagger-router-controller" : "rpc"
     },
-    "/syscoindecoderawtransaction" : {
-      "post" : {
-        "tags" : [ "General" ],
-        "description" : "Decode raw syscoin transaction (serialized, hex-encoded) and display information pertaining to the service that is included in the transactiion data output(OP_RETURN)",
-        "operationId" : "syscoindecoderawtransaction",
-        "parameters" : [ {
-          "name" : "alias",
-          "in" : "query",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "hexstring",
-          "in" : "query",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "string"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/syscoinsignrawtransaction" : {
-      "post" : {
-        "tags" : [ "General" ],
-        "description" : "Sign inputs for raw transaction (serialized, hex-encoded) and sends them out to the network if signing is complete",
-        "operationId" : "syscoinsignrawtransaction",
-        "parameters" : [ {
-          "name" : "hexstring",
-          "in" : "query",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "string"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/validateaddress" : {
-      "post" : {
-        "tags" : [ "General" ],
-        "description" : "Return information about the given syscoin address.",
-        "operationId" : "validateaddress",
-        "parameters" : [ {
-          "name" : "syscoinaddress",
-          "in" : "query",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "$ref" : "#/definitions/ValidateAddressResponse"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/verifymessage" : {
-      "get" : {
-        "tags" : [ "General" ],
-        "description" : "Verify a signed message",
-        "operationId" : "verifymessage",
-        "parameters" : [ {
-          "name" : "syscoinaddress",
-          "in" : "query",
-          "description" : "The syscoin address to use for the signature.",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "signature",
-          "in" : "query",
-          "description" : "The signature provided by the signer in base 64 encoding (see signmessage).",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "message",
-          "in" : "query",
-          "description" : "The message that was signed.",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "If the signature is verified or not.",
-            "schema" : {
-              "type" : "boolean"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
     "/walletlock" : {
       "post" : {
         "tags" : [ "General" ],
@@ -3468,6 +3401,73 @@
           "schema" : {
             "$ref" : "#/definitions/WalletPassphraseChangeRequest"
           }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/syscoindecoderawtransaction" : {
+      "post" : {
+        "tags" : [ "General" ],
+        "description" : "Decode raw syscoin transaction (serialized, hex-encoded) and display information pertaining to the service that is included in the transactiion data output(OP_RETURN)",
+        "operationId" : "syscoindecoderawtransaction",
+        "parameters" : [ {
+          "name" : "alias",
+          "in" : "query",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "hexstring",
+          "in" : "query",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/syscoinsignrawtransaction" : {
+      "post" : {
+        "tags" : [ "General" ],
+        "description" : "Sign inputs for raw transaction (serialized, hex-encoded) and sends them out to the network if signing is complete",
+        "operationId" : "syscoinsignrawtransaction",
+        "parameters" : [ {
+          "name" : "hexstring",
+          "in" : "query",
+          "required" : true,
+          "type" : "string"
         } ],
         "responses" : {
           "200" : {
@@ -3964,88 +3964,11 @@
         "$ref" : "#/definitions/Cert"
       } ]
     },
-    "EscrowHistoryEntry" : {
+    "Escrow" : {
       "properties" : {
-        "escrow" : {
-          "type" : "string"
-        },
         "escrowtype" : {
           "type" : "string"
         },
-        "txid" : {
-          "type" : "string"
-        },
-        "seller" : {
-          "type" : "string"
-        },
-        "arbiter" : {
-          "type" : "string"
-        },
-        "buyer" : {
-          "type" : "string"
-        },
-        "offer" : {
-          "type" : "string"
-        },
-        "offertitle" : {
-          "type" : "string"
-        },
-        "offeracceptlink" : {
-          "type" : "string"
-        },
-        "total" : {
-          "type" : "number"
-        },
-        "expired" : {
-          "type" : "boolean"
-        },
-        "height" : {
-          "type" : "number"
-        },
-        "time" : {
-          "type" : "string"
-        }
-      }
-    },
-    "EscrowListEntry" : {
-      "properties" : {
-        "escrow" : {
-          "type" : "string"
-        },
-        "time" : {
-          "type" : "number"
-        },
-        "seller" : {
-          "type" : "string"
-        },
-        "arbiter" : {
-          "type" : "string"
-        },
-        "buyer" : {
-          "type" : "string"
-        },
-        "offer" : {
-          "type" : "string"
-        },
-        "offertitle" : {
-          "type" : "string"
-        },
-        "offeracceptlink" : {
-          "type" : "string"
-        },
-        "total" : {
-          "type" : "number"
-        },
-        "status" : {
-          "type" : "string"
-        },
-        "expired" : {
-          "type" : "boolean"
-        }
-      }
-    },
-    "Escrow" : {
-      "properties" : {
         "escrow" : {
           "type" : "string"
         },
@@ -4064,10 +3987,16 @@
         "offer" : {
           "type" : "string"
         },
+        "offerlink_seller" : {
+          "type" : "string"
+        },
         "offertitle" : {
           "type" : "string"
         },
-        "offeracceptlink" : {
+        "quantity" : {
+          "type" : "string"
+        },
+        "price" : {
           "type" : "string"
         },
         "systotal" : {
@@ -4076,16 +4005,82 @@
         "sysfee" : {
           "type" : "number"
         },
+        "fee" : {
+          "type" : "string"
+        },
         "total" : {
+          "type" : "string"
+        },
+        "totalwithfee" : {
           "type" : "number"
+        },
+        "currency" : {
+          "type" : "string"
+        },
+        "exttxid" : {
+          "type" : "string"
+        },
+        "escrowaddress" : {
+          "type" : "string"
+        },
+        "paymentoption" : {
+          "type" : "number"
+        },
+        "paymemntoption_display" : {
+          "type" : "string"
+        },
+        "redeem_txid" : {
+          "type" : "string"
         },
         "txid" : {
           "type" : "string"
         },
         "height" : {
-          "type" : "number"
+          "type" : "string"
         },
         "pay_message" : {
+          "type" : "string"
+        },
+        "expired" : {
+          "type" : "number"
+        },
+        "status" : {
+          "type" : "string"
+        },
+        "buyer_feedback" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "avg_buyer_rating" : {
+          "type" : "number"
+        },
+        "seller_feedback" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "avg_seller_feedback" : {
+          "type" : "number"
+        },
+        "arbiter_feedback" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "avg_arbiter_rating" : {
+          "type" : "number"
+        },
+        "avg_rating_count" : {
+          "type" : "number"
+        },
+        "avg_rating" : {
+          "type" : "number"
+        },
+        "avg_rating_display" : {
           "type" : "string"
         }
       }
