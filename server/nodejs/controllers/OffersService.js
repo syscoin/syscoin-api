@@ -258,7 +258,7 @@ exports.offerlink = function(args, res, next) {
   var argList = [
     { prop: "alias" },
     { prop: "guid" },
-    { prop: "comission" },
+    { prop: "commission" },
     { prop: "description", defaultValue: "" }
   ];
 
