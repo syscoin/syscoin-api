@@ -3969,7 +3969,7 @@ definitions:
     required:
     - alias
     - guid
-    - comission
+    - commission
     properties:
       alias:
         description: An alias you own.
@@ -3977,7 +3977,7 @@ definitions:
       guid:
         description: offer guid that you are linking to
         type: string
-      comission:
+      commission:
         description: percentage of profit desired over original offer price, > 0, ie 5 for 5%
         type: string
       description:
@@ -4083,7 +4083,7 @@ definitions:
       safesearch: #should be boolean
         description: set to No if this offer should only show in the search when safe search is not selected. Defaults to Yes (offer shows with or without safe search selected in search lists).
         type: string
-      comission:
+      commission:
         description: For resold offers.
         type: number
       paymentoptions:

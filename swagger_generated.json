@@ -5133,7 +5133,7 @@
       }
     },
     "OfferLinkRequest" : {
-      "required" : [ "alias", "comission", "guid" ],
+      "required" : [ "alias", "commission", "guid" ],
       "properties" : {
         "alias" : {
           "type" : "string",
@@ -5143,7 +5143,7 @@
           "type" : "string",
           "description" : "offer guid that you are linking to"
         },
-        "comission" : {
+        "commission" : {
           "type" : "string",
           "description" : "percentage of profit desired over original offer price, > 0, ie 5 for 5%"
         },
@@ -5268,7 +5268,7 @@
           "type" : "string",
           "description" : "set to No if this offer should only show in the search when safe search is not selected. Defaults to Yes (offer shows with or without safe search selected in search lists)."
         },
-        "comission" : {
+        "commission" : {
           "type" : "number",
           "description" : "For resold offers."
         },
