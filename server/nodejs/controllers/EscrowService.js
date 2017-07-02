@@ -272,7 +272,7 @@ exports.escrownew = function(args, res, next) {
     { prop: "exttx", defaultValue: "" },
     { prop: "paymentoption", defaultValue: "SYS" },
     { prop: "redeemscript", defaultValue: "" },
-    { prop: "height", defaultValue: 0 }
+    { prop: "height", defaultValue: "0" }
   ];
 
   args.request.value.quantity = varUtils.correctTypes(args.request.value.quantity, varUtils.TYPE_CONVERSION.NUM_TO_STRING);

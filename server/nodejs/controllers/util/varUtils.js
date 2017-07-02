@@ -43,6 +43,9 @@ function getArgsArr(fullArgList, requestArgs, requestMethod, callback) {
   if(callback)
     arr.push(callback);
 
+
+  console.log("Args array: " + JSON.stringify(arr));
+
   return arr;
 }
 
