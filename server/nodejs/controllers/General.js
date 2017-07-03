@@ -18,6 +18,10 @@ module.exports.dumpwallet = function dumpwallet (req, res, next) {
   General.dumpwallet(req.swagger.params, res, next);
 };
 
+module.exports.encryptwallet = function encryptwallet (req, res, next) {
+  General.encryptwallet(req.swagger.params, res, next);
+};
+
 module.exports.getaccount = function getaccount (req, res, next) {
   General.getaccount(req.swagger.params, res, next);
 };

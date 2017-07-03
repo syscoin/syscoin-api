@@ -1037,6 +1037,38 @@
       },
       "x-swagger-router-controller" : "rpc"
     },
+    "/encryptwallet" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "Encrypts the wallet with 'passphrase'. This is for first time encryption. After this, any calls that interact with private keys such as sending or signing will require the passphrase to be set prior the making these calls. Use the walletpassphrase call for this, and then walletlock call. If the wallet is already encrypted, use the walletpassphrasechange call. Note that this will shutdown the server.",
+        "operationId" : "encryptwallet",
+        "parameters" : [ {
+          "name" : "passphrase",
+          "in" : "query",
+          "description" : "The pass phrase to encrypt the wallet with. It must be at least 1 character, but should be long.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
     "/escrowacknowledge" : {
       "post" : {
         "tags" : [ "Escrow" ],

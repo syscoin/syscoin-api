@@ -78,6 +78,30 @@ exports.dumpwallet = function(args, res, next) {
   syscoinClient.dumpWallet.apply(syscoinClient, arr);
 }
 
+exports.encryptwallet = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * passphrase (String)
+   **/
+  var argList = [
+    { prop: "passphrase" }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('Encrypt wallet ', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.encryptwallet.apply(syscoinClient, arr);
+}
+
 exports.getaccount = function(args, res, next) {
   /**
    * parameters expected in the args:
