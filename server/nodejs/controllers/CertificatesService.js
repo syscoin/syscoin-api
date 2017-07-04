@@ -3,10 +3,6 @@ var varUtils = require('./util/varUtils');
 var commonUtils = require('./util/commonUtils');
 
 exports.certcount = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-   * aliases (Array)
-   **/
   var argList = [
     { prop: "aliases", defaultValue: [] }
   ];
@@ -27,21 +23,15 @@ exports.certcount = function(args, res, next) {
 }
 
 exports.certfilter = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * regexp (String)
-  * from (String)
-  * count (Number)
-  * safesearch (String)
-  * category (String)
-  **/
   var argList = [
     { prop: "regexp", defaultValue: "" },
     { prop: "from", defaultValue: "" },
-    { prop: "count", defaultValue: 10 },
+    { prop: "count", defaultValue: "10" },
     { prop: "safesearch", defaultValue: "Yes" },
     { prop: "category", defaultValue: "" }
   ];
+
+  args.count.value = varUtils.correctTypes(args.count.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -59,10 +49,6 @@ exports.certfilter = function(args, res, next) {
 }
 
 exports.certhistory = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * certname (String)
-  **/
   var argList = [
     { prop: "certname" }
   ];
@@ -83,10 +69,6 @@ exports.certhistory = function(args, res, next) {
 }
 
 exports.certinfo = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * guid (String)
-  **/
   var argList = [
     { prop: "guid" }
   ];
@@ -107,18 +89,15 @@ exports.certinfo = function(args, res, next) {
 }
 
 exports.certlist = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * aliases (List)
-  * cert (String)
-  * privatekey (String)
-  **/
   var argList = [
     { prop: "aliases" },
     { prop: "cert" },
-    { prop: "count", defaultValue: 10 },
-    { prop: "from", defaultValue: 0 }
+    { prop: "count", defaultValue: "10" },
+    { prop: "from", defaultValue: "0" }
   ];
+
+  args.count.value = varUtils.correctTypes(args.count.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+  args.from.value = varUtils.correctTypes(args.from.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -136,10 +115,6 @@ exports.certlist = function(args, res, next) {
 }
 
 exports.certnew = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * request (CertNewRequest)
-  **/
   var argList = [
     { prop: "alias" },
     { prop: "title" },
@@ -165,10 +140,6 @@ exports.certnew = function(args, res, next) {
 }
 
 exports.certtransfer = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * request (CertTransferRequest)
-  **/
   var argList = [
     { prop: "certkey" },
     { prop: "alias" },
@@ -191,10 +162,6 @@ exports.certtransfer = function(args, res, next) {
 }
 
 exports.certupdate = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * request (CertUpdateRequest)
-  **/
   var argList = [
     { prop: "guid" },
     { prop: "alias" },

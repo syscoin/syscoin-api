@@ -3,10 +3,6 @@ var varUtils = require('./util/varUtils');
 var commonUtils = require('./util/commonUtils');
 
 exports.messageinfo = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * guid (String)
-  **/
   var argList = [
     { prop: "guid" }
   ];
@@ -27,10 +23,6 @@ exports.messageinfo = function(args, res, next) {
 }
 
 exports.messagenew = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * request (MessageNewRequest)
-  **/
   var argList = [
     { prop: "subject" },
     { prop: "message" },
@@ -55,18 +47,15 @@ exports.messagenew = function(args, res, next) {
 }
 
 exports.messagereceivelist = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * aliases (List)
-  * message (String)
-  * privatekey (String)
-  **/
   var argList = [
     { prop: "aliases", defaultValue: [] },
     { prop: "message", defaultValue: "" },
-    { prop: "count", defaultValue: 10 },
-    { prop: "from", defaultValue: 0 }
+    { prop: "count", defaultValue: "10" },
+    { prop: "from", defaultValue: "0" }
   ];
+
+  args.count.value = varUtils.correctTypes(args.count.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+  args.from.value = varUtils.correctTypes(args.from.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -84,18 +73,15 @@ exports.messagereceivelist = function(args, res, next) {
 }
 
 exports.messagesentlist = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * aliases (List)
-  * message (String)
-  * privatekey (String)
-  **/
   var argList = [
     { prop: "aliases", defaultValue: [] },
     { prop: "message", defaultValue: "" },
-    { prop: "count", defaultValue: 10 },
-    { prop: "from", defaultValue: 0 }
+    { prop: "count", defaultValue: "10" },
+    { prop: "from", defaultValue: "0" }
   ];
+
+  args.count.value = varUtils.correctTypes(args.count.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+  args.from.value = varUtils.correctTypes(args.from.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');

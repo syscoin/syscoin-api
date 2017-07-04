@@ -4,10 +4,6 @@ var commonUtils = require('./util/commonUtils');
 
 
 exports.offeraccept = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * request (OfferAcceptRequest)
-  **/
   var argList = [
     { prop: "alias" },
     { prop: "guid" },
@@ -35,11 +31,6 @@ exports.offeraccept = function(args, res, next) {
 }
 
 exports.offeracceptacknowledge = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * offerguid (String)
-  * offeracceptguid (String)
-  **/
   var argList = [
     { prop: "offerguid" },
     { prop: "offeracceptguid" }
@@ -61,13 +52,6 @@ exports.offeracceptacknowledge = function(args, res, next) {
 }
 
 exports.offeracceptfeedback = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * offerguid (String)
-  * offeracceptguid (String)
-  * feedback (String)
-  * rating (BigDecimal)
-  **/
   var argList = [
     { prop: "offerguid" },
     { prop: "offeracceptguid" },
@@ -93,12 +77,6 @@ exports.offeracceptfeedback = function(args, res, next) {
 }
 
 exports.offeracceptlist = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * aliases (List)
-  * acceptguid (String)
-  * privatekey (String)
-  **/
   var argList = [
     { prop: "aliases", defaultValue: [] },
     { prop: "acceptguid", defaultValue: "" },
@@ -122,10 +100,6 @@ exports.offeracceptlist = function(args, res, next) {
 }
 
 exports.offeraddwhitelist = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * request (OfferAddWhitelistRequest)
-  **/
   var argList = [
     { prop: "offerguid" },
     { prop: "aliasguid" },
@@ -150,10 +124,6 @@ exports.offeraddwhitelist = function(args, res, next) {
 }
 
 exports.offerclearwhitelist = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * request (OfferClearWhitelistRequest)
-  **/
   var argList = [
     { prop: "offerguid" }
   ];
@@ -174,10 +144,6 @@ exports.offerclearwhitelist = function(args, res, next) {
 }
 
 exports.offercount = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-   * aliases (Array)
-   **/
   var argList = [
     { prop: "aliases", defaultValue: [] }
   ];
@@ -198,21 +164,15 @@ exports.offercount = function(args, res, next) {
 }
 
 exports.offerfilter = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * regexp (String)
-  * from (String)
-  * count (Number)
-  * safesearch (String)
-  * category (String)
-  **/
   var argList = [
     { prop: "regexp", defaultValue: "" },
     { prop: "from", defaultValue: "" },
-    { prop: "count", defaultValue: 10 },
+    { prop: "count", defaultValue: "10" },
     { prop: "safesearch", defaultValue: "Yes" },
     { prop: "category", defaultValue: "" }
   ];
+
+  args.count.value = varUtils.correctTypes(args.count.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -230,10 +190,6 @@ exports.offerfilter = function(args, res, next) {
 }
 
 exports.offerhistory = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * offer (String)
-  **/
   var argList = [
     { prop: "offer" }
   ];
@@ -254,10 +210,6 @@ exports.offerhistory = function(args, res, next) {
 }
 
 exports.offerinfo = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * guid (String)
-  **/
   var argList = [
     { prop: "guid" }
   ];
@@ -278,10 +230,6 @@ exports.offerinfo = function(args, res, next) {
 }
 
 exports.offerlink = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * request (OfferLinkRequest)
-  **/
   var argList = [
     { prop: "alias" },
     { prop: "guid" },
@@ -305,18 +253,15 @@ exports.offerlink = function(args, res, next) {
 }
 
 exports.offerlist = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * aliases (List)
-  * offer (String)
-  * privatekey (String)
-  **/
   var argList = [
     { prop: "aliases", defaultValue: [] },
     { prop: "offer", defaultValue: "" },
     { prop: "count", defaultValue: 10 },
     { prop: "from", defaultValue: 0 }
   ];
+
+  args.count.value = varUtils.correctTypes(args.count.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+  args.from.value = varUtils.correctTypes(args.from.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -334,10 +279,6 @@ exports.offerlist = function(args, res, next) {
 }
 
 exports.offernew = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * request (OfferNewRequest)
-  **/
   var argList = [
     { prop: "alias" },
     { prop: "category" },
@@ -373,10 +314,6 @@ exports.offernew = function(args, res, next) {
 }
 
 exports.offerremovewhitelist = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * request (OfferRemoveWhitelistRequest)
-  **/
   var argList = [
     { prop: "offerguid" },
     { prop: "aliasguid" }
@@ -398,10 +335,6 @@ exports.offerremovewhitelist = function(args, res, next) {
 }
 
 exports.offerupdate = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * request (OfferUpdateRequest)
-  **/
   var argList = [
     { prop: "alias" },
     { prop: "guid" },
@@ -440,10 +373,6 @@ exports.offerupdate = function(args, res, next) {
 }
 
 exports.offerwhitelist = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * offerguid (String)
-  **/
   var argList = [
     { prop: "offerguid" }
   ];

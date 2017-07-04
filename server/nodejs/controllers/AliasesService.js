@@ -3,9 +3,6 @@ var varUtils = require('./util/varUtils');
 var commonUtils = require('./util/commonUtils');
 
 exports.aliasaffiliates = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-   **/
   var argList = [];
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -23,11 +20,6 @@ exports.aliasaffiliates = function(args, res, next) {
 }
 
 exports.aliasauthenticate = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-   * alias (String)
-   * password (String)
-   **/
   var argList = [
     { prop: "alias" },
     { prop: "password" }
@@ -49,11 +41,6 @@ exports.aliasauthenticate = function(args, res, next) {
 }
 
 exports.aliasbalance = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-   * alias (String)
-   * minconf (Number)
-   **/
   var argList = [
     { prop: "alias" },
     { prop: "minconf", defaultValue: 1 }
@@ -77,21 +64,15 @@ exports.aliasbalance = function(args, res, next) {
 }
 
 exports.aliasfilter = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * regexp (String)
-  * from (String)
-  * count (Number)
-  * safesearch (String)
-  **/
-
   var argList = [
     { prop: "regexp" },
     { prop: "from", defaultValue: "" },
-    { prop: "count", defaultValue: 10 },
+    { prop: "count", defaultValue: "10" },
     { prop: "safesearch", defaultValue: "Yes" }
   ];
-  
+
+  args.count.value = varUtils.correctTypes(args.count.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -108,10 +89,6 @@ exports.aliasfilter = function(args, res, next) {
 }
 
 exports.aliashistory = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * aliasname (String)
-  **/
   var argList = [
     { prop: "aliasname" }
   ];
@@ -134,10 +111,6 @@ exports.aliashistory = function(args, res, next) {
 }
 
 exports.aliasinfo = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * aliasname (String)
-  **/
   var argList = [
     { prop: "aliasname" }
   ];
@@ -158,17 +131,15 @@ exports.aliasinfo = function(args, res, next) {
 }
 
 exports.aliaslist = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * aliasname (String)
-   * TODO: add private key to spec
-  **/
-
   var argList = [
-    { prop: "aliasname" },
-    { prop: "count", defaultValue: 10 },
-    { prop: "from", defaultValue: 0 }
+    { prop: "aliasname", defaultValue: "" },
+    { prop: "count", defaultValue: "10" },
+    { prop: "from", defaultValue: "0" }
   ];
+
+  args.count.value = varUtils.correctTypes(args.count.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+  args.from.value = varUtils.correctTypes(args.from.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -185,10 +156,6 @@ exports.aliaslist = function(args, res, next) {
 }
 
 exports.aliasnew = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * request (AliasNewRequest)
-  **/
   var argList = [
     { prop: "aliaspeg" },
     { prop: "aliasname" },
@@ -220,10 +187,6 @@ exports.aliasnew = function(args, res, next) {
 }
 
 exports.aliaspay = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-   * request (AliasPayRequest)
-   **/
   var argList = [
     { prop: "alias" },
     { prop: "amounts" },
@@ -249,11 +212,6 @@ exports.aliaspay = function(args, res, next) {
 }
 
 exports.aliasupdate = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * request (AliasUpdateRequest)
-  **/
-
   //TODO: update core RPC docs on param ordering- order of this array MATTERS!!!!
   var argList = [
     { prop: "aliaspeg" },

@@ -4,10 +4,6 @@ var commonUtils = require('./util/commonUtils');
 
 
 exports.escrowacknowledge = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * escrowguid (String)
-  **/
   var argList = [
     { prop: "escrowguid" }
   ];
@@ -28,10 +24,6 @@ exports.escrowacknowledge = function(args, res, next) {
 }
 
 exports.escrowclaimrefund = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * request (EscrowClaimRefundRequest)
-  **/
   var argList = [
     { prop: "guid" },
     { prop: "rawtx", defaultValue: "" }
@@ -53,10 +45,6 @@ exports.escrowclaimrefund = function(args, res, next) {
 }
 
 exports.escrowclaimrelease = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * request (EscrowClaimReleaseRequest)
-  **/
   var argList = [
     { prop: "guid" },
     { prop: "rawtx", defaultValue: "" }
@@ -78,10 +66,6 @@ exports.escrowclaimrelease = function(args, res, next) {
 }
 
 exports.escrowcompleterefund = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * request (EscrowCompleteRefundRequest)
-  **/
   var argList = [
     { prop: "escrowguid" },
     { prop: "rawtx", defaultValue: "" }
@@ -103,10 +87,6 @@ exports.escrowcompleterefund = function(args, res, next) {
 }
 
 exports.escrowcompleterelease = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * request (EscrowCompleteReleaseRequest)
-  **/
   var argList = [
     { prop: "escrowguid" },
     { prop: "rawtx", defaultValue: "" }
@@ -128,10 +108,6 @@ exports.escrowcompleterelease = function(args, res, next) {
 }
 
 exports.escrowfeedback = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * request (EscrowFeedbackRequest)
-  **/
   var argList = [
     { prop: "escrowguid" },
     { prop: "userrole" },
@@ -157,17 +133,13 @@ exports.escrowfeedback = function(args, res, next) {
 }
 
 exports.escrowfilter = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * regexp (String)
-  * from (String)
-  * count (Number)
-   **/
   var argList = [
     { prop: "regexp", defaultValue: "" },
     { prop: "from", defaultValue: "" },
     { prop: "count", defaultValue: 10 }
   ];
+
+  args.count.value = varUtils.correctTypes(args.count.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -185,10 +157,6 @@ exports.escrowfilter = function(args, res, next) {
 }
 
 exports.escrowhistory = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * escrow (String)
-  **/
   var argList = [
     { prop: "escrow" }
   ];
@@ -209,10 +177,6 @@ exports.escrowhistory = function(args, res, next) {
 }
 
 exports.escrowinfo = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * escrow (String)
-  **/
   var argList = [
     { prop: "escrow" }
   ];
@@ -233,18 +197,15 @@ exports.escrowinfo = function(args, res, next) {
 }
 
 exports.escrowlist = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * aliases (List)
-  * escrow (String)
-  * privatekey (String)
-  **/
   var argList = [
     { prop: "aliases", defaultValue: [] },
     { prop: "escrow", defaultValue: "" },
     { prop: "count", defaultValue: 10 },
     { prop: "from", defaultValue: 0 }
   ];
+
+  args.count.value = varUtils.correctTypes(args.count.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+  args.from.value = varUtils.correctTypes(args.from.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -262,10 +223,6 @@ exports.escrowlist = function(args, res, next) {
 }
 
 exports.escrownew = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * request (EscrowNewRequest)   //TODO: verify extTx is in spec
-  **/
   var argList = [
     { prop: "alias" },
     { prop: "offer" },
@@ -299,10 +256,6 @@ exports.escrownew = function(args, res, next) {
 }
 
 exports.escrowrefund = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * request (EscrowRefundRequest)
-  **/
   var argList = [
     { prop: "escrowguid" },
     { prop: "userrole" },
@@ -325,10 +278,6 @@ exports.escrowrefund = function(args, res, next) {
 }
 
 exports.escrowrelease = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * request (EscrowReleaseRequest)
-  **/
   var argList = [
     { prop: "escrowguid" },
     { prop: "userrole" },
@@ -351,10 +300,6 @@ exports.escrowrelease = function(args, res, next) {
 }
 
 exports.generateescrowmultisig = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * request (GenerateEscrowMultisigRequest)
-  **/
   var argList = [
     { prop: "buyer" },
     { prop: "offerguid" },
