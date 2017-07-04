@@ -2,6 +2,30 @@ var syscoinClient = require('../index').syscoinClient;
 var varUtils = require('./util/varUtils');
 var commonUtils = require('./util/commonUtils');
 
+exports.certcount = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * aliases (Array)
+   **/
+  var argList = [
+    { prop: "aliases", defaultValue: [] }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('Cert count:', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.certCount.apply(syscoinClient, arr);
+}
+
 exports.certfilter = function(args, res, next) {
   /**
    * parameters expected in the args:
@@ -91,7 +115,8 @@ exports.certlist = function(args, res, next) {
   var argList = [
     { prop: "aliases" },
     { prop: "cert" },
-    { prop: "privatekey", defaultValue: "" }
+    { prop: "count", defaultValue: 10 },
+    { prop: "from", defaultValue: 0 }
   ];
 
   var cb = function(err, result, resHeaders) {

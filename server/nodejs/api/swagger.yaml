@@ -459,6 +459,16 @@ paths:
         description: "Alias name to use as filter."
         required: false
         type: "string"
+      - name: "count"
+        in: "query"
+        description: "The number of results to return"
+        required: false
+        type: "number"
+      - name: "from"
+        in: "query"
+        description: "The number of results to skip"
+        required: false
+        type: "number"
       responses:
         200:
           description: "Success"
@@ -557,6 +567,32 @@ paths:
       security:
       - token: []
       x-swagger-router-controller: "Aliases"
+    x-swagger-router-controller: "rpc"
+  /certcount:
+    get:
+      tags:
+      - "Certificates"
+      description: "Count certificates that an array of aliases own."
+      operationId: "certcount"
+      parameters:
+      - name: "aliases"
+        in: "query"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "number"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Certificates"
     x-swagger-router-controller: "rpc"
   /certfilter:
     get:
@@ -676,10 +712,16 @@ paths:
         in: "query"
         required: false
         type: "string"
-      - name: "privatekey"
+      - name: "count"
         in: "query"
+        description: "The number of results to return"
         required: false
-        type: "string"
+        type: "number"
+      - name: "from"
+        in: "query"
+        description: "The number of results to skip"
+        required: false
+        type: "number"
       responses:
         200:
           description: "Success"
@@ -1139,11 +1181,16 @@ paths:
         description: "GUID of escrow"
         required: false
         type: "string"
-      - name: "privatekey"
+      - name: "count"
         in: "query"
-        description: "private key for decoding data"
+        description: "The number of results to return"
         required: false
-        type: "string"
+        type: "number"
+      - name: "from"
+        in: "query"
+        description: "The number of results to skip"
+        required: false
+        type: "number"
       responses:
         200:
           description: "Success"
@@ -2022,10 +2069,16 @@ paths:
         in: "query"
         required: false
         type: "string"
-      - name: "privatekey"
+      - name: "count"
         in: "query"
+        description: "The number of results to return"
         required: false
-        type: "string"
+        type: "number"
+      - name: "from"
+        in: "query"
+        description: "The number of results to skip"
+        required: false
+        type: "number"
       responses:
         200:
           description: "Success"
@@ -2060,10 +2113,16 @@ paths:
         in: "query"
         required: false
         type: "string"
-      - name: "privatekey"
+      - name: "count"
         in: "query"
+        description: "The number of results to return"
         required: false
-        type: "string"
+        type: "number"
+      - name: "from"
+        in: "query"
+        description: "The number of results to skip"
+        required: false
+        type: "number"
       responses:
         200:
           description: "Success"
@@ -2217,10 +2276,16 @@ paths:
         in: "query"
         required: false
         type: "string"
-      - name: "privatekey"
+      - name: "count"
         in: "query"
+        description: "The number of results to return"
         required: false
-        type: "string"
+        type: "number"
+      - name: "from"
+        in: "query"
+        description: "The number of results to skip"
+        required: false
+        type: "number"
       responses:
         200:
           description: "Success"
@@ -2284,6 +2349,32 @@ paths:
             type: "array"
             items:
               type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Offers"
+    x-swagger-router-controller: "rpc"
+  /offercount:
+    get:
+      tags:
+      - "Offers"
+      description: "Count offers that an array of aliases own."
+      operationId: "offercount"
+      parameters:
+      - name: "aliases"
+        in: "query"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "number"
         default:
           description: "Error"
           schema:
@@ -2430,10 +2521,16 @@ paths:
         in: "query"
         required: false
         type: "string"
-      - name: "privatekey"
+      - name: "count"
         in: "query"
+        description: "The number of results to return"
         required: false
-        type: "string"
+        type: "number"
+      - name: "from"
+        in: "query"
+        description: "The number of results to skip"
+        required: false
+        type: "number"
       responses:
         200:
           description: "Success"

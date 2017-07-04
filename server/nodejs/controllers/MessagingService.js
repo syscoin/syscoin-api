@@ -64,7 +64,8 @@ exports.messagereceivelist = function(args, res, next) {
   var argList = [
     { prop: "aliases", defaultValue: [] },
     { prop: "message", defaultValue: "" },
-    { prop: "privatekey", defaultValue: "" }
+    { prop: "count", defaultValue: 10 },
+    { prop: "from", defaultValue: 0 }
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -92,7 +93,8 @@ exports.messagesentlist = function(args, res, next) {
   var argList = [
     { prop: "aliases", defaultValue: [] },
     { prop: "message", defaultValue: "" },
-    { prop: "privatekey", defaultValue: "" }
+    { prop: "count", defaultValue: 10 },
+    { prop: "from", defaultValue: 0 }
   ];
 
   var cb = function(err, result, resHeaders) {

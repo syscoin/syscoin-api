@@ -240,7 +240,8 @@ exports.escrowlist = function(args, res, next) {
   var argList = [
     { prop: "aliases", defaultValue: [] },
     { prop: "escrow", defaultValue: "" },
-    { prop: "privatekey", defaultValue: "" }
+    { prop: "count", defaultValue: 10 },
+    { prop: "from", defaultValue: 0 }
   ];
 
   var cb = function(err, result, resHeaders) {

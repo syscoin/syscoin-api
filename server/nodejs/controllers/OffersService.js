@@ -102,7 +102,8 @@ exports.offeracceptlist = function(args, res, next) {
   var argList = [
     { prop: "aliases", defaultValue: [] },
     { prop: "acceptguid", defaultValue: "" },
-    { prop: "privatekey", defaultValue: "" }
+    { prop: "count", defaultValue: 10 },
+    { prop: "from", defaultValue: 0 }
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -170,6 +171,30 @@ exports.offerclearwhitelist = function(args, res, next) {
 
   var arr = varUtils.getArgsArr(argList, args, "POST", cb);
   syscoinClient.offerClearWhitelist.apply(syscoinClient, arr);
+}
+
+exports.offercount = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * aliases (Array)
+   **/
+  var argList = [
+    { prop: "aliases", defaultValue: [] }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('Offer count:', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.offerCount.apply(syscoinClient, arr);
 }
 
 exports.offerfilter = function(args, res, next) {
@@ -287,7 +312,8 @@ exports.offerlist = function(args, res, next) {
   var argList = [
     { prop: "aliases", defaultValue: [] },
     { prop: "offer", defaultValue: "" },
-    { prop: "privatekey", defaultValue: "" }
+    { prop: "count", defaultValue: 10 },
+    { prop: "from", defaultValue: 0 }
   ];
 
   var cb = function(err, result, resHeaders) {
