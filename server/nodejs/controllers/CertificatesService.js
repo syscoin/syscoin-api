@@ -31,13 +31,14 @@ exports.certfilter = function(args, res, next) {
    * parameters expected in the args:
   * regexp (String)
   * from (String)
-  * certfilter (String) TODO: remove this, dont pass thru
+  * count (Number)
   * safesearch (String)
   * category (String)
   **/
   var argList = [
     { prop: "regexp", defaultValue: "" },
     { prop: "from", defaultValue: "" },
+    { prop: "count", defaultValue: 10 },
     { prop: "safesearch", defaultValue: "Yes" },
     { prop: "category", defaultValue: "" }
   ];

@@ -30,6 +30,10 @@ module.exports.offerclearwhitelist = function offerclearwhitelist (req, res, nex
   Offers.offerclearwhitelist(req.swagger.params, res, next);
 };
 
+module.exports.offercount = function offercount (req, res, next) {
+  Offers.offercount(req.swagger.params, res, next);
+};
+
 module.exports.offerfilter = function offerfilter (req, res, next) {
   Offers.offerfilter(req.swagger.params, res, next);
 };

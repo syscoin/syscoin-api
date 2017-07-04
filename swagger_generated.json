@@ -442,7 +442,7 @@
     "/aliasfilter" : {
       "get" : {
         "tags" : [ "Aliases" ],
-        "description" : "Filter aliases [regexp] : apply [regexp] on aliases, empty means all aliases [from] : show results from this GUID [from], empty means first. [aliasfilter] : shows all aliases that are safe to display (not on the ban list) aliasfilter \"\" 5 = list aliases updated in last 5 blocks aliasfilter \"^alias\" = list all aliases starting with \"alias\" aliasfilter 36000 0 0 stat = display stats (number of aliases) on active aliases",
+        "description" : "Scan and filter aliases aliasfilter \"\" 5 # list aliases updated in last 5 blocks aliasfilter \"^alias\" # list all aliases starting with \"alias\" aliasfilter 36000 0 0 stat # display stats (number of aliases) on active aliases",
         "operationId" : "aliasfilter",
         "parameters" : [ {
           "name" : "regexp",
@@ -454,6 +454,12 @@
           "name" : "from",
           "in" : "query",
           "description" : "show results from this GUID [from], empty means first",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "count",
+          "in" : "query",
+          "description" : "number of results to return.",
           "required" : false,
           "type" : "string"
         }, {
@@ -758,11 +764,11 @@
           "required" : false,
           "type" : "string"
         }, {
-          "name" : "certfilter",
+          "name" : "count",
           "in" : "query",
-          "description" : "shows all certs that are safe to display (not on the ban list)",
+          "description" : "the number of results to return",
           "required" : false,
-          "type" : "string"
+          "type" : "number"
         }, {
           "name" : "safesearch",
           "in" : "query",
@@ -1353,6 +1359,12 @@
           "description" : "Show results from this GUID [from], 0 means first.",
           "required" : false,
           "type" : "string"
+        }, {
+          "name" : "count",
+          "in" : "query",
+          "description" : "the number of results to return",
+          "required" : false,
+          "type" : "number"
         } ],
         "responses" : {
           "200" : {
@@ -2986,6 +2998,12 @@
           "description" : "show results from number [from]",
           "required" : false,
           "type" : "string"
+        }, {
+          "name" : "count",
+          "in" : "query",
+          "description" : "the number of results to return",
+          "required" : false,
+          "type" : "number"
         }, {
           "name" : "safesearch",
           "in" : "query",

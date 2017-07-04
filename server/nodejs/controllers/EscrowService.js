@@ -161,10 +161,12 @@ exports.escrowfilter = function(args, res, next) {
    * parameters expected in the args:
   * regexp (String)
   * from (String)
-  **/
+  * count (Number)
+   **/
   var argList = [
     { prop: "regexp", defaultValue: "" },
-    { prop: "from", defaultValue: "" }
+    { prop: "from", defaultValue: "" },
+    { prop: "count", defaultValue: 10 }
   ];
 
   var cb = function(err, result, resHeaders) {

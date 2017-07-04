@@ -346,13 +346,10 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: aliasfilter
-      description: "Filter aliases
-        [regexp] : apply [regexp] on aliases, empty means all aliases
-        [from] : show results from this GUID [from], empty means first.
-        [aliasfilter] : shows all aliases that are safe to display (not on the ban list)
-        aliasfilter \"\" 5 = list aliases updated in last 5 blocks
-        aliasfilter \"^alias\" = list all aliases starting with \"alias\"
-        aliasfilter 36000 0 0 stat = display stats (number of aliases) on active aliases"
+      description: "Scan and filter aliases
+                    aliasfilter \"\" 5 # list aliases updated in last 5 blocks
+                    aliasfilter \"^alias\" # list all aliases starting with \"alias\"
+                    aliasfilter 36000 0 0 stat # display stats (number of aliases) on active aliases"
       security:
         - token: []
       tags:
@@ -366,6 +363,11 @@ paths:
       - name: from
         in: query
         description: show results from this GUID [from], empty means first
+        required: false
+        type: string
+      - name: count
+        in: query
+        description: number of results to return.
         required: false
         type: string
       - name: safesearch
@@ -602,11 +604,11 @@ paths:
         description: show results from number [from]
         required: false
         type: string
-      - name: certfilter #should be boolean
+      - name: count
         in: query
-        description: shows all certs that are safe to display (not on the ban list)
+        description: the number of results to return
         required: false
-        type: string
+        type: number
       - name: safesearch #should be boolean
         in: query
         description: shows all certs that are safe to display (not on the ban list)
@@ -1067,6 +1069,11 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
         description: Show results from this GUID [from], 0 means first.
         required: false
         type: string
+      - name: count
+        in: query
+        description: the number of results to return
+        required: false
+        type: number
       responses:
         "200":
           description: Success
@@ -2324,6 +2331,11 @@ so payments received with the address will be credited to 'account'."
         description: show results from number [from]
         required: false
         type: string
+      - name: count
+        in: query
+        description: the number of results to return
+        required: false
+        type: number
       - name: safesearch #should be boolean
         in: query
         description: shows all offers that are safe to display (not on the ban list)

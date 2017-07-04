@@ -81,12 +81,14 @@ exports.aliasfilter = function(args, res, next) {
    * parameters expected in the args:
   * regexp (String)
   * from (String)
+  * count (Number)
   * safesearch (String)
   **/
 
   var argList = [
     { prop: "regexp" },
     { prop: "from", defaultValue: "" },
+    { prop: "count", defaultValue: 10 },
     { prop: "safesearch", defaultValue: "Yes" }
   ];
   
