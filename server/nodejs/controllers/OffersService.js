@@ -80,8 +80,8 @@ exports.offeracceptlist = function(args, res, next) {
   var argList = [
     { prop: "aliases", defaultValue: [] },
     { prop: "acceptguid", defaultValue: "" },
-    { prop: "count", defaultValue: 10 },
-    { prop: "from", defaultValue: 0 }
+    { prop: "count", defaultValue: "10" },
+    { prop: "from", defaultValue: "0" }
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -256,8 +256,8 @@ exports.offerlist = function(args, res, next) {
   var argList = [
     { prop: "aliases", defaultValue: [] },
     { prop: "offer", defaultValue: "" },
-    { prop: "count", defaultValue: 10 },
-    { prop: "from", defaultValue: 0 }
+    { prop: "count", defaultValue: "10" },
+    { prop: "from", defaultValue: "0" }
   ];
 
   args.count.value = varUtils.correctTypes(args.count.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
