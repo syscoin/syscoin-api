@@ -91,7 +91,7 @@ exports.certinfo = function(args, res, next) {
 exports.certlist = function(args, res, next) {
   var argList = [
     { prop: "aliases" },
-    { prop: "cert" },
+    { prop: "cert" , defaultValue: ""},
     { prop: "count", defaultValue: "10" },
     { prop: "from", defaultValue: "0" }
   ];

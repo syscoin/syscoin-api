@@ -136,7 +136,7 @@ exports.escrowfilter = function(args, res, next) {
   var argList = [
     { prop: "regexp", defaultValue: "" },
     { prop: "from", defaultValue: "" },
-    { prop: "count", defaultValue: 10 }
+    { prop: "count", defaultValue: "10" }
   ];
 
   args.count.value = varUtils.correctTypes(args.count.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
@@ -200,8 +200,8 @@ exports.escrowlist = function(args, res, next) {
   var argList = [
     { prop: "aliases", defaultValue: [] },
     { prop: "escrow", defaultValue: "" },
-    { prop: "count", defaultValue: 10 },
-    { prop: "from", defaultValue: 0 }
+    { prop: "count", defaultValue: "10" },
+    { prop: "from", defaultValue: "0" }
   ];
 
   args.count.value = varUtils.correctTypes(args.count.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
