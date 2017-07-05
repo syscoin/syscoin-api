@@ -2809,6 +2809,9 @@ paths:
         \ After calling this method, you will need to call walletpassphrase again\
         \ before being able to call any methods which require the wallet to be unlocked."
       operationId: "walletlock"
+      consumes:
+      - "application/json"
+      - "application/octet-stream"
       parameters: []
       responses:
         200:

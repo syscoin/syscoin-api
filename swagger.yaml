@@ -2714,6 +2714,9 @@ so payments received with the address will be credited to 'account'."
     post:
       operationId: walletlock
       description: Removes the wallet encryption key from memory, locking the wallet. After calling this method, you will need to call walletpassphrase again before being able to call any methods which require the wallet to be unlocked.
+      consumes:
+        - application/json
+        - application/octet-stream
       security:
           - token: []
       tags:
