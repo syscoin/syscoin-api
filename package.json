@@ -25,7 +25,6 @@
   ],
   "repository": "https://github.com/syscoin/syscoin-api.git",
   "dependencies": {
-    "syscoin": "^2.4.0"
   },
   "devDependencies": {},
   "bugs": {
