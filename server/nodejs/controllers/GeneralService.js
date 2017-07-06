@@ -99,7 +99,7 @@ exports.encryptwallet = function(args, res, next) {
   };
 
   var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.encryptwallet.apply(syscoinClient, arr);
+  syscoinClient.encryptWallet.apply(syscoinClient, arr);
 }
 
 exports.getaccount = function(args, res, next) {
