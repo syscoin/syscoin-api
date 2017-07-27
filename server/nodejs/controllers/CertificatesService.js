@@ -143,7 +143,7 @@ exports.certtransfer = function(args, res, next) {
   var argList = [
     { prop: "certkey" },
     { prop: "alias" },
-    { prop: "viewonly", defaultValue: 0 }
+    { prop: "viewonly", defaultValue: "0" }
   ];
 
   var cb = function(err, result, resHeaders) {
