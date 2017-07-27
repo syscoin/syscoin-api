@@ -4305,7 +4305,7 @@ definitions:
         type: "string"
         description: "Alias to transfer this certificate to."
       viewonly:
-        type: "string"
+        type: "boolean"
         description: "Transfer the certificate as view-only. Recipient cannot edit,\
           \ transfer or sell this certificate in the future."
   CertUpdateRequest:

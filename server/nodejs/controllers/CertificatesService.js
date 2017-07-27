@@ -146,6 +146,8 @@ exports.certtransfer = function(args, res, next) {
     { prop: "viewonly", defaultValue: "0" }
   ];
 
+  args.request.value.viewonly = varUtils.correctTypes(args.request.value.viewonly, varUtils.TYPE_CONVERSION.BOOL_TO_NUM_STRING);
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
