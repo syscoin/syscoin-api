@@ -3695,7 +3695,7 @@ definitions:
         type: string
       description:
         type: string
-      alias":
+      alias:
         type: string
       address:
         type: string

@@ -23,6 +23,6 @@ echo "Swagger codegen: $CODEGEN"
 read -p "Continue? (Y/N): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
 
 echo "Generating client sdk..."
-java -jar $CODEGEN generate -i ../swagger.yaml -l $LANGUAGE -o $OUTPUTDIR
+java -jar $CODEGEN generate -i ../swagger.yaml -l $LANGUAGE -c ./client-gen-config.json -o $OUTPUTDIR
 echo "Generation complete."
 
