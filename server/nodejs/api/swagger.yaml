@@ -355,6 +355,32 @@ paths:
       - token: []
       x-swagger-router-controller: "Aliases"
     x-swagger-router-controller: "rpc"
+  /aliascount:
+    get:
+      tags:
+      - "Aliases"
+      description: "Count aliases that an array of aliases own."
+      operationId: "aliascount"
+      parameters:
+      - name: "aliases"
+        in: "query"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "number"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Aliases"
+    x-swagger-router-controller: "rpc"
   /aliasfilter:
     get:
       tags:
@@ -1016,6 +1042,32 @@ paths:
       security:
       - token: []
       x-swagger-router-controller: "Escrow"
+    x-swagger-router-controller: "rpc"
+  /escrowcount:
+    get:
+      tags:
+      - "Escroew"
+      description: "Count escrows that an array of aliases own."
+      operationId: "escrowcount"
+      parameters:
+      - name: "aliases"
+        in: "query"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "number"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Escroew"
     x-swagger-router-controller: "rpc"
   /escrowcompleterelease:
     post:
@@ -2058,6 +2110,32 @@ paths:
       - token: []
       x-swagger-router-controller: "Messaging"
     x-swagger-router-controller: "rpc"
+  /messagereceivecount:
+    get:
+      tags:
+      - "Messages"
+      description: "Count received messages that an array of aliases own."
+      operationId: "messagereceivecount"
+      parameters:
+      - name: "aliases"
+        in: "query"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "number"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Messages"
+    x-swagger-router-controller: "rpc"
   /messagereceivelist:
     get:
       tags:
@@ -2101,6 +2179,32 @@ paths:
       security:
       - token: []
       x-swagger-router-controller: "Messaging"
+    x-swagger-router-controller: "rpc"
+  /messagesentcount:
+    get:
+      tags:
+      - "Messages"
+      description: "Count sent messages that an array of aliases own."
+      operationId: "messagesentcount"
+      parameters:
+      - name: "aliases"
+        in: "query"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "number"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Messages"
     x-swagger-router-controller: "rpc"
   /messagesentlist:
     get:
@@ -2267,48 +2371,6 @@ paths:
       - token: []
       x-swagger-router-controller: "Offers"
     x-swagger-router-controller: "rpc"
-  /offeracceptlist:
-    get:
-      tags:
-      - "Offers"
-      description: "list my offer accepts"
-      operationId: "offeracceptlist"
-      parameters:
-      - name: "aliases"
-        in: "query"
-        required: false
-        type: "array"
-        items:
-          type: "string"
-      - name: "acceptguid"
-        in: "query"
-        required: false
-        type: "string"
-      - name: "count"
-        in: "query"
-        description: "The number of results to return"
-        required: false
-        type: "number"
-      - name: "from"
-        in: "query"
-        description: "The number of results to skip"
-        required: false
-        type: "number"
-      responses:
-        200:
-          description: "Success"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/OfferAccept"
-        default:
-          description: "Error"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-      security:
-      - token: []
-      x-swagger-router-controller: "Offers"
-    x-swagger-router-controller: "rpc"
   /offeraddwhitelist:
     post:
       tags:
@@ -2369,7 +2431,10 @@ paths:
     get:
       tags:
       - "Offers"
-      description: "Count offers that an array of aliases own."
+      description: "Count offers that an array of aliases own. Set of aliases to look\
+        \ up based on alias. Myaccepts represents offers that have been bought from\
+        \ aliases passed in(as merchant or affiliate), false for offers aliases passed\
+        \ in have bought."
       operationId: "offercount"
       parameters:
       - name: "aliases"
@@ -2378,6 +2443,14 @@ paths:
         type: "array"
         items:
           type: "string"
+      - name: "accepts"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "myaccepts"
+        in: "query"
+        required: false
+        type: "boolean"
       responses:
         200:
           description: "Success"
@@ -2520,8 +2593,10 @@ paths:
     get:
       tags:
       - "Offers"
-      description: "List offers that an array of aliases own. Set of aliases to look\
-        \ up based on alias, and private key to decrypt any data found in offer."
+      description: "list offers that an array of aliases own. Set of aliases to look\
+        \ up based on alias. Myaccepts represents offers that have been bought from\
+        \ aliases passed in(as merchant or affiliate), false for offers aliases passed\
+        \ in have bought."
       operationId: "offerlist"
       parameters:
       - name: "aliases"
@@ -2530,10 +2605,18 @@ paths:
         type: "array"
         items:
           type: "string"
-      - name: "offer"
+      - name: "guid"
         in: "query"
         required: false
         type: "string"
+      - name: "accepts"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "myaccepts"
+        in: "query"
+        required: false
+        type: "boolean"
       - name: "count"
         in: "query"
         description: "The number of results to return"
@@ -3941,90 +4024,6 @@ definitions:
       time: 0.80082819046101150206595775671303272247314453125
       to: "aeiou"
       message: "aeiou"
-  OfferAccept:
-    properties:
-      offer:
-        type: "string"
-      id:
-        type: "string"
-      txid:
-        type: "string"
-      title:
-        type: "string"
-      exttxid:
-        type: "string"
-      paymentoption:
-        type: "number"
-      paymentoption_display:
-        type: "string"
-      height:
-        type: "number"
-      time:
-        type: "string"
-      quantity:
-        type: "number"
-      currency:
-        type: "string"
-      offer_discount_percentage:
-        type: "number"
-      systotal:
-        type: "number"
-      sysprice:
-        type: "number"
-      price:
-        type: "number"
-      total:
-        type: "number"
-      buyer:
-        type: "string"
-      seller:
-        type: "string"
-      ismine:
-        type: "boolean"
-      status:
-        type: "string"
-      buyer_fedback:
-        type: "array"
-        items:
-          type: "string"
-      seller_fedback:
-        type: "array"
-        items:
-          type: "string"
-      avg_rating:
-        type: "number"
-      avg_rating_display:
-        type: "string"
-      pay_message:
-        type: "string"
-    example:
-      seller: "aeiou"
-      paymentoption_display: "aeiou"
-      pay_message: "aeiou"
-      ismine: true
-      sysprice: 2.3021358869347654518833223846741020679473876953125
-      title: "aeiou"
-      offer: "aeiou"
-      total: 9.301444243932575517419536481611430644989013671875
-      price: 7.061401241503109105224211816675961017608642578125
-      avg_rating: 3.61607674925191080461672754609026014804840087890625
-      buyer_fedback:
-      - "aeiou"
-      currency: "aeiou"
-      systotal: 5.63737665663332876420099637471139430999755859375
-      id: "aeiou"
-      avg_rating_display: "aeiou"
-      height: 6.02745618307040320615897144307382404804229736328125
-      offer_discount_percentage: 5.962133916683182377482808078639209270477294921875
-      quantity: 1.46581298050294517310021547018550336360931396484375
-      paymentoption: 0.80082819046101150206595775671303272247314453125
-      txid: "aeiou"
-      seller_fedback:
-      - "aeiou"
-      buyer: "aeiou"
-      exttxid: "aeiou"
-      time: "aeiou"
-      status: "aeiou"
   OfferWhitelistEntry:
     properties:
       alias:
@@ -4095,7 +4094,7 @@ definitions:
         type: "string"
       description:
         type: "string"
-      alias":
+      alias:
         type: "string"
       address:
         type: "string"
@@ -4125,6 +4124,7 @@ definitions:
       expired: true
       price: 5.63737665663332876420099637471139430999755859375
       alias_rating_count: 2.027123023002321833274663731572218239307403564453125
+      alias: "aeiou"
       currency: "aeiou"
       commission: 2.3021358869347654518833223846741020679473876953125
       expires_in: 0.80082819046101150206595775671303272247314453125
@@ -4141,7 +4141,6 @@ definitions:
       paymentoptions_display: "aeiou"
       offerlink_seller: "aeiou"
       alias_rating_display: "aeiou"
-      alias": "aeiou"
       time: "aeiou"
       category: "aeiou"
       geolocation: "aeiou"
