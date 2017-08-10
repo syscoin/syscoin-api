@@ -361,13 +361,7 @@ paths:
       - "Aliases"
       description: "Count aliases that an array of aliases own."
       operationId: "aliascount"
-      parameters:
-      - name: "aliases"
-        in: "query"
-        required: false
-        type: "array"
-        items:
-          type: "string"
+      parameters: []
       responses:
         200:
           description: "Success"

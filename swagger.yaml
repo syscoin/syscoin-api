@@ -351,13 +351,6 @@ paths:
       - token: []
       tags:
       - Aliases
-      parameters:
-      - name: aliases
-        in: query
-        required: false
-        type: array
-        items:
-          type: string
       responses:
         "200":
           description: Success
