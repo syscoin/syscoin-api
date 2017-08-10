@@ -2371,6 +2371,48 @@ paths:
       - token: []
       x-swagger-router-controller: "Offers"
     x-swagger-router-controller: "rpc"
+  /offeracceptlist:
+    get:
+      tags:
+      - "Offers"
+      description: "list my offer accepts"
+      operationId: "offeracceptlist"
+      parameters:
+      - name: "aliases"
+        in: "query"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+      - name: "acceptguid"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "count"
+        in: "query"
+        description: "The number of results to return"
+        required: false
+        type: "number"
+      - name: "from"
+        in: "query"
+        description: "The number of results to skip"
+        required: false
+        type: "number"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/OfferAccept"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Offers"
+    x-swagger-router-controller: "rpc"
   /offeraddwhitelist:
     post:
       tags:
@@ -4024,6 +4066,90 @@ definitions:
       time: 0.80082819046101150206595775671303272247314453125
       to: "aeiou"
       message: "aeiou"
+  OfferAccept:
+    properties:
+      offer:
+        type: "string"
+      id:
+        type: "string"
+      txid:
+        type: "string"
+      title:
+        type: "string"
+      exttxid:
+        type: "string"
+      paymentoption:
+        type: "number"
+      paymentoption_display:
+        type: "string"
+      height:
+        type: "number"
+      time:
+        type: "string"
+      quantity:
+        type: "number"
+      currency:
+        type: "string"
+      offer_discount_percentage:
+        type: "number"
+      systotal:
+        type: "number"
+      sysprice:
+        type: "number"
+      price:
+        type: "number"
+      total:
+        type: "number"
+      buyer:
+        type: "string"
+      seller:
+        type: "string"
+      ismine:
+        type: "boolean"
+      status:
+        type: "string"
+      buyer_fedback:
+        type: "array"
+        items:
+          type: "string"
+      seller_fedback:
+        type: "array"
+        items:
+          type: "string"
+      avg_rating:
+        type: "number"
+      avg_rating_display:
+        type: "string"
+      pay_message:
+        type: "string"
+    example:
+      seller: "aeiou"
+      paymentoption_display: "aeiou"
+      pay_message: "aeiou"
+      ismine: true
+      sysprice: 2.3021358869347654518833223846741020679473876953125
+      title: "aeiou"
+      offer: "aeiou"
+      total: 9.301444243932575517419536481611430644989013671875
+      price: 7.061401241503109105224211816675961017608642578125
+      avg_rating: 3.61607674925191080461672754609026014804840087890625
+      buyer_fedback:
+      - "aeiou"
+      currency: "aeiou"
+      systotal: 5.63737665663332876420099637471139430999755859375
+      id: "aeiou"
+      avg_rating_display: "aeiou"
+      height: 6.02745618307040320615897144307382404804229736328125
+      offer_discount_percentage: 5.962133916683182377482808078639209270477294921875
+      quantity: 1.46581298050294517310021547018550336360931396484375
+      paymentoption: 0.80082819046101150206595775671303272247314453125
+      txid: "aeiou"
+      seller_fedback:
+      - "aeiou"
+      buyer: "aeiou"
+      exttxid: "aeiou"
+      time: "aeiou"
+      status: "aeiou"
   OfferWhitelistEntry:
     properties:
       alias:
