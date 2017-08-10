@@ -342,6 +342,32 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /aliascount:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: aliascount
+      description: Count aliases that an array of aliases own.
+      security:
+          - token: []
+      tags:
+      - Aliases
+      parameters:
+      - name: aliases
+        in: query
+        required: false
+        type: array
+        items:
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: number
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /aliasfilter:
     x-swagger-router-controller: rpc
     get:
@@ -986,6 +1012,32 @@ paths:
             type: array
             items:
               type: string #TODO: double check
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /escrowcount:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: escrowcount
+      description: Count escrows that an array of aliases own.
+      security:
+          - token: []
+      tags:
+      - Escroew
+      parameters:
+      - name: aliases
+        in: query
+        required: false
+        type: array
+        items:
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: number
         default:
           description: Error
           schema:
@@ -2189,48 +2241,6 @@ so payments received with the address will be credited to 'account'."
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /offeracceptlist:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: offeracceptlist
-      description: list my offer accepts
-      security:
-          - token: []
-      tags:
-      - Offers
-      parameters:
-      - name: aliases
-        in: query
-        required: false
-        type: array
-        items:
-          type: string
-      - name: acceptguid
-        in: query
-        required: false
-        type: string
-      - name: count
-        description: The number of results to return
-        in: query
-        required: false
-        type: number
-      - name: from
-        description: The number of results to skip
-        in: query
-        required: false
-        type: number
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/OfferAccept"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
   /offeraddwhitelist:
     x-swagger-router-controller: rpc
     post:
@@ -2289,7 +2299,7 @@ so payments received with the address will be credited to 'account'."
     x-swagger-router-controller: rpc
     get:
       operationId: offercount
-      description: Count offers that an array of aliases own.
+      description: Count offers that an array of aliases own. Set of aliases to look up based on alias. Myaccepts represents offers that have been bought from aliases passed in(as merchant or affiliate), false for offers aliases passed in have bought.
       security:
           - token: []
       tags:
@@ -2301,6 +2311,14 @@ so payments received with the address will be credited to 'account'."
         type: array
         items:
           type: string
+      - name: accepts
+        in: query
+        required: false
+        type: boolean
+      - name: myaccepts
+        in: query
+        required: false
+        type: boolean
       responses:
         "200":
           description: Success
@@ -2440,7 +2458,7 @@ so payments received with the address will be credited to 'account'."
     x-swagger-router-controller: rpc
     get:
       operationId: offerlist
-      description: List offers that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in offer.
+      description: list offers that an array of aliases own. Set of aliases to look up based on alias. Myaccepts represents offers that have been bought from aliases passed in(as merchant or affiliate), false for offers aliases passed in have bought.
       security:
           - token: []
       tags:
@@ -2452,10 +2470,18 @@ so payments received with the address will be credited to 'account'."
         type: array
         items:
           type: string
-      - name: offer
+      - name: guid
         in: query
         required: false
         type: string
+      - name: accepts
+        in: query
+        required: false
+        type: boolean
+      - name: myaccepts
+        in: query
+        required: false
+        type: boolean
       - name: count
         description: The number of results to return
         in: query
