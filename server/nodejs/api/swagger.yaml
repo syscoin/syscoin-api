@@ -2113,7 +2113,7 @@ paths:
   /messagereceivecount:
     get:
       tags:
-      - "Messages"
+      - "Messaging"
       description: "Count received messages that an array of aliases own."
       operationId: "messagereceivecount"
       parameters:
@@ -2134,7 +2134,7 @@ paths:
             $ref: "#/definitions/ErrorResponse"
       security:
       - token: []
-      x-swagger-router-controller: "Messages"
+      x-swagger-router-controller: "Messaging"
     x-swagger-router-controller: "rpc"
   /messagereceivelist:
     get:
@@ -2183,7 +2183,7 @@ paths:
   /messagesentcount:
     get:
       tags:
-      - "Messages"
+      - "Messaging"
       description: "Count sent messages that an array of aliases own."
       operationId: "messagesentcount"
       parameters:
@@ -2204,7 +2204,7 @@ paths:
             $ref: "#/definitions/ErrorResponse"
       security:
       - token: []
-      x-swagger-router-controller: "Messages"
+      x-swagger-router-controller: "Messaging"
     x-swagger-router-controller: "rpc"
   /messagesentlist:
     get:

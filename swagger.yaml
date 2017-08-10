@@ -2047,7 +2047,7 @@ so payments received with the address will be credited to 'account'."
       security:
       - token: []
       tags:
-      - Messages
+      - Messaging
       parameters:
       - name: aliases
         in: query
@@ -2115,7 +2115,7 @@ so payments received with the address will be credited to 'account'."
       security:
       - token: []
       tags:
-      - Messages
+      - Messaging
       parameters:
       - name: aliases
         in: query
