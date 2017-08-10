@@ -1046,7 +1046,7 @@ paths:
   /escrowcount:
     get:
       tags:
-      - "Escroew"
+      - "Escrow"
       description: "Count escrows that an array of aliases own."
       operationId: "escrowcount"
       parameters:
@@ -1067,7 +1067,7 @@ paths:
             $ref: "#/definitions/ErrorResponse"
       security:
       - token: []
-      x-swagger-router-controller: "Escroew"
+      x-swagger-router-controller: "Escrow"
     x-swagger-router-controller: "rpc"
   /escrowcompleterelease:
     post:

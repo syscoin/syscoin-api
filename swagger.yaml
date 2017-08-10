@@ -1025,7 +1025,7 @@ paths:
       security:
       - token: []
       tags:
-      - Escroew
+      - Escrow
       parameters:
       - name: aliases
         in: query
