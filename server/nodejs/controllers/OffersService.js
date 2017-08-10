@@ -145,7 +145,9 @@ exports.offerclearwhitelist = function(args, res, next) {
 
 exports.offercount = function(args, res, next) {
   var argList = [
-    { prop: "aliases", defaultValue: [] }
+    { prop: "aliases", defaultValue: [] },
+    { prop: "accepts", defaultValue: "false"},
+    { prop: "myaccepts", defaultValue: "true"}
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -255,7 +257,9 @@ exports.offerlink = function(args, res, next) {
 exports.offerlist = function(args, res, next) {
   var argList = [
     { prop: "aliases", defaultValue: [] },
-    { prop: "offer", defaultValue: "" },
+    { prop: "guid", defaultValue: "" },
+    { prop: "accepts", defaultValue: "false"},
+    { prop: "myaccepts", defaultValue: "true"},
     { prop: "count", defaultValue: "10" },
     { prop: "from", defaultValue: "0" }
   ];

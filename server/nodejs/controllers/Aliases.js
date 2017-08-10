@@ -18,6 +18,10 @@ module.exports.aliasbalance = function aliasbalance (req, res, next) {
   Aliases.aliasbalance(req.swagger.params, res, next);
 };
 
+module.exports.aliascount = function aliascount (req, res, next) {
+  Aliases.aliascount(req.swagger.params, res, next);
+};
+
 module.exports.aliasfilter = function aliasfilter (req, res, next) {
   Aliases.aliasfilter(req.swagger.params, res, next);
 };

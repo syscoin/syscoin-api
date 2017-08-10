@@ -107,6 +107,26 @@ exports.escrowcompleterelease = function(args, res, next) {
   syscoinClient.escrowCompleteRelease.apply(syscoinClient, arr);
 }
 
+exports.escrowcount = function(args, res, next) {
+  var argList = [
+    { prop: "aliases", defaultValue: [] }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('Escrow count:', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.escrowCount.apply(syscoinClient, arr);
+}
+
 exports.escrowfeedback = function(args, res, next) {
   var argList = [
     { prop: "escrowguid" },
