@@ -2293,6 +2293,48 @@ so payments received with the address will be credited to 'account'."
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /offeracceptlist:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: offeracceptlist
+      description: list my offer accepts
+      security:
+          - token: []
+      tags:
+      - Offers
+      parameters:
+      - name: aliases
+        in: query
+        required: false
+        type: array
+        items:
+          type: string
+      - name: acceptguid
+        in: query
+        required: false
+        type: string
+      - name: count
+        description: The number of results to return
+        in: query
+        required: false
+        type: number
+      - name: from
+        description: The number of results to skip
+        in: query
+        required: false
+        type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/OfferAccept"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /offeraddwhitelist:
     x-swagger-router-controller: rpc
     post:
@@ -3647,6 +3689,62 @@ definitions:
       subject:
         type: string
       message:
+        type: string
+  OfferAccept:
+    properties:
+      offer:
+        type: string
+      id:
+        type: string
+      txid:
+        type: string
+      title:
+        type: string
+      exttxid:
+        type: string
+      paymentoption:
+        type: number
+      paymentoption_display:
+        type: string
+      height:
+        type: number #returns string wrapped number
+      time:
+        type: string
+      quantity:
+        type: number #returns string wrapped number
+      currency:
+        type: string
+      offer_discount_percentage:
+        type: number #returns string "0%"
+      systotal:
+        type: number
+      sysprice:
+        type: number
+      price:
+        type: number #returns string wrapped number
+      total:
+        type: number #returns string wrapped number
+      buyer:
+        type: string
+      seller:
+        type: string
+      ismine:
+        type: boolean #return string wrapper boolean
+      status:
+         type: string
+      buyer_fedback:
+        type: array
+        items:
+          type: string
+      seller_fedback:
+        type: array
+        items:
+          type: string
+      avg_rating:
+        type: number
+      avg_rating_display:
+        type: string
+      pay_message:
         type: string
   OfferWhitelistEntry:
     properties:
