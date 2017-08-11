@@ -2278,7 +2278,7 @@ so payments received with the address will be credited to 'account'."
       x-swagger-router-controller: rpc
       get:
         operationId: offeracceptcount
-        description: list count of offer accept for a set of aliases. filterpurchases filters results for count of accepts that have been bought with aliases passed in(as buyer), filtersales filters results for count of accepts purchased by aliases passed in(as merchant or affiliate).
+        description: List count of offer accept for a set of aliases. filterpurchases filters results for count of accepts that have been bought with aliases passed in(as buyer), filtersales filters results for count of accepts purchased by aliases passed in(as merchant or affiliate).
         security:
             - token: []
         tags:
@@ -2302,9 +2302,7 @@ so payments received with the address will be credited to 'account'."
           "200":
             description: Success
             schema:
-              type: array
-              items:
-                $ref: "#/definitions/OfferAccept"
+              type: number
           default:
             description: Error
             schema:
@@ -2352,7 +2350,7 @@ so payments received with the address will be credited to 'account'."
     x-swagger-router-controller: rpc
     get:
       operationId: offeracceptlist
-      description: list my offer accepts
+      description: List offer accepts for a set of aliases. filterpurchases filters results for accepts that have been bought with aliases passed in(as buyer), filtersales filters results for accepts purchased by aliases passed in(as merchant or affiliate).
       security:
           - token: []
       tags:
