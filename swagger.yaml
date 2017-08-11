@@ -1014,13 +1014,25 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: escrowcount
-      description: Count escrows that an array of aliases own.
+      description: Count escrows that an set of aliases are involved in.
       security:
       - token: []
       tags:
       - Escrow
       parameters:
-      - name: aliases
+      - name: buyerAliases
+        in: query
+        required: false
+        type: array
+        items:
+          type: string
+      - name: sellerAliases
+        in: query
+        required: false
+        type: array
+        items:
+          type: string
+      - name: arbiterAliases
         in: query
         required: false
         type: array
@@ -1187,16 +1199,30 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
     x-swagger-router-controller: rpc
     get:
       operationId: escrowlist
-      description: List escrows that an array of aliases are involved in. Set of aliases to look up based on alias, and private key to decrypt any data found in escrow.
+      description: List escrows that an array of aliases are involved in.
       security:
       - token: []
       tags:
       - Escrow
       parameters:
-      - name: aliases
-        description: List of aliases to display escrows from
+      - name: buyerAliases
+        description: List of buyer aliases to display escrows from
         in: query
-        required: true
+        required: false
+        type: array
+        items:
+          type: string
+      - name: sellerAliases
+        description: List of seller aliases to display escrows from
+        in: query
+        required: false
+        type: array
+        items:
+          type: string
+      - name: arbiterAliases
+        description: List of arbiter aliases to display escrows from
+        in: query
+        required: false
         type: array
         items:
           type: string
@@ -2248,6 +2274,42 @@ so payments received with the address will be credited to 'account'."
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /offeracceptcount:
+      x-swagger-router-controller: rpc
+      get:
+        operationId: offeracceptcount
+        description: list count of offer accept for a set of aliases. filterpurchases filters results for count of accepts that have been bought with aliases passed in(as buyer), filtersales filters results for count of accepts purchased by aliases passed in(as merchant or affiliate).
+        security:
+            - token: []
+        tags:
+        - Offers
+        parameters:
+        - name: aliases
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+        - name: filterpurchases
+          in: query
+          required: false
+          type: boolean
+        - name: filtersales
+          in: query
+          required: false
+          type: number
+        responses:
+          "200":
+            description: Success
+            schema:
+              type: array
+              items:
+                $ref: "#/definitions/OfferAccept"
+          default:
+            description: Error
+            schema:
+              $ref: "#/definitions/ErrorResponse"
+
   /offeracceptfeedback:
     x-swagger-router-controller: rpc
     post:
@@ -2302,10 +2364,18 @@ so payments received with the address will be credited to 'account'."
         type: array
         items:
           type: string
-      - name: acceptguid
+      - name: guid
         in: query
         required: false
         type: string
+      - name: filterpurchases
+        in: query
+        required: false
+        type: boolean
+      - name: filtersales
+        in: query
+        required: false
+        type: number
       - name: count
         description: The number of results to return
         in: query
@@ -2386,7 +2456,7 @@ so payments received with the address will be credited to 'account'."
     x-swagger-router-controller: rpc
     get:
       operationId: offercount
-      description: Count offers that an array of aliases own. Set of aliases to look up based on alias. Myaccepts represents offers that have been bought from aliases passed in(as merchant or affiliate), false for offers aliases passed in have bought.
+      description: Count offers that an array of aliases own.
       security:
       - token: []
       tags:
@@ -2398,14 +2468,6 @@ so payments received with the address will be credited to 'account'."
         type: array
         items:
           type: string
-      - name: accepts
-        in: query
-        required: false
-        type: boolean
-      - name: myaccepts
-        in: query
-        required: false
-        type: boolean
       responses:
         "200":
           description: Success
@@ -2545,7 +2607,7 @@ so payments received with the address will be credited to 'account'."
     x-swagger-router-controller: rpc
     get:
       operationId: offerlist
-      description: list offers that an array of aliases own. Set of aliases to look up based on alias. Myaccepts represents offers that have been bought from aliases passed in(as merchant or affiliate), false for offers aliases passed in have bought.
+      description: list offers that an array of aliases own.
       security:
       - token: []
       tags:
@@ -2561,14 +2623,6 @@ so payments received with the address will be credited to 'account'."
         in: query
         required: false
         type: string
-      - name: accepts
-        in: query
-        required: false
-        type: boolean
-      - name: myaccepts
-        in: query
-        required: false
-        type: boolean
       - name: count
         description: The number of results to return
         in: query
