@@ -51,6 +51,28 @@ exports.offeracceptacknowledge = function(args, res, next) {
   syscoinClient.offerAcceptAcknowledge.apply(syscoinClient, arr);
 }
 
+exports.offeracceptcount = function(args, res, next) {
+  var argList = [
+    { prop: "aliases", defaultValue: [] },
+    { prop: "filterpurchases", defaultValue: "true"},
+    { prop: "filtersales", defaultValue: "true"}
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('Offer accept count:', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.offerAcceptCount.apply(syscoinClient, arr);
+}
+
 exports.offeracceptfeedback = function(args, res, next) {
   var argList = [
     { prop: "offerguid" },
@@ -79,7 +101,9 @@ exports.offeracceptfeedback = function(args, res, next) {
 exports.offeracceptlist = function(args, res, next) {
   var argList = [
     { prop: "aliases", defaultValue: [] },
-    { prop: "acceptguid", defaultValue: "" },
+    { prop: "guid", defaultValue: "" },
+    { prop: "filterpurchases", defaultValue: "true"},
+    { prop: "filtersales", defaultValue: "true"},
     { prop: "count", defaultValue: "10" },
     { prop: "from", defaultValue: "0" }
   ];
@@ -145,9 +169,7 @@ exports.offerclearwhitelist = function(args, res, next) {
 
 exports.offercount = function(args, res, next) {
   var argList = [
-    { prop: "aliases", defaultValue: [] },
-    { prop: "accepts", defaultValue: "false"},
-    { prop: "myaccepts", defaultValue: "true"}
+    { prop: "aliases", defaultValue: [] }
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -258,8 +280,6 @@ exports.offerlist = function(args, res, next) {
   var argList = [
     { prop: "aliases", defaultValue: [] },
     { prop: "guid", defaultValue: "" },
-    { prop: "accepts", defaultValue: "false"},
-    { prop: "myaccepts", defaultValue: "true"},
     { prop: "count", defaultValue: "10" },
     { prop: "from", defaultValue: "0" }
   ];

@@ -14,6 +14,10 @@ module.exports.offeracceptacknowledge = function offeracceptacknowledge (req, re
   Offers.offeracceptacknowledge(req.swagger.params, res, next);
 };
 
+module.exports.offeracceptcount = function offeracceptcount (req, res, next) {
+  Offers.offeracceptcount(req.swagger.params, res, next);
+};
+
 module.exports.offeracceptfeedback = function offeracceptfeedback (req, res, next) {
   Offers.offeracceptfeedback(req.swagger.params, res, next);
 };

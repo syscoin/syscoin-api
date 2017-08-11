@@ -109,7 +109,9 @@ exports.escrowcompleterelease = function(args, res, next) {
 
 exports.escrowcount = function(args, res, next) {
   var argList = [
-    { prop: "aliases", defaultValue: [] }
+    { prop: "buyerAliases", defaultValue: [] },
+    { prop: "sellerAliases", defaultValue: [] },
+    { prop: "arbiterAliases", defaultValue: [] }
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -218,7 +220,9 @@ exports.escrowinfo = function(args, res, next) {
 
 exports.escrowlist = function(args, res, next) {
   var argList = [
-    { prop: "aliases", defaultValue: [] },
+    { prop: "buyerAliases", defaultValue: [] },
+    { prop: "sellerAliases", defaultValue: [] },
+    { prop: "arbiterAliases", defaultValue: [] },
     { prop: "escrow", defaultValue: "" },
     { prop: "count", defaultValue: "10" },
     { prop: "from", defaultValue: "0" }
