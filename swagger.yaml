@@ -2297,7 +2297,7 @@ so payments received with the address will be credited to 'account'."
         - name: filtersales
           in: query
           required: false
-          type: number
+          type: boolean
         responses:
           "200":
             description: Success
@@ -2375,7 +2375,7 @@ so payments received with the address will be credited to 'account'."
       - name: filtersales
         in: query
         required: false
-        type: number
+        type: boolean
       - name: count
         description: The number of results to return
         in: query

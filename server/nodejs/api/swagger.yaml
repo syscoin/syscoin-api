@@ -2373,7 +2373,7 @@ paths:
       - name: "filtersales"
         in: "query"
         required: false
-        type: "number"
+        type: "boolean"
       responses:
         200:
           description: "Success"
@@ -2452,7 +2452,7 @@ paths:
       - name: "filtersales"
         in: "query"
         required: false
-        type: "number"
+        type: "boolean"
       - name: "count"
         in: "query"
         description: "The number of results to return"
