@@ -227,7 +227,7 @@ exports.aliaspay = function(args, res, next) {
   };
 
   var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.aliaspay.apply(syscoinClient, arr);
+  syscoinClient.aliasPay.apply(syscoinClient, arr);
 }
 
 exports.aliasupdate = function(args, res, next) {
