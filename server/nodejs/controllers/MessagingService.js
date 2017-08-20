@@ -46,6 +46,26 @@ exports.messagenew = function(args, res, next) {
   syscoinClient.messageNew.apply(syscoinClient, arr);
 }
 
+exports.messagereceivecount = function(args, res, next) {
+  var argList = [
+    { prop: "aliases", defaultValue: [] }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('Message recv count:', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.messageReceiveCount.apply(syscoinClient, arr);
+}
+
 exports.messagereceivelist = function(args, res, next) {
   var argList = [
     { prop: "aliases", defaultValue: [] },
@@ -70,6 +90,26 @@ exports.messagereceivelist = function(args, res, next) {
 
   var arr = varUtils.getArgsArr(argList, args, "GET", cb);
   syscoinClient.messageReceiveList.apply(syscoinClient, arr);
+}
+
+exports.messagesentcount = function(args, res, next) {
+  var argList = [
+    { prop: "aliases", defaultValue: [] }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('Message sent count:', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.messageSentCount.apply(syscoinClient, arr);
 }
 
 exports.messagesentlist = function(args, res, next) {

@@ -20,14 +20,14 @@
     "finalhandler": "^1.0.4",
     "js-yaml": "^3.9.1",
     "jshashes": "^1.0.7",
-    "jsonwebtoken": "^7.4.2",
+    "jsonwebtoken": "^7.4.3",
     "mocha": "^3.5.0",
     "q": "^1.5.0",
     "request": "^2.81.0",
     "request-promise": "^4.2.0",
     "serve-static": "^1.12.4",
     "swagger-tools": "0.10.1",
-    "syscoin": "^2.4.4"
+    "syscoin": "^2.4.5"
   },
   "bugs": {
     "url": "https://github.com/syscoin/syscoin-api/issues"
