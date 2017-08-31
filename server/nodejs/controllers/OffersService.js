@@ -108,6 +108,9 @@ exports.offeracceptlist = function(args, res, next) {
     { prop: "from", defaultValue: "0" }
   ];
 
+  args.count.value = varUtils.correctTypes(args.count.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+  args.from.value = varUtils.correctTypes(args.from.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
