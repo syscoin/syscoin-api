@@ -25,10 +25,10 @@ exports.messageinfo = function(args, res, next) {
 exports.messagenew = function(args, res, next) {
   var argList = [
     { prop: "subject" },
-    { prop: "message" },
     { prop: "fromalias" },
     { prop: "toalias" },
-    { prop: "hex", defaultValue: "No" }
+    { prop: "frommessage" },
+    { prop: "tomessage" }
   ];
 
   var cb = function(err, result, resHeaders) {
