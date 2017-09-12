@@ -7,6 +7,8 @@ exports.certcount = function(args, res, next) {
     { prop: "aliases", defaultValue: [] }
   ];
 
+  args.aliases.value = varUtils.correctTypes(args.aliases.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -98,6 +100,7 @@ exports.certlist = function(args, res, next) {
 
   args.count.value = varUtils.correctTypes(args.count.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
   args.from.value = varUtils.correctTypes(args.from.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+  args.aliases.value = varUtils.correctTypes(args.aliases.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');

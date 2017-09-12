@@ -114,6 +114,10 @@ exports.escrowcount = function(args, res, next) {
     { prop: "arbiterAliases", defaultValue: [] }
   ];
 
+  args.buyerAliases.value = varUtils.correctTypes(args.buyerAliases.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+  args.sellerAliases.value = varUtils.correctTypes(args.sellerAliases.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+  args.arbiterAliases.value = varUtils.correctTypes(args.arbiterAliases.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -228,6 +232,9 @@ exports.escrowlist = function(args, res, next) {
     { prop: "from", defaultValue: "0" }
   ];
 
+  args.buyerAliases.value = varUtils.correctTypes(args.buyerAliases.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+  args.sellerAliases.value = varUtils.correctTypes(args.sellerAliases.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+  args.arbiterAliases.value = varUtils.correctTypes(args.arbiterAliases.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
   args.count.value = varUtils.correctTypes(args.count.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
   args.from.value = varUtils.correctTypes(args.from.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 

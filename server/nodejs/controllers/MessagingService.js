@@ -51,6 +51,8 @@ exports.messagereceivecount = function(args, res, next) {
     { prop: "aliases", defaultValue: [] }
   ];
 
+  args.aliases.value = varUtils.correctTypes(args.aliases.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -74,6 +76,7 @@ exports.messagereceivelist = function(args, res, next) {
     { prop: "from", defaultValue: "0" }
   ];
 
+  args.aliases.value = varUtils.correctTypes(args.aliases.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
   args.count.value = varUtils.correctTypes(args.count.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
   args.from.value = varUtils.correctTypes(args.from.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
@@ -96,6 +99,8 @@ exports.messagesentcount = function(args, res, next) {
   var argList = [
     { prop: "aliases", defaultValue: [] }
   ];
+
+  args.aliases.value = varUtils.correctTypes(args.aliases.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -120,6 +125,7 @@ exports.messagesentlist = function(args, res, next) {
     { prop: "from", defaultValue: "0" }
   ];
 
+  args.aliases.value = varUtils.correctTypes(args.aliases.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
   args.count.value = varUtils.correctTypes(args.count.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
   args.from.value = varUtils.correctTypes(args.from.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 

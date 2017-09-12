@@ -61,14 +61,23 @@ function notNullOrUndefined(param) {
 var TYPE_CONVERSION = {
   NUM_TO_STRING: "numToString", //1 to "1"
   BOOL_TO_STRING: "boolToString", //true to "true"
-  BOOL_TO_NUM_STRING: "boolToNumString" //true to "1"
+  BOOL_TO_NUM_STRING: "boolToNumString" //true to "1",
 };
 
 function correctTypes(param, conversionType) {
   if(notNullOrUndefined(param)) {
+    console.log("CORRECT TYPES")
     switch(conversionType) {
       case TYPE_CONVERSION.NUM_TO_STRING:
-        param = param.toString();
+        if(Array.isArray(param)) { //if param is an array, walk it and convert all elements to strings
+          console.log("ARRAY")
+          param = param.map((item) => {
+            return item.toString();
+          });
+        }else{
+          console.log("NOT ARRAY")
+          param = param.toString();
+        }
         break;
 
       case TYPE_CONVERSION.BOOL_TO_STRING:

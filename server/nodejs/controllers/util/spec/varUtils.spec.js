@@ -104,7 +104,7 @@ describe("VerUtils Helper", function() {
     });
   });
 
-  describe("correctTypes", function () {
+  describe.only("correctTypes", function () {
     it("Converts a number to a string", function (done) {
       var args = {
         title: { value: 1 }
@@ -113,6 +113,18 @@ describe("VerUtils Helper", function() {
       args.title.value = varUtils.correctTypes(args.title.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
       expect(args.title.value ).to.equal("1");
+      done();
+    });
+
+    it("Converts a series of number nested in a mixed array to a string", function (done) {
+      var args = {
+        title: { value: [1, "2", 3, "4"] }
+      };
+
+      args.title.value = varUtils.correctTypes(args.title.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+
+      //for more info on this solution: https://medium.com/@victorleungtw/testing-with-mocha-array-comparison-e9a45b57df27
+      expect(args.title.value.toString()).to.equal(["1", "2", "3", "4"].toString());
       done();
     });
 
