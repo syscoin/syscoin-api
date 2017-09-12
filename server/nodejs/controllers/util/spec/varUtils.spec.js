@@ -104,7 +104,7 @@ describe("VerUtils Helper", function() {
     });
   });
 
-  describe.only("correctTypes", function () {
+  describe("correctTypes", function () {
     it("Converts a number to a string", function (done) {
       var args = {
         title: { value: 1 }
