@@ -1472,6 +1472,25 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /getwalletbalance:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getwalletbalance
+      description: Returns wallet balance for all accounts. Does not include watch only accounts.
+      security:
+      - token: []
+      tags:
+      - General
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: number
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /getnewaddress:
     x-swagger-router-controller: rpc
     post:
@@ -3904,9 +3923,6 @@ definitions:
         type: string
       publicvalue:
         description: Alias public profile data, 1023 chars max.
-        type: string
-      privatevalue:
-        description: Alias private profile data, 1023 chars max. Will be private and readable by owner only.
         type: string
       password:
         description: "Used to generate your public/private key that controls this alias. Warning: Calling this function over a public network can lead to someone reading your password in plain text."
