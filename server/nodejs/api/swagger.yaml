@@ -1,7 +1,7 @@
 ---
 swagger: "2.0"
 info:
-  version: "1.0.1"
+  version: "1.0.2"
   title: "Syscoin API"
 host: "localhost:8001"
 tags:
@@ -25,6 +25,221 @@ consumes:
 produces:
 - "application/json"
 paths:
+  /login:
+    get:
+      tags:
+      - "Blockmarket"
+      description: "Returns a session token for use with subsquent protected calls."
+      operationId: "login"
+      parameters:
+      - name: "auth"
+        in: "query"
+        description: "SHA1 hash of the user's authentication information- usernamepassword."
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/LoginResponse"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: "Blockmarket"
+    x-swagger-router-controller: "blockmarket"
+  /getblock:
+    get:
+      tags:
+      - "General"
+      description: "﻿If verbose is false, returns a string that is serialized, hex-encoded\
+        \ data for block 'hash'. If verbose is true, returns an Object with information\
+        \ about block <hash>."
+      operationId: "getblock"
+      parameters:
+      - name: "hash"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "verbose"
+        in: "query"
+        required: false
+        type: "boolean"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/GetBlockResponse"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /getblockchaininfo:
+    get:
+      tags:
+      - "General"
+      description: "Returns an object containing various state info regarding block\
+        \ chain processing."
+      operationId: "getblockchaininfo"
+      parameters: []
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/GetBlockchainInfoResponse"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /getblockcount:
+    get:
+      tags:
+      - "General"
+      description: "Returns the number of blocks in the longest block chain."
+      operationId: "getblockcount"
+      parameters: []
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "number"
+        default:
+          description: "Error"
+          schema:
+            type: "number"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /getinfo:
+    get:
+      tags:
+      - "General"
+      description: "Returns an object containing various state info."
+      operationId: "getinfo"
+      parameters: []
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Info"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /getmininginfo:
+    get:
+      tags:
+      - "General"
+      description: "Returns a json object containing mining-related information."
+      operationId: "getmininginfo"
+      parameters: []
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/MiningInfo"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /getpeerinfo:
+    get:
+      tags:
+      - "General"
+      description: "Returns data about each connected network node as a json array\
+        \ of objects."
+      operationId: "getpeerinfo"
+      parameters: []
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/PeerInfoResponse"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /validateaddress:
+    post:
+      tags:
+      - "General"
+      description: "Return information about the given syscoin address."
+      operationId: "validateaddress"
+      parameters:
+      - name: "syscoinaddress"
+        in: "query"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/ValidateAddressResponse"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /verifymessage:
+    get:
+      tags:
+      - "General"
+      description: "Verify a signed message"
+      operationId: "verifymessage"
+      parameters:
+      - name: "syscoinaddress"
+        in: "query"
+        description: "The syscoin address to use for the signature."
+        required: true
+        type: "string"
+      - name: "signature"
+        in: "query"
+        description: "The signature provided by the signer in base 64 encoding (see\
+          \ signmessage)."
+        required: true
+        type: "string"
+      - name: "message"
+        in: "query"
+        description: "The message that was signed."
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "If the signature is verified or not."
+          schema:
+            type: "boolean"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /addmultisigaddress:
     post:
       tags:
@@ -108,26 +323,81 @@ paths:
       - token: []
       x-swagger-router-controller: "Aliases"
     x-swagger-router-controller: "rpc"
+  /aliasbalance:
+    get:
+      tags:
+      - "Aliases"
+      description: "Returns the total amount received by the given alias in transactions\
+        \ with at least minconf confirmations."
+      operationId: "aliasbalance"
+      parameters:
+      - name: "alias"
+        in: "query"
+        description: "The syscoin alias for transactions"
+        required: true
+        type: "string"
+      - name: "minconf"
+        in: "query"
+        description: "﻿Only include transactions confirmed at least this many times.\
+          \ default=1."
+        required: false
+        type: "number"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "number"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Aliases"
+    x-swagger-router-controller: "rpc"
+  /aliascount:
+    get:
+      tags:
+      - "Aliases"
+      description: "Count aliases that an array of aliases own."
+      operationId: "aliascount"
+      parameters: []
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "number"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Aliases"
+    x-swagger-router-controller: "rpc"
   /aliasfilter:
     get:
       tags:
       - "Aliases"
-      description: "Filter aliases [regexp] : apply [regexp] on aliases, empty means\
-        \ all aliases [from] : show results from this GUID [from], empty means first.\
-        \ [aliasfilter] : shows all aliases that are safe to display (not on the ban\
-        \ list) aliasfilter \"\" 5 = list aliases updated in last 5 blocks aliasfilter\
-        \ \"^alias\" = list all aliases starting with \"alias\" aliasfilter 36000\
-        \ 0 0 stat = display stats (number of aliases) on active aliases"
+      description: "Scan and filter aliases aliasfilter \"\" 5 # list aliases updated\
+        \ in last 5 blocks aliasfilter \"^alias\" # list all aliases starting with\
+        \ \"alias\" aliasfilter 36000 0 0 stat # display stats (number of aliases)\
+        \ on active aliases"
       operationId: "aliasfilter"
       parameters:
       - name: "regexp"
         in: "query"
         description: "apply [regexp] on aliases, empty means all aliases"
-        required: true
+        required: false
         type: "string"
       - name: "from"
         in: "query"
         description: "show results from this GUID [from], empty means first"
+        required: false
+        type: "string"
+      - name: "count"
+        in: "query"
+        description: "number of results to return."
         required: false
         type: "string"
       - name: "safesearch"
@@ -141,7 +411,7 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/AliasListEntry"
+              $ref: "#/definitions/Alias"
         default:
           description: "Error"
           schema:
@@ -212,13 +482,23 @@ paths:
         description: "Alias name to use as filter."
         required: false
         type: "string"
+      - name: "count"
+        in: "query"
+        description: "The number of results to return"
+        required: false
+        type: "number"
+      - name: "from"
+        in: "query"
+        description: "The number of results to skip"
+        required: false
+        type: "number"
       responses:
         200:
           description: "Success"
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/AliasListEntry"
+              $ref: "#/definitions/Alias"
         default:
           description: "Error"
           schema:
@@ -258,7 +538,7 @@ paths:
   /aliaspay:
     post:
       tags:
-      - "Escrow"
+      - "Aliases"
       description: "Send multiple times from an alias. Amounts are double-precision\
         \ floating point numbers."
       operationId: "aliaspay"
@@ -281,7 +561,7 @@ paths:
             $ref: "#/definitions/ErrorResponse"
       security:
       - token: []
-      x-swagger-router-controller: "Escrow"
+      x-swagger-router-controller: "Aliases"
     x-swagger-router-controller: "rpc"
   /aliasupdate:
     post:
@@ -311,6 +591,32 @@ paths:
       - token: []
       x-swagger-router-controller: "Aliases"
     x-swagger-router-controller: "rpc"
+  /certcount:
+    get:
+      tags:
+      - "Certificates"
+      description: "Count certificates that an array of aliases own."
+      operationId: "certcount"
+      parameters:
+      - name: "aliases"
+        in: "query"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "number"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Certificates"
+    x-swagger-router-controller: "rpc"
   /certfilter:
     get:
       tags:
@@ -322,7 +628,7 @@ paths:
       parameters:
       - name: "regexp"
         in: "query"
-        description: "apply [regexp] on certes, empty means all certes"
+        description: "apply [regexp] on certes, empty means all certs"
         required: false
         type: "string"
       - name: "from"
@@ -330,11 +636,11 @@ paths:
         description: "show results from number [from]"
         required: false
         type: "string"
-      - name: "certfilter"
+      - name: "count"
         in: "query"
-        description: "shows all certs that are safe to display (not on the ban list)"
+        description: "the number of results to return"
         required: false
-        type: "string"
+        type: "number"
       - name: "safesearch"
         in: "query"
         description: "shows all certs that are safe to display (not on the ban list)"
@@ -351,7 +657,7 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/CertListEntry"
+              $ref: "#/definitions/Cert"
         default:
           description: "Error"
           schema:
@@ -429,17 +735,23 @@ paths:
         in: "query"
         required: false
         type: "string"
-      - name: "privatekey"
+      - name: "count"
         in: "query"
+        description: "The number of results to return"
         required: false
-        type: "string"
+        type: "number"
+      - name: "from"
+        in: "query"
+        description: "The number of results to skip"
+        required: false
+        type: "number"
       responses:
         200:
           description: "Success"
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/CertListEntry"
+              $ref: "#/definitions/Cert"
         default:
           description: "Error"
           schema:
@@ -583,6 +895,37 @@ paths:
       - token: []
       x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
+  /encryptwallet:
+    get:
+      tags:
+      - "General"
+      description: "Encrypts the wallet with 'passphrase'. This is for first time\
+        \ encryption. After this, any calls that interact with private keys such as\
+        \ sending or signing will require the passphrase to be set prior the making\
+        \ these calls. Use the walletpassphrase call for this, and then walletlock\
+        \ call. If the wallet is already encrypted, use the walletpassphrasechange\
+        \ call. Note that this will shutdown the server."
+      operationId: "encryptwallet"
+      parameters:
+      - name: "passphrase"
+        in: "query"
+        description: "The pass phrase to encrypt the wallet with. It must be at least\
+          \ 1 character, but should be long."
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /escrowacknowledge:
     post:
       tags:
@@ -694,6 +1037,44 @@ paths:
       - token: []
       x-swagger-router-controller: "Escrow"
     x-swagger-router-controller: "rpc"
+  /escrowcount:
+    get:
+      tags:
+      - "Escrow"
+      description: "Count escrows that an set of aliases are involved in."
+      operationId: "escrowcount"
+      parameters:
+      - name: "buyerAliases"
+        in: "query"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+      - name: "sellerAliases"
+        in: "query"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+      - name: "arbiterAliases"
+        in: "query"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "number"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Escrow"
+    x-swagger-router-controller: "rpc"
   /escrowcompleterelease:
     post:
       tags:
@@ -766,11 +1147,16 @@ paths:
       - name: "regexp"
         in: "query"
         description: "Apply [regexp] on escrows, empty means all escrows"
-        required: true
+        required: false
         type: "string"
       - name: "from"
         in: "query"
         description: "Show results from this GUID [from], 0 means first."
+        required: false
+        type: "string"
+      - name: "count"
+        in: "query"
+        description: "the number of results to return"
         required: false
         type: "number"
       responses:
@@ -779,7 +1165,7 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/EscrowListEntry"
+              $ref: "#/definitions/Escrow"
         default:
           description: "Error"
           schema:
@@ -806,7 +1192,7 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/EscrowHistoryEntry"
+              $ref: "#/definitions/Escrow"
         default:
           description: "Error"
           schema:
@@ -844,15 +1230,27 @@ paths:
     get:
       tags:
       - "Escrow"
-      description: "List escrows that an array of aliases are involved in. Set of\
-        \ aliases to look up based on alias, and private key to decrypt any data found\
-        \ in escrow."
+      description: "List escrows that an array of aliases are involved in."
       operationId: "escrowlist"
       parameters:
-      - name: "aliases"
+      - name: "buyerAliases"
         in: "query"
-        description: "List of aliases to display escrows from"
-        required: true
+        description: "List of buyer aliases to display escrows from"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+      - name: "sellerAliases"
+        in: "query"
+        description: "List of seller aliases to display escrows from"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+      - name: "arbiterAliases"
+        in: "query"
+        description: "List of arbiter aliases to display escrows from"
+        required: false
         type: "array"
         items:
           type: "string"
@@ -861,18 +1259,23 @@ paths:
         description: "GUID of escrow"
         required: false
         type: "string"
-      - name: "privatekey"
+      - name: "count"
         in: "query"
-        description: "private key for decoding data"
+        description: "The number of results to return"
         required: false
-        type: "string"
+        type: "number"
+      - name: "from"
+        in: "query"
+        description: "The number of results to skip"
+        required: false
+        type: "number"
       responses:
         200:
           description: "Success"
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/EscrowListEntry"
+              $ref: "#/definitions/Escrow"
         default:
           description: "Error"
           schema:
@@ -1113,46 +1516,6 @@ paths:
       - token: []
       x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
-  /getinfo:
-    get:
-      tags:
-      - "General"
-      description: "Returns an object containing various state info."
-      operationId: "getinfo"
-      parameters: []
-      responses:
-        200:
-          description: "Success"
-          schema:
-            $ref: "#/definitions/Info"
-        default:
-          description: "Error"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-      security:
-      - token: []
-      x-swagger-router-controller: "General"
-    x-swagger-router-controller: "rpc"
-  /getmininginfo:
-    get:
-      tags:
-      - "General"
-      description: "Returns a json object containing mining-related information."
-      operationId: "getmininginfo"
-      parameters: []
-      responses:
-        200:
-          description: "Success"
-          schema:
-            $ref: "#/definitions/MiningInfo"
-        default:
-          description: "Error"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-      security:
-      - token: []
-      x-swagger-router-controller: "General"
-    x-swagger-router-controller: "rpc"
   /getnewaddress:
     post:
       tags:
@@ -1172,27 +1535,6 @@ paths:
           description: "Success"
           schema:
             type: "string"
-        default:
-          description: "Error"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-      security:
-      - token: []
-      x-swagger-router-controller: "General"
-    x-swagger-router-controller: "rpc"
-  /getpeerinfo:
-    get:
-      tags:
-      - "General"
-      description: "Returns data about each connected network node as a json array\
-        \ of objects."
-      operationId: "getpeerinfo"
-      parameters: []
-      responses:
-        200:
-          description: "Success"
-          schema:
-            $ref: "#/definitions/PeerInfoResponse"
         default:
           description: "Error"
           schema:
@@ -1735,29 +2077,6 @@ paths:
       - token: []
       x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
-  /login:
-    get:
-      tags:
-      - "Blockmarket"
-      description: "Returns a session token for use with subsquent protected calls."
-      operationId: "login"
-      parameters:
-      - name: "auth"
-        in: "query"
-        description: "SHA1 hash of the user's authentication information- usernamepassword."
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "Success"
-          schema:
-            $ref: "#/definitions/LoginResponse"
-        default:
-          description: "Error"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-      x-swagger-router-controller: "Blockmarket"
-    x-swagger-router-controller: "blockmarket"
   /messageinfo:
     get:
       tags:
@@ -1809,6 +2128,32 @@ paths:
       - token: []
       x-swagger-router-controller: "Messaging"
     x-swagger-router-controller: "rpc"
+  /messagereceivecount:
+    get:
+      tags:
+      - "Messaging"
+      description: "Count received messages that an array of aliases own."
+      operationId: "messagereceivecount"
+      parameters:
+      - name: "aliases"
+        in: "query"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "number"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Messaging"
+    x-swagger-router-controller: "rpc"
   /messagereceivelist:
     get:
       tags:
@@ -1828,10 +2173,16 @@ paths:
         in: "query"
         required: false
         type: "string"
-      - name: "privatekey"
+      - name: "count"
         in: "query"
+        description: "The number of results to return"
         required: false
-        type: "string"
+        type: "number"
+      - name: "from"
+        in: "query"
+        description: "The number of results to skip"
+        required: false
+        type: "number"
       responses:
         200:
           description: "Success"
@@ -1839,6 +2190,32 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/Message"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Messaging"
+    x-swagger-router-controller: "rpc"
+  /messagesentcount:
+    get:
+      tags:
+      - "Messaging"
+      description: "Count sent messages that an array of aliases own."
+      operationId: "messagesentcount"
+      parameters:
+      - name: "aliases"
+        in: "query"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "number"
         default:
           description: "Error"
           schema:
@@ -1866,10 +2243,16 @@ paths:
         in: "query"
         required: false
         type: "string"
-      - name: "privatekey"
+      - name: "count"
         in: "query"
+        description: "The number of results to return"
         required: false
-        type: "string"
+        type: "number"
+      - name: "from"
+        in: "query"
+        description: "The number of results to skip"
+        required: false
+        type: "number"
       responses:
         200:
           description: "Success"
@@ -1967,6 +2350,43 @@ paths:
       - token: []
       x-swagger-router-controller: "Offers"
     x-swagger-router-controller: "rpc"
+  /offeracceptcount:
+    get:
+      tags:
+      - "Offers"
+      description: "List count of offer accept for a set of aliases. filterpurchases\
+        \ filters results for count of accepts that have been bought with aliases\
+        \ passed in(as buyer), filtersales filters results for count of accepts purchased\
+        \ by aliases passed in(as merchant or affiliate)."
+      operationId: "offeracceptcount"
+      parameters:
+      - name: "aliases"
+        in: "query"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+      - name: "filterpurchases"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "filtersales"
+        in: "query"
+        required: false
+        type: "boolean"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "number"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Offers"
+    x-swagger-router-controller: "rpc"
   /offeracceptfeedback:
     post:
       tags:
@@ -2010,7 +2430,10 @@ paths:
     get:
       tags:
       - "Offers"
-      description: "list my offer accepts"
+      description: "List offer accepts for a set of aliases. filterpurchases filters\
+        \ results for accepts that have been bought with aliases passed in(as buyer),\
+        \ filtersales filters results for accepts purchased by aliases passed in(as\
+        \ merchant or affiliate)."
       operationId: "offeracceptlist"
       parameters:
       - name: "aliases"
@@ -2019,14 +2442,28 @@ paths:
         type: "array"
         items:
           type: "string"
-      - name: "acceptguid"
+      - name: "guid"
         in: "query"
         required: false
         type: "string"
-      - name: "privatekey"
+      - name: "filterpurchases"
         in: "query"
         required: false
-        type: "string"
+        type: "boolean"
+      - name: "filtersales"
+        in: "query"
+        required: false
+        type: "boolean"
+      - name: "count"
+        in: "query"
+        description: "The number of results to return"
+        required: false
+        type: "number"
+      - name: "from"
+        in: "query"
+        description: "The number of results to skip"
+        required: false
+        type: "number"
       responses:
         200:
           description: "Success"
@@ -2098,6 +2535,32 @@ paths:
       - token: []
       x-swagger-router-controller: "Offers"
     x-swagger-router-controller: "rpc"
+  /offercount:
+    get:
+      tags:
+      - "Offers"
+      description: "Count offers that an array of aliases own."
+      operationId: "offercount"
+      parameters:
+      - name: "aliases"
+        in: "query"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "number"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Offers"
+    x-swagger-router-controller: "rpc"
   /offerfilter:
     get:
       tags:
@@ -2107,12 +2570,17 @@ paths:
       parameters:
       - name: "regexp"
         in: "query"
-        description: "apply [regexp] on offeres, empty means all offeres"
-        required: true
+        description: "apply [regexp] on offeres, empty means all offers"
+        required: false
         type: "string"
       - name: "from"
         in: "query"
         description: "show results from number [from]"
+        required: false
+        type: "string"
+      - name: "count"
+        in: "query"
+        description: "the number of results to return"
         required: false
         type: "number"
       - name: "safesearch"
@@ -2222,8 +2690,7 @@ paths:
     get:
       tags:
       - "Offers"
-      description: "List offers that an array of aliases own. Set of aliases to look\
-        \ up based on alias, and private key to decrypt any data found in offer."
+      description: "list offers that an array of aliases own."
       operationId: "offerlist"
       parameters:
       - name: "aliases"
@@ -2232,14 +2699,20 @@ paths:
         type: "array"
         items:
           type: "string"
-      - name: "offer"
+      - name: "guid"
         in: "query"
         required: false
         type: "string"
-      - name: "privatekey"
+      - name: "count"
         in: "query"
+        description: "The number of results to return"
         required: false
-        type: "string"
+        type: "number"
+      - name: "from"
+        in: "query"
+        description: "The number of results to skip"
+        required: false
+        type: "number"
       responses:
         200:
           description: "Success"
@@ -2365,32 +2838,6 @@ paths:
       - token: []
       x-swagger-router-controller: "Offers"
     x-swagger-router-controller: "rpc"
-  /removeprunedfunds:
-    get:
-      tags:
-      - "General"
-      description: "Deletes the specified transaction from the wallet. Meant for use\
-        \ with pruned wallets and as a companion to importprunedfunds. This will effect\
-        \ wallet balances."
-      operationId: "removeprunedfunds"
-      parameters:
-      - name: "txid"
-        in: "query"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "Success"
-          schema:
-            type: "string"
-        default:
-          description: "Error"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-      security:
-      - token: []
-      x-swagger-router-controller: "General"
-    x-swagger-router-controller: "rpc"
   /sendfrom:
     post:
       tags:
@@ -2405,6 +2852,32 @@ paths:
         required: true
         schema:
           $ref: "#/definitions/SendFromRequest"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /removeprunedfunds:
+    get:
+      tags:
+      - "General"
+      description: "Deletes the specified transaction from the wallet. Meant for use\
+        \ with pruned wallets and as a companion to importprunedfunds. This will effect\
+        \ wallet balances."
+      operationId: "removeprunedfunds"
+      parameters:
+      - name: "txid"
+        in: "query"
+        required: true
+        type: "string"
       responses:
         200:
           description: "Success"
@@ -2497,121 +2970,6 @@ paths:
       - token: []
       x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
-  /syscoindecoderawtransaction:
-    post:
-      tags:
-      - "General"
-      description: "Decode raw syscoin transaction (serialized, hex-encoded) and display\
-        \ information pertaining to the service that is included in the transactiion\
-        \ data output(OP_RETURN)"
-      operationId: "syscoindecoderawtransaction"
-      parameters:
-      - name: "alias"
-        in: "query"
-        required: true
-        type: "string"
-      - name: "hexstring"
-        in: "query"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "Success"
-          schema:
-            type: "string"
-        default:
-          description: "Error"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-      security:
-      - token: []
-      x-swagger-router-controller: "General"
-    x-swagger-router-controller: "rpc"
-  /syscoinsignrawtransaction:
-    post:
-      tags:
-      - "General"
-      description: "Sign inputs for raw transaction (serialized, hex-encoded) and\
-        \ sends them out to the network if signing is complete"
-      operationId: "syscoinsignrawtransaction"
-      parameters:
-      - name: "hexstring"
-        in: "query"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "Success"
-          schema:
-            type: "string"
-        default:
-          description: "Error"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-      security:
-      - token: []
-      x-swagger-router-controller: "General"
-    x-swagger-router-controller: "rpc"
-  /validateaddress:
-    post:
-      tags:
-      - "General"
-      description: "Return information about the given syscoin address."
-      operationId: "validateaddress"
-      parameters:
-      - name: "syscoinaddress"
-        in: "query"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "Success"
-          schema:
-            $ref: "#/definitions/ValidateAddressResponse"
-        default:
-          description: "Error"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-      security:
-      - token: []
-      x-swagger-router-controller: "General"
-    x-swagger-router-controller: "rpc"
-  /verifymessage:
-    get:
-      tags:
-      - "General"
-      description: "Verify a signed message"
-      operationId: "verifymessage"
-      parameters:
-      - name: "syscoinaddress"
-        in: "query"
-        description: "The syscoin address to use for the signature."
-        required: true
-        type: "string"
-      - name: "signature"
-        in: "query"
-        description: "The signature provided by the signer in base 64 encoding (see\
-          \ signmessage)."
-        required: true
-        type: "string"
-      - name: "message"
-        in: "query"
-        description: "The message that was signed."
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "If the signature is verified or not."
-          schema:
-            type: "boolean"
-        default:
-          description: "Error"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-      security:
-      - token: []
-      x-swagger-router-controller: "General"
-    x-swagger-router-controller: "rpc"
   /walletlock:
     post:
       tags:
@@ -2620,6 +2978,9 @@ paths:
         \ After calling this method, you will need to call walletpassphrase again\
         \ before being able to call any methods which require the wallet to be unlocked."
       operationId: "walletlock"
+      consumes:
+      - "application/json"
+      - "application/octet-stream"
       parameters: []
       responses:
         200:
@@ -2673,6 +3034,61 @@ paths:
         required: true
         schema:
           $ref: "#/definitions/WalletPassphraseChangeRequest"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /syscoindecoderawtransaction:
+    post:
+      tags:
+      - "General"
+      description: "Decode raw syscoin transaction (serialized, hex-encoded) and display\
+        \ information pertaining to the service that is included in the transactiion\
+        \ data output(OP_RETURN)"
+      operationId: "syscoindecoderawtransaction"
+      parameters:
+      - name: "alias"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "hexstring"
+        in: "query"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /syscoinsignrawtransaction:
+    post:
+      tags:
+      - "General"
+      description: "Sign inputs for raw transaction (serialized, hex-encoded) and\
+        \ sends them out to the network if signing is complete"
+      operationId: "syscoinsignrawtransaction"
+      parameters:
+      - name: "hexstring"
+        in: "query"
+        required: true
+        type: "string"
       responses:
         200:
           description: "Success"
@@ -2761,6 +3177,23 @@ definitions:
       errors:
         type: "string"
         description: "any error messages"
+    example:
+      protocolversion: 6.02745618307040320615897144307382404804229736328125
+      relayfee: 1.231513536777255612975068288506008684635162353515625
+      timeoffset: 2.3021358869347654518833223846741020679473876953125
+      blocks: 5.63737665663332876420099637471139430999755859375
+      version: 0.80082819046101150206595775671303272247314453125
+      keypoolsize: 2.027123023002321833274663731572218239307403564453125
+      unlocked_until: 4.1456080298839363962315474054776132106781005859375
+      paytxfee: 7.3862819483858839220147274318151175975799560546875
+      difficulty: 9.301444243932575517419536481611430644989013671875
+      proxy: "aeiou"
+      walletversion: 1.46581298050294517310021547018550336360931396484375
+      balance: 5.962133916683182377482808078639209270477294921875
+      keypoololdest: 3.61607674925191080461672754609026014804840087890625
+      testnet: true
+      connections: 7.061401241503109105224211816675961017608642578125
+      errors: "aeiou"
   MiningInfo:
     required:
     - "blocks"
@@ -2808,6 +3241,18 @@ definitions:
         type: "boolean"
         description: "If the generation is on or off (see getgenerate or setgenerate\
           \ calls)"
+    example:
+      difficulty: 5.962133916683182377482808078639209270477294921875
+      chain: "aeiou"
+      currentblocktx: 1.46581298050294517310021547018550336360931396484375
+      blocks: 0.80082819046101150206595775671303272247314453125
+      networkhashps: 2.3021358869347654518833223846741020679473876953125
+      currentblocksize: 6.02745618307040320615897144307382404804229736328125
+      genproclimit: 5.63737665663332876420099637471139430999755859375
+      testnet: true
+      pooledtx: 7.061401241503109105224211816675961017608642578125
+      generate: true
+      errors: "aeiou"
   PeerInfoResponse:
     type: "array"
     items:
@@ -2979,6 +3424,15 @@ definitions:
         type: "string"
         description: "DEPRECATED. The account associated with the address, \"\" is\
           \ the default account"
+    example:
+      address: "aeiou"
+      isscript: true
+      iscompressed: true
+      ismine: true
+      isvalid: true
+      iswatchonly: true
+      account: "aeiou"
+      pubkey: "aeiou"
   ErrorResponse:
     required:
     - "message"
@@ -3042,34 +3496,48 @@ definitions:
         type: "boolean"
       pending:
         type: "boolean"
+      time:
+        type: "string"
       multisiginfo:
         $ref: "#/definitions/MultiSignatureInfo"
-  AliasListEntry:
-    allOf:
-    - $ref: "#/definitions/Alias"
+      pubkey:
+        type: "string"
+    example:
+      alias_peg: "aeiou"
+      buyer_rating_display: "aeiou"
+      seller_rating_display: "aeiou"
+      lastupdate_height: 3.61607674925191080461672754609026014804840087890625
+      safesearch: "aeiou"
+      expires_on: 4.1456080298839363962315474054776132106781005859375
+      pending: true
+      ismine: true
+      buyer_ratingcount: 5.962133916683182377482808078639209270477294921875
+      arbiter_ratingcount: 9.301444243932575517419536481611430644989013671875
+      password: "aeiou"
+      expired: true
+      balance: 0.80082819046101150206595775671303272247314453125
+      arbiter_rating_display: "aeiou"
+      seller_ratingcount: 2.3021358869347654518833223846741020679473876953125
+      value: "aeiou"
+      expires_in: 2.027123023002321833274663731572218239307403564453125
+      multisiginfo:
+        reqsigners: "aeiou"
+        reqsigs: 7.3862819483858839220147274318151175975799560546875
+        redeemscript: "aeiou"
+      buyer_rating: 1.46581298050294517310021547018550336360931396484375
+      address: "aeiou"
+      txid: "aeiou"
+      seller_rating: 5.63737665663332876420099637471139430999755859375
+      privatevalue: "aeiou"
+      safetylevel: 6.02745618307040320615897144307382404804229736328125
+      acceptcerttransfers: "aeiou"
+      arbiter_rating: 7.061401241503109105224211816675961017608642578125
+      name: "aeiou"
+      time: "aeiou"
+      pubkey: "aeiou"
   AliasHistoryEntry:
     allOf:
     - $ref: "#/definitions/Alias"
-  CertListEntry:
-    properties:
-      cert:
-        type: "string"
-      title:
-        type: "string"
-      data:
-        type: "string"
-      private:
-        type: "boolean"
-      expires_in:
-        type: "number"
-      expires_on:
-        type: "number"
-      expired:
-        type: "boolean"
-      address:
-        type: "string"
-      alias:
-        type: "string"
   Cert:
     properties:
       cert:
@@ -3080,96 +3548,54 @@ definitions:
         type: "number"
       title:
         type: "string"
-      data:
-        type: "string"
-      private:
-        type: "boolean"
-      ismine:
-        type: "boolean"
-      address:
-        type: "string"
-      alias:
-        type: "string"
-      expires_in:
-        type: "number"
-      expires_on:
-        type: "number"
-      expired:
-        type: "boolean"
-  CertHistoryEntry:
-    properties:
-      cert:
-        type: "string"
-      certtype:
-        type: "string"
-      private:
-        type: "boolean"
-      data:
-        type: "string"
-      txid:
-        type: "string"
-      address:
-        type: "string"
-      alias:
-        type: "string"
-      expires_in:
-        type: "number"
-      expires_on:
-        type: "number"
-      expired:
-        type: "boolean"
-  EscrowHistoryEntry:
-    properties:
-      escrow:
-        type: "string"
-      escrowtype:
-        type: "string"
-      txid:
-        type: "string"
-      seller:
-        type: "string"
-      arbiter:
-        type: "string"
-      buyer:
-        type: "string"
-      offer:
-        type: "string"
-      offertitle:
-        type: "string"
-      offeracceptlink:
-        type: "string"
-      total:
-        type: "number"
-      expired:
-        type: "boolean"
-      height:
-        type: "number"
-  EscrowListEntry:
-    properties:
-      escrow:
-        type: "string"
       time:
+        type: "string"
+      data:
+        type: "string"
+      pubdata:
+        type: "string"
+      category:
+        type: "string"
+      safesearch:
+        type: "string"
+      safetylevel:
         type: "number"
-      seller:
+      ismine:
         type: "string"
-      arbiter:
+      alias:
         type: "string"
-      buyer:
+      transferviewonly:
         type: "string"
-      offer:
-        type: "string"
-      offertitle:
-        type: "string"
-      offeracceptlink:
-        type: "string"
-      total:
+      expires_in:
         type: "number"
-      status:
-        type: "string"
+      expires_on:
+        type: "number"
       expired:
         type: "boolean"
+    example:
+      data: "aeiou"
+      safesearch: "aeiou"
+      expires_on: 5.962133916683182377482808078639209270477294921875
+      txid: "aeiou"
+      ismine: "aeiou"
+      cert: "aeiou"
+      safetylevel: 6.02745618307040320615897144307382404804229736328125
+      transferviewonly: "aeiou"
+      title: "aeiou"
+      pubdata: "aeiou"
+      expired: true
+      alias: "aeiou"
+      time: "aeiou"
+      category: "aeiou"
+      expires_in: 1.46581298050294517310021547018550336360931396484375
+      height: 0.80082819046101150206595775671303272247314453125
+  CertHistoryEntry:
+    allOf:
+    - $ref: "#/definitions/Cert"
   Escrow:
     properties:
+      escrowtype:
+        type: "string"
       escrow:
         type: "string"
       time:
@@ -3182,22 +3608,110 @@ definitions:
         type: "string"
       offer:
         type: "string"
+      offerlink_seller:
+        type: "string"
       offertitle:
         type: "string"
-      offeracceptlink:
+      quantity:
+        type: "string"
+      price:
         type: "string"
       systotal:
         type: "number"
       sysfee:
         type: "number"
+      fee:
+        type: "string"
       total:
+        type: "string"
+      totalwithfee:
         type: "number"
+      currency:
+        type: "string"
+      exttxid:
+        type: "string"
+      escrowaddress:
+        type: "string"
+      paymentoption:
+        type: "number"
+      paymemntoption_display:
+        type: "string"
+      redeem_txid:
+        type: "string"
       txid:
         type: "string"
       height:
-        type: "number"
+        type: "string"
       pay_message:
         type: "string"
+      expired:
+        type: "number"
+      status:
+        type: "string"
+      buyer_feedback:
+        type: "array"
+        items:
+          type: "string"
+      avg_buyer_rating:
+        type: "number"
+      seller_feedback:
+        type: "array"
+        items:
+          type: "string"
+      avg_seller_feedback:
+        type: "number"
+      arbiter_feedback:
+        type: "array"
+        items:
+          type: "string"
+      avg_arbiter_rating:
+        type: "number"
+      avg_rating_count:
+        type: "number"
+      avg_rating:
+        type: "number"
+      avg_rating_display:
+        type: "string"
+    example:
+      escrowtype: "aeiou"
+      seller: "aeiou"
+      sysfee: 6.02745618307040320615897144307382404804229736328125
+      pay_message: "aeiou"
+      fee: "aeiou"
+      redeem_txid: "aeiou"
+      offer: "aeiou"
+      total: "aeiou"
+      paymemntoption_display: "aeiou"
+      expired: 5.63737665663332876420099637471139430999755859375
+      arbiter_feedback:
+      - "aeiou"
+      price: "aeiou"
+      avg_rating: 2.027123023002321833274663731572218239307403564453125
+      escrow: "aeiou"
+      systotal: 0.80082819046101150206595775671303272247314453125
+      currency: "aeiou"
+      escrowaddress: "aeiou"
+      avg_rating_display: "aeiou"
+      totalwithfee: 1.46581298050294517310021547018550336360931396484375
+      height: "aeiou"
+      avg_seller_feedback: 7.061401241503109105224211816675961017608642578125
+      quantity: "aeiou"
+      paymentoption: 5.962133916683182377482808078639209270477294921875
+      txid: "aeiou"
+      offerlink_seller: "aeiou"
+      buyer: "aeiou"
+      arbiter: "aeiou"
+      avg_arbiter_rating: 9.301444243932575517419536481611430644989013671875
+      exttxid: "aeiou"
+      seller_feedback:
+      - "aeiou"
+      offertitle: "aeiou"
+      avg_buyer_rating: 2.3021358869347654518833223846741020679473876953125
+      time: "aeiou"
+      buyer_feedback:
+      - "aeiou"
+      avg_rating_count: 3.61607674925191080461672754609026014804840087890625
+      status: "aeiou"
   EscrowRefundRequest:
     required:
     - "escrowguid"
@@ -3253,6 +3767,23 @@ definitions:
       hex:
         type: "string"
         description: "Raw data for transaction"
+    example:
+      amount: "aeiou"
+      blockhash: "aeiou"
+      timereceived: 5.63737665663332876420099637471139430999755859375
+      blocktime: 1.46581298050294517310021547018550336360931396484375
+      txid: "aeiou"
+      details:
+      - amount: 2.3021358869347654518833223846741020679473876953125
+        address: "aeiou"
+        label: "aeiou"
+        category: "aeiou"
+        account: "aeiou"
+        vout: 7.061401241503109105224211816675961017608642578125
+      hex: "aeiou"
+      time: 5.962133916683182377482808078639209270477294921875
+      confirmations: 0.80082819046101150206595775671303272247314453125
+      blockindex: 6.02745618307040320615897144307382404804229736328125
   TransactionDetailEntry:
     properties:
       account:
@@ -3274,6 +3805,13 @@ definitions:
       vout:
         type: "number"
         description: "the vout value"
+    example:
+      amount: 2.3021358869347654518833223846741020679473876953125
+      address: "aeiou"
+      label: "aeiou"
+      category: "aeiou"
+      account: "aeiou"
+      vout: 7.061401241503109105224211816675961017608642578125
   WalletInfo:
     properties:
       walletversion:
@@ -3305,6 +3843,16 @@ definitions:
       paytxfee:
         type: "number"
         description: "the transaction fee configuration, set in SYS/kB"
+    example:
+      walletversion: 0.80082819046101150206595775671303272247314453125
+      balance: 6.02745618307040320615897144307382404804229736328125
+      txcount: 5.63737665663332876420099637471139430999755859375
+      keypoololdest: 2.3021358869347654518833223846741020679473876953125
+      unconfirmed_balance: 1.46581298050294517310021547018550336360931396484375
+      immature_balance: 5.962133916683182377482808078639209270477294921875
+      keypoolsize: 7.061401241503109105224211816675961017608642578125
+      unlocked_until: 9.301444243932575517419536481611430644989013671875
+      paytxfee: 3.61607674925191080461672754609026014804840087890625
   AddressGrouping:
     properties:
       syscoinaddress:
@@ -3316,6 +3864,10 @@ definitions:
       account:
         type: "string"
         description: "(optional) The account (DEPRECATED)"
+    example:
+      amount: 0.80082819046101150206595775671303272247314453125
+      syscoinaddress: "aeiou"
+      account: "aeiou"
   Account:
     properties:
       involvesWatchonly:
@@ -3333,6 +3885,12 @@ definitions:
       label:
         type: "string"
         description: "A comment for the address/transaction, if any"
+    example:
+      amount: 0.80082819046101150206595775671303272247314453125
+      involvesWatchonly: true
+      label: "aeiou"
+      confirmations: 6.02745618307040320615897144307382404804229736328125
+      account: "aeiou"
   ListSinceBlockResponse:
     properties:
       transactions:
@@ -3342,6 +3900,25 @@ definitions:
       lastblock:
         type: "string"
         description: "The hash of the last block"
+    example:
+      lastblock: "aeiou"
+      transactions:
+      - amount: 0.80082819046101150206595775671303272247314453125
+        address: "aeiou"
+        fee: 1.46581298050294517310021547018550336360931396484375
+        txid: "aeiou"
+        label: "aeiou"
+        confirmations: 5.962133916683182377482808078639209270477294921875
+        vout: 6.02745618307040320615897144307382404804229736328125
+        blockhash: "aeiou"
+        timereceived: 9.301444243932575517419536481611430644989013671875
+        blocktime: 2.3021358869347654518833223846741020679473876953125
+        comment: "aeiou"
+        time: 7.061401241503109105224211816675961017608642578125
+        to: "aeiou"
+        category: "aeiou"
+        blockindex: 5.63737665663332876420099637471139430999755859375
+        account: "aeiou"
   SinceBlockTransactionEntry:
     properties:
       account:
@@ -3403,6 +3980,23 @@ definitions:
       to:
         type: "string"
         description: "If a comment to is associated with the transaction."
+    example:
+      amount: 0.80082819046101150206595775671303272247314453125
+      address: "aeiou"
+      fee: 1.46581298050294517310021547018550336360931396484375
+      txid: "aeiou"
+      label: "aeiou"
+      confirmations: 5.962133916683182377482808078639209270477294921875
+      vout: 6.02745618307040320615897144307382404804229736328125
+      blockhash: "aeiou"
+      timereceived: 9.301444243932575517419536481611430644989013671875
+      blocktime: 2.3021358869347654518833223846741020679473876953125
+      comment: "aeiou"
+      time: 7.061401241503109105224211816675961017608642578125
+      to: "aeiou"
+      category: "aeiou"
+      blockindex: 5.63737665663332876420099637471139430999755859375
+      account: "aeiou"
   TransactionListEntry:
     properties:
       account:
@@ -3474,9 +4068,29 @@ definitions:
         description: "For the 'move' category of transactions, the account the funds\
           \ came from (for receiving funds, positive amounts), or went to (for sending\
           \ funds, negative amounts)."
+    example:
+      amount: 0.80082819046101150206595775671303272247314453125
+      address: "aeiou"
+      fee: 1.46581298050294517310021547018550336360931396484375
+      txid: "aeiou"
+      label: "aeiou"
+      otheraccount: "aeiou"
+      confirmations: 5.962133916683182377482808078639209270477294921875
+      vout: 6.02745618307040320615897144307382404804229736328125
+      blockhash: "aeiou"
+      timereceived: 7.061401241503109105224211816675961017608642578125
+      trusted: true
+      blocktime: 5.63737665663332876420099637471139430999755859375
+      comment: "aeiou"
+      time: 2.3021358869347654518833223846741020679473876953125
+      category: "aeiou"
+      blockindex: "aeiou"
+      account: "aeiou"
   Message:
     properties:
       GUID:
+        type: "string"
+      txid:
         type: "string"
       time:
         type: "number"
@@ -3488,44 +4102,98 @@ definitions:
         type: "string"
       message:
         type: "string"
+    example:
+      subject: "aeiou"
+      GUID: "aeiou"
+      txid: "aeiou"
+      from: "aeiou"
+      time: 0.80082819046101150206595775671303272247314453125
+      to: "aeiou"
+      message: "aeiou"
   OfferAccept:
     properties:
       offer:
         type: "string"
-      title:
-        type: "string"
       id:
         type: "string"
-      btctxid:
+      txid:
         type: "string"
-      alias:
+      title:
         type: "string"
-      buyer:
+      exttxid:
+        type: "string"
+      paymentoption:
+        type: "number"
+      paymentoption_display:
         type: "string"
       height:
         type: "number"
+      time:
+        type: "string"
       quantity:
         type: "number"
       currency:
         type: "string"
-      linkofferaccept:
-        type: "string"
       offer_discount_percentage:
         type: "number"
-      escrowlink:
-        type: "string"
       systotal:
+        type: "number"
+      sysprice:
         type: "number"
       price:
         type: "number"
       total:
         type: "number"
+      buyer:
+        type: "string"
+      seller:
+        type: "string"
       ismine:
         type: "boolean"
       status:
         type: "string"
+      buyer_fedback:
+        type: "array"
+        items:
+          type: "string"
+      seller_fedback:
+        type: "array"
+        items:
+          type: "string"
+      avg_rating:
+        type: "number"
+      avg_rating_display:
+        type: "string"
       pay_message:
         type: "string"
+    example:
+      seller: "aeiou"
+      paymentoption_display: "aeiou"
+      pay_message: "aeiou"
+      ismine: true
+      sysprice: 2.3021358869347654518833223846741020679473876953125
+      title: "aeiou"
+      offer: "aeiou"
+      total: 9.301444243932575517419536481611430644989013671875
+      price: 7.061401241503109105224211816675961017608642578125
+      avg_rating: 3.61607674925191080461672754609026014804840087890625
+      buyer_fedback:
+      - "aeiou"
+      currency: "aeiou"
+      systotal: 5.63737665663332876420099637471139430999755859375
+      id: "aeiou"
+      avg_rating_display: "aeiou"
+      height: 6.02745618307040320615897144307382404804229736328125
+      offer_discount_percentage: 5.962133916683182377482808078639209270477294921875
+      quantity: 1.46581298050294517310021547018550336360931396484375
+      paymentoption: 0.80082819046101150206595775671303272247314453125
+      txid: "aeiou"
+      seller_fedback:
+      - "aeiou"
+      buyer: "aeiou"
+      exttxid: "aeiou"
+      time: "aeiou"
+      status: "aeiou"
   OfferWhitelistEntry:
     properties:
       alias:
@@ -3534,6 +4202,10 @@ definitions:
         type: "number"
       offer_discount_percentage:
         type: "number"
+    example:
+      expiresin: 0.80082819046101150206595775671303272247314453125
+      offer_discount_percentage: 6.02745618307040320615897144307382404804229736328125
+      alias: "aeiou"
   OfferHistoryEntry:
     allOf:
     - $ref: "#/definitions/Offer"
@@ -3592,7 +4264,7 @@ definitions:
         type: "string"
       description:
         type: "string"
-      alias":
+      alias:
         type: "string"
       address:
         type: "string"
@@ -3606,6 +4278,42 @@ definitions:
         type: "string"
       offers_sold:
         type: "number"
+      time:
+        type: "string"
+    example:
+      alias_peg: "aeiou"
+      private: true
+      safesearch: "aeiou"
+      offers_sold: 4.1456080298839363962315474054776132106781005859375
+      ismine: true
+      description: "aeiou"
+      cert: "aeiou"
+      sysprice: 5.962133916683182377482808078639209270477294921875
+      title: "aeiou"
+      offer: "aeiou"
+      expired: true
+      price: 5.63737665663332876420099637471139430999755859375
+      alias_rating_count: 2.027123023002321833274663731572218239307403564453125
+      alias: "aeiou"
+      currency: "aeiou"
+      commission: 2.3021358869347654518833223846741020679473876953125
+      expires_in: 0.80082819046101150206595775671303272247314453125
+      height: 1.46581298050294517310021547018550336360931396484375
+      quantity: "aeiou"
+      address: "aeiou"
+      offerlink: true
+      txid: "aeiou"
+      alias_rating: 3.61607674925191080461672754609026014804840087890625
+      expired_block: 6.02745618307040320615897144307382404804229736328125
+      safetylevel: 7.061401241503109105224211816675961017608642578125
+      offerlink_guid: "aeiou"
+      paymentoptions: 9.301444243932575517419536481611430644989013671875
+      paymentoptions_display: "aeiou"
+      offerlink_seller: "aeiou"
+      alias_rating_display: "aeiou"
+      time: "aeiou"
+      category: "aeiou"
+      geolocation: "aeiou"
   AddMultisigAddressRequest:
     required:
     - "keysobject"
@@ -3952,26 +4660,26 @@ definitions:
   MessageNewRequest:
     required:
     - "fromalias"
-    - "message"
+    - "frommessage"
     - "subject"
     - "toalias"
+    - "tomessage"
     properties:
       subject:
         type: "string"
         description: "Subject of message."
-      message:
-        type: "string"
-        description: "Message to send to alias."
       fromalias:
         type: "string"
         description: "Alias to send message from."
       toalias:
         type: "string"
         description: "Alias to send message to."
-      hex:
+      frommessage:
         type: "string"
-        description: "Is data an hex based message(only To-Message will be displayed).\
-          \ No by default."
+        description: "Message encrypted to from alias."
+      tomessage:
+        type: "string"
+        description: "Message encrypted to sending alias."
   MoveRequest:
     required:
     - "amount"
@@ -4045,7 +4753,7 @@ definitions:
   OfferLinkRequest:
     required:
     - "alias"
-    - "comission"
+    - "commission"
     - "guid"
     properties:
       alias:
@@ -4054,7 +4762,7 @@ definitions:
       guid:
         type: "string"
         description: "offer guid that you are linking to"
-      comission:
+      commission:
         type: "string"
         description: "percentage of profit desired over original offer price, > 0,\
           \ ie 5 for 5%"
@@ -4170,7 +4878,7 @@ definitions:
         description: "set to No if this offer should only show in the search when\
           \ safe search is not selected. Defaults to Yes (offer shows with or without\
           \ safe search selected in search lists)."
-      comission:
+      commission:
         type: "number"
         description: "For resold offers."
       paymentoptions:
@@ -4303,6 +5011,10 @@ definitions:
         type: "string"
       redeemscript:
         type: "string"
+    example:
+      reqsigners: "aeiou"
+      reqsigs: 7.3862819483858839220147274318151175975799560546875
+      redeemscript: "aeiou"
   EscrowFeedbackRequest:
     required:
     - "escrowguid"
@@ -4353,3 +5065,148 @@ definitions:
         type: "string"
       token:
         type: "string"
+    example:
+      success: true
+      message: "aeiou"
+      token: "aeiou"
+  GetBlockResponse:
+    properties:
+      hash:
+        type: "string"
+        description: "The block hash (same as provided)"
+      confirmations:
+        type: "number"
+        description: "The number of confirmations, or -1 if the block is not on the\
+          \ main chain"
+      size:
+        type: "number"
+        description: "The block size"
+      strippedsize:
+        type: "number"
+        description: "The block size excluding witness data"
+      weight:
+        type: "number"
+        description: "The block weight (BIP 141)"
+      height:
+        type: "number"
+        description: "The block height or index"
+      version:
+        type: "number"
+        description: "The block version"
+      versionHex:
+        type: "string"
+        description: "The block version formatted in hexadecimal"
+      merkleroot:
+        type: "string"
+        description: "The merkle root"
+      tx:
+        type: "array"
+        description: "The transaction ids"
+        items:
+          type: "string"
+      time:
+        type: "number"
+        description: "The block time in seconds since epoch (Jan 1 1970 GMT)"
+      mediantime:
+        type: "number"
+        description: "The median block time in seconds since epoch (Jan 1 1970 GMT)"
+      nonce:
+        type: "number"
+        description: "﻿The nonce"
+      bits:
+        type: "string"
+        description: "The bits"
+      difficulty:
+        type: "number"
+        description: "﻿The difficulty"
+      chainwork:
+        type: "string"
+        description: "﻿Expected number of hashes required to produce the chain up\
+          \ to this block (in hex)"
+      previousblockhash:
+        type: "string"
+        description: "﻿The hash of the previous block"
+      nextblockhash:
+        type: "string"
+        description: "The hash of the next block"
+      data:
+        type: "string"
+        description: "(for verbose=false) A string that is serialized, hex-encoded\
+          \ data for block 'hash'."
+    example:
+      tx:
+      - "aeiou"
+      mediantime: 9.301444243932575517419536481611430644989013671875
+      data: "aeiou"
+      previousblockhash: "aeiou"
+      bits: "aeiou"
+      weight: 5.962133916683182377482808078639209270477294921875
+      versionHex: "aeiou"
+      confirmations: 0.80082819046101150206595775671303272247314453125
+      version: 2.3021358869347654518833223846741020679473876953125
+      nonce: 3.61607674925191080461672754609026014804840087890625
+      nextblockhash: "aeiou"
+      difficulty: 2.027123023002321833274663731572218239307403564453125
+      chainwork: "aeiou"
+      size: 6.02745618307040320615897144307382404804229736328125
+      merkleroot: "aeiou"
+      strippedsize: 1.46581298050294517310021547018550336360931396484375
+      time: 7.061401241503109105224211816675961017608642578125
+      hash: "aeiou"
+      height: 5.63737665663332876420099637471139430999755859375
+  GetBlockchainInfoResponse:
+    properties:
+      chain:
+        type: "string"
+        description: "Current network name as defined in BIP70 (main, test, regtest)"
+      blocks:
+        type: "number"
+        description: "the current number of blocks processed in the server"
+      headers:
+        type: "number"
+        description: "the current number of headers we have validated"
+      bestblockhash:
+        type: "string"
+        description: "the hash of the currently best block"
+      difficulty:
+        type: "number"
+        description: "the current difficulty"
+      mediantime:
+        type: "number"
+        description: "median time for the current best block"
+      verificationprogress:
+        type: "number"
+        description: "estimate of verification progress [0..1]"
+      chainwork:
+        type: "string"
+        description: "total amount of work in active chain, in hexadecimal"
+      pruned:
+        type: "boolean"
+        description: "if the blocks are subject to pruning"
+      pruneheight:
+        type: "number"
+        description: "lowest-height complete block stored"
+      softforks:
+        type: "array"
+        description: "status of softforks in progress"
+        items:
+          type: "object"
+          properties: {}
+      bip9_softforks:
+        type: "object"
+        description: "status of BIP9 softforks in progress"
+        properties: {}
+    example:
+      difficulty: 1.46581298050294517310021547018550336360931396484375
+      headers: 6.02745618307040320615897144307382404804229736328125
+      bip9_softforks: "{}"
+      chain: "aeiou"
+      chainwork: "aeiou"
+      mediantime: 5.962133916683182377482808078639209270477294921875
+      verificationprogress: 5.63737665663332876420099637471139430999755859375
+      blocks: 0.80082819046101150206595775671303272247314453125
+      pruned: true
+      softforks:
+      - "{}"
+      pruneheight: 2.3021358869347654518833223846741020679473876953125
+      bestblockhash: "aeiou"

@@ -1,22 +1,25 @@
-'use strict';
-
 var syscoinClient = require('../index').syscoinClient;
 var varUtils = require('./util/varUtils');
+var commonUtils = require('./util/commonUtils');
 
 exports.addmultisigaddress = function(args, res, next) {
   /**
    * parameters expected in the args:
    * request (AddMultisigAddressRequest)
    **/
-  var argList = ["nrequired", "keysobject", "account"];
+  var argList = [
+    { prop: "nrequired" },
+    { prop: "keysobject", defaultValue: "" },
+    { prop: "account", defaultValue: "" }
+  ];
+
   args.request.value.nrequired = varUtils.correctTypes(args.request.value.nrequired, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Add multisig address:', result);
@@ -32,13 +35,15 @@ exports.dumpprivkey = function(args, res, next) {
    * parameters expected in the args:
    * address (String)
    **/
-  var argList = ["address"];
+  var argList = [
+    { prop: "address" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Dump priv key', result);
@@ -54,13 +59,15 @@ exports.dumpwallet = function(args, res, next) {
    * parameters expected in the args:
    * filename (String)
    **/
-  var argList = ["filename"];
+  var argList = [
+    { prop: "filename" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Dump wallet ', result);
@@ -71,18 +78,44 @@ exports.dumpwallet = function(args, res, next) {
   syscoinClient.dumpWallet.apply(syscoinClient, arr);
 }
 
+exports.encryptwallet = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * passphrase (String)
+   **/
+  var argList = [
+    { prop: "passphrase" }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('Encrypt wallet ', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.encryptWallet.apply(syscoinClient, arr);
+}
+
 exports.getaccount = function(args, res, next) {
   /**
    * parameters expected in the args:
    * syscoinaddress (String)
    **/
-  var argList = ["syscoinaddress"];
+  var argList = [
+    { prop: "syscoinaddress" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Get account ', result);
@@ -98,13 +131,15 @@ exports.getaccountaddress = function(args, res, next) {
    * parameters expected in the args:
    * account (String)
    **/
-  var argList = ["account"];
+  var argList = [
+    { prop: "account" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Get account address ', result);
@@ -120,13 +155,15 @@ exports.getaddressesbyaccount = function(args, res, next) {
    * parameters expected in the args:
    * account (String)
    **/
-  var argList = ["account"];
+  var argList = [
+    { prop: "account" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Get addresses by account ', result);
@@ -144,13 +181,17 @@ exports.getbalance = function(args, res, next) {
    * minconf (BigDecimal)
    * includeWatchonly (Boolean)
    **/
-  var argList = ["account", "minconf", "includeWatchonly"];
+  var argList = [
+    { prop: "account", defaultValue: "*" },
+    { prop: "minconf", defaultValue: 0 },
+    { prop: "includeWatchonly", defaultValue: false },
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Get balance ', result);
@@ -161,14 +202,81 @@ exports.getbalance = function(args, res, next) {
   syscoinClient.getBalance.apply(syscoinClient, arr);
 }
 
+exports.getblock = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * hash (String)
+   * verbose (Boolean)
+   **/
+  var argList = [
+    { prop: "hash", },
+    { prop: "verbose", defaultValue: true }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('Get block ', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.getBlock.apply(syscoinClient, arr);
+}
+
+exports.getblockchaininfo = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   **/
+  var argList = [];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('Get blockchain info ', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.getBlockchainInfo.apply(syscoinClient, arr);
+}
+
+exports.getblockcount = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   **/
+  var argList = [];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('Get block count ', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.getBlockCount.apply(syscoinClient, arr);
+}
+
 exports.getinfo = function(args, res, next) {
   var argList = [];
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Info:', result);
@@ -185,8 +293,7 @@ exports.getmininginfo = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Get mining info ', result);
@@ -202,13 +309,15 @@ exports.getnewaddress = function(args, res, next) {
    * parameters expected in the args:
    * request (GetNewAddressRequest)
    **/
-  var argList = ["account"];
+  var argList = [
+    { prop: "account" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Get new address ', result);
@@ -225,8 +334,7 @@ exports.getpeerinfo = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Get peer info', result);
@@ -243,13 +351,16 @@ exports.getreceivedbyaccount = function(args, res, next) {
    * account (String)
    * minconf (BigDecimal)
    **/
-  var argList = ["account", "minconf"];
+  var argList = [
+    { prop: "account" },
+    { prop: "minconf", defaultValue: 0 }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Get recieved by account', result);
@@ -266,13 +377,16 @@ exports.getreceivedbyaddress = function(args, res, next) {
    * syscoinaddress (String)
    * minconf (BigDecimal)
    **/
-  var argList = ["syscoinaddress", "minconf"];
+  var argList = [
+    { prop: "syscoinaddress" },
+    { prop: "minconf", defaultValue: 0 }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Get recieved by address ', result);
@@ -289,13 +403,18 @@ exports.gettransaction = function(args, res, next) {
    * txid (String)
    * includeWatchonly (Boolean)
    **/
-  var argList = ["txid", "includeWatchonly"];
+  var argList = [
+    { prop: "txid" },
+    { prop: "includeWatchonly", defaultValue: false },
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
+      //TODO: fix after b1
       return res.end(JSON.stringify(err.toString()));
+      //return commonUtils.reportError(res, err);
     }
 
     console.log('Get transaction ', result);
@@ -312,8 +431,7 @@ exports.getunconfirmedbalance = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Get unconfirmed balance ', result);
@@ -329,13 +447,15 @@ exports.getv2address = function(args, res, next) {
    * parameters expected in the args:
    * account (String)
    **/
-  var argList = ["account"];
+  var argList = [
+    { prop: "account" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Get v2 address ', result);
@@ -352,8 +472,7 @@ exports.getwalletinfo = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Get wallet info ', result);
@@ -369,13 +488,15 @@ exports.getzaddress = function(args, res, next) {
    * parameters expected in the args:
    * address (String)
    **/
-  var argList = ["address"];
+  var argList = [
+    { prop: "address" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Get Z Address', result);
@@ -392,12 +513,18 @@ exports.importaddress = function(args, res, next) {
    * request (ImportAddressRequest)
    **/
   var argList = ["script", "label", "rescan", "p2sh"];
+  var argList = [
+    { prop: "script" },
+    { prop: "label", defaultValue: "" },
+    { prop: "rescan", defaultValue: true },
+    { prop: "p2sh", defaultValue: false }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Import address ', result);
@@ -414,12 +541,17 @@ exports.importprivkey = function(args, res, next) {
    * request (ImportPrivKeyRequest)
    **/
   var argList = ["syscoinprivkey", "label", "rescan"];
+  var argList = [
+    { prop: "syscoinprivkey" },
+    { prop: "label", defaultValue: "" },
+    { prop: "rescan", defaultValue: true }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Import priv key ', result);
@@ -436,13 +568,16 @@ exports.importprunedfunds = function(args, res, next) {
    * rawtransaction (String)
    * txoutproof (String)
    **/
-  var argList = ["rawtransaction", "txoutproof"];
+  var argList = [
+    { prop: "rawtransaction" },
+    { prop: "txoutproof" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Import pruned funds ', result);
@@ -458,13 +593,17 @@ exports.importpubkey = function(args, res, next) {
    * parameters expected in the args:
    * request (ImportPubKeyRequest)
    **/
-  var argList = ["pubkey", "label", "rescan"];
+  var argList = [
+    { prop: "pubkey" },
+    { prop: "label", defaultValue: "" },
+    { prop: "rescan", defaultValue: true }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Import pub key ', result);
@@ -480,13 +619,15 @@ exports.importwallet = function(args, res, next) {
    * parameters expected in the args:
    * request (ImportWalletRequest)
    **/
-  var argList = ["filename"];
+  var argList = [
+    { prop: "filename" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Import wallet ', result);
@@ -503,13 +644,16 @@ exports.listaccounts = function(args, res, next) {
    * minconf (BigDecimal)
    * includeWatchonly (Boolean)
    **/
-  var argList = ["minconf", "includeWatchonly"];
+  var argList = [
+    { prop: "minconf", defaultValue: 0 },
+    { prop: "includeWatchonly", defaultValue: false }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('List accounts ', result);
@@ -526,8 +670,7 @@ exports.listaddressgroupings = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('List address groupings ', result);
@@ -545,13 +688,17 @@ exports.listreceivedbyaccount = function(args, res, next) {
    * includeempty (Boolean)
    * includeWatchonly (Boolean)
    **/
-  var argList = ["minconf", "includeempty", "includeWatchonly"];
+  var argList = [
+    { prop: "minconf", defaultValue: 0 },
+    { prop: "includeempty", defaultValue: false },
+    { prop: "includeWatchonly", defaultValue: false }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('List received by account ', result);
@@ -569,13 +716,17 @@ exports.listreceivedbyaddress = function(args, res, next) {
    * includeempty (Boolean)
    * includeWatchonly (Boolean)
    **/
-  var argList = ["minconf", "includeempty", "includeWatchonly"];
+  var argList = [
+    { prop: "minconf", defaultValue: 0 },
+    { prop: "includeempty", defaultValue: false },
+    { prop: "includeWatchonly", defaultValue: false }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('List received by address ', result);
@@ -593,13 +744,17 @@ exports.listsinceblock = function(args, res, next) {
    * includeWatchonly (Boolean)
    * targetConfirmations (BigDecimal)
    **/
-  var argList = ["blockhash", "includeWatchonly", "targetConfirmations"];
+  var argList = [
+    { prop: "blockhash", defaultValue: "" },
+    { prop: "targetConfirmations", defaultValue: 1 },
+    { prop: "includeWatchonly", defaultValue: false }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('List since block', result);
@@ -618,13 +773,18 @@ exports.listtransactions = function(args, res, next) {
    * from (BigDecimal)
    * includeWatchonly (Boolean)
    **/
-  var argList = ["account", "count", "from", "includeWatchonly"];
+  var argList = [
+    { prop: "account", defaultValue: "*" },
+    { prop: "count", defaultValue: 10 },
+    { prop: "from", defaultValue: 0 },
+    { prop: "includeWatchonly", defaultValue: false }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('List transactions ', result);
@@ -641,12 +801,19 @@ exports.move = function(args, res, next) {
    * request (MoveRequest)
    **/
   var argList = ["fromaccount", "toaccount", "amount", "minconf", "comment"];
+  var argList = [
+    { prop: "fromaccount" },
+    { prop: "toaccount" },
+    { prop: "amount" },
+    { prop: "minconf", defaultValue: 1 },
+    { prop: "comment", defaultValue: "" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Move ', result);
@@ -662,13 +829,15 @@ exports.removeprunedfunds = function(args, res, next) {
    * parameters expected in the args:
    * txid (String)
    **/
-  var argList = ["txid"];
+  var argList = [
+    { prop: "txid" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Remove pruned funds ', result);
@@ -684,13 +853,20 @@ exports.sendfrom = function(args, res, next) {
    * parameters expected in the args:
    * request (SendFromRequest)
    **/
-  var argList = ["fromaccount", "tosyscoinaddress", "amount", "minconf", "comment", "commentto"];
+  var argList = [
+    { prop: "fromaccount" },
+    { prop: "tosyscoinaddress" },
+    { prop: "amount" },
+    { prop: "minconf", defaultValue: 1 },
+    { prop: "comment", defaultValue: "" },
+    { prop: "commentto", defaultValue: ""}
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Send from ', result);
@@ -706,13 +882,19 @@ exports.sendmany = function(args, res, next) {
    * parameters expected in the args:
    * request (SendManyRequest)
    **/
-  var argList = ["fromaccount", "amounts", "minconf", "comment", "subtractfeefromamount"];
+  var argList = [
+    { prop: "fromaccount" },
+    { prop: "amounts" },
+    { prop: "minconf", defaultValue: 1 },
+    { prop: "comment", defaultValue: "" },
+    { prop: "subtractfeefromamount", defaultValue: [] }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Send many ', result);
@@ -728,13 +910,21 @@ exports.sendtoaddress = function(args, res, next) {
    * parameters expected in the args:
    * request (SendToAddressRequest)
    **/
-  var argList = ["syscoinaddress", "amount", "comment", "commentto", "subtractfeefromamount"];
+  var argList = [
+    { prop: "syscoinaddress" },
+    { prop: "amount" },
+    { prop: "comment", defaultValue: "" },
+    { prop: "commentto", defaultValue: "" },
+    { prop: "subtractfeefromamount", defaultValue: false }
+  ];
+
+  args.request.value.amount = varUtils.correctTypes(args.request.value.amount, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Send to address ', result);
@@ -750,13 +940,16 @@ exports.signmessage = function(args, res, next) {
    * parameters expected in the args:
    * request (SignMessageRequest)
    **/
-  var argList = ["syscoinaddress", "message"];
+  var argList = [
+    { prop: "syscoinaddress" },
+    { prop: "message" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Sign message ', result);
@@ -773,13 +966,16 @@ exports.syscoindecoderawtransaction = function(args, res, next) {
    * alias (String)
    * hexstring (String)
    **/
-  var argList = ["alias", "hexstring"];
+  var argList = [
+    { prop: "alias" },
+    { prop: "hexstring" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Syscoin decode raw transaction ', result);
@@ -795,13 +991,15 @@ exports.syscoinsignrawtransaction = function(args, res, next) {
    * parameters expected in the args:
    * hexstring (String)
    **/
-  var argList = ["hexstring"];
+  var argList = [
+    { prop: "hexstring" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Syscoin sign raw transaction ', result);
@@ -817,13 +1015,15 @@ exports.validateaddress = function(args, res, next) {
    * parameters expected in the args:
    * syscoinaddress (String)
    **/
-  var argList = ["syscoinaddress"];
+  var argList = [
+    { prop: "syscoinaddress" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Validate address ', result);
@@ -841,13 +1041,17 @@ exports.verifymessage = function(args, res, next) {
    * signature (String)
    * message (String)
    **/
-  var argList = ["syscoinaddress", "signature", "message"];
+  var argList = [
+    { prop: "syscoinaddress" },
+    { prop: "signature" },
+    { prop: "message" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Verify message ', result);
@@ -864,8 +1068,7 @@ exports.walletlock = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Wallet lock ', result);
@@ -881,13 +1084,16 @@ exports.walletpassphrase = function(args, res, next) {
    * parameters expected in the args:
    * request (WalletPassphraseRequest)
    **/
-  var argList = ["passphrase", "timeout"];
+  var argList = [
+    { prop: "passphrase" },
+    { prop: "timeout" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Wallet passphrase ', result);
@@ -903,13 +1109,16 @@ exports.walletpassphrasechange = function(args, res, next) {
    * parameters expected in the args:
    * request (WalletPassphraseChangeRequest)
    **/
-  var argList = ["oldpassphrase", "newpassphrase"];
+  var argList = [
+    { prop: "oldpassphrase" },
+    { prop: "newpassphrase" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Wallet passphrase change ', result);

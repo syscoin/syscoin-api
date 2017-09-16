@@ -26,6 +26,10 @@ module.exports.escrowcompleterelease = function escrowcompleterelease (req, res,
   Escrow.escrowcompleterelease(req.swagger.params, res, next);
 };
 
+module.exports.escrowcount = function escrowcount (req, res, next) {
+  Escrow.escrowcount(req.swagger.params, res, next);
+};
+
 module.exports.escrowfeedback = function escrowfeedback (req, res, next) {
   Escrow.escrowfeedback(req.swagger.params, res, next);
 };
@@ -48,10 +52,6 @@ module.exports.escrowlist = function escrowlist (req, res, next) {
 
 module.exports.escrownew = function escrownew (req, res, next) {
   Escrow.escrownew(req.swagger.params, res, next);
-};
-
-module.exports.aliaspay = function escrownew (req, res, next) {
-  Escrow.aliaspay(req.swagger.params, res, next);
 };
 
 module.exports.escrowrefund = function escrowrefund (req, res, next) {

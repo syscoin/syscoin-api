@@ -32,15 +32,15 @@ if(!inputStreamError) {
 
   //read syscoin.conf for login creds, if it doesn't exist use defaults.
   lineReader.on('line', function (line) {
-    if (line.indexOf('rpcuser') != -1) {
+    if (line.indexOf('rpcuser=') === 0) {
       rpcuser = line.substr(line.indexOf('=') + 1);
     }
 
-    if (line.indexOf('rpcpassword') != -1) {
+    if (line.indexOf('rpcpassword=') === 0) {
       rpcpass = line.substr(line.indexOf('=') + 1);
     }
 
-    if (line.indexOf('rpcport') != -1) {
+    if (line.indexOf('rpcport=') === 0) {
       rpcport = line.substr(line.indexOf('=') + 1);
     }
   });

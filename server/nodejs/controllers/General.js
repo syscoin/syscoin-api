@@ -18,6 +18,10 @@ module.exports.dumpwallet = function dumpwallet (req, res, next) {
   General.dumpwallet(req.swagger.params, res, next);
 };
 
+module.exports.encryptwallet = function encryptwallet (req, res, next) {
+  General.encryptwallet(req.swagger.params, res, next);
+};
+
 module.exports.getaccount = function getaccount (req, res, next) {
   General.getaccount(req.swagger.params, res, next);
 };
@@ -32,6 +36,18 @@ module.exports.getaddressesbyaccount = function getaddressesbyaccount (req, res,
 
 module.exports.getbalance = function getbalance (req, res, next) {
   General.getbalance(req.swagger.params, res, next);
+};
+
+module.exports.getblock = function getblock (req, res, next) {
+  General.getblock(req.swagger.params, res, next);
+};
+
+module.exports.getblockchaininfo = function getblockchaininfo (req, res, next) {
+  General.getblockchaininfo(req.swagger.params, res, next);
+};
+
+module.exports.getblockcount = function getblockcount (req, res, next) {
+  General.getblockcount(req.swagger.params, res, next);
 };
 
 module.exports.getinfo = function getinfo (req, res, next) {

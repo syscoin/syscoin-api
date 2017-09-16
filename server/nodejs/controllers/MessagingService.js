@@ -1,20 +1,17 @@
-'use strict';
-
 var syscoinClient = require('../index').syscoinClient;
 var varUtils = require('./util/varUtils');
+var commonUtils = require('./util/commonUtils');
 
 exports.messageinfo = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * guid (String)
-  **/
-  var argList = ["guid"];
+  var argList = [
+    { prop: "guid" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Message info:', result);
@@ -26,17 +23,19 @@ exports.messageinfo = function(args, res, next) {
 }
 
 exports.messagenew = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * request (MessageNewRequest)
-  **/
-  var argList = ["subject", "message", "fromalias", "toalias", "hex"];
+  var argList = [
+    { prop: "subject" },
+    { prop: "fromalias" },
+    { prop: "toalias" },
+    { prop: "frommessage" },
+    { prop: "tomessage" }
+  ];
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Message new:', result);
@@ -47,20 +46,45 @@ exports.messagenew = function(args, res, next) {
   syscoinClient.messageNew.apply(syscoinClient, arr);
 }
 
-exports.messagereceivelist = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * aliases (List)
-  * message (String)
-  * privatekey (String)
-  **/
-  var argList = ["aliases", "message", "privatekey"];
+exports.messagereceivecount = function(args, res, next) {
+  var argList = [
+    { prop: "aliases", defaultValue: [] }
+  ];
+
+  args.aliases.value = varUtils.correctTypes(args.aliases.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('Message recv count:', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.messageReceiveCount.apply(syscoinClient, arr);
+}
+
+exports.messagereceivelist = function(args, res, next) {
+  var argList = [
+    { prop: "aliases", defaultValue: [] },
+    { prop: "message", defaultValue: "" },
+    { prop: "count", defaultValue: "10" },
+    { prop: "from", defaultValue: "0" }
+  ];
+
+  args.aliases.value = varUtils.correctTypes(args.aliases.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+  args.count.value = varUtils.correctTypes(args.count.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+  args.from.value = varUtils.correctTypes(args.from.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Message receive list:', result);
@@ -71,20 +95,45 @@ exports.messagereceivelist = function(args, res, next) {
   syscoinClient.messageReceiveList.apply(syscoinClient, arr);
 }
 
-exports.messagesentlist = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * aliases (List)
-  * message (String)
-  * privatekey (String)
-  **/
-  var argList = ["aliases", "message", "privatekey"];
+exports.messagesentcount = function(args, res, next) {
+  var argList = [
+    { prop: "aliases", defaultValue: [] }
+  ];
+
+  args.aliases.value = varUtils.correctTypes(args.aliases.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      console.log(err);
-      return res.end(JSON.stringify(err.toString()));
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('Message sent count:', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.messageSentCount.apply(syscoinClient, arr);
+}
+
+exports.messagesentlist = function(args, res, next) {
+  var argList = [
+    { prop: "aliases", defaultValue: [] },
+    { prop: "message", defaultValue: "" },
+    { prop: "count", defaultValue: "10" },
+    { prop: "from", defaultValue: "0" }
+  ];
+
+  args.aliases.value = varUtils.correctTypes(args.aliases.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+  args.count.value = varUtils.correctTypes(args.count.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+  args.from.value = varUtils.correctTypes(args.from.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
     }
 
     console.log('Message sent list:', result);

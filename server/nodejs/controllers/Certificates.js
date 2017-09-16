@@ -5,6 +5,9 @@ var url = require('url');
 
 var Certificates = require('./CertificatesService');
 
+module.exports.certcount = function certcount (req, res, next) {
+  Certificates.certcount(req.swagger.params, res, next);
+};
 
 module.exports.certfilter = function certfilter (req, res, next) {
   Certificates.certfilter(req.swagger.params, res, next);

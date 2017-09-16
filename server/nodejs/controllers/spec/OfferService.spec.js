@@ -198,7 +198,7 @@ describe("Offer Service API", function() {
         "geolocation": "",
         "safesearch": "Yes",
         "private": true,
-        "comission": 0
+        "commission": 0
       };
 
       rp(url, requestOptions).then(function(result) {

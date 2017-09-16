@@ -14,8 +14,16 @@ module.exports.messagenew = function messagenew (req, res, next) {
   Messaging.messagenew(req.swagger.params, res, next);
 };
 
+module.exports.messagereceivecount = function messagereceivecount (req, res, next) {
+  Messaging.messagereceivecount(req.swagger.params, res, next);
+};
+
 module.exports.messagereceivelist = function messagereceivelist (req, res, next) {
   Messaging.messagereceivelist(req.swagger.params, res, next);
+};
+
+module.exports.messagesentcount = function messagesentcount (req, res, next) {
+  Messaging.messagesentcount(req.swagger.params, res, next);
 };
 
 module.exports.messagesentlist = function messagesentlist (req, res, next) {

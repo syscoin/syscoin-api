@@ -4,98 +4,6 @@ var varUtils = require("../varUtils");
 
 describe("VerUtils Helper", function() {
 
-  describe("setDefaultArgs", function () {
-    it("Sets default arguments in GET mode when no method is supplied", function (done) {
-      var args = {};
-      var defaultArgs = {
-        privatevalue: "",
-        password: "",
-        safesearch: "Yes"
-      };
-
-      args = varUtils.setDefaultArgs(defaultArgs, args);
-
-      expect(args.privatevalue.value).to.exist;
-      expect(args.privatevalue.value).to.equal("");
-      expect(args.password.value).to.exist;
-      expect(args.password.value).to.equal("");
-      expect(args.safesearch.value).to.exist;
-      expect(args.safesearch.value).to.equal("Yes");
-      done();
-    });
-
-    it("Sets default arguments in GET mode when no method is supplied but does not overwrite supplied args", function (done) {
-      var args = {
-        privatevalue: {
-          value: "Hello"
-        }
-      };
-      var defaultArgs = {
-        privatevalue: "",
-        password: "",
-        safesearch: "Yes"
-      };
-
-      args = varUtils.setDefaultArgs(defaultArgs, args);
-
-      expect(args.privatevalue.value).to.exist;
-      expect(args.privatevalue.value).to.equal("Hello");
-      expect(args.password.value).to.exist;
-      expect(args.password.value).to.equal("");
-      expect(args.safesearch.value).to.exist;
-      expect(args.safesearch.value).to.equal("Yes");
-      done();
-    });
-
-    it("Sets default arguments in POST mode when no method is supplied", function (done) {
-      var args = {
-        request: {
-          value: {}
-        }
-      };
-      var defaultArgs = {
-        privatevalue: "",
-        password: "",
-        safesearch: "Yes"
-      };
-
-      args = varUtils.setDefaultArgs(defaultArgs, args, "POST");
-
-      expect(args.request.value.privatevalue).to.exist;
-      expect(args.request.value.privatevalue).to.equal("");
-      expect(args.request.value.password).to.exist;
-      expect(args.request.value.password).to.equal("");
-      expect(args.request.value.safesearch).to.exist;
-      expect(args.request.value.safesearch).to.equal("Yes");
-      done();
-    });
-
-    it("Sets default arguments in POST mode when no method is supplied but does not overwrite supplied args", function (done) {
-      var args = {
-        request: {
-          value: {
-            privatevalue: "Hello"
-          }
-        }
-      };
-      var defaultArgs = {
-        privatevalue: "",
-        password: "",
-        safesearch: "Yes"
-      };
-
-      args = varUtils.setDefaultArgs(defaultArgs, args, "POST");
-
-      expect(args.request.value.privatevalue).to.exist;
-      expect(args.request.value.privatevalue).to.equal("Hello");
-      expect(args.request.value.password).to.exist;
-      expect(args.request.value.password).to.equal("");
-      expect(args.request.value.safesearch).to.exist;
-      expect(args.request.value.safesearch).to.equal("Yes");
-      done();
-    });
-  });
-
   describe("setArgsArr", function () {
     it("Creates and array out of the arguments passed, in order via GET", function (done) {
       var args = {
@@ -103,7 +11,10 @@ describe("VerUtils Helper", function() {
         description: { value: "hello" }
       };
 
-      var requiredArgs = ["title", "description"];
+      var requiredArgs = [
+        { prop: "title" },
+        { prop: "description" }
+      ];
 
       var argList = varUtils.getArgsArr(requiredArgs, args);
 
@@ -123,7 +34,10 @@ describe("VerUtils Helper", function() {
         }
       };
 
-      var requiredArgs = ["title", "description"];
+      var requiredArgs = [
+        { prop: "title" },
+        { prop: "description" }
+      ];
 
       var argList = varUtils.getArgsArr(requiredArgs, args, "POST");
 
@@ -143,7 +57,11 @@ describe("VerUtils Helper", function() {
         }
       };
       var cb = function() { };
-      var requiredArgs = ["title", "description"];
+
+      var requiredArgs = [
+        { prop: "title" },
+        { prop: "description" }
+      ];
 
       var argList = varUtils.getArgsArr(requiredArgs, args, "POST", cb);
 
@@ -151,6 +69,37 @@ describe("VerUtils Helper", function() {
       expect(argList[0]).to.equal("test");
       expect(argList[1]).to.equal("hello");
       expect(argList[2]).to.equal(cb);
+      done();
+    });
+
+    it("Creates and array out of the arguments passed and fills in gap-arguements w default values", function (done) {
+      var args = {
+        request: {
+          value: {
+            title: "test",
+            description: "hello",
+            private: false
+          }
+        }
+      };
+      var cb = function() { };
+
+      var requiredArgs = [
+        { prop: "title" },
+        { prop: "description" },
+        { prop: "quantity", defaultValue: 1 },
+        { prop: "private", defaultValue: true }
+      ];
+
+      var argList = varUtils.getArgsArr(requiredArgs, args, "POST", cb);
+
+      expect(argList.length).to.equal(5);
+      expect(argList[0]).to.equal("test");
+      expect(argList[1]).to.equal("hello");
+      expect(argList[2]).to.equal(1);
+      expect(argList[3]).to.equal(false);
+
+      expect(argList[4]).to.equal(cb);
       done();
     });
   });
@@ -164,6 +113,18 @@ describe("VerUtils Helper", function() {
       args.title.value = varUtils.correctTypes(args.title.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
       expect(args.title.value ).to.equal("1");
+      done();
+    });
+
+    it("Converts a series of number nested in a mixed array to a string", function (done) {
+      var args = {
+        title: { value: [1, "2", 3, "4"] }
+      };
+
+      args.title.value = varUtils.correctTypes(args.title.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+
+      //for more info on this solution: https://medium.com/@victorleungtw/testing-with-mocha-array-comparison-e9a45b57df27
+      expect(args.title.value.toString()).to.equal(["1", "2", "3", "4"].toString());
       done();
     });
 
