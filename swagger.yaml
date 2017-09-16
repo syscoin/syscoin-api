@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  version: "1.0.2"
+  version: "1.0.3"
   title: Syscoin API
 host: localhost:8001
 securityDefinitions:
@@ -875,7 +875,7 @@ paths:
 
   /encryptwallet:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: encryptwallet
       description: "Encrypts the wallet with 'passphrase'. This is for first time encryption. \
                    After this, any calls that interact with private keys such as sending or signing \
@@ -888,11 +888,11 @@ paths:
       tags:
       - General
       parameters:
-      - name: passphrase
-        description: The pass phrase to encrypt the wallet with. It must be at least 1 character, but should be long.
-        in: query
+      - name: request
+        in: body
         required: true
-        type: string
+        schema:
+          $ref: "#/definitions/EncryptWalletRequest"
       responses:
         "200":
           description: Success
@@ -4660,3 +4660,10 @@ definitions:
       bip9_softforks:
         type: object #TODO: define type
         description: status of BIP9 softforks in progress
+  EncryptWalletRequest:
+    required:
+    - passphrase
+    properties:
+      passphrase:
+        type: string
+        description: The pass phrase to encrypt the wallet with. It must be at least 1 character, but should be long.
