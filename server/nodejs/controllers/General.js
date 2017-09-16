@@ -38,6 +38,10 @@ module.exports.getbalance = function getbalance (req, res, next) {
   General.getbalance(req.swagger.params, res, next);
 };
 
+module.exports.getwalletbalance = function getwalletbalance (req, res, next) {
+  General.getwalletbalance(req.swagger.params, res, next);
+};
+
 module.exports.getblock = function getblock (req, res, next) {
   General.getblock(req.swagger.params, res, next);
 };

@@ -202,6 +202,24 @@ exports.getbalance = function(args, res, next) {
   syscoinClient.getBalance.apply(syscoinClient, arr);
 }
 
+exports.getwalletbalance = function(args, res, next) {
+  var argList = [];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('Get WALLET balance ', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.getWalletBalance.apply(syscoinClient, arr);
+}
+
 exports.getblock = function(args, res, next) {
   /**
    * parameters expected in the args:

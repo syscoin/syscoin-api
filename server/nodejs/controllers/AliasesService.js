@@ -180,7 +180,6 @@ exports.aliasnew = function(args, res, next) {
     { prop: "aliasname" },
     { prop: "password"},
     { prop: "publicvalue" },
-    { prop: "privatevalue", defaultValue: "" },
     { prop: "safesearch", defaultValue: "Yes" },
     { prop: "accepttransfers", defaultValue: "Yes" },
     { prop: "expire", defaultValue: 0 },

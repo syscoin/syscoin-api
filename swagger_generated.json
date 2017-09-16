@@ -1,7 +1,7 @@
 {
   "swagger" : "2.0",
   "info" : {
-    "version" : "1.0.2",
+    "version" : "1.0.3",
     "title" : "Syscoin API"
   },
   "host" : "localhost:8001",
@@ -1123,16 +1123,17 @@
       "x-swagger-router-controller" : "rpc"
     },
     "/encryptwallet" : {
-      "get" : {
+      "post" : {
         "tags" : [ "General" ],
         "description" : "Encrypts the wallet with 'passphrase'. This is for first time encryption. After this, any calls that interact with private keys such as sending or signing will require the passphrase to be set prior the making these calls. Use the walletpassphrase call for this, and then walletlock call. If the wallet is already encrypted, use the walletpassphrasechange call. Note that this will shutdown the server.",
         "operationId" : "encryptwallet",
         "parameters" : [ {
-          "name" : "passphrase",
-          "in" : "query",
-          "description" : "The pass phrase to encrypt the wallet with. It must be at least 1 character, but should be long.",
+          "in" : "body",
+          "name" : "request",
           "required" : true,
-          "type" : "string"
+          "schema" : {
+            "$ref" : "#/definitions/EncryptWalletRequest"
+          }
         } ],
         "responses" : {
           "200" : {
@@ -1872,6 +1873,32 @@
           "required" : false,
           "type" : "boolean"
         } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "number"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/getwalletbalance" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "Returns wallet balance for all accounts. Does not include watch only accounts.",
+        "operationId" : "getwalletbalance",
+        "parameters" : [ ],
         "responses" : {
           "200" : {
             "description" : "Success",
@@ -5393,10 +5420,6 @@
           "type" : "string",
           "description" : "Alias public profile data, 1023 chars max."
         },
-        "privatevalue" : {
-          "type" : "string",
-          "description" : "Alias private profile data, 1023 chars max. Will be private and readable by owner only."
-        },
         "password" : {
           "type" : "string",
           "description" : "Used to generate your public/private key that controls this alias. Warning: Calling this function over a public network can lead to someone reading your password in plain text."
@@ -6357,6 +6380,15 @@
         "softforks" : [ "{}" ],
         "pruneheight" : 2.3021358869347654518833223846741020679473876953125,
         "bestblockhash" : "aeiou"
+      }
+    },
+    "EncryptWalletRequest" : {
+      "required" : [ "passphrase" ],
+      "properties" : {
+        "passphrase" : {
+          "type" : "string",
+          "description" : "The pass phrase to encrypt the wallet with. It must be at least 1 character, but should be long."
+        }
       }
     }
   }
