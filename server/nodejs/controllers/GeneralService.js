@@ -98,7 +98,7 @@ exports.encryptwallet = function(args, res, next) {
     res.end(JSON.stringify(result));
   };
 
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
   syscoinClient.encryptWallet.apply(syscoinClient, arr);
 }
 
