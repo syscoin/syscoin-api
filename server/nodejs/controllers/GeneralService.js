@@ -88,8 +88,6 @@ exports.encryptwallet = function(args, res, next) {
     { prop: "passphrase" }
   ];
 
-  args.request.value.passphrase = he.encode(args.request.value.passphrase);
-
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -1109,8 +1107,6 @@ exports.walletpassphrase = function(args, res, next) {
     { prop: "passphrase" },
     { prop: "timeout" }
   ];
-
-  args.request.value.passphrase = he.encode(args.request.value.passphrase);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
