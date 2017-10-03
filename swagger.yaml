@@ -53,6 +53,32 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /storedata:
+    x-swagger-router-controller: blockmarket
+    post:
+      operationId: storedata
+      description: "Store an arbitrary piece of data on a decentralized network of data storage warehouses and return the client \
+                    an array of URLs through which the data can be accessed."
+      security:
+      - token: []
+      tags:
+      - Blockmarket
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/StoreDataRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/StoreDataResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /getblock:
     x-swagger-router-controller: rpc
     get:
@@ -4683,3 +4709,40 @@ definitions:
       passphrase:
         type: string
         description: The pass phrase to encrypt the wallet with. It must be at least 1 character, but should be long.
+  StoreDataRequest:
+    required:
+    - data
+    properties:
+      data:
+        type: string
+        description: The data to be stored on the decentralized storage facility. Max size 5mb
+      storeLocations:
+        description: "Array of data warehousing facilities to use to store the data, valid values: BFAZURE"
+        type: array
+        items:
+          type: string
+  StoreDataResponse:
+    required:
+    - dataLocations
+    properties:
+      dataLocations:
+        type: array
+        items:
+          type: string
+        description: The data to be stored on the decentralized storage facility. Max size 5mb
+      storeLocations:
+        type: array
+        items:
+          $ref: "#/definitions/DataStoreLocation"
+        description: Array of objects which describe where data is stored offchain
+  DataStoreLocation:
+    required:
+    - dataProof
+    - dataUrl
+    properties:
+      dataProof:
+        type: string
+        description: Hash of the data to be stored to help verify it hasn't been tampered with between creation and access.
+      dataUrl:
+        type: string
+        description: URL from which the data can be fetched
