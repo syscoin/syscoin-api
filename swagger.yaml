@@ -4715,7 +4715,7 @@ definitions:
     properties:
       data:
         type: string
-        description: The data to be stored on the decentralized storage facility. Max size 5mb
+        description: The data to be stored on the decentralized storage facility. Max size 500kb.
       storeLocations:
         description: "Array of data warehousing facilities to use to store the data, valid values: BFAZURE"
         type: array
@@ -4723,13 +4723,8 @@ definitions:
           type: string
   StoreDataResponse:
     required:
-    - dataLocations
+    - storeLocations
     properties:
-      dataLocations:
-        type: array
-        items:
-          type: string
-        description: The data to be stored on the decentralized storage facility. Max size 5mb
       storeLocations:
         type: array
         items:
@@ -4737,12 +4732,8 @@ definitions:
         description: Array of objects which describe where data is stored offchain
   DataStoreLocation:
     required:
-    - dataProof
     - dataUrl
     properties:
-      dataProof:
-        type: string
-        description: Hash of the data to be stored to help verify it hasn't been tampered with between creation and access.
       dataUrl:
         type: string
         description: URL from which the data can be fetched

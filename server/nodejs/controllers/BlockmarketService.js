@@ -40,3 +40,13 @@ exports.login = function(args, res, next) {
   }
 }
 
+exports.storedata = function(args, res, next) {
+  //return mock response for now
+
+  res.end(JSON.stringify({
+    storeLocations : [ {
+      dataUrl : "http://offchain.syscoin.org/123"
+    } ]
+  }));
+};
+
