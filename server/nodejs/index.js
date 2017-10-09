@@ -10,7 +10,7 @@ var cors = require('cors');
 
 //load external config
 var config = require('./config');
-var syscoin = require('syscoin');
+var SyscoinClient = require('syscoin-core');
 
 var syscoinClient,
 rpcuser = "u",
@@ -57,11 +57,11 @@ function initAPI() {
   console.log("RPCPASS:", rpcpass);
   console.log("RPCPORT:", rpcport);
 
-  syscoinClient = new syscoin.Client({
+  syscoinClient = new SyscoinClient({
     host: 'localhost',
     port: rpcport,
-    user: rpcuser,
-    pass: rpcpass,
+    username: rpcuser,
+    password: rpcpass,
     timeout: 30000
   });
 
