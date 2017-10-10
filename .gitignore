@@ -3,3 +3,4 @@
 api-app.iml
 node_modules
 syscoin-api.iml
+server/nodejs/mongotest.js

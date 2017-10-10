@@ -2,10 +2,12 @@
 
 var jwt    = require('jsonwebtoken');
 var Hashes   = require('jshashes');
+const MongoClient = require('mongodb').MongoClient;
 
 var config = require('../config');
 var rpcuser = require('../index').rpcuser;
 var rpcpass = require('../index').rpcpass;
+var mongoUtils = require('./util/mongoUtils');
 
 exports.login = function(args, res, next) {
   /**
@@ -41,12 +43,37 @@ exports.login = function(args, res, next) {
 }
 
 exports.storedata = function(args, res, next) {
-  //return mock response for now
+  //store data offchain
+  let db;
 
-  res.end(JSON.stringify({
-    storeLocations : [ {
-      dataUrl : "http://offchain.syscoin.org/123"
-    } ]
-  }));
+  MongoClient.connect(config.mongodb.database_url, (err, database) => {
+    if (err) return console.log("error connecting to mongodb:", err);
+
+    db = database;
+
+    console.log("storing data offchain");
+    mongoUtils.insertDocuments(db, "aliasdata", [{ dataType: 'testdata', data: 'from api ' + Date.now() }], (err, results) => {
+      if (err) {
+        //TODO: add HTTP error code
+        console.log("error inserting docs:", err);
+        res.end(err);
+      }
+
+      //TODO: format data and return proper result type
+      console.log("offchain storage success", JSON.stringify(results));
+      res.end();
+    });
+
+    /*let cursor = db.collection('aliasdata').find().toArray(function(err, results) {
+      console.log("results: " + JSON.stringify(results));
+
+      // send proper object encoding type here based on swagger
+      res.end(JSON.stringify({
+        storeLocations : [ {
+          dataUrl : "http://offchain.syscoin.org/123"
+        } ]
+      }));
+    });*/
+  });
 };
 
