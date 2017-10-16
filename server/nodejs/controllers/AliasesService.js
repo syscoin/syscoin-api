@@ -182,9 +182,9 @@ exports.aliasnew = function(args, res, next) {
     { prop: "publicvalue" },
     { prop: "safesearch", defaultValue: "Yes" },
     { prop: "accepttransfers", defaultValue: "Yes" },
-    { prop: "expire", defaultValue: 0 }/*,
+    { prop: "expire", defaultValue: 0 },
     { prop: "nrequired", defaultValue: 0 },
-    { prop: "aliases", defaultValue: "[]" }*/
+    { prop: "aliases", defaultValue: "[]" }
   ];
 
   args.request.value.nrequired = varUtils.correctTypes(args.request.value.nrequired, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
