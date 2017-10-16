@@ -10,7 +10,8 @@ config.port = process.env.PORT || 8001;
 //NOTE: SECURE INFO SHOULD NOT BE COMMITTED TO PUBLIC GIT
 //mongodb config
 config.mongodb = {
-  database_url: process.env.MONGODB_URL || ""
+  database_url: process.env.MONGODB_URL || "",
+  offchain_url: "http://offchain.syscoin.org/aliasdata/"
 };
 
 module.exports = config;

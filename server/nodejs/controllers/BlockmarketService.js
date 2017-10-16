@@ -43,37 +43,39 @@ exports.login = function(args, res, next) {
 }
 
 exports.storedata = function(args, res, next) {
+  res.setHeader('Content-Type', 'application/json');
+
   //store data offchain
   let db;
 
   MongoClient.connect(config.mongodb.database_url, (err, database) => {
-    if (err) return console.log("error connecting to mongodb:", err);
+    if (err) {
+      console.log("error connecting to mongodb:", err);
+      res.writeHead(500);
+      res.end(JSON.stringify({ success: false, message: 'Error connecting from API to data storage service. Details: ' + JSON.stringify(err) }));
+    }
 
     db = database;
 
     console.log("storing data offchain");
-    mongoUtils.insertDocuments(db, "aliasdata", [{ dataType: 'testdata', data: 'from api ' + Date.now() }], (err, results) => {
+    mongoUtils.insertDocuments(db, "aliasdata", [{ dataType: 'aliasdata', data: args.data }], (err, results) => {
       if (err) {
-        //TODO: add HTTP error code
         console.log("error inserting docs:", err);
-        res.end(err);
+        res.writeHead(500);
+        res.end(JSON.stringify({ success: false, message: 'Error inserting data into offchain data storage service. Details: ' + JSON.stringify(err) }));
       }
 
-      //TODO: format data and return proper result type
+
       console.log("offchain storage success", JSON.stringify(results));
-      res.end();
+
+      let ret = {
+        storeLocations: [
+          {dataUrl: config.mongodb.offchain_url + results.insertedIds[0]}
+        ]
+      };
+
+      res.end(JSON.stringify(ret));
     });
-
-    /*let cursor = db.collection('aliasdata').find().toArray(function(err, results) {
-      console.log("results: " + JSON.stringify(results));
-
-      // send proper object encoding type here based on swagger
-      res.end(JSON.stringify({
-        storeLocations : [ {
-          dataUrl : "http://offchain.syscoin.org/123"
-        } ]
-      }));
-    });*/
   });
 };
 

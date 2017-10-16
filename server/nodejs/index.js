@@ -1,24 +1,24 @@
 'use strict';
 
-var app = require('connect')();
-var http = require('http');
-var swaggerTools = require('swagger-tools');
-var jsyaml = require('js-yaml');
-var fs = require('fs');
-var jwt    = require('jsonwebtoken');
-var cors = require('cors');
+let app = require('connect')();
+let http = require('http');
+let swaggerTools = require('swagger-tools');
+let jsyaml = require('js-yaml');
+let fs = require('fs');
+let jwt    = require('jsonwebtoken');
+let cors = require('cors');
 
 //load external config
-var config = require('./config');
-var SyscoinClient = require('syscoin-core');
+let config = require('./config');
+let SyscoinClient = require('syscoin-core');
 
-var syscoinClient,
+let syscoinClient,
 rpcuser = "u",
 rpcpass = "p",
 rpcport = 8336;
 
-var inputStreamError = false;
-var inputStream = fs.createReadStream(config.sys_location + "syscoin.conf");
+let inputStreamError = false;
+let inputStream = fs.createReadStream(config.sys_location + "syscoin.conf");
 inputStream.on('error', function (e) {
   console.log("Error reading syscoin.conf specified at " + config.sys_location + " falling back to defaults. Exact error is:" + JSON.stringify(e));
   console.log("Syscoin.conf must be present, with rpcuser, rpcpass, and rpcport set in order to run the Syscoin API Server.");
@@ -26,7 +26,7 @@ inputStream.on('error', function (e) {
 });
 
 if(!inputStreamError) {
-  var lineReader = require('readline').createInterface({
+  let lineReader = require('readline').createInterface({
     input: inputStream
   });
 
@@ -73,7 +73,7 @@ function initAPI() {
   initHttp();
 }
 
-var swaggerDoc, options;
+let swaggerDoc, options;
 function initSwagger() {
   // swaggerRouter configuration
   options = {
@@ -83,7 +83,7 @@ function initSwagger() {
   };
 
   // The Swagger document (require it, build it programmatically, fetch it from a URL, ...)
-  var spec = fs.readFileSync('./api/swagger.yaml', 'utf8');
+  let spec = fs.readFileSync('./api/swagger.yaml', 'utf8');
   swaggerDoc = jsyaml.safeLoad(spec);
 }
 
@@ -102,7 +102,7 @@ function initHttp() {
     app.use(middleware.swaggerMetadata());
 
     // Route security
-    var securityOptions = {
+    let securityOptions = {
       token : authCheck
     };
 
@@ -125,7 +125,7 @@ function initHttp() {
   });
 
   function authCheck(req, authOrSecDef, scopesOrApiKey, callback) {
-    var authToken = req.headers.token || (req.token ? req.token.value : null);
+    let authToken = req.headers.token || (req.token ? req.token.value : null);
 
     console.log("Performing security check for TOKEN:", authToken);
 
