@@ -57,8 +57,8 @@ exports.storedata = function(args, res, next) {
 
     db = database;
 
-    console.log("storing data offchain: " + args.data.value);
-    mongoUtils.insertDocuments(db, "aliasdata", [{ dataType: 'aliasdata', data: args.data.value }], (err, results) => {
+    console.log("storing data offchain: " + args.request.value.data);
+    mongoUtils.insertDocuments(db, "aliasdata", [{ dataType: 'aliasdata', data: args.request.value.data }], (err, results) => {
       if (err) {
         console.log("error inserting docs:", err);
         res.writeHead(500);
