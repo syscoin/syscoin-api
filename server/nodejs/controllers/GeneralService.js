@@ -323,6 +323,23 @@ exports.getmininginfo = function(args, res, next) {
   syscoinClient.getMiningInfo.apply(syscoinClient, arr);
 }
 
+exports.getnetworkinfo = function(args, res, next) {
+  var argList = [];
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('Get network info ', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.getNetworkInfo.apply(syscoinClient, arr);
+}
+
 exports.getnewaddress = function(args, res, next) {
   /**
    * parameters expected in the args:

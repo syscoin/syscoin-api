@@ -184,6 +184,25 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /getnetworkinfo:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getnetworkinfo
+      description: Returns a json object containing network-related information.
+      security:
+      - token: []
+      tags:
+      - General
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/NetworkInfo"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /getpeerinfo:
     x-swagger-router-controller: rpc
     get:
@@ -4737,3 +4756,43 @@ definitions:
       dataUrl:
         type: string
         description: URL from which the data can be fetched
+  NetworkInfo:
+    properties:
+      version:
+        type: number
+      subversion:
+        type: string
+      protocolversion:
+        type: number
+      localservices:
+        type: string
+      localrelay:
+        type: boolean
+      timeoffset:
+        type: number
+      connections:
+        type: number
+      networks:
+        type: array
+        items:
+          $ref: "#/definitions/NetworkInfoDetails"
+      relayfee:
+        type: number
+      localaddresses:
+        type: array
+        items:
+          type: string
+      warnings:
+        type: string
+  NetworkInfoDetails:
+    properties:
+      name:
+        type: string
+      limited:
+        type: boolean
+      reachable:
+        type: boolean
+      proxy:
+        type: string
+      proxy_randomize_credentials:
+        type: boolean

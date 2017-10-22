@@ -230,6 +230,32 @@
       },
       "x-swagger-router-controller" : "rpc"
     },
+    "/getnetworkinfo" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "Returns a json object containing network-related information.",
+        "operationId" : "getnetworkinfo",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/NetworkInfo"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
     "/getpeerinfo" : {
       "get" : {
         "tags" : [ "General" ],
@@ -6467,6 +6493,94 @@
       },
       "example" : {
         "dataUrl" : "aeiou"
+      }
+    },
+    "NetworkInfo" : {
+      "properties" : {
+        "version" : {
+          "type" : "number"
+        },
+        "subversion" : {
+          "type" : "string"
+        },
+        "protocolversion" : {
+          "type" : "number"
+        },
+        "localservices" : {
+          "type" : "string"
+        },
+        "localrelay" : {
+          "type" : "boolean"
+        },
+        "timeoffset" : {
+          "type" : "number"
+        },
+        "connections" : {
+          "type" : "number"
+        },
+        "networks" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/NetworkInfoDetails"
+          }
+        },
+        "relayfee" : {
+          "type" : "number"
+        },
+        "localaddresses" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "warnings" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "localaddresses" : [ "aeiou" ],
+        "protocolversion" : 6.02745618307040320615897144307382404804229736328125,
+        "relayfee" : 5.63737665663332876420099637471139430999755859375,
+        "subversion" : "aeiou",
+        "timeoffset" : 1.46581298050294517310021547018550336360931396484375,
+        "warnings" : "aeiou",
+        "localrelay" : true,
+        "networks" : [ {
+          "proxy" : "aeiou",
+          "limited" : true,
+          "proxy_randomize_credentials" : true,
+          "name" : "aeiou",
+          "reachable" : true
+        } ],
+        "version" : 0.80082819046101150206595775671303272247314453125,
+        "connections" : 5.962133916683182377482808078639209270477294921875,
+        "localservices" : "aeiou"
+      }
+    },
+    "NetworkInfoDetails" : {
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "limited" : {
+          "type" : "boolean"
+        },
+        "reachable" : {
+          "type" : "boolean"
+        },
+        "proxy" : {
+          "type" : "string"
+        },
+        "proxy_randomize_credentials" : {
+          "type" : "boolean"
+        }
+      },
+      "example" : {
+        "proxy" : "aeiou",
+        "limited" : true,
+        "proxy_randomize_credentials" : true,
+        "name" : "aeiou",
+        "reachable" : true
       }
     }
   }

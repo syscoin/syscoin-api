@@ -62,6 +62,10 @@ module.exports.getmininginfo = function getmininginfo (req, res, next) {
   General.getmininginfo(req.swagger.params, res, next);
 };
 
+module.exports.getnetworkinfo = function getnetworkinfo (req, res, next) {
+  General.getnetworkinfo(req.swagger.params, res, next);
+};
+
 module.exports.getnewaddress = function getnewaddress (req, res, next) {
   General.getnewaddress(req.swagger.params, res, next);
 };
