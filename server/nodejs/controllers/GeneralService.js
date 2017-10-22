@@ -23,7 +23,7 @@ exports.addmultisigaddress = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Add multisig address:', result);
+    commonUtils.log('Add multisig address:', result, "addmultisigaddress");
     res.end(JSON.stringify(result));
   };
 
@@ -47,7 +47,7 @@ exports.dumpprivkey = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Dump priv key', result);
+    commonUtils.log('Dump priv key', result, "dumpprivkey");
     res.end(JSON.stringify(result));
   };
 
@@ -71,7 +71,7 @@ exports.dumpwallet = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Dump wallet ', result);
+    commonUtils.log('Dump wallet ', result, "dumpwallet");
     res.end(JSON.stringify(result));
   };
 
@@ -95,7 +95,7 @@ exports.encryptwallet = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Encrypt wallet ', result);
+    commonUtils.log('Encrypt wallet ', result, "encryptwallet");
     res.end(JSON.stringify(result));
   };
 
@@ -119,7 +119,7 @@ exports.getaccount = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Get account ', result);
+    commonUtils.log('Get account ', result, "getaccount");
     res.end(JSON.stringify(result));
   };
 
@@ -143,7 +143,7 @@ exports.getaccountaddress = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Get account address ', result);
+    commonUtils.log('Get account address ', result, "getaccountaddress");
     res.end(JSON.stringify(result));
   };
 
@@ -167,7 +167,7 @@ exports.getaddressesbyaccount = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Get addresses by account ', result);
+    commonUtils.log('Get addresses by account ', result, "getaddressesbyaccount");
     res.end(JSON.stringify(result));
   };
 
@@ -195,7 +195,7 @@ exports.getbalance = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Get balance ', result);
+    commonUtils.log('Get balance ', result, "getbalance");
     res.end(JSON.stringify(result));
   };
 
@@ -213,7 +213,7 @@ exports.getwalletbalance = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Get WALLET balance ', result);
+    commonUtils.log('Get WALLET balance ', result, "getwalletbalance");
     res.end(JSON.stringify(result));
   };
 
@@ -239,7 +239,7 @@ exports.getblock = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Get block ', result);
+    commonUtils.log('Get block ', result, "getblock");
     res.end(JSON.stringify(result));
   };
 
@@ -260,7 +260,7 @@ exports.getblockchaininfo = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Get blockchain info ', result);
+    commonUtils.log('Get blockchain info ', result, "getblockchaininfo");
     res.end(JSON.stringify(result));
   };
 
@@ -281,7 +281,7 @@ exports.getblockcount = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Get block count ', result);
+    commonUtils.log('Get block count ', result, "getblockcount");
     res.end(JSON.stringify(result));
   };
 
@@ -298,7 +298,7 @@ exports.getinfo = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Info:', result);
+    commonUtils.log('Info:', result, "getinfo");
     res.end(JSON.stringify(result));
   };
 
@@ -315,7 +315,7 @@ exports.getmininginfo = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Get mining info ', result);
+    commonUtils.log('Get mining info ', result, "getmininginfo");
     res.end(JSON.stringify(result));
   };
 
@@ -332,7 +332,7 @@ exports.getnetworkinfo = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Get network info ', result);
+    commonUtils.log('Get network info ', result, "getnetworkinfo");
     res.end(JSON.stringify(result));
   };
 
@@ -356,7 +356,7 @@ exports.getnewaddress = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Get new address ', result);
+    commonUtils.log('Get new address ', result, "getnewaddress");
     res.end(JSON.stringify(result));
   };
 
@@ -373,7 +373,7 @@ exports.getpeerinfo = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Get peer info', result);
+    commonUtils.log('Get peer info', result, "getpeerinfo");
     res.end(JSON.stringify(result));
   };
 
@@ -399,7 +399,7 @@ exports.getreceivedbyaccount = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Get recieved by account', result);
+    commonUtils.log('Get recieved by account', result, "getreceivedbyaccount");
     res.end(JSON.stringify(result));
   };
 
@@ -425,7 +425,7 @@ exports.getreceivedbyaddress = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Get recieved by address ', result);
+    commonUtils.log('Get recieved by address ', result, "getreceivedbyaddress");
     res.end(JSON.stringify(result));
   };
 
@@ -453,7 +453,7 @@ exports.gettransaction = function(args, res, next) {
       //return commonUtils.reportError(res, err);
     }
 
-    console.log('Get transaction ', result);
+    commonUtils.log('Get transaction ', result, "gettransaction");
     res.end(JSON.stringify(result));
   };
 
@@ -470,7 +470,7 @@ exports.getunconfirmedbalance = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Get unconfirmed balance ', result);
+    commonUtils.log('Get unconfirmed balance ', result, "getunconfirmedbalance");
     res.end(JSON.stringify(result));
   };
 
@@ -494,7 +494,7 @@ exports.getv2address = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Get v2 address ', result);
+    commonUtils.log('Get v2 address ', result, "getv2address");
     res.end(JSON.stringify(result));
   };
 
@@ -511,7 +511,7 @@ exports.getwalletinfo = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Get wallet info ', result);
+    commonUtils.log('Get wallet info ', result, "getwalletinfo");
     res.end(JSON.stringify(result));
   };
 
@@ -535,7 +535,7 @@ exports.getzaddress = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Get Z Address', result);
+    commonUtils.log('Get Z Address', result, "getzaddress");
     res.end(JSON.stringify(result));
   };
 
@@ -563,7 +563,7 @@ exports.importaddress = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Import address ', result);
+    commonUtils.log('Import address ', result, "importaddress");
     res.end(JSON.stringify(result));
   };
 
@@ -590,7 +590,7 @@ exports.importprivkey = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Import priv key ', result);
+    commonUtils.log('Import priv key ', result, "importprivkey");
     res.end(JSON.stringify(result));
   };
 
@@ -616,7 +616,7 @@ exports.importprunedfunds = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Import pruned funds ', result);
+    commonUtils.log('Import pruned funds ', result, "importprunedfunds");
     res.end(JSON.stringify(result));
   };
 
@@ -642,7 +642,7 @@ exports.importpubkey = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Import pub key ', result);
+    commonUtils.log('Import pub key ', result, "importpubkey");
     res.end(JSON.stringify(result));
   };
 
@@ -666,7 +666,7 @@ exports.importwallet = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Import wallet ', result);
+    commonUtils.log('Import wallet ', result, "importwallet");
     res.end(JSON.stringify(result));
   };
 
@@ -692,7 +692,7 @@ exports.listaccounts = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('List accounts ', result);
+    commonUtils.log('List accounts ', result, "listaccounts");
     res.end(JSON.stringify(result));
   };
 
@@ -709,7 +709,7 @@ exports.listaddressgroupings = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('List address groupings ', result);
+    commonUtils.log('List address groupings ', result, "listaddressgroupings");
     res.end(JSON.stringify(result));
   };
 
@@ -737,7 +737,7 @@ exports.listreceivedbyaccount = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('List received by account ', result);
+    commonUtils.log('List received by account ', result, "listreceivedbyaccount");
     res.end(JSON.stringify(result));
   };
 
@@ -765,7 +765,7 @@ exports.listreceivedbyaddress = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('List received by address ', result);
+    commonUtils.log('List received by address ', result, "listreceivedbyaddress");
     res.end(JSON.stringify(result));
   };
 
@@ -793,7 +793,7 @@ exports.listsinceblock = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('List since block', result);
+    commonUtils.log('List since block', result, "listsinceblock");
     res.end(JSON.stringify(result));
   };
 
@@ -823,7 +823,7 @@ exports.listtransactions = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('List transactions ', result);
+    commonUtils.log('List transactions ', result, "listtransactions");
     res.end(JSON.stringify(result));
   };
 
@@ -852,7 +852,7 @@ exports.move = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Move ', result);
+    commonUtils.log('Move ', result, "move");
     res.end(JSON.stringify(result));
   };
 
@@ -876,7 +876,7 @@ exports.removeprunedfunds = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Remove pruned funds ', result);
+    commonUtils.log('Remove pruned funds ', result, "removeprunedfunds");
     res.end(JSON.stringify(result));
   };
 
@@ -905,7 +905,7 @@ exports.sendfrom = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Send from ', result);
+    commonUtils.log('Send from ', result, "sendfrom");
     res.end(JSON.stringify(result));
   };
 
@@ -933,7 +933,7 @@ exports.sendmany = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Send many ', result);
+    commonUtils.log('Send many ', result, "sendmany");
     res.end(JSON.stringify(result));
   };
 
@@ -963,7 +963,7 @@ exports.sendtoaddress = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Send to address ', result);
+    commonUtils.log('Send to address ', result, "sendtoaddress");
     res.end(JSON.stringify(result));
   };
 
@@ -988,7 +988,7 @@ exports.signmessage = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Sign message ', result);
+    commonUtils.log('Sign message ', result, "signmessage");
     res.end(JSON.stringify(result));
   };
 
@@ -1014,7 +1014,7 @@ exports.syscoindecoderawtransaction = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Syscoin decode raw transaction ', result);
+    commonUtils.log('Syscoin decode raw transaction ', result, "syscoindecoderawtransaction");
     res.end(JSON.stringify(result));
   };
 
@@ -1038,7 +1038,7 @@ exports.syscoinsignrawtransaction = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Syscoin sign raw transaction ', result);
+    commonUtils.log('Syscoin sign raw transaction ', result, "syscoinsignrawtransaction");
     res.end(JSON.stringify(result));
   };
 
@@ -1062,7 +1062,7 @@ exports.validateaddress = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Validate address ', result);
+    commonUtils.log('Validate address ', result, "validateaddress");
     res.end(JSON.stringify(result));
   };
 
@@ -1090,7 +1090,7 @@ exports.verifymessage = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Verify message ', result);
+    commonUtils.log('Verify message ', result, "verifymessage");
     res.end(JSON.stringify(result));
   };
 
@@ -1107,7 +1107,7 @@ exports.walletlock = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Wallet lock ', result);
+    commonUtils.log('Wallet lock ', result, "walletlock");
     res.end(JSON.stringify(result));
   };
 
@@ -1132,7 +1132,7 @@ exports.walletpassphrase = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Wallet passphrase ', result);
+    commonUtils.log('Wallet passphrase ', result, "walletpassphrase");
     res.end(JSON.stringify(result));
   };
 
@@ -1157,7 +1157,7 @@ exports.walletpassphrasechange = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Wallet passphrase change ', result);
+    commonUtils.log('Wallet passphrase change ', result, "walletpassphrasechange");
     res.end(JSON.stringify(result));
   };
 
