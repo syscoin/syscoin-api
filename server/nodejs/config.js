@@ -14,7 +14,7 @@ config.port = process.env.PORT || 8001;
 //mongodb config
 config.mongodb = {
   database_url: process.env.MONGODB_URL || "",
-  offchain_url: "http://offchain.syscoin.org/aliasdata/"
+  offchain_url: "http://offchain-testnet.syscoin.org/aliasdata/"
 };
 
 module.exports = config;
