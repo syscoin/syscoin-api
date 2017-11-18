@@ -4732,6 +4732,9 @@ definitions:
     required:
     - data
     properties:
+      existingDataId:
+        type: string
+        description: Identifier for existing data to update.
       data:
         type: string
         description: The data to be stored on the decentralized storage facility. Max size 500kb.
