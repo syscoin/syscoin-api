@@ -5288,6 +5288,9 @@ definitions:
       existingDataId:
         type: "string"
         description: "Identifier for existing data to update."
+      dataType:
+        type: "string"
+        description: "The type of data being stored, ie: 'aliasdata'."
       data:
         type: "string"
         description: "The data to be stored on the decentralized storage facility.\
@@ -5295,7 +5298,7 @@ definitions:
       storeLocations:
         type: "array"
         description: "Array of data warehousing facilities to use to store the data,\
-          \ valid values: BFAZURE"
+          \ valid values: BFAZURE."
         items:
           type: "string"
   StoreDataResponse:
