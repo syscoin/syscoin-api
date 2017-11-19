@@ -1,3 +1,4 @@
 [submodule "swagger-ui"]
 	path = swagger-ui
 	url = https://github.com/syscoin/swagger-ui.git
+	branch = dev
