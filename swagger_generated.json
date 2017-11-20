@@ -6451,7 +6451,7 @@
       }
     },
     "StoreDataRequest" : {
-      "required" : [ "data" ],
+      "required" : [ "data", "dataType" ],
       "properties" : {
         "existingDataId" : {
           "type" : "string",

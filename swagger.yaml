@@ -4731,6 +4731,7 @@ definitions:
   StoreDataRequest:
     required:
     - data
+    - dataType
     properties:
       existingDataId:
         type: string
