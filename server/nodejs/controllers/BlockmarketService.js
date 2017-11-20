@@ -61,7 +61,8 @@ exports.storedata = async (args, res, next) => {
         filter = {_id: ObjectID(existingDataId), dataType: dataType};
         let docs = await collection.find(filter).toArray();
         if(docs.length > 1) {
-          throw new Error(`Data id ${existingDataId} returned ${docs.length} matches, too many!`);
+          res.writeHead(500);
+          res.end(JSON.stringify({ success: false, message: `Data id ${existingDataId} returned ${docs.length} matches, too many!` }));
         }else if(docs.length == 0) {
           console.log("No matches found for provided ID, creating new ID.");
           filter._id = newId;
