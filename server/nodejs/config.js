@@ -11,7 +11,7 @@ config.secure = process.env.SECURE || true;
 config.port = process.env.PORT || 8001;
 
 //NOTE: SECURE INFO SHOULD NOT BE COMMITTED TO PUBLIC GIT
-//mongodb config
+//mongodb config, offchain_url should include trailing slash!
 config.mongodb = {
   database_url: process.env.MONGODB_URL || "",
   offchain_url: "http://offchain-testnet.syscoin.org/aliasdata/"

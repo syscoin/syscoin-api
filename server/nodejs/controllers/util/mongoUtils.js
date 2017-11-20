@@ -1,16 +1,26 @@
-const assert = require('assert');
 
-const insertDocuments = (db, collectionName, docs, callback) => {
-  // Get the documents collection
-  let collection = db.collection(collectionName);
-  // Insert some documents
-  collection.insertMany(docs, (err, result) => {
-    assert.equal(err, null);
-    assert.equal(docs.length, result.result.n);
-    assert.equal(docs.length, result.ops.length);
-    console.log("Inserted " + docs.length + " documents into the document collection");
-    callback(err, result);
-  });
+const insertDocuments = async (collection, docs) => {
+  try {
+    let result = await collection.insertMany(docs);
+    if (docs.length == result.result.n && docs.length == result.ops.length) {
+      console.log(`Inserted ${docs.length} documents into the document collection`);
+      return result;
+    }
+  }catch(e) {
+    throw new Error(e);
+  }
+};
+
+const upsertDocument = async (collection, filter, upsertDoc) => {
+  try {
+    let result = await collection.updateOne(filter, upsertDoc, { upsert: true});
+    console.log("r:" + JSON.stringify(result));
+    console.log(`Upserted ${result.matchedCount} documents into the document collection. Upserted ID is ${filter._id}.`);
+    return result;
+  }catch(e) {
+    throw new Error(e);
+  }
 };
 
 module.exports.insertDocuments = insertDocuments;
+module.exports.upsertDocument = upsertDocument;

@@ -3,6 +3,7 @@
 var jwt    = require('jsonwebtoken');
 var Hashes   = require('jshashes');
 const MongoClient = require('mongodb').MongoClient;
+const ObjectID = require('mongodb').ObjectID;
 
 var config = require('../config');
 var rpcuser = require('../index').rpcuser;
@@ -42,40 +43,54 @@ exports.login = function(args, res, next) {
   }
 }
 
-exports.storedata = function(args, res, next) {
+exports.storedata = async (args, res, next) => {
+  const existingDataId = args.request.value.existingDataId;
+  const dataType = "aliasdata"; //args.request.value.dataType;
+  const data = args.request.value.data;
   res.setHeader('Content-Type', 'application/json');
 
-  //store data offchain
-  let db;
+  try {
+    const db = await MongoClient.connect(config.mongodb.database_url);
+    const collection = db.collection("aliasdata"); //TODO: change collectionName to variable
+    console.log("storing data offchain: " + data);
 
-  MongoClient.connect(config.mongodb.database_url, (err, database) => {
-    if (err) {
-      console.log("error connecting to mongodb:", err);
-      res.writeHead(500);
-      res.end(JSON.stringify({ success: false, message: 'Error connecting from API to data storage service. Details: ' + JSON.stringify(err) }));
+    let filter;
+    const newId = new ObjectID();
+    if(existingDataId) {
+      try {
+        filter = {_id: ObjectID(existingDataId), dataType: dataType};
+        let docs = await collection.find(filter).toArray();
+        if(docs.length > 1) {
+          throw new Error(`Data id ${existingDataId} returned ${docs.length} matches, too many!`);
+        }else if(docs.length == 0) {
+          console.log("No matches found for provided ID, creating new ID.");
+          filter._id = newId;
+        }
+      }catch(e) { //objectid error, create new id
+        console.log("Object ID error create new ID.");
+        filter = { _id: newId, dataType: dataType};
+      }
+    } else {
+      filter = { _id: newId, dataType: dataType};
     }
 
-    db = database;
-
-    console.log("storing data offchain: " + args.request.value.data);
-    mongoUtils.insertDocuments(db, "aliasdata", [{ dataType: 'aliasdata', data: args.request.value.data }], (err, results) => {
-      if (err) {
-        console.log("error inserting docs:", err);
-        res.writeHead(500);
-        res.end(JSON.stringify({ success: false, message: 'Error inserting data into offchain data storage service. Details: ' + JSON.stringify(err) }));
-      }
-
-
-      console.log("offchain storage success", JSON.stringify(results));
-
-      let ret = {
-        storeLocations: [
-          {dataUrl: config.mongodb.offchain_url + results.insertedIds[0]}
-        ]
-      };
-
-      res.end(JSON.stringify(ret));
-    });
-  });
-};
+    try {
+      const result = await mongoUtils.upsertDocument(collection, filter, { dataType: 'aliasdata', data: data });
+        const updatedId = result.upserted ? result.upserted._id : existingDataId;
+        let ret = {
+          storeLocations: [
+            { dataUrl: config.mongodb.offchain_url + updatedId }
+          ]
+        };
+        res.end(JSON.stringify(ret));
+    }catch(err) {
+      res.writeHead(500);
+      res.end(JSON.stringify({ success: false, message: 'Error inserting data into offchain data storage service. Details: ' + JSON.stringify(err) }));
+    }
+  }catch(err) {
+    res.writeHead(500);
+    res.end(JSON.stringify({ success: false, message: 'Error connecting from API to data storage service. Details: ' + JSON.stringify(err) }));
+  }
+}
+;
 
