@@ -3,7 +3,7 @@
 echo "*** IMPORTANT NOTE ***"
 echo "This script assumes you're using the latest version of swagger-codegen 2.3 and have built it locally."
 echo "This script will regenerate the JSON definitions ONLY at all levels, also generating the swagger-spec.js updates for swagger-ui."
-echo "This script DOES NOT COMMIT AND PUSH CODE!"
+echo "This script *DOES* COMMIT AND PUSH CODE!"
 
 #capture path to local swagger codegen
 #/Users/dwasyluk/Development/swagger-codegen/modules/swagger-codegen-cli/target/swagger-codegen-cli.jar
