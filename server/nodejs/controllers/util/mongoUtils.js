@@ -16,7 +16,7 @@ const upsertDocument = async (collection, filter, upsertDoc) => {
     let result = await collection.updateOne(filter, upsertDoc, { upsert: true});
     console.log("r:" + JSON.stringify(result));
     console.log(`Upserted ${result.matchedCount} documents into the document collection. Upserted ID is ${filter._id}.`);
-    return result;
+    return { upsertedId: filter._id, dbResult: result };
   }catch(e) {
     throw new Error(e);
   }

@@ -77,10 +77,9 @@ exports.storedata = async (args, res, next) => {
 
     try {
       const result = await mongoUtils.upsertDocument(collection, filter, { dataType: 'aliasdata', data: data });
-        const updatedId = result.upserted ? result.upserted._id : existingDataId;
         let ret = {
           storeLocations: [
-            { dataUrl: config.mongodb.offchain_url + updatedId }
+            { dataUrl: config.mongodb.offchain_url + result.upsertedId }
           ]
         };
         res.end(JSON.stringify(ret));
