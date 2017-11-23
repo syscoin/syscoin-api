@@ -10,7 +10,7 @@ let cors = require('cors');
 
 //load external config
 let config = require('./config');
-let syscoin = require('syscoin-core');
+let SyscoinClient = require('syscoin-core');
 
 let syscoinClient,
   rpcuser = "u",
