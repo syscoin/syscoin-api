@@ -10,7 +10,7 @@ let cors = require('cors');
 
 //load external config
 let config = require('./config');
-let syscoin = require('syscoin');
+let syscoin = require('syscoin-core');
 
 let syscoinClient,
   rpcuser = "u",
@@ -61,11 +61,11 @@ function initAPI() {
     console.log("METHODS WITH LOGGING DISABLED:", config.methodsWithLoggingDisabled);
   }
 
-  syscoinClient = new syscoin.Client({
+  syscoinClient = new SyscoinClient({
     host: 'localhost',
     port: rpcport,
-    user: rpcuser,
-    pass: rpcpass,
+    username: rpcuser,
+    password: rpcpass,
     timeout: 30000
   });
 
