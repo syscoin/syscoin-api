@@ -1741,7 +1741,7 @@ so payments received with the address will be credited to 'account'."
 
   /importaddress:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: importaddress
       description: Adds a script (in hex) or address that can be watched as if it were in your wallet but cannot be used to spend.
       security:
@@ -1766,7 +1766,7 @@ so payments received with the address will be credited to 'account'."
 
   /importprivkey:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: importprivkey
       description: Adds a private key (as returned by dumpprivkey) to your wallet.
       security:
@@ -1819,7 +1819,7 @@ so payments received with the address will be credited to 'account'."
 
   /importpubkey:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: importpubkey
       description: Adds a public key (in hex) that can be watched as if it were in your wallet but cannot be used to spend.
       security:
@@ -1844,7 +1844,7 @@ so payments received with the address will be credited to 'account'."
 
   /importwallet:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: importwallet
       description: Imports keys from a wallet dump file (see dumpwallet).
       security:

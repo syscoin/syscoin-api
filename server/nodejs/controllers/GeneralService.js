@@ -567,7 +567,7 @@ exports.importaddress = function(args, res, next) {
     res.end(JSON.stringify(result));
   };
 
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
   syscoinClient.importAddress.apply(syscoinClient, arr);
 }
 
@@ -594,7 +594,7 @@ exports.importprivkey = function(args, res, next) {
     res.end(JSON.stringify(result));
   };
 
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
   syscoinClient.importPrivKey.apply(syscoinClient, arr);
 }
 
@@ -646,7 +646,7 @@ exports.importpubkey = function(args, res, next) {
     res.end(JSON.stringify(result));
   };
 
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
   syscoinClient.importPubKey.apply(syscoinClient, arr);
 }
 
@@ -670,7 +670,7 @@ exports.importwallet = function(args, res, next) {
     res.end(JSON.stringify(result));
   };
 
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
   syscoinClient.importWallet.apply(syscoinClient, arr);
 }
 
