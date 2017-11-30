@@ -1800,7 +1800,7 @@ paths:
       x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
   /importaddress:
-    get:
+    post:
       tags:
       - "General"
       description: "Adds a script (in hex) or address that can be watched as if it\
@@ -1826,7 +1826,7 @@ paths:
       x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
   /importprivkey:
-    get:
+    post:
       tags:
       - "General"
       description: "Adds a private key (as returned by dumpprivkey) to your wallet."
@@ -1883,7 +1883,7 @@ paths:
       x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
   /importpubkey:
-    get:
+    post:
       tags:
       - "General"
       description: "Adds a public key (in hex) that can be watched as if it were in\
@@ -1909,7 +1909,7 @@ paths:
       x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
   /importwallet:
-    get:
+    post:
       tags:
       - "General"
       description: "Imports keys from a wallet dump file (see dumpwallet)."
