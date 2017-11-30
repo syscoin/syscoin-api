@@ -52,19 +52,6 @@ if(!inputStreamError) {
   });
 }
 
-//error handling
-process.on('uncaughtException', function(err) {
-  switch(err.errno) {
-    case 'EADDRINUSE':
-      throw new Error("Syscoin API port already in use. Please close all other Syscoin clients and re-run this application.", err.errno);
-      break;
-
-    default:
-      throw new Error(err.message, err.errno);
-  }
-});
-
-
 function initAPI() {
   console.log("RPCUSER:", rpcuser);
   console.log("RPCPASS:", rpcpass);
