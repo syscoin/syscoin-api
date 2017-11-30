@@ -1018,7 +1018,7 @@ exports.syscoindecoderawtransaction = function(args, res, next) {
     res.end(JSON.stringify(result));
   };
 
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
   syscoinClient.syscoinDecodeRawTransaction.apply(syscoinClient, arr);
 }
 
@@ -1042,7 +1042,7 @@ exports.syscoinsignrawtransaction = function(args, res, next) {
     res.end(JSON.stringify(result));
   };
 
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
   syscoinClient.syscoinSignRawTransaction.apply(syscoinClient, arr);
 }
 
@@ -1066,7 +1066,7 @@ exports.validateaddress = function(args, res, next) {
     res.end(JSON.stringify(result));
   };
 
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
   syscoinClient.validateAddress.apply(syscoinClient, arr);
 }
 

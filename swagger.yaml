@@ -224,7 +224,7 @@ paths:
 
   /validateaddress:
     x-swagger-router-controller: rpc
-    post:
+    get:
       operationId: validateaddress
       description: Return information about the given syscoin address.
       security:
@@ -3012,7 +3012,7 @@ so payments received with the address will be credited to 'account'."
 
   /syscoindecoderawtransaction:
     x-swagger-router-controller: rpc
-    post:
+    get:
       operationId: syscoindecoderawtransaction
       description: Decode raw syscoin transaction (serialized, hex-encoded) and display information pertaining to the service that is included in the transactiion data output(OP_RETURN)
       security:
@@ -3040,7 +3040,7 @@ so payments received with the address will be credited to 'account'."
 
   /syscoinsignrawtransaction:
     x-swagger-router-controller: rpc
-    post:
+    get:
       operationId: syscoinsignrawtransaction
       description: Sign inputs for raw transaction (serialized, hex-encoded) and sends them out to the network if signing is complete
       security:
