@@ -37,14 +37,5 @@ function log(...args) {
   console.log(args);
 }
 
-function displayError(msg) {
-  try {
-    alert(msg);
-  }catch(e){ //not in a browser
-    console.error(msg);
-  }
-}
-
 module.exports.reportError = reportError;
 module.exports.log = log;
-module.exports.displayError = displayError;

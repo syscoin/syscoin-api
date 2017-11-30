@@ -56,11 +56,11 @@ if(!inputStreamError) {
 process.on('uncaughtException', function(err) {
   switch(err.errno) {
     case 'EADDRINUSE':
-      commonUtils.displayError("Syscoin API port already in use. Please close all other Syscoin clients and re-run this application.");
+      throw new Error("Syscoin API port already in use. Please close all other Syscoin clients and re-run this application.", err.errno);
       break;
 
     default:
-      commonUtils.displayError(err.errno + " - " + err.message);
+      throw new Error(err.message, err.errno);
   }
 });
 
