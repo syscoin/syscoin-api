@@ -1,16 +1,17 @@
 'use strict';
 
-let app = require('connect')();
-let http = require('http');
-let swaggerTools = require('swagger-tools');
-let jsyaml = require('js-yaml');
-let fs = require('fs');
-let jwt    = require('jsonwebtoken');
-let cors = require('cors');
+const app = require('connect')();
+const http = require('http');
+const swaggerTools = require('swagger-tools');
+const jsyaml = require('js-yaml');
+const fs = require('fs');
+const jwt    = require('jsonwebtoken');
+const cors = require('cors');
 
 //load external config
-let config = require('./config');
-let SyscoinClient = require('syscoin-core');
+const config = require('./config');
+const SyscoinClient = require('syscoin-core');
+const commonUtils = require('./controllers/util/commonUtils');
 
 let syscoinClient,
   rpcuser = "u",
@@ -50,6 +51,18 @@ if(!inputStreamError) {
     initAPI();
   });
 }
+
+//error handling
+process.on('uncaughtException', function(err) {
+  switch(err.errno) {
+    case 'EADDRINUSE':
+      commonUtils.displayError("Syscoin API port already in use. Please close all other Syscoin clients and re-run this application.");
+      break;
+
+    default:
+      commonUtils.displayError(err.errno + " - " + err.message);
+  }
+});
 
 
 function initAPI() {
