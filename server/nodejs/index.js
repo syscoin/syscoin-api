@@ -1,5 +1,7 @@
 'use strict';
 
+require('dotenv').config();
+
 const app = require('connect')();
 const http = require('http');
 const swaggerTools = require('swagger-tools');
@@ -7,6 +9,7 @@ const jsyaml = require('js-yaml');
 const fs = require('fs');
 const jwt    = require('jsonwebtoken');
 const cors = require('cors');
+
 
 //load external config
 const config = require('./config');
