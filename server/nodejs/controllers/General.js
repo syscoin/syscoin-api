@@ -22,6 +22,14 @@ module.exports.encryptwallet = function encryptwallet (req, res, next) {
   General.encryptwallet(req.swagger.params, res, next);
 };
 
+module.exports.generate = function generate (req, res, next) {
+  General.generate(req.swagger.params, res, next);
+};
+
+module.exports.generatepublickey = function generatepublickey (req, res, next) {
+  General.generatepublickey(req.swagger.params, res, next);
+};
+
 module.exports.getaccount = function getaccount (req, res, next) {
   General.getaccount(req.swagger.params, res, next);
 };

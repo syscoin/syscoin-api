@@ -103,6 +103,49 @@ exports.encryptwallet = function(args, res, next) {
   syscoinClient.encryptWallet.apply(syscoinClient, arr);
 }
 
+exports.generate = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * numBlocks (Number)
+   * maxtries (Number)
+   **/
+
+  var argList = [
+    { prop: "numBlocks" },
+    { prop: "maxtries", defaultValue: 1000000 }
+  ];
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('Generate ', result, "generate");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.generate.apply(syscoinClient, arr);
+}
+
+exports.generatepublickey = function(args, res, next) {
+  var argList = [];
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('Generate public key ', result, "generatepublickey");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.generatepublickey.apply(syscoinClient, arr);
+}
+
 exports.getaccount = function(args, res, next) {
   /**
    * parameters expected in the args:
