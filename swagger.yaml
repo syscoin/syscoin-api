@@ -1353,7 +1353,7 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-   /generate:
+  /generate:
     x-swagger-router-controller: rpc
     get:
       operationId: generate

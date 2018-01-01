@@ -1388,6 +1388,38 @@ paths:
       - token: []
       x-swagger-router-controller: "Escrow"
     x-swagger-router-controller: "rpc"
+  /generate:
+    get:
+      tags:
+      - "General"
+      description: "Mine up to numblocks blocks immediately (before the RPC call returns)."
+      operationId: "generate"
+      parameters:
+      - name: "numBlocks"
+        in: "query"
+        description: "How many blocks are generated immediately."
+        required: true
+        type: "number"
+      - name: "maxtries"
+        in: "query"
+        description: "﻿How many iterations to try (default = 1000000)."
+        required: false
+        type: "number"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /generateescrowmultisig:
     post:
       tags:
@@ -1414,6 +1446,28 @@ paths:
       security:
       - token: []
       x-swagger-router-controller: "Escrow"
+    x-swagger-router-controller: "rpc"
+  /generatepublickey:
+    get:
+      tags:
+      - "General"
+      description: "Generates a public key for a wallet."
+      operationId: "generatepublickey"
+      parameters: []
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
   /getaccount:
     get:
