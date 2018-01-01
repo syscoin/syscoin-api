@@ -1353,6 +1353,38 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+   /generate:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: generate
+      description: Mine up to numblocks blocks immediately (before the RPC call returns).
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: numBlocks
+        description: How many blocks are generated immediately.
+        in: query
+        required: true
+        type: number
+      - name: maxtries
+        description: ﻿How many iterations to try (default = 1000000).
+        in: query
+        required: false
+        type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /generateescrowmultisig:
     x-swagger-router-controller: rpc
     post:
@@ -1368,6 +1400,27 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
         required: true
         schema:
           $ref: "#/definitions/GenerateEscrowMultisigRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /generatepublickey:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: generatepublickey
+      description: Generates a public key for a wallet.
+      security:
+      - token: []
+      tags:
+      - General
       responses:
         "200":
           description: Success
