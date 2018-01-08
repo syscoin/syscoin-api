@@ -2015,7 +2015,7 @@ so payments received with the address will be credited to 'account'."
           schema:
             type: array
             items:
-              $ref: "#/definitions/Account"
+              $ref: "#/definitions/ListReceivedByAddress"
         default:
           description: Error
           schema:
@@ -4795,3 +4795,13 @@ definitions:
         type: string
       proxy_randomize_credentials:
         type: boolean
+  ListReceivedByAddress:
+    properties:
+    address: string;
+    v2address: string;
+    account: string;
+    amount: number;
+    confirmations: number;
+    label: string;
+    txids: string[];
+    ismine: boolean;
