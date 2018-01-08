@@ -6574,6 +6574,47 @@
         "name" : "aeiou",
         "reachable" : true
       }
+    },
+    "ListReceivedByAddress" : {
+      "properties" : {
+        "address" : {
+          "type" : "string"
+        },
+        "v2address" : {
+          "type" : "string"
+        },
+        "account" : {
+          "type" : "string"
+        },
+        "amount" : {
+          "type" : "number"
+        },
+        "confirmations" : {
+          "type" : "number"
+        },
+        "label" : {
+          "type" : "string"
+        },
+        "txids" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "ismine" : {
+          "type" : "boolean"
+        }
+      },
+      "example" : {
+        "amount" : 0.80082819046101150206595775671303272247314453125,
+        "address" : "aeiou",
+        "v2address" : "aeiou",
+        "ismine" : true,
+        "label" : "aeiou",
+        "confirmations" : 6.02745618307040320615897144307382404804229736328125,
+        "account" : "aeiou",
+        "txids" : [ "aeiou" ]
+      }
     }
   }
 }

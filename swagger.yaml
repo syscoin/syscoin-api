@@ -4797,11 +4797,21 @@ definitions:
         type: boolean
   ListReceivedByAddress:
     properties:
-    address: string;
-    v2address: string;
-    account: string;
-    amount: number;
-    confirmations: number;
-    label: string;
-    txids: string[];
-    ismine: boolean;
+      address:
+        type: string
+      v2address:
+        type: string
+      account:
+        type: string
+      amount:
+        type: number
+      confirmations:
+        type: number
+      label:
+        type: string
+      txids:
+        type: array
+        items:
+          type: string
+      ismine:
+        type: boolean
