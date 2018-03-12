@@ -162,6 +162,7 @@ module.exports.move = function move (req, res, next) {
   General.move(req.swagger.params, res, next);
 };
 
+ /* Deprecated */
 module.exports.removeprunedfunds = function removeprunedfunds (req, res, next) {
   General.removeprunedfunds(req.swagger.params, res, next);
 };
@@ -186,6 +187,7 @@ module.exports.syscoindecoderawtransaction = function syscoindecoderawtransactio
   General.syscoindecoderawtransaction(req.swagger.params, res, next);
 };
 
+/* Deprecated */
 module.exports.syscoinsignrawtransaction = function syscoinsignrawtransaction (req, res, next) {
   General.syscoinsignrawtransaction(req.swagger.params, res, next);
 };

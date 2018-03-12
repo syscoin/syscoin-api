@@ -906,6 +906,7 @@ exports.move = function(args, res, next) {
   syscoinClient.move.apply(syscoinClient, arr);
 }
 
+ /* Deprecated */
 exports.removeprunedfunds = function(args, res, next) {
   /**
    * parameters expected in the args:
@@ -1068,6 +1069,7 @@ exports.syscoindecoderawtransaction = function(args, res, next) {
   syscoinClient.syscoinDecodeRawTransaction.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.syscoinsignrawtransaction = function(args, res, next) {
   /**
    * parameters expected in the args:
