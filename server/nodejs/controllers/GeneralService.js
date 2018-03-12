@@ -246,6 +246,7 @@ exports.getbalance = function(args, res, next) {
   syscoinClient.getBalance.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.getwalletbalance = function(args, res, next) {
   var argList = [];
 
@@ -521,6 +522,7 @@ exports.getunconfirmedbalance = function(args, res, next) {
   syscoinClient.getUnconfirmedBalance.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.getv2address = function(args, res, next) {
   /**
    * parameters expected in the args:

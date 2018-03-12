@@ -46,6 +46,7 @@ module.exports.getbalance = function getbalance (req, res, next) {
   General.getbalance(req.swagger.params, res, next);
 };
 
+/* Deprecated */
 module.exports.getwalletbalance = function getwalletbalance (req, res, next) {
   General.getwalletbalance(req.swagger.params, res, next);
 };
@@ -98,6 +99,7 @@ module.exports.getunconfirmedbalance = function getunconfirmedbalance (req, res,
   General.getunconfirmedbalance(req.swagger.params, res, next);
 };
 
+/* Deprecated */
 module.exports.getv2address = function getv2address (req, res, next) {
   General.getv2address(req.swagger.params, res, next);
 };
