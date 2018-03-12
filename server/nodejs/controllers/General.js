@@ -108,6 +108,7 @@ module.exports.getwalletinfo = function getwalletinfo (req, res, next) {
   General.getwalletinfo(req.swagger.params, res, next);
 };
 
+/* Deprecated */
 module.exports.getzaddress = function getzaddress (req, res, next) {
   General.getzaddress(req.swagger.params, res, next);
 };
@@ -120,6 +121,7 @@ module.exports.importprivkey = function importprivkey (req, res, next) {
   General.importprivkey(req.swagger.params, res, next);
 };
 
+/* Deprecated */
 module.exports.importprunedfunds = function importprunedfunds (req, res, next) {
   General.importprunedfunds(req.swagger.params, res, next);
 };
