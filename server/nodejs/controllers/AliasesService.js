@@ -2,6 +2,7 @@ var syscoinClient = require('../index').syscoinClient;
 var varUtils = require('./util/varUtils');
 var commonUtils = require('./util/commonUtils');
 
+/* Deprecate */
 exports.aliasaffiliates = function(args, res, next) {
   var argList = [];
   var cb = function(err, result, resHeaders) {
@@ -19,6 +20,7 @@ exports.aliasaffiliates = function(args, res, next) {
   syscoinClient.aliasAffiliates.apply(syscoinClient, arr);
 }
 
+/* Deprecate */
 exports.aliasauthenticate = function(args, res, next) {
   var argList = [
     { prop: "alias" },
@@ -40,6 +42,7 @@ exports.aliasauthenticate = function(args, res, next) {
   syscoinClient.aliasAuthenticate.apply(syscoinClient, arr);
 }
 
+/* Deprecate */
 exports.aliasbalance = function(args, res, next) {
   var argList = [
     { prop: "alias" },
@@ -63,6 +66,7 @@ exports.aliasbalance = function(args, res, next) {
   syscoinClient.aliasBalance.apply(syscoinClient, arr);
 }
 
+/* Deprecate */
 exports.aliascount = function(args, res, next) {
   var argList = [
   ];
@@ -82,6 +86,7 @@ exports.aliascount = function(args, res, next) {
   syscoinClient.aliasCount.apply(syscoinClient, arr);
 }
 
+/* Deprecate */
 exports.aliasfilter = function(args, res, next) {
   var argList = [
     { prop: "regexp" },
@@ -107,6 +112,7 @@ exports.aliasfilter = function(args, res, next) {
   syscoinClient.aliasFilter.apply(syscoinClient, arr);
 }
 
+/* Deprecate */
 exports.aliashistory = function(args, res, next) {
   var argList = [
     { prop: "aliasname" }
@@ -149,6 +155,7 @@ exports.aliasinfo = function(args, res, next) {
   syscoinClient.aliasInfo.apply(syscoinClient, arr);
 }
 
+/* Deprecate */
 exports.aliaslist = function(args, res, next) {
   var argList = [
     { prop: "aliasname", defaultValue: "" },
