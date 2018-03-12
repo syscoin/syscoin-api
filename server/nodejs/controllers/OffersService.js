@@ -3,6 +3,7 @@ var varUtils = require('./util/varUtils');
 var commonUtils = require('./util/commonUtils');
 
 
+/* Deprecated */
 exports.offeraccept = function(args, res, next) {
   var argList = [
     { prop: "alias" },
@@ -30,6 +31,7 @@ exports.offeraccept = function(args, res, next) {
   syscoinClient.offerAccept.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.offeracceptacknowledge = function(args, res, next) {
   var argList = [
     { prop: "offerguid" },
@@ -51,6 +53,7 @@ exports.offeracceptacknowledge = function(args, res, next) {
   syscoinClient.offerAcceptAcknowledge.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.offeracceptcount = function(args, res, next) {
   var argList = [
     { prop: "aliases", defaultValue: [] },
@@ -75,6 +78,7 @@ exports.offeracceptcount = function(args, res, next) {
   syscoinClient.offerAcceptCount.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.offeracceptfeedback = function(args, res, next) {
   var argList = [
     { prop: "offerguid" },
@@ -100,6 +104,7 @@ exports.offeracceptfeedback = function(args, res, next) {
   syscoinClient.offerAcceptFeedback.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.offeracceptlist = function(args, res, next) {
   var argList = [
     { prop: "aliases", defaultValue: [] },
@@ -129,6 +134,7 @@ exports.offeracceptlist = function(args, res, next) {
   syscoinClient.offerAcceptList.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.offeraddwhitelist = function(args, res, next) {
   var argList = [
     { prop: "offerguid" },
@@ -153,6 +159,7 @@ exports.offeraddwhitelist = function(args, res, next) {
   syscoinClient.offerAddWhitelist.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.offerclearwhitelist = function(args, res, next) {
   var argList = [
     { prop: "offerguid" }
@@ -173,6 +180,7 @@ exports.offerclearwhitelist = function(args, res, next) {
   syscoinClient.offerClearWhitelist.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.offercount = function(args, res, next) {
   var argList = [
     { prop: "aliases", defaultValue: [] }
@@ -195,6 +203,7 @@ exports.offercount = function(args, res, next) {
   syscoinClient.offerCount.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.offerfilter = function(args, res, next) {
   var argList = [
     { prop: "regexp", defaultValue: "" },
@@ -221,6 +230,7 @@ exports.offerfilter = function(args, res, next) {
   syscoinClient.offerFilter.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.offerhistory = function(args, res, next) {
   var argList = [
     { prop: "offer" }
@@ -284,6 +294,7 @@ exports.offerlink = function(args, res, next) {
   syscoinClient.offerLink.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.offerlist = function(args, res, next) {
   var argList = [
     { prop: "aliases", defaultValue: [] },
@@ -346,6 +357,7 @@ exports.offernew = function(args, res, next) {
   syscoinClient.offerNew.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.offerremovewhitelist = function(args, res, next) {
   var argList = [
     { prop: "offerguid" },
