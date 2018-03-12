@@ -23,6 +23,7 @@ exports.escrowacknowledge = function(args, res, next) {
   syscoinClient.escrowAcknowledge.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.escrowclaimrefund = function(args, res, next) {
   var argList = [
     { prop: "guid" },
@@ -44,6 +45,7 @@ exports.escrowclaimrefund = function(args, res, next) {
   syscoinClient.escrowClaimRefund.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.escrowclaimrelease = function(args, res, next) {
   var argList = [
     { prop: "guid" },
@@ -107,6 +109,7 @@ exports.escrowcompleterelease = function(args, res, next) {
   syscoinClient.escrowCompleteRelease.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.escrowcount = function(args, res, next) {
   var argList = [
     { prop: "buyerAliases", defaultValue: [] },
@@ -158,6 +161,7 @@ exports.escrowfeedback = function(args, res, next) {
   syscoinClient.escrowFeedback.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.escrowfilter = function(args, res, next) {
   var argList = [
     { prop: "regexp", defaultValue: "" },
@@ -182,6 +186,7 @@ exports.escrowfilter = function(args, res, next) {
   syscoinClient.escrowFilter.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.escrowhistory = function(args, res, next) {
   var argList = [
     { prop: "escrow" }
@@ -202,6 +207,7 @@ exports.escrowhistory = function(args, res, next) {
   syscoinClient.escrowHistory.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.escrowinfo = function(args, res, next) {
   var argList = [
     { prop: "escrow" }
@@ -330,6 +336,7 @@ exports.escrowrelease = function(args, res, next) {
   syscoinClient.escrowRelease.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.generateescrowmultisig = function(args, res, next) {
   var argList = [
     { prop: "buyer" },

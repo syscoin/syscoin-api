@@ -10,10 +10,12 @@ module.exports.escrowacknowledge = function escrowacknowledge (req, res, next) {
   Escrow.escrowacknowledge(req.swagger.params, res, next);
 };
 
+/* Deprecated */
 module.exports.escrowclaimrefund = function escrowclaimrefund (req, res, next) {
   Escrow.escrowclaimrefund(req.swagger.params, res, next);
 };
 
+/* Deprecated */
 module.exports.escrowclaimrelease = function escrowclaimrelease (req, res, next) {
   Escrow.escrowclaimrelease(req.swagger.params, res, next);
 };
@@ -26,6 +28,7 @@ module.exports.escrowcompleterelease = function escrowcompleterelease (req, res,
   Escrow.escrowcompleterelease(req.swagger.params, res, next);
 };
 
+/* Deprecated */
 module.exports.escrowcount = function escrowcount (req, res, next) {
   Escrow.escrowcount(req.swagger.params, res, next);
 };
@@ -34,14 +37,17 @@ module.exports.escrowfeedback = function escrowfeedback (req, res, next) {
   Escrow.escrowfeedback(req.swagger.params, res, next);
 };
 
+/* Deprecated */
 module.exports.escrowfilter = function escrowfilter (req, res, next) {
   Escrow.escrowfilter(req.swagger.params, res, next);
 };
 
+/* Deprecated */
 module.exports.escrowhistory = function escrowhistory (req, res, next) {
   Escrow.escrowhistory(req.swagger.params, res, next);
 };
 
+/* Deprecated */
 module.exports.escrowinfo = function escrowinfo (req, res, next) {
   Escrow.escrowinfo(req.swagger.params, res, next);
 };
@@ -62,6 +68,7 @@ module.exports.escrowrelease = function escrowrelease (req, res, next) {
   Escrow.escrowrelease(req.swagger.params, res, next);
 };
 
+/* Deprecated */
 module.exports.generateescrowmultisig = function generateescrowmultisig (req, res, next) {
   Escrow.generateescrowmultisig(req.swagger.params, res, next);
 };

@@ -2,6 +2,7 @@ var syscoinClient = require('../index').syscoinClient;
 var varUtils = require('./util/varUtils');
 var commonUtils = require('./util/commonUtils');
 
+/* Deprecated */
 exports.certcount = function(args, res, next) {
   var argList = [
     { prop: "aliases", defaultValue: [] }
@@ -24,6 +25,7 @@ exports.certcount = function(args, res, next) {
   syscoinClient.certCount.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.certfilter = function(args, res, next) {
   var argList = [
     { prop: "regexp", defaultValue: "" },
@@ -50,6 +52,7 @@ exports.certfilter = function(args, res, next) {
   syscoinClient.certFilter.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.certhistory = function(args, res, next) {
   var argList = [
     { prop: "certname" }
@@ -90,6 +93,7 @@ exports.certinfo = function(args, res, next) {
   syscoinClient.certInfo.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.certlist = function(args, res, next) {
   var argList = [
     { prop: "aliases" },
