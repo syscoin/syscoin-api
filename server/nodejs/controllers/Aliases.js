@@ -15,7 +15,7 @@ module.exports.aliasauthenticate = function aliasauthenticate (req, res, next) {
   Aliases.aliasauthenticate(req.swagger.params, res, next);
 };
 
-/* Deprecate */
+/* Changed */
 module.exports.aliasbalance = function aliasbalance (req, res, next) {
   Aliases.aliasbalance(req.swagger.params, res, next);
 };
