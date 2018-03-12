@@ -2,6 +2,7 @@ var syscoinClient = require('../index').syscoinClient;
 var varUtils = require('./util/varUtils');
 var commonUtils = require('./util/commonUtils');
 
+/* Deprecated */
 exports.messageinfo = function(args, res, next) {
   var argList = [
     { prop: "guid" }
@@ -22,6 +23,7 @@ exports.messageinfo = function(args, res, next) {
   syscoinClient.messageInfo.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.messagenew = function(args, res, next) {
   var argList = [
     { prop: "subject" },
@@ -46,6 +48,7 @@ exports.messagenew = function(args, res, next) {
   syscoinClient.messageNew.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.messagereceivecount = function(args, res, next) {
   var argList = [
     { prop: "aliases", defaultValue: [] }
@@ -68,6 +71,7 @@ exports.messagereceivecount = function(args, res, next) {
   syscoinClient.messageReceiveCount.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.messagereceivelist = function(args, res, next) {
   var argList = [
     { prop: "aliases", defaultValue: [] },
@@ -95,6 +99,7 @@ exports.messagereceivelist = function(args, res, next) {
   syscoinClient.messageReceiveList.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.messagesentcount = function(args, res, next) {
   var argList = [
     { prop: "aliases", defaultValue: [] }
@@ -117,6 +122,7 @@ exports.messagesentcount = function(args, res, next) {
   syscoinClient.messageSentCount.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.messagesentlist = function(args, res, next) {
   var argList = [
     { prop: "aliases", defaultValue: [] },
