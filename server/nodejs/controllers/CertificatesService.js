@@ -189,7 +189,6 @@ exports.certupdate = function(args, res, next) {
     { prop: "public" },
     { prop: "category", defaultValue: "certificates" },
     { prop: "witness" },
-
   ];
 
   var cb = function(err, result, resHeaders) {
