@@ -563,7 +563,7 @@ exports.getwalletinfo = function(args, res, next) {
   var arr = varUtils.getArgsArr(argList, args, "GET", cb);
   syscoinClient.getWalletInfo.apply(syscoinClient, arr);
 }
-
+ /* Deprecated */
 exports.getzaddress = function(args, res, next) {
   /**
    * parameters expected in the args:
@@ -643,6 +643,7 @@ exports.importprivkey = function(args, res, next) {
   syscoinClient.importPrivKey.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.importprunedfunds = function(args, res, next) {
   /**
    * parameters expected in the args:
@@ -905,6 +906,7 @@ exports.move = function(args, res, next) {
   syscoinClient.move.apply(syscoinClient, arr);
 }
 
+ /* Deprecated */
 exports.removeprunedfunds = function(args, res, next) {
   /**
    * parameters expected in the args:
@@ -1067,6 +1069,7 @@ exports.syscoindecoderawtransaction = function(args, res, next) {
   syscoinClient.syscoinDecodeRawTransaction.apply(syscoinClient, arr);
 }
 
+/* Deprecated */
 exports.syscoinsignrawtransaction = function(args, res, next) {
   /**
    * parameters expected in the args:

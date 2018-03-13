@@ -121,14 +121,16 @@ exports.certlist = function(args, res, next) {
   syscoinClient.certList.apply(syscoinClient, arr);
 }
 
+/* Changed */
 exports.certnew = function(args, res, next) {
   var argList = [
+    //{ prop: "private" },
+    //{ prop: "safesearch", defaultValue: "Yes" },
     { prop: "alias" },
     { prop: "title" },
-    { prop: "private" },
     { prop: "public" },
-    { prop: "safesearch", defaultValue: "Yes" },
-    { prop: "category", defaultValue: "certificates" }
+    { prop: "category", defaultValue: "certificates" },
+    { prop: "witness"}
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -146,11 +148,17 @@ exports.certnew = function(args, res, next) {
   syscoinClient.certNew.apply(syscoinClient, arr);
 }
 
+/* Changed */
 exports.certtransfer = function(args, res, next) {
   var argList = [
-    { prop: "certkey" },
+    //{ prop: "certkey" },
+    //{ prop: "viewonly", defaultValue: "0" }
     { prop: "alias" },
-    { prop: "viewonly", defaultValue: "0" }
+    { prop: "guid" },
+    { prop: "public" },
+    { prop: "accessflags", defaultValue: 2 },
+    { prop: "witness" },
+
   ];
 
   args.request.value.viewonly = varUtils.correctTypes(args.request.value.viewonly, varUtils.TYPE_CONVERSION.BOOL_TO_NUM_STRING);
@@ -170,15 +178,17 @@ exports.certtransfer = function(args, res, next) {
   syscoinClient.certTransfer.apply(syscoinClient, arr);
 }
 
+/* Changed */
 exports.certupdate = function(args, res, next) {
   var argList = [
+    //{ prop: "alias" },
+    //{ prop: "private" },
+    //{ prop: "safesearch", defaultValue: "Yes" },
     { prop: "guid" },
-    { prop: "alias" },
     { prop: "title" },
-    { prop: "private" },
     { prop: "public" },
-    { prop: "safesearch", defaultValue: "Yes" },
-    { prop: "category", defaultValue: "certificates" }
+    { prop: "category", defaultValue: "certificates" },
+    { prop: "witness" },
   ];
 
   var cb = function(err, result, resHeaders) {

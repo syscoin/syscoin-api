@@ -2,10 +2,11 @@ var syscoinClient = require('../index').syscoinClient;
 var varUtils = require('./util/varUtils');
 var commonUtils = require('./util/commonUtils');
 
-
+/* Changed */
 exports.escrowacknowledge = function(args, res, next) {
   var argList = [
-    { prop: "escrowguid" }
+    { prop: "escrowguid" },
+    { prop: "witness" }
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -67,10 +68,12 @@ exports.escrowclaimrelease = function(args, res, next) {
   syscoinClient.escrowClaimRelease.apply(syscoinClient, arr);
 }
 
+/*Changed */
 exports.escrowcompleterefund = function(args, res, next) {
   var argList = [
     { prop: "escrowguid" },
-    { prop: "rawtx", defaultValue: "" }
+    { prop: "rawtx"},
+    { prop: "witness" }
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -88,10 +91,12 @@ exports.escrowcompleterefund = function(args, res, next) {
   syscoinClient.escrowCompleteRefund.apply(syscoinClient, arr);
 }
 
+/* Changed */
 exports.escrowcompleterelease = function(args, res, next) {
   var argList = [
     { prop: "escrowguid" },
-    { prop: "rawtx", defaultValue: "" }
+    { prop: "rawtx"},
+    { porp: "witness" }
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -136,14 +141,21 @@ exports.escrowcount = function(args, res, next) {
   syscoinClient.escrowCount.apply(syscoinClient, arr);
 }
 
+/* Changed */
 exports.escrowfeedback = function(args, res, next) {
   var argList = [
+    //{ prop: "userrole" },
+    //{ prop: "feedbackprimary" },
+    //{ prop: "ratingprimary" },
+    //{ prop: "feedbacksecondary" },
+    //{ prop: "ratingsecondary" }
     { prop: "escrowguid" },
-    { prop: "userrole" },
-    { prop: "feedbackprimary" },
-    { prop: "ratingprimary" },
-    { prop: "feedbacksecondary" },
-    { prop: "ratingsecondary" }
+    { prop: "userfrom" },
+    { prop: "feedback" },
+    { prop: "rating" },
+    { prop: "userto" },
+    { prop: "witness" },
+
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -259,17 +271,35 @@ exports.escrowlist = function(args, res, next) {
   syscoinClient.escrowList.apply(syscoinClient, arr);
 }
 
+/* Changed*/ 
 exports.escrownew = function(args, res, next) {
   var argList = [
+    //{ prop: "alias" },
+    //{ prop: "offer" },
+    //{ prop: "quantity" },
+    //{ prop: "message" },
+    //{ prop: "arbiter" },
+    //{ prop: "exttx", defaultValue: "" },
+    //{ prop: "paymentoption", defaultValue: "SYS" },
+    //{ prop: "redeemscript", defaultValue: "" },
+    //{ prop: "height", defaultValue: "0" }
+    { prop: "getamountandaddress" },
     { prop: "alias" },
+    { prop: "arbiter_alias" },
     { prop: "offer" },
     { prop: "quantity" },
-    { prop: "message" },
-    { prop: "arbiter" },
-    { prop: "exttx", defaultValue: "" },
-    { prop: "paymentoption", defaultValue: "SYS" },
-    { prop: "redeemscript", defaultValue: "" },
-    { prop: "height", defaultValue: "0" }
+    { prop: "buynow" },
+    { prop: "total_in_payment_option" },
+    { prop: "shipping amount" },
+    { prop: "network_fee" },
+    { prop: "arbiter_fee" },
+    { prop: "witness_fee" },
+    { prop: "extTx" },
+    { prop: "paymentoption" },
+    { prop: "bid_in_payment_option" },
+    { prop: "bid_in_offer_currency" },
+    { prop: "witness" },
+
   ];
 
   args.request.value.quantity = varUtils.correctTypes(args.request.value.quantity, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
@@ -292,11 +322,13 @@ exports.escrownew = function(args, res, next) {
   syscoinClient.escrowNew.apply(syscoinClient, arr);
 }
 
+/* Changed */
 exports.escrowrefund = function(args, res, next) {
   var argList = [
     { prop: "escrowguid" },
     { prop: "userrole" },
-    { prop: "rawtx", defaultValue: "" }
+    { prop: "rawtx" },
+    { prop: "witness" }
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -314,11 +346,13 @@ exports.escrowrefund = function(args, res, next) {
   syscoinClient.escrowRefund.apply(syscoinClient, arr);
 }
 
+/* Changed */
 exports.escrowrelease = function(args, res, next) {
   var argList = [
     { prop: "escrowguid" },
     { prop: "userrole" },
-    { prop: "rawtx", defaultValue: "" }
+    { prop: "rawtx" },
+    { prop: "witness" }
   ];
 
   var cb = function(err, result, resHeaders) {

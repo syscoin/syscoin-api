@@ -42,15 +42,14 @@ exports.aliasauthenticate = function(args, res, next) {
   syscoinClient.aliasAuthenticate.apply(syscoinClient, arr);
 }
 
-/* Deprecate */
+/* Changed */
 exports.aliasbalance = function(args, res, next) {
   var argList = [
     { prop: "alias" },
-    { prop: "minconf", defaultValue: 1 }
+    // { prop: "minconf", defaultValue: 1 }
   ];
 
-  args.minconf.value = varUtils.correctTypes(args.minconf.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
-
+  // args.minconf.value = varUtils.correctTypes(args.minconf.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -122,9 +121,9 @@ exports.aliashistory = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      //TODO: fix after b1
+      // TODO: fix after b1
       return res.end(JSON.stringify(err.toString()));
-      //return commonUtils.reportError(res, err);
+      // return commonUtils.reportError(res, err);
     }
 
     console.log('Alias history:', result);
@@ -181,20 +180,25 @@ exports.aliaslist = function(args, res, next) {
   syscoinClient.aliasList.apply(syscoinClient, arr);
 }
 
+/* Changed */
 exports.aliasnew = function(args, res, next) {
   var argList = [
-    { prop: "aliaspeg" },
+    // { prop: "aliaspeg" },
+    // { prop: "password"},
+    // { prop: "safesearch", defaultValue: "Yes" },
+    // { prop: "nrequired", defaultValue: 0 },
+    // { prop: "aliases", defaultValue: "[]" }
     { prop: "aliasname" },
-    { prop: "password"},
     { prop: "publicvalue" },
-    { prop: "safesearch", defaultValue: "Yes" },
-    { prop: "accepttransfers", defaultValue: "Yes" },
-    { prop: "expire", defaultValue: 0 },
-    { prop: "nrequired", defaultValue: 0 },
-    { prop: "aliases", defaultValue: "[]" }
+    { prop: "accept_transfers_flags", defaultValue: 3 },
+    { prop: "expire_timestamp", defaultValue: 3600 },
+    { prop: "address"},
+    { prop: "encryption_privatekey"},
+    { prop: "encryption_publickey"},
+    { prop: "witness"},
   ];
 
-  args.request.value.nrequired = varUtils.correctTypes(args.request.value.nrequired, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+  // args.request.value.nrequired = varUtils.correctTypes(args.request.value.nrequired, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -211,15 +215,19 @@ exports.aliasnew = function(args, res, next) {
   syscoinClient.aliasNew.apply(syscoinClient, arr);
 }
 
+/* Changed */
 exports.aliaspay = function(args, res, next) {
   var argList = [
-    { prop: "alias" },
+    // { prop: "alias" },
+    // { prop: "minconf", defaultValue: 0 },
+    // { prop: "comment", defaultValue: "" }
+    { prop: "aliasfrom" },
     { prop: "amounts" },
-    { prop: "minconf", defaultValue: 0 },
-    { prop: "comment", defaultValue: "" }
+    { prop: "instantsend" },
+    { prop: "subtractfeefromamount" },
   ];
 
-  args.request.value.nrequired = varUtils.correctTypes(args.request.value.nrequired, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+  // args.request.value.nrequired = varUtils.correctTypes(args.request.value.nrequired, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -236,20 +244,26 @@ exports.aliaspay = function(args, res, next) {
   syscoinClient.aliasPay.apply(syscoinClient, arr);
 }
 
+/* Changed */
 exports.aliasupdate = function(args, res, next) {
   //TODO: update core RPC docs on param ordering- order of this array MATTERS!!!!
   var argList = [
-    { prop: "aliaspeg" },
+    //{ prop: "aliaspeg" },
+    //{ prop: "privatevalue", defaultValue: "" },
+    //{ prop: "safesearch", defaultValue: "Yes" },
+    //{ prop: "toalias_pubkey", defaultValue: "" },
+    //{ prop: "password", defaultValue: "" },
+    //{ prop: "expire", defaultValue: 0 },
+    //{ prop: "nrequired", defaultValue: 0 },
+    //{ prop: "aliases", defaultValue: [] }
     { prop: "aliasname" },
     { prop: "publicvalue" },
-    { prop: "privatevalue", defaultValue: "" },
-    { prop: "safesearch", defaultValue: "Yes" },
-    { prop: "toalias_pubkey", defaultValue: "" },
-    { prop: "password", defaultValue: "" },
-    { prop: "accepttransfers", defaultValue: "Yes" },
-    { prop: "expire", defaultValue: 0 },
-    { prop: "nrequired", defaultValue: 0 },
-    { prop: "aliases", defaultValue: [] }
+    { prop: "accept_transfers_flags", defaultValue: 3 },
+    { prop: "expire_timestamp", defaultValue: 3600 },
+    { prop: "address"},
+    { prop: "encryption_privatekey"},
+    { prop: "encryption_publickey"},
+    { prop: "witness"},
   ];
 
   args.request.value.nrequired = varUtils.correctTypes(args.request.value.nrequired, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
