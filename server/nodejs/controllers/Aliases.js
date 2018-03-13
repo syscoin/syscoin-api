@@ -5,11 +5,6 @@ var url = require('url');
 
 var Aliases = require('./AliasesService');
 
-
-module.exports.aliasaffiliates = function aliasaffiliates (req, res, next) {
-  Aliases.aliasaffiliates(req.swagger.params, res, next);
-};
-
 module.exports.aliasauthenticate = function aliasauthenticate (req, res, next) {
   Aliases.aliasauthenticate(req.swagger.params, res, next);
 };

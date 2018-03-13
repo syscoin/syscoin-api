@@ -280,27 +280,6 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /aliasaffiliates:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: aliasaffiliates
-      description: list affiliations with merchant offers.
-      security:
-      - token: []
-      tags:
-      - Aliases
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              type: object #TODO: define type
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
   /aliasauthenticate:
     x-swagger-router-controller: rpc
     get:
