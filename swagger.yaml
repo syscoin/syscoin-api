@@ -3088,7 +3088,37 @@ so payments received with the address will be credited to 'account'."
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+  /getaddresstxids:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getaddresstxids
+      description: Get address transaction ids
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: addresses
+        in: query
+        required: true
+        type: array
+      - name: start
+        in: query
+        required: true
+        type: number
+      - name: end
+        in: query
+        required: true
+        type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+        default:
+          description: Error
+          schema: 
+            $ref: "#/definitions/ErrorResponse"
 # complex objects have schema definitions
 definitions:
   Info:

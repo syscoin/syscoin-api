@@ -1208,3 +1208,31 @@ exports.walletpassphrasechange = function(args, res, next) {
   syscoinClient.walletPassphraseChange.apply(syscoinClient, arr);
 }
 
+exports.getaddresstxids = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * addresses (Array)
+   * start (Number)
+   * end (Number)
+   **/
+  var argList = [
+    { prop: "addresses" },
+    { prop: "start" },
+    { prop: "end" }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('Get address transaction id ', result, "getaddresstxids");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.getaddresstxids.apply(syscoinClient, arr);
+}
+

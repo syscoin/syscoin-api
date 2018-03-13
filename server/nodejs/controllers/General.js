@@ -205,3 +205,7 @@ module.exports.walletpassphrase = function walletpassphrase (req, res, next) {
 module.exports.walletpassphrasechange = function walletpassphrasechange (req, res, next) {
   General.walletpassphrasechange(req.swagger.params, res, next);
 };
+
+module.exports.getaddresstxids = function getaddresstxids (req, res, next) {
+  General.getaddresstxids(req.swagger.params, res, next);
+};
