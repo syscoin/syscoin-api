@@ -218,6 +218,7 @@ exports.getaddressesbyaccount = function(args, res, next) {
   syscoinClient.getAddressesByAccount.apply(syscoinClient, arr);
 }
 
+/* Changed */
 exports.getbalance = function(args, res, next) {
   /**
    * parameters expected in the args:
@@ -227,7 +228,8 @@ exports.getbalance = function(args, res, next) {
    **/
   var argList = [
     { prop: "account", defaultValue: "*" },
-    { prop: "minconf", defaultValue: 0 },
+    { prop: "minconf", defaultValue: 1 },
+    { prop: "addlockconf", defaultValue: false},
     { prop: "includeWatchonly", defaultValue: false },
   ];
 
@@ -425,6 +427,7 @@ exports.getpeerinfo = function(args, res, next) {
   syscoinClient.getPeerInfo.apply(syscoinClient, arr);
 }
 
+/* Changed */
 exports.getreceivedbyaccount = function(args, res, next) {
   /**
    * parameters expected in the args:
@@ -433,7 +436,8 @@ exports.getreceivedbyaccount = function(args, res, next) {
    **/
   var argList = [
     { prop: "account" },
-    { prop: "minconf", defaultValue: 0 }
+    { prop: "minconf", defaultValue: 1 }
+    { prop: "addlockconf"}
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -451,6 +455,7 @@ exports.getreceivedbyaccount = function(args, res, next) {
   syscoinClient.getReceivedByAccount.apply(syscoinClient, arr);
 }
 
+/* Changed */
 exports.getreceivedbyaddress = function(args, res, next) {
   /**
    * parameters expected in the args:
@@ -459,7 +464,7 @@ exports.getreceivedbyaddress = function(args, res, next) {
    **/
   var argList = [
     { prop: "syscoinaddress" },
-    { prop: "minconf", defaultValue: 0 }
+    { prop: "minconf", defaultValue: 1 }
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -720,6 +725,7 @@ exports.importwallet = function(args, res, next) {
   syscoinClient.importWallet.apply(syscoinClient, arr);
 }
 
+/* Changed */
 exports.listaccounts = function(args, res, next) {
   /**
    * parameters expected in the args:
@@ -727,7 +733,8 @@ exports.listaccounts = function(args, res, next) {
    * includeWatchonly (Boolean)
    **/
   var argList = [
-    { prop: "minconf", defaultValue: 0 },
+    { prop: "minconf", defaultValue: 1 },
+    { prop: "addlockconf" },
     { prop: "includeWatchonly", defaultValue: false }
   ];
 
@@ -763,6 +770,7 @@ exports.listaddressgroupings = function(args, res, next) {
   syscoinClient.listAddressGroupings.apply(syscoinClient, arr);
 }
 
+/* Changed */
 exports.listreceivedbyaccount = function(args, res, next) {
   /**
    * parameters expected in the args:
@@ -772,6 +780,7 @@ exports.listreceivedbyaccount = function(args, res, next) {
    **/
   var argList = [
     { prop: "minconf", defaultValue: 0 },
+    { prop: "addlockconf", defaultValue: false },
     { prop: "includeempty", defaultValue: false },
     { prop: "includeWatchonly", defaultValue: false }
   ];
