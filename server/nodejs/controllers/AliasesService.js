@@ -42,11 +42,8 @@ exports.aliasauthenticate = function(args, res, next) {
 
 exports.aliasbalance = function(args, res, next) {
   var argList = [
-    { prop: "alias" },
-    { prop: "minconf", defaultValue: 1 }
+    { prop: "alias" }
   ];
-
-  args.minconf.value = varUtils.correctTypes(args.minconf.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');

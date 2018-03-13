@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  version: "1.1.4"
+  version: "1.1.5"
   title: Syscoin API
 host: localhost:8001
 securityDefinitions:
@@ -81,7 +81,7 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+  
   /getblockchaininfo:
     x-swagger-router-controller: rpc
     get:
@@ -346,11 +346,6 @@ paths:
          in: query
          required: true
          type: string
-       - name: minconf
-         description: ﻿Only include transactions confirmed at least this many times. default=1.
-         in: query
-         required: false
-         type: number
       responses:
         "200":
           description: Success
