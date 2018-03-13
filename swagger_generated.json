@@ -3999,6 +3999,118 @@
         } ]
       },
       "x-swagger-router-controller" : "rpc"
+    },
+    "/getaddressbalance" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "get address balance ",
+        "operationId" : "getaddressbalance",
+        "parameters" : [ {
+          "name" : "addresses",
+          "in" : "query",
+          "required" : true,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/get_address_balance_response"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-swagger-router-controller" : "General"
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/getaddressdeltas" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "getaddressdeltas",
+        "operationId" : "getaddressdeltas",
+        "parameters" : [ {
+          "name" : "addresses",
+          "in" : "query",
+          "required" : true,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "start",
+          "in" : "query",
+          "required" : true,
+          "type" : "number"
+        }, {
+          "name" : "end",
+          "in" : "query",
+          "required" : true,
+          "type" : "number"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/get_address_deltas_response_object"
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-swagger-router-controller" : "General"
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/getaddressmempool" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "getaddressdeltas",
+        "operationId" : "getaddressmempool",
+        "parameters" : [ {
+          "name" : "addresses",
+          "in" : "query",
+          "required" : true,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/get_address_mem_pool_response_object"
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-swagger-router-controller" : "General"
+      },
+      "x-swagger-router-controller" : "rpc"
     }
   },
   "securityDefinitions" : {
@@ -4009,6 +4121,99 @@
     }
   },
   "definitions" : {
+    "get_address_mem_pool_response_object" : {
+      "properties" : {
+        "satoshis" : {
+          "type" : "string",
+          "description" : "The difference of satoshis"
+        },
+        "txid" : {
+          "type" : "string",
+          "description" : "The related txid"
+        },
+        "index" : {
+          "type" : "number",
+          "description" : "The related input or output index"
+        },
+        "height" : {
+          "type" : "number",
+          "description" : "The block height"
+        },
+        "address" : {
+          "type" : "string",
+          "description" : "The base58check encoded address"
+        },
+        "timestamp" : {
+          "type" : "number",
+          "description" : "The time the transaction entered the mempool (seconds)"
+        },
+        "prevtxid" : {
+          "type" : "string",
+          "description" : "The previous txid (if spending)"
+        },
+        "prevout" : {
+          "type" : "string",
+          "description" : "The previous transaction output index (if spending)"
+        }
+      },
+      "example" : {
+        "address" : "address",
+        "prevout" : "prevout",
+        "txid" : "txid",
+        "index" : 0.80082819046101150206595775671303272247314453125,
+        "prevtxid" : "prevtxid",
+        "satoshis" : "satoshis",
+        "height" : 6.02745618307040320615897144307382404804229736328125,
+        "timestamp" : 1.46581298050294517310021547018550336360931396484375
+      }
+    },
+    "get_address_deltas_response_object" : {
+      "properties" : {
+        "satoshis" : {
+          "type" : "string",
+          "description" : "The difference of satoshis"
+        },
+        "txid" : {
+          "type" : "string",
+          "description" : "The related txid"
+        },
+        "index" : {
+          "type" : "number",
+          "description" : "The related input or output index"
+        },
+        "height" : {
+          "type" : "number",
+          "description" : "The block height"
+        },
+        "address" : {
+          "type" : "string",
+          "description" : "The base58check encoded address"
+        }
+      },
+      "example" : {
+        "address" : "address",
+        "txid" : "txid",
+        "index" : 0.80082819046101150206595775671303272247314453125,
+        "satoshis" : "satoshis",
+        "height" : 6.02745618307040320615897144307382404804229736328125
+      }
+    },
+    "get_address_balance_response" : {
+      "properties" : {
+        "balance" : {
+          "type" : "string",
+          "description" : "balance againts address"
+        },
+        "received" : {
+          "type" : "string",
+          "description" : "received againts address"
+        }
+      },
+      "example" : {
+        "balance" : "balance",
+        "received" : "received"
+      }
+    },
     "Info" : {
       "required" : [ "balance", "blocks", "connections", "difficulty", "errors", "keypoololdest", "keypoolsize", "paytxfee", "protocolversion", "proxy", "relayfee", "testnet", "timeoffset", "unlocked_until", "version", "walletversion" ],
       "properties" : {

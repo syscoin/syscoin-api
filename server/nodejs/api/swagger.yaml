@@ -3202,6 +3202,14 @@ securityDefinitions:
     name: "token"
     in: "header"
 definitions:
+  get_address_balance_response:
+    properties:
+      balance:
+        type: "string"
+        description: "balance againts address"
+      received:
+        type: "string"
+        description: "received againts address"
   Info:
     required:
     - "balance"
