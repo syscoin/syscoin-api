@@ -309,27 +309,85 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: aliaswhitelist
-      description: add an alias to the whitelist.
+      description: List all affiliates for this alias.
       security:
       - token: []
       tags:
       - Aliases
       parameters:
-       - name: alias
-         description: The syscoin alias to add
-         in: query
-         required: true
-         type: string
+      - name: aliasname
+        in: query
+        required: true
+        type: string
       responses:
         "200":
           description: Success
           schema:
-            type: string
+            type: array
+            items:
+              $ref: "#/definitions/WhitelistEntry"
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /aliasclearwhitelist:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: aliasclearwhitelist
+      description: "Clear your whitelist(controls who can resell)."
+      security:
+      - token: []
+      tags:
+      - Aliases
+      parameters:
+      - name: request
+        in: body
+        required: true
+        type: string
+        schema:
+          $ref: "#/definitions/AliasClearWhiteListRequest"
+      responses:
+        "500":
+          description: "aliasclearwhitelist [owner alias] [witness].  Clear your whitelist(controls who can resell)."
+          schema:
+            type: string
+        "200":
+          description: Success
+          schema:
+            type: object
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+  /aliasupdatewhitelist:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: aliasupdatewhitelist
+      description: "Update to the whitelist(controls who can resell). Array of whitelist entries in parameter 1."
+      security:
+      - token: []
+      tags:
+      - Aliases
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/AliasUpdateWhitelistRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
   /aliasinfo:
     x-swagger-router-controller: rpc
     get:
@@ -1350,7 +1408,7 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+            
   /getbalance:
     x-swagger-router-controller: rpc
     get:
@@ -3823,6 +3881,39 @@ definitions:
       account:
         description: DEPRECATED. An account to assign the addresses to.
         type: string
+  AliasClearWhiteListRequest:
+    required:
+    - owneralias
+    - witness
+    properties:
+      owneralias:
+        description: your alias
+        type: string
+      witness:
+        description: a witness alias
+        type: string
+  AliasUpdateWhitelistRequest:
+    required:
+    - owneralias
+    - entries
+    properties:
+      owneralias:
+        type: string
+        description: owner alias controlling this whitelist.
+      entries:
+        description: "
+           \"entries\"       (string) A json array of whitelist entries to add/remove/update
+           [
+             \"alias\"     (string) Alias that you want to add to the affiliate whitelist. Can be * to represent that the offers owned by owner alias can be resold by anybody
+             \"discount_percentage\"     (number) A discount percentage associated with this alias. The reseller can sell your offer at this discount, not accounting for any commissions he/she may set in his own reselling offer. 0 to 99.
+             ,...
+           ]"
+        type: array
+        items:
+          $ref: "#/definitions/WhitelistEntry"
+      witness:
+        description: Witness alias name that will sign for web-of-trust notarization of this transaction.
+        type: string
   AliasNewRequest:
     required:
     - aliasname
@@ -4637,6 +4728,12 @@ definitions:
         type: string
       proxy_randomize_credentials:
         type: boolean
+  WhitelistEntry:
+    properties:
+      alias:
+        type: string
+      discount_percentage:
+        type: number
   ListReceivedByAddress:
     properties:
       address:
