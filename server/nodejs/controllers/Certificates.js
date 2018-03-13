@@ -5,30 +5,6 @@ var url = require('url');
 
 var Certificates = require('./CertificatesService');
 
-/* Deprecated */
-module.exports.certcount = function certcount (req, res, next) {
-  Certificates.certcount(req.swagger.params, res, next);
-};
-
-/* Deprecated */
-module.exports.certfilter = function certfilter (req, res, next) {
-  Certificates.certfilter(req.swagger.params, res, next);
-};
-
-/* Deprecated */
-module.exports.certhistory = function certhistory (req, res, next) {
-  Certificates.certhistory(req.swagger.params, res, next);
-};
-
-module.exports.certinfo = function certinfo (req, res, next) {
-  Certificates.certinfo(req.swagger.params, res, next);
-};
-
-/* Deprecated */
-module.exports.certlist = function certlist (req, res, next) {
-  Certificates.certlist(req.swagger.params, res, next);
-};
-
 module.exports.certnew = function certnew (req, res, next) {
   Certificates.certnew(req.swagger.params, res, next);
 };

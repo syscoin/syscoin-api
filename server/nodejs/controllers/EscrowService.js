@@ -24,50 +24,6 @@ exports.escrowacknowledge = function(args, res, next) {
   syscoinClient.escrowAcknowledge.apply(syscoinClient, arr);
 }
 
-/* Deprecated */
-exports.escrowclaimrefund = function(args, res, next) {
-  var argList = [
-    { prop: "guid" },
-    { prop: "rawtx", defaultValue: "" }
-  ];
-
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('Escrow claim refund:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.escrowClaimRefund.apply(syscoinClient, arr);
-}
-
-/* Deprecated */
-exports.escrowclaimrelease = function(args, res, next) {
-  var argList = [
-    { prop: "guid" },
-    { prop: "rawtx", defaultValue: "" }
-  ];
-
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('Escrow claim release:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.escrowClaimRelease.apply(syscoinClient, arr);
-}
-
 /*Changed */
 exports.escrowcompleterefund = function(args, res, next) {
   var argList = [
@@ -114,33 +70,6 @@ exports.escrowcompleterelease = function(args, res, next) {
   syscoinClient.escrowCompleteRelease.apply(syscoinClient, arr);
 }
 
-/* Deprecated */
-exports.escrowcount = function(args, res, next) {
-  var argList = [
-    { prop: "buyerAliases", defaultValue: [] },
-    { prop: "sellerAliases", defaultValue: [] },
-    { prop: "arbiterAliases", defaultValue: [] }
-  ];
-
-  args.buyerAliases.value = varUtils.correctTypes(args.buyerAliases.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
-  args.sellerAliases.value = varUtils.correctTypes(args.sellerAliases.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
-  args.arbiterAliases.value = varUtils.correctTypes(args.arbiterAliases.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
-
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('Escrow count:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.escrowCount.apply(syscoinClient, arr);
-}
-
 /* Changed */
 exports.escrowfeedback = function(args, res, next) {
   var argList = [
@@ -171,73 +100,6 @@ exports.escrowfeedback = function(args, res, next) {
 
   var arr = varUtils.getArgsArr(argList, args, "POST", cb);
   syscoinClient.escrowFeedback.apply(syscoinClient, arr);
-}
-
-/* Deprecated */
-exports.escrowfilter = function(args, res, next) {
-  var argList = [
-    { prop: "regexp", defaultValue: "" },
-    { prop: "from", defaultValue: "" },
-    { prop: "count", defaultValue: "10" }
-  ];
-
-  args.count.value = varUtils.correctTypes(args.count.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
-
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('Escrow filter:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.escrowFilter.apply(syscoinClient, arr);
-}
-
-/* Deprecated */
-exports.escrowhistory = function(args, res, next) {
-  var argList = [
-    { prop: "escrow" }
-  ];
-
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('Escrow history:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.escrowHistory.apply(syscoinClient, arr);
-}
-
-/* Deprecated */
-exports.escrowinfo = function(args, res, next) {
-  var argList = [
-    { prop: "escrow" }
-  ];
-
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('Escrow info:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.escrowInfo.apply(syscoinClient, arr);
 }
 
 exports.escrowlist = function(args, res, next) {
@@ -369,31 +231,3 @@ exports.escrowrelease = function(args, res, next) {
   var arr = varUtils.getArgsArr(argList, args, "POST", cb);
   syscoinClient.escrowRelease.apply(syscoinClient, arr);
 }
-
-/* Deprecated */
-exports.generateescrowmultisig = function(args, res, next) {
-  var argList = [
-    { prop: "buyer" },
-    { prop: "offerguid" },
-    { prop: "quantity" },
-    { prop: "arbiter" },
-    { prop: "paymentoption", defaultValue: "SYS" }
-  ];
-  
-  args.request.value.quantity = varUtils.correctTypes(args.request.value.quantity, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
-
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('Generate Escrow Multisig:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.generateEscrowMultisig.apply(syscoinClient, arr);
-}
-
