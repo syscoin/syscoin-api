@@ -979,25 +979,6 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /getwalletbalance:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: getwalletbalance
-      description: Returns wallet balance for all accounts. Does not include watch only accounts.
-      security:
-      - token: []
-      tags:
-      - General
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: number
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
   /getnewaddress:
     x-swagger-router-controller: rpc
     post:
@@ -1132,31 +1113,6 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /getv2address:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: getv2address
-      description: Returns a new Syscoin (starts with 1) address for receiving payments. If 'account' is specified (DEPRECATED), it is added to the address book so payments received with the address will be credited to 'account'.
-      security:
-      - token: []
-      tags:
-      - General
-      parameters:
-      - name: account
-        in: query
-        description: DEPRECATED. The account name for the address to be linked to. If not provided, the default account "" is used. It can also be set to the empty string "" to represent the default account. The account does not need to exist, it will be created if there is no account by the given name.
-        required: false
-        type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: string
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
   /getwalletinfo:
     x-swagger-router-controller: rpc
     get:
@@ -1166,31 +1122,6 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
       - token: []
       tags:
       - General
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: "#/definitions/WalletInfo"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /getzaddress:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: getzaddress
-      description: "Returns a new ZCash address for receiving payments in ZCash transaparent tokens.
-so payments received with the address will be credited to 'account'."
-      security:
-      - token: []
-      tags:
-      - General
-      parameters:
-      - name: address
-        in: query
-        required: true
-        type: string
       responses:
         "200":
           description: Success
@@ -1241,34 +1172,6 @@ so payments received with the address will be credited to 'account'."
         required: true
         schema:
           $ref: "#/definitions/ImportPrivKeyRequest"
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: string
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /importprunedfunds:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: importprunedfunds
-      description: Imports funds without rescan. Corresponding address or script must previously be included in wallet. Aimed towards pruned wallets. The end-user is responsible to import additional transactions that subsequently spend the imported outputs or rescan after the point in the blockchain the transaction is included.
-      security:
-      - token: []
-      tags:
-      - General
-      parameters:
-      - name: rawtransaction
-        in: query
-        required: true
-        type: string
-      - name: txoutproof
-        in: query
-        required: true
-        type: string
       responses:
         "200":
           description: Success
@@ -2301,30 +2204,6 @@ so payments received with the address will be credited to 'account'."
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /removeprunedfunds:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: removeprunedfunds
-      description: Deletes the specified transaction from the wallet. Meant for use with pruned wallets and as a companion to importprunedfunds. This will effect wallet balances.
-      security:
-      - token: []
-      tags:
-      - General
-      parameters:
-      - name: txid
-        in: query
-        required: true
-        type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: string
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
   /sendmany:
     x-swagger-router-controller: rpc
     post:
@@ -2500,29 +2379,6 @@ so payments received with the address will be credited to 'account'."
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /syscoinsignrawtransaction:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: syscoinsignrawtransaction
-      description: Sign inputs for raw transaction (serialized, hex-encoded) and sends them out to the network if signing is complete
-      security:
-      - token: []
-      tags:
-      - General
-      parameters:
-      - name: hexstring
-        in: query
-        required: true
-        type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: string
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
 # Added new path here
   /getaddressbalance:
     get:
