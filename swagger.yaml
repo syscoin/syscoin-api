@@ -3102,6 +3102,8 @@ so payments received with the address will be credited to 'account'."
         in: query
         required: true
         type: array
+        items:
+          type: string
       - name: start
         in: query
         required: true
@@ -3115,9 +3117,342 @@ so payments received with the address will be credited to 'account'."
           description: Success
           schema:
             type: array
+            items:
+              type: string
         default:
           description: Error
           schema: 
+            $ref: "#/definitions/ErrorResponse"
+  /getaddressutxos:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getaddressutxos
+      description: Returns all unspent outputs for addresses or aliases
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: addresses
+        in: query
+        required: true
+        type: array
+        items:
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+           type: array
+           items:
+            $ref: "#/definitions/GetAddressUTXOsEntry"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /getblockhashes:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getblockhashes
+      description: Returns array of hashes of blocks within the timestamp range provided.
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: high
+        in: query
+        required: true
+        type: number
+      - name: low
+        in: query
+        required: true
+        type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+           type: array
+           items:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /getblockheaders:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getblockheaders
+      description: |
+        Returns an array of items with information about <count> blockheaders starting from <hash>.
+        If verbose is false, each item is a string that is serialized, hex-encoded data for a single blockheader.
+        If verbose is true, each item is an Object with information about a single blockheader.
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: hash
+        in: query
+        required: true
+        type: string
+      - name: count
+        in: query
+        required: true
+        type: number
+      - name: verbose
+        in: query
+        required: false
+        type: boolean
+      responses:
+        "200":
+          description: Success
+          schema:
+           type: array
+           items:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /getchaintips:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getchaintips
+      description: Returns chain tips
+      security:
+      - token: []
+      tags:
+      - General
+      responses:
+        "200":
+          description: Success
+          schema:
+           type: array
+           items:
+            $ref: "#/definitions/GetChainTipsResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /getspentinfo:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getspentinfo
+      description: Returns the txid and index where an output is spent
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: txid
+        in: query
+        required: true
+        type: string
+      - name: index
+        in: query
+        required: true
+        type: number
+      responses:
+        "200":
+          description: Success
+          description: Success
+          schema:
+            $ref: "#/definitions/GetSpentInfoResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /getgovernanceinfo:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getgovernanceinfo
+      description: Returns an object containing governance parameters
+      security:
+      - token: []
+      tags:
+      - General
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GovernanceInfoResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /getpoolinfo:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getpoolinfo
+      description: Returns an object containing mixing pool related information
+      security:
+      - token: []
+      tags:
+      - General
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/PoolInfoResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /getsuperblockbudget:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getsuperblockbudget
+      description: Returns the absolute maximum sum of superblock payments allowed.
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: index
+        in: query
+        description: The block index
+        required: true
+        type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: number
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /gobject:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: gobject
+      description: Manage governance objects.
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: command
+        in: query
+        description: |
+          'check' - Validate governance object data (proposal only)
+          'prepare' - Prepare governance object by signing and creating tx
+          'submit' - Submit governance object to network
+          'deserialize' - Deserialize governance object from hex string to JSON
+          'count' - Count governance objects and votes
+          'get' - Get governance object by hash
+          'getvotes' - Get all votes for a governance object hash (including old votes)
+          'getcurrentvotes' - Get only current (tallying) votes for a governance object hash (does not include old votes)
+          'list' - List governance objects (can be filtered by signal and/or object type)
+          'diff' - List differences since last diff
+          'vote-alias' - Vote on a governance object by masternode alias (using masternode.conf setup)
+          'vote-conf' - Vote on a governance object by masternode configured in syscoin.conf
+          'vote-many'- Vote on a governance object by all masternodes (using masternode.conf setup)
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /masternode:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: masternode
+      description: Set of commands to execute masternode related actions.
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: command
+        in: query
+        description: |
+          'count' - Print number of all known masternodes (optional 'ps', 'enabled', 'all', 'qualify')
+          'current' - Print info on current masternode winner to be paid the next block (calculated locally)
+          'debug' - Print masternode status
+          'genkey' - Generate new masternodeprivkey
+          'outputs' - Print masternode compatible outputs
+          'start' - Start local Hot masternode configured in syscoin.conf
+          'start-alias' - Start single remote masternode by assigned alias configured in masternode.conf
+          'start-[mode]' - Start remote masternodes configured in masternode.conf ([mode] can be one of 'all', 'missing', or 'disabled')
+          'status' - Print masternode status information
+          'list' - Print list of all known masternodes (see masternodelist for more info)
+          'list-conf' - Print masternode.conf in JSON format
+          'winner' - Print info on next masternode winner to vote for
+          'winners'- Print list of masternode winners
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /masternodebroadcast:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: masternodebroadcast
+      description: Set of commands to create and relay masternode broadcast messages.
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: command
+        in: query
+        description: |
+          'create-alias' - Create single remote masternode broadcast message by assigned alias configured in masternode.conf
+          'create-all' - Create remote masternode broadcast messages for all masternodes configured in masternode.conf
+          'decode' - Decode masternode broadcast message
+          'relay' - Relay masternode broadcast message to the network
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /masternodelist:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: masternodelist
+      description: Get a list of masternodes in different modes.
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: mode
+        in: query
+        description: |
+          (optional/required to use filter, defaults = status) The mode to run list in
+          'activeseconds' - Print number of seconds masternode recognized by the network as enabled (since latest issued \"masternode start/start-many/start-alias\")
+          'addr' - Print ip address associated with a masternode (can be additionally filtered, partial match)
+          'full' - Print info in format 'status protocol payee lastseen activeseconds lastpaidtime lastpaidblock IP' (can be additionally filtered, partial match)
+          'info' - Print info in format 'status protocol payee lastseen activeseconds sentinelversion sentinelstate IP' (can be additionally filtered, partial match)
+          'lastpaidblock' - Print the last block height a node was paid on the network
+          'lastpaidtime' - Print the last time a node was paid on the network
+          'lastseen' - Print timestamp of when a masternode was last seen on the network
+          'payee' - Print Syscoin address associated with a masternode (can be additionally filtered,partial match)
+          'protocol' - Print protocol of a masternode (can be additionally filtered, exact match)
+          'pubkey' - Print the masternode (not collateral) public key
+          'rank' - Print rank of a masternode based on current block
+          'status' - Print masternode status PRE_ENABLED / ENABLED / EXPIRED / WATCHDOG_EXPIRED / NEW_START_REQUIRED / UPDATE_REQUIRED / POSE_BAN / OUTPOINT_SPENT (can be additionally filtered, partial match)
+        required: false
+        type: string
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+          schema:
             $ref: "#/definitions/ErrorResponse"
 # complex objects have schema definitions
 definitions:
@@ -4845,3 +5180,71 @@ definitions:
           type: string
       ismine:
         type: boolean
+  GetAddressUTXOsEntry:
+    properties:
+      address:
+        type: string
+      txid:
+        type: string
+      outputIndex:
+        type: number
+      script:
+        type: string
+      satoshis:
+        type: number
+      height:
+        type: number
+  GetChainTipsResponse:
+    properties:
+      height:
+        type: number
+      hash:
+        type: string
+      difficulty:
+        type: number
+      chainwork:
+        type: string
+      branchlen:
+        type: number
+      status:
+        type: string
+  GetSpentInfoResponse:
+    properties:
+      txid:
+        type: string
+      index:
+        type: number
+  GovernanceInfoResponse:
+    properties:
+      governanceminquorum:
+        type: number
+      masternodewatchdogmaxseconds:
+        type: number
+      proposalfee:
+        type: number
+      superblockcycle:
+        type: number
+      lastsuperblock:
+        type: number
+      nextsuperblock:
+        type: number
+  PoolInfoResponse:
+    properties:
+      state:
+        type: string
+      mixing_mode:
+        type: string
+      queue:
+        type: number
+      entries:
+        type: number
+      status:
+        type: string
+      outpoint:
+        type: string
+      addr:
+        type: string
+      keys_left:
+        type: string
+      warnings:
+        type: string

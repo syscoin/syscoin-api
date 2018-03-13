@@ -207,5 +207,66 @@ module.exports.walletpassphrasechange = function walletpassphrasechange (req, re
 };
 
 module.exports.getaddresstxids = function getaddresstxids (req, res, next) {
+  console.log("vohoooo")
   General.getaddresstxids(req.swagger.params, res, next);
+};
+
+module.exports.getaddressutxos = function getaddressutxos (req, res, next) {
+  console.log("vohoooo")
+  General.getaddressutxos(req.swagger.params, res, next);
+};
+
+module.exports.getblockhashes = function getblockhashes (req, res, next) {
+  console.log("vohoooo")
+  General.getblockhashes(req.swagger.params, res, next);
+};
+
+module.exports.getblockheaders = function getblockheaders (req, res, next) {
+  console.log("vohoooo")
+  General.getblockheaders(req.swagger.params, res, next);
+};
+
+module.exports.getchaintips = function getchaintips (req, res, next) {
+  console.log("vohoooo")
+  General.getchaintips(req.swagger.params, res, next);
+};
+
+module.exports.getspentinfo = function getspentinfo (req, res, next) {
+  console.log("vohoooo")
+  General.getspentinfo(req.swagger.params, res, next);
+};
+
+module.exports.getgovernanceinfo = function getgovernanceinfo (req, res, next) {
+  console.log("vohoooo")
+  General.getgovernanceinfo(req.swagger.params, res, next);
+};
+
+module.exports.getpoolinfo = function getpoolinfo (req, res, next) {
+  console.log("vohoooo")
+  General.getpoolinfo(req.swagger.params, res, next);
+};
+
+module.exports.getsuperblockbudget = function getsuperblockbudget (req, res, next) {
+  console.log("vohoooo")
+  General.getsuperblockbudget(req.swagger.params, res, next);
+};
+
+module.exports.gobject = function gobject (req, res, next) {
+  console.log("vohoooo")
+  General.gobject(req.swagger.params, res, next);
+};
+
+module.exports.masternode = function masternode (req, res, next) {
+  console.log("vohoooo")
+  General.masternode(req.swagger.params, res, next);
+};
+
+module.exports.masternodebroadcast = function masternodebroadcast (req, res, next) {
+  console.log("vohoooo")
+  General.masternodebroadcast(req.swagger.params, res, next);
+};
+
+module.exports.masternodelist = function masternodelist (req, res, next) {
+  console.log("vohoooo")
+  General.masternodelist(req.swagger.params, res, next);
 };
