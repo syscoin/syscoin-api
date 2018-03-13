@@ -282,4 +282,3 @@ exports.aliasupdate = function(args, res, next) {
   var arr = varUtils.getArgsArr(argList, args, "POST", cb);
   syscoinClient.aliasUpdate.apply(syscoinClient, arr);
 }
-

@@ -436,7 +436,7 @@ exports.getreceivedbyaccount = function(args, res, next) {
    **/
   var argList = [
     { prop: "account" },
-    { prop: "minconf", defaultValue: 1 }
+    { prop: "minconf", defaultValue: 1 },
     { prop: "addlockconf"}
   ];
 
@@ -799,16 +799,12 @@ exports.listreceivedbyaccount = function(args, res, next) {
   var arr = varUtils.getArgsArr(argList, args, "GET", cb);
   syscoinClient.listReceivedByAccount.apply(syscoinClient, arr);
 }
-
+ /* Changed */
 exports.listreceivedbyaddress = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-   * minconf (BigDecimal)
-   * includeempty (Boolean)
-   * includeWatchonly (Boolean)
-   **/
+
   var argList = [
     { prop: "minconf", defaultValue: 0 },
+    { prop: "addlockconf", defaultValue: false },
     { prop: "includeempty", defaultValue: false },
     { prop: "includeWatchonly", defaultValue: false }
   ];
