@@ -357,76 +357,6 @@
       },
       "x-swagger-router-controller" : "rpc"
     },
-    "/aliasaffiliates" : {
-      "get" : {
-        "tags" : [ "Aliases" ],
-        "description" : "list affiliations with merchant offers.",
-        "operationId" : "aliasaffiliates",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "type" : "object",
-                "properties" : { }
-              }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/aliasauthenticate" : {
-      "get" : {
-        "tags" : [ "Aliases" ],
-        "description" : "Authenticates an alias with a provided password and returns the private key if successful. Warning: Calling this function over a public network can lead to someone reading your password/private key in plain text.",
-        "operationId" : "aliasauthenticate",
-        "parameters" : [ {
-          "name" : "alias",
-          "in" : "query",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "password",
-          "in" : "query",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "type" : "object",
-                "properties" : { }
-              }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
     "/aliasbalance" : {
       "get" : {
         "tags" : [ "Aliases" ],
@@ -459,93 +389,15 @@
       },
       "x-swagger-router-controller" : "rpc"
     },
-    "/aliascount" : {
+    "/aliaswhitelist" : {
       "get" : {
         "tags" : [ "Aliases" ],
-        "description" : "Count aliases that an array of aliases own.",
-        "operationId" : "aliascount",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "number"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/aliasfilter" : {
-      "get" : {
-        "tags" : [ "Aliases" ],
-        "description" : "Scan and filter aliases aliasfilter \"\" 5 # list aliases updated in last 5 blocks aliasfilter \"^alias\" # list all aliases starting with \"alias\" aliasfilter 36000 0 0 stat # display stats (number of aliases) on active aliases",
-        "operationId" : "aliasfilter",
+        "description" : "add an alias to the whitelist.",
+        "operationId" : "aliaswhitelist",
         "parameters" : [ {
-          "name" : "regexp",
+          "name" : "alias",
           "in" : "query",
-          "description" : "apply [regexp] on aliases, empty means all aliases",
-          "required" : false,
-          "type" : "string"
-        }, {
-          "name" : "from",
-          "in" : "query",
-          "description" : "show results from this GUID [from], empty means first",
-          "required" : false,
-          "type" : "string"
-        }, {
-          "name" : "count",
-          "in" : "query",
-          "description" : "number of results to return.",
-          "required" : false,
-          "type" : "string"
-        }, {
-          "name" : "safesearch",
-          "in" : "query",
-          "description" : "shows all aliases that are safe to display (not on the ban list)",
-          "required" : false,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/Alias"
-              }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/aliashistory" : {
-      "get" : {
-        "tags" : [ "Aliases" ],
-        "description" : "List all stored values of an alias.",
-        "operationId" : "aliashistory",
-        "parameters" : [ {
-          "name" : "aliasname",
-          "in" : "query",
+          "description" : "The syscoin alias to add",
           "required" : true,
           "type" : "string"
         } ],
@@ -553,10 +405,7 @@
           "200" : {
             "description" : "Success",
             "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/AliasHistoryEntry"
-              }
+              "type" : "string"
             }
           },
           "default" : {
@@ -588,53 +437,6 @@
             "description" : "Success",
             "schema" : {
               "$ref" : "#/definitions/Alias"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/aliaslist" : {
-      "get" : {
-        "tags" : [ "Aliases" ],
-        "description" : "List my own aliases.",
-        "operationId" : "aliaslist",
-        "parameters" : [ {
-          "name" : "aliasname",
-          "in" : "query",
-          "description" : "Alias name to use as filter.",
-          "required" : false,
-          "type" : "string"
-        }, {
-          "name" : "count",
-          "in" : "query",
-          "description" : "The number of results to return",
-          "required" : false,
-          "type" : "number"
-        }, {
-          "name" : "from",
-          "in" : "query",
-          "description" : "The number of results to skip",
-          "required" : false,
-          "type" : "number"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/Alias"
-              }
             }
           },
           "default" : {

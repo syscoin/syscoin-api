@@ -305,6 +305,31 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /aliaswhitelist:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: aliaswhitelist
+      description: add an alias to the whitelist.
+      security:
+      - token: []
+      tags:
+      - Aliases
+      parameters:
+       - name: alias
+         description: The syscoin alias to add
+         in: query
+         required: true
+         type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /aliasinfo:
     x-swagger-router-controller: rpc
     get:

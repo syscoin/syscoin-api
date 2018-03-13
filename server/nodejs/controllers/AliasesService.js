@@ -130,3 +130,23 @@ exports.aliasupdate = function(args, res, next) {
   syscoinClient.aliasUpdate.apply(syscoinClient, arr);
 }
 
+exports.aliaswhitelist = function(args, res, next) {
+  console.log('yo q123')
+  var argList = [
+    { prop: "alias" }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('Alias whitelist:', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.aliasWhitelist.apply(syscoinClient, arr);
+}
