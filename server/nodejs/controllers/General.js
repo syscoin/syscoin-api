@@ -207,3 +207,20 @@ module.exports.walletpassphrase = function walletpassphrase (req, res, next) {
 module.exports.walletpassphrasechange = function walletpassphrasechange (req, res, next) {
   General.walletpassphrasechange(req.swagger.params, res, next);
 };
+
+
+/* Added new function here */
+
+/************General*****************************/
+
+module.exports.getaddressbalance = function getaddressbalance (req, res, next) {
+  General.getaddressbalance(req.swagger.params, res, next);
+};
+
+module.exports.getaddressdeltas = function getaddressdeltas (req, res, next) {
+  General.getaddressdeltas(req.swagger.params, res, next);
+};
+
+module.exports.getaddressmempool = function getaddressmempool (req, res, next) {
+  General.getaddressmempool(req.swagger.params, res, next);
+};

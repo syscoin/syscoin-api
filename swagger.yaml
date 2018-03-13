@@ -3088,9 +3088,144 @@ so payments received with the address will be credited to 'account'."
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+# Added new path here
+  /getaddressbalance:
+    get:
+      tags:
+      - "General"
+      description: "get address balance "
+      operationId: "getaddressbalance"
+      parameters:
+      - name: "addresses"
+        in: "query"
+        required: true
+        type: "array"
+        items:
+          type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/get_address_balance_response"
+        default:
+           description: "Error"
+           schema:
+             $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /getaddressdeltas:
+     get:
+       tags:
+       - "General"
+       description: "getaddressdeltas"
+       operationId: "getaddressdeltas"
+       parameters:
+       - name: "addresses"
+         in: "query"
+         required: true
+         type: "array"
+         items:
+           type: "string"
+       - name: "start"
+         in: "query"
+         required: true
+         type: "number"
+       - name: "end"
+         in: "query"
+         required: true
+         type: "number"
+       responses:
+         200:
+           description: "Success"
+           schema:
+             type: "array"
+             items:
+               $ref: "#/definitions/get_address_deltas_response_object"
+         default:
+            description: "Error"
+            schema:
+              $ref: "#/definitions/ErrorResponse"
+       x-swagger-router-controller: "General"
+     x-swagger-router-controller: "rpc"
+  /getaddressmempool:
+     get:
+       tags:
+       - "General"
+       description: "getaddressdeltas"
+       operationId: "getaddressmempool"
+       parameters:
+       - name: "addresses"
+         in: "query"
+         required: true
+         type: "array"
+         items:
+           type: "string"
+       responses:
+         200:
+           description: "Success"
+           schema:
+             type: "array"
+             items:
+               $ref: "#/definitions/get_address_mem_pool_response_object"
+         default:
+            description: "Error"
+            schema:
+              $ref: "#/definitions/ErrorResponse"
+       x-swagger-router-controller: "General"
+     x-swagger-router-controller: "rpc"
 # complex objects have schema definitions
 definitions:
+  get_address_mem_pool_response_object:
+    properties:
+      satoshis:
+        type: "string"
+        description: "The difference of satoshis"
+      txid:
+        type: "string"
+        description: "The related txid"
+      index:
+        type: "number"
+        description: "The related input or output index"
+      height:
+        type: "number"
+        description: "The block height"
+      address:
+        type: "string"
+        description: "The base58check encoded address"
+      timestamp:
+        type: "number"
+        description: "The time the transaction entered the mempool (seconds)"
+      prevtxid:
+        type: "string"
+        description: "The previous txid (if spending)"
+      prevout:
+        type: "string"
+        description: "The previous transaction output index (if spending)"
+  get_address_deltas_response_object:
+    properties:
+      satoshis:
+        type: "string"
+        description: "The difference of satoshis"
+      txid:
+        type: "string"
+        description: "The related txid"
+      index:
+        type: "number"
+        description: "The related input or output index"
+      height:
+        type: "number"
+        description: "The block height"
+      address:
+        type: "string"
+        description: "The base58check encoded address"
+  get_address_balance_response:
+    properties:
+      balance:
+        type: "string"
+        description: "balance againts address"
+      received:
+        type: "string"
+        description: "received againts address"
   Info:
     required:
     - version

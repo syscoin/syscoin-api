@@ -1208,5 +1208,84 @@ exports.walletpassphrasechange = function(args, res, next) {
 
   var arr = varUtils.getArgsArr(argList, args, "POST", cb);
   syscoinClient.walletPassphraseChange.apply(syscoinClient, arr);
-}
+};
 
+/*Added new functions heres*/
+/******************General**************************/
+
+
+exports.getaddressbalance = function(args, res, next) {
+    /**
+     * parameters expected in the args:
+     * request (getaddressbalance)
+     **/
+    var argList = [
+        { prop: "addresses" }
+    ];
+
+    var cb = function(err, result, resHeaders) {
+        res.setHeader('Content-Type', 'application/json');
+
+        if (err) {
+            return commonUtils.reportError(res, err);
+        }
+
+        commonUtils.log('get balance of address', result, "getaddressbalance");
+        res.end(JSON.stringify(result));
+    };
+
+    var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+    syscoinClient.getaddressbalance.apply(syscoinClient, arr);
+};
+
+
+
+exports.getaddressdeltas = function(args, res, next) {
+    /**
+     * parameters expected in the args:
+     * request (getaddressdeltas)
+     **/
+    var argList = [
+        { prop: "addresses" },
+        { prop: "start" },
+        { prop: "end" }
+    ];
+
+    var cb = function(err, result, resHeaders) {
+        res.setHeader('Content-Type', 'application/json');
+
+        if (err) {
+            return commonUtils.reportError(res, err);
+        }
+
+        commonUtils.log('get balance of getaddressdeltas', result, "getaddressdeltas");
+        res.end(JSON.stringify(result));
+    };
+
+    var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+    syscoinClient.getaddressdeltas.apply(syscoinClient, arr);
+};
+
+exports.getaddressmempool = function(args, res, next) {
+    /**
+     * parameters expected in the args:
+     * request (getaddressmempool)
+     **/
+    var argList = [
+        { prop: "addresses" }
+    ];
+
+    var cb = function(err, result, resHeaders) {
+        res.setHeader('Content-Type', 'application/json');
+
+        if (err) {
+            return commonUtils.reportError(res, err);
+        }
+
+        commonUtils.log('getaddressmempool', result, "getaddressmempool");
+        res.end(JSON.stringify(result));
+    };
+
+    var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+    syscoinClient.getaddressmempool.apply(syscoinClient, arr);
+};
