@@ -280,36 +280,6 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /aliasauthenticate:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: aliasauthenticate
-      description: "Authenticates an alias with a provided password and returns the private key if successful. Warning: Calling this function over a public network can lead to someone reading your password/private key in plain text."
-      security:
-      - token: []
-      tags:
-      - Aliases
-      parameters:
-      - name: alias
-        in: query
-        required: true
-        type: string
-      - name: password
-        in: query
-        required: true
-        type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              type: object #TODO: define type
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
   /aliasbalance:
     x-swagger-router-controller: rpc
     get:
@@ -335,96 +305,6 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /aliascount:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: aliascount
-      description: Count aliases that an array of aliases own.
-      security:
-      - token: []
-      tags:
-      - Aliases
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: number
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /aliasfilter:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: aliasfilter
-      description: "Scan and filter aliases
-                    aliasfilter \"\" 5 # list aliases updated in last 5 blocks
-                    aliasfilter \"^alias\" # list all aliases starting with \"alias\"
-                    aliasfilter 36000 0 0 stat # display stats (number of aliases) on active aliases"
-      security:
-      - token: []
-      tags:
-      - Aliases
-      parameters:
-      - name: regexp
-        in: query
-        description: apply [regexp] on aliases, empty means all aliases
-        required: false
-        type: string
-      - name: from
-        in: query
-        description: show results from this GUID [from], empty means first
-        required: false
-        type: string
-      - name: count
-        in: query
-        description: number of results to return.
-        required: false
-        type: string
-      - name: safesearch
-        in: query
-        description: shows all aliases that are safe to display (not on the ban list)
-        required: false
-        type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/Alias"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /aliashistory:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: aliashistory
-      description: List all stored values of an alias.
-      security:
-      - token: []
-      tags:
-      - Aliases
-      parameters:
-      - name: aliasname
-        in: query
-        required: true
-        type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/AliasHistoryEntry"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
   /aliasinfo:
     x-swagger-router-controller: rpc
     get:
@@ -444,43 +324,6 @@ paths:
           description: Success
           schema:
             $ref: "#/definitions/Alias"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /aliaslist:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: aliaslist
-      description: List my own aliases.
-      security:
-      - token: []
-      tags:
-      - Aliases
-      parameters:
-      - name: aliasname
-        description: Alias name to use as filter.
-        in: query
-        required: false
-        type: string
-      - name: count
-        description: The number of results to return
-        in: query
-        required: false
-        type: number
-      - name: from
-        description: The number of results to skip
-        in: query
-        required: false
-        type: number
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/Alias"
         default:
           description: Error
           schema:
