@@ -72,3 +72,12 @@ module.exports.escrowrelease = function escrowrelease (req, res, next) {
 module.exports.generateescrowmultisig = function generateescrowmultisig (req, res, next) {
   Escrow.generateescrowmultisig(req.swagger.params, res, next);
 };
+
+
+module.exports.escrowbid = function generateescrowmultisig (req, res, next) {
+  Escrow.escrowbid(req.swagger.params, res, next);
+};
+
+module.exports.escrowcreaterawtransaction = function generateescrowmultisig (req, res, next) {
+  Escrow.escrowcreaterawtransaction(req.swagger.params, res, next);
+};

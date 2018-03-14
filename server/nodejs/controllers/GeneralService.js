@@ -436,7 +436,7 @@ exports.getreceivedbyaccount = function(args, res, next) {
    **/
   var argList = [
     { prop: "account" },
-    { prop: "minconf", defaultValue: 1 }
+    { prop: "minconf", defaultValue: 1 },
     { prop: "addlockconf"}
   ];
 
@@ -1247,7 +1247,7 @@ exports.getaddressbalance = function(args, res, next) {
     };
 
     var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-    syscoinClient.getaddressbalance.apply(syscoinClient, arr);
+    syscoinClient.getAddressBalance.apply(syscoinClient, arr);
 };
 
 
@@ -1275,7 +1275,7 @@ exports.getaddressdeltas = function(args, res, next) {
     };
 
     var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-    syscoinClient.getaddressdeltas.apply(syscoinClient, arr);
+    syscoinClient.getAddressDeltas.apply(syscoinClient, arr);
 };
 
 exports.getaddressmempool = function(args, res, next) {
@@ -1299,5 +1299,31 @@ exports.getaddressmempool = function(args, res, next) {
     };
 
     var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-    syscoinClient.getaddressmempool.apply(syscoinClient, arr);
+    syscoinClient.getAddressMemPool.apply(syscoinClient, arr);
+};
+
+
+exports.syscoinsendrawtransaction = function(args, res, next) {
+    /**
+     * parameters expected in the args:
+     * request (syscoinsendrawtransaction)
+     **/
+    var argList = [
+        { prop: "hexstring" },
+        { prop: "allowhighfees" },
+        { prop: "instantsend" }
+    ];
+    var cb = function(err, result, resHeaders) {
+        res.setHeader('Content-Type', 'application/json');
+
+        if (err) {
+            return commonUtils.reportError(res, err);
+        }
+
+        commonUtils.log('syscoinsendrawtransaction', result, "syscoinsendrawtransaction");
+        res.end(JSON.stringify(result));
+    };
+
+    var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+    syscoinClient.syscoinSendrRawRransaction.apply(syscoinClient, arr);
 };

@@ -397,3 +397,49 @@ exports.generateescrowmultisig = function(args, res, next) {
   syscoinClient.generateEscrowMultisig.apply(syscoinClient, arr);
 }
 
+
+exports.escrowbid = function(args, res, next) {
+  var argList = [
+    { prop: "alias" },
+    { prop: "escrow" },
+    { prop: "bid_in_offer_currency" },
+    { prop: "bid_in_payment_option" },
+    { prop: "witness" }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('Generate Escrow escrowbid:', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+  syscoinClient.escrowBid.apply(syscoinClient, arr);
+};
+
+exports.escrowcreaterawtransaction = function(args, res, next) {
+  var argList = [
+    { prop: "escrowguid" },
+    { prop: "inputs" }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('Generate Escrow escrowcreaterawtransaction:', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+  syscoinClient.escrowCreateRawTransaction.apply(syscoinClient, arr);
+};
+
