@@ -86,5 +86,27 @@ exports.privatesend = function(args, res, next) {
     };
 
     var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-    syscoinClient.voteraw.apply(syscoinClient, arr);
+    syscoinClient.privateSend.apply(syscoinClient, arr);
+};
+
+
+exports.importelectrumwallet = function(args, res, next) {
+    /**
+     * parameters expected in the args:
+     * request (importelectrumwallet)
+     **/
+    var cb = function(err, result, resHeaders) {
+        res.setHeader('Content-Type', 'application/json');
+
+        if (err) {
+            return commonUtils.reportError(res, err);
+        }
+
+        commonUtils.log('importElectrumWallet', result, "importElectrumWallet");
+        res.end(JSON.stringify(result));
+    };
+
+    //var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+    var arr = [args['filename'],args['index'], cb];
+    syscoinClient.importElectrumWallet.apply(syscoinClient, arr);
 };

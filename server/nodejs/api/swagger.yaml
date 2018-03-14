@@ -2049,6 +2049,182 @@ paths:
       - token: []
       x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
+  /getgenerate:
+    get:
+      tags:
+      - "General"
+      description: "Returns true if generation is ON, otherwise false"
+      operationId: "getgenerate"
+      parameters: []
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "boolean"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /setgenerate:
+    get:
+      tags:
+      - "General"
+      description: "Set 'generate' true or false to turn generation on or off.\nGeneration\
+        \ is limited to 'genproclimit' processors, -1 is unlimited.\nSee the getgenerate\
+        \ call for the current setting\n"
+      operationId: "setgenerate"
+      parameters:
+      - name: "generate"
+        in: "query"
+        required: true
+        type: "boolean"
+      - name: "genproclimit"
+        in: "query"
+        required: false
+        type: "number"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /setnetworkactive:
+    get:
+      tags:
+      - "General"
+      description: "Set 'networkactive' true or false\n"
+      operationId: "setnetworkactive"
+      parameters:
+      - name: "state"
+        in: "query"
+        required: true
+        type: "boolean"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "boolean"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /mnsync:
+    get:
+      tags:
+      - "General"
+      description: "Returns the sync status, updates to the next step or resets it\
+        \ entirely."
+      operationId: "mnsync"
+      parameters:
+      - name: "command"
+        in: "query"
+        description: "'status' - Sync status\n'next' - Update to next step\n'reset'\
+          \ - Reset it entirely\n"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /dumphdinfo:
+    get:
+      tags:
+      - "General"
+      description: "Returns an object containing sensitive private info about this\
+        \ HD wallet."
+      operationId: "dumphdinfo"
+      parameters: []
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/DumpHdInfoResponse"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /privatesend:
+    post:
+      tags:
+      - "Masternodes"
+      description: "Anonymous mixing and sending coins."
+      operationId: "privatesend"
+      parameters:
+      - name: "command"
+        in: "query"
+        description: "'start' - Start Mixing\n'stop' - Stop mixing\n'reset' - Reset\
+          \ mixing\n"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Masternodes"
+    x-swagger-router-controller: "rpc"
+  /importelectrumwallet:
+    post:
+      tags:
+      - "Masternodes"
+      description: "Imports keys from an Electrum wallet export file (.csv or .json)."
+      operationId: "importelectrumwallet"
+      parameters:
+      - in: "body"
+        name: "filename"
+        description: "(string, required) The Electrum wallet export file, should be\
+          \ in csv or json format"
+        required: true
+      - in: "body"
+        name: "index"
+        description: "(numeric, optional, default=0) Rescan the wallet for transactions\
+          \ starting from this block index"
+        required: false
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Masternodes"
+    x-swagger-router-controller: "rpc"
 securityDefinitions:
   token:
     type: "apiKey"
@@ -4629,3 +4805,15 @@ definitions:
       txids:
       - "txids"
       - "txids"
+  DumpHdInfoResponse:
+    properties:
+      hdseed:
+        type: "string"
+      mnemonic:
+        type: "string"
+      mnemonicpassphrase:
+        type: "string"
+    example:
+      hdseed: "hdseed"
+      mnemonicpassphrase: "mnemonicpassphrase"
+      mnemonic: "mnemonic"

@@ -17,3 +17,8 @@ module.exports.voteraw = function voteraw (req, res, next) {
 module.exports.privatesend = function privatesend (req, res, next) {
     MasterNode.privatesend(req.swagger.params, res, next);
 };
+
+
+module.exports.importelectrumwallet = function importelectrumwallet (req, res, next) {
+    MasterNode.importelectrumwallet(req.swagger.params, res, next);
+};

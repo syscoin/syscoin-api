@@ -1970,6 +1970,121 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /getgenerate:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getgenerate
+      description: Returns true if generation is ON, otherwise false
+      security:
+      - token: []
+      tags:
+      - General
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: boolean
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /setgenerate:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: setgenerate
+      description: |
+        Set 'generate' true or false to turn generation on or off.
+        Generation is limited to 'genproclimit' processors, -1 is unlimited.
+        See the getgenerate call for the current setting
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: generate
+        in: query
+        required: true
+        type: boolean
+      - name: genproclimit
+        in: query
+        required: false
+        type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /setnetworkactive:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: setnetworkactive
+      description: |
+        Set 'networkactive' true or false
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: state
+        in: query
+        required: true
+        type: boolean
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: boolean
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /mnsync:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: mnsync
+      description: Returns the sync status, updates to the next step or resets it entirely.
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: command
+        in: query
+        description: |
+          'status' - Sync status
+          'next' - Update to next step
+          'reset' - Reset it entirely
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /dumphdinfo:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: dumphdinfo
+      description: Returns an object containing sensitive private info about this HD wallet.
+      security:
+      - token: []
+      tags:
+      - General
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/DumpHdInfoResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /privatesend:
     x-swagger-router-controller: rpc
     post:
@@ -1988,6 +2103,35 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
           'reset' - Reset mixing
         required: true
         type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /importelectrumwallet:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: importelectrumwallet
+      description: Imports keys from an Electrum wallet export file (.csv or .json).
+      security:
+      - token: []
+      tags:
+      - Masternodes
+      parameters:
+      - name: filename
+        in: body
+        description: (string, required) The Electrum wallet export file, should be in csv or json format
+        required: true
+        type: string
+      - name: index
+        in: body
+        description: (numeric, optional, default=0) Rescan the wallet for transactions starting from this block index
+        type: number
+        default: 0
       responses:
         "200":
           description: Success
@@ -3860,3 +4004,11 @@ definitions:
           type: string
       ismine:
         type: boolean
+  DumpHdInfoResponse:
+    properties:
+      hdseed:
+        type: string
+      mnemonic:
+        type: string
+      mnemonicpassphrase:
+        type: string
