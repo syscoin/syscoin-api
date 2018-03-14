@@ -231,33 +231,6 @@ exports.escrowrelease = function(args, res, next) {
   var arr = varUtils.getArgsArr(argList, args, "POST", cb);
   syscoinClient.escrowRelease.apply(syscoinClient, arr);
 }
-/* Deprecated */
-exports.generateescrowmultisig = function(args, res, next) {
-  var argList = [
-    { prop: "buyer" },
-    { prop: "offerguid" },
-    { prop: "quantity" },
-    { prop: "arbiter" },
-    { prop: "paymentoption", defaultValue: "SYS" }
-  ];
-  
-  args.request.value.quantity = varUtils.correctTypes(args.request.value.quantity, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
-
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('Generate Escrow Multisig:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.generateEscrowMultisig.apply(syscoinClient, arr);
-};
-
 
 exports.escrowbid = function(args, res, next) {
   var argList = [
