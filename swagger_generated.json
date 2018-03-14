@@ -2751,15 +2751,18 @@
         "description" : "Imports keys from an Electrum wallet export file (.csv or .json).",
         "operationId" : "importelectrumwallet",
         "parameters" : [ {
-          "in" : "body",
           "name" : "filename",
+          "in" : "query",
           "description" : "(string, required) The Electrum wallet export file, should be in csv or json format",
-          "required" : true
+          "required" : true,
+          "type" : "string"
         }, {
-          "in" : "body",
           "name" : "index",
+          "in" : "query",
           "description" : "(numeric, optional, default=0) Rescan the wallet for transactions starting from this block index",
-          "required" : false
+          "required" : false,
+          "type" : "number",
+          "default" : 0.0
         } ],
         "responses" : {
           "200" : {

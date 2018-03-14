@@ -2123,12 +2123,12 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
       - Masternodes
       parameters:
       - name: filename
-        in: body
+        in: query
         description: (string, required) The Electrum wallet export file, should be in csv or json format
         required: true
         type: string
       - name: index
-        in: body
+        in: query
         description: (numeric, optional, default=0) Rescan the wallet for transactions starting from this block index
         type: number
         default: 0
