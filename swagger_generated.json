@@ -2399,7 +2399,7 @@
       "x-swagger-router-controller" : "rpc"
     },
     "/sentinelping" : {
-      "post" : {
+      "get" : {
         "tags" : [ "Masternodes" ],
         "description" : "Keep-alive message for masternode via TCP ping requests.",
         "operationId" : "sentinelping",
@@ -2412,7 +2412,10 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "Success"
+            "description" : "Success",
+            "schema" : {
+              "type" : "boolean"
+            }
           },
           "default" : {
             "description" : "Error",

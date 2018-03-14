@@ -1850,7 +1850,7 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
      x-swagger-router-controller: "rpc"
   /sentinelping:
     x-swagger-router-controller: rpc
-    post:
+    get:
       operationId: sentinelping
       description: Keep-alive message for masternode via TCP ping requests.
       security:
@@ -1866,6 +1866,8 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
       responses:
         "200":
           description: Success
+          schema:
+            type: boolean
         default:
           description: Error
           schema:

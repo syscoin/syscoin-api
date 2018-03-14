@@ -23,9 +23,8 @@ exports.sentinelping = function(args, res, next) {
         commonUtils.log('sentinelping', result, "sentinelping");
         res.end(JSON.stringify(result));
     };
-
-    var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-    syscoinClient.sentInelPing.apply(syscoinClient, arr);
+    var arr = [args['version']['value'], cb];
+    syscoinClient.sentinelPing.apply(syscoinClient, arr);
 };
 
 exports.voteraw = function(args, res, next) {
@@ -53,8 +52,9 @@ exports.voteraw = function(args, res, next) {
         commonUtils.log('voteraw', result, "voteraw");
         res.end(JSON.stringify(result));
     };
-
+    console.log(args);
     var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+    console.log(arr);
     syscoinClient.voteraw.apply(syscoinClient, arr);
 };
 

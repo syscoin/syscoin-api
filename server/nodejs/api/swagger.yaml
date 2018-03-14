@@ -1914,7 +1914,7 @@ paths:
       x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
   /sentinelping:
-    post:
+    get:
       tags:
       - "Masternodes"
       description: "Keep-alive message for masternode via TCP ping requests."
@@ -1928,6 +1928,8 @@ paths:
       responses:
         200:
           description: "Success"
+          schema:
+            type: "boolean"
         default:
           description: "Error"
           schema:
