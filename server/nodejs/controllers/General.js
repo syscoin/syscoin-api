@@ -226,3 +226,7 @@ module.exports.dumphdinfo = function dumphdinfo (req, res, next) {
 module.exports.debug = function debug (req, res, next) {
   General.debug(req.swagger.params, res, next);
 };
+
+module.exports.instantsendtoaddress = function debug (req, res, next) {
+  General.instantsendtoaddress(req.swagger.params, res, next);
+};

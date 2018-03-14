@@ -2815,6 +2815,39 @@
         } ]
       },
       "x-swagger-router-controller" : "rpc"
+    },
+    "/instantsendtoaddress" : {
+      "post" : {
+        "tags" : [ "General" ],
+        "description" : "Send multiple times. Amounts are double-precision floating point numbers. Requires wallet passphrase to be set with walletpassphrase call.",
+        "operationId" : "instantsendtoaddress",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "request",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/instantSendToAddressRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
     }
   },
   "securityDefinitions" : {
@@ -2825,6 +2858,31 @@
     }
   },
   "definitions" : {
+    "instantSendToAddressRequest" : {
+      "required" : [ "amount", "syscoinaddress" ],
+      "properties" : {
+        "syscoinaddress" : {
+          "type" : "string",
+          "description" : "(string, required) The syscoin address to send to."
+        },
+        "amount" : {
+          "type" : "number",
+          "description" : "(numeric, required) The amount in sys to send. eg 0.1"
+        },
+        "comment" : {
+          "type" : "string",
+          "description" : "(string, optional) A comment used to store what the transaction is for."
+        },
+        "comment-to" : {
+          "type" : "string",
+          "description" : "(string, optional) A comment to store the name of the person or organization to which you're sending the transaction. This is not part of the transaction, just kept in your wallet."
+        },
+        "subtractfeefromamount" : {
+          "type" : "boolean",
+          "description" : "The fee will be deducted from the amount being sent."
+        }
+      }
+    },
     "SendRawTransactionRequest" : {
       "required" : [ "hexstring" ],
       "properties" : {

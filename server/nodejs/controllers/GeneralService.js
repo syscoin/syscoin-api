@@ -1296,3 +1296,30 @@ exports.debug = function(args, res, next) {
   var arr = varUtils.getArgsArr(argList, args, "GET", cb);
   syscoinClient.debug.apply(syscoinClient, arr);
 };
+
+exports.instantsendtoaddress = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * command (instantsendtoaddress)
+   **/
+  var argList = [
+    { prop: "syscoinaddress" },
+    { prop: "amount" },
+    { prop: "comment" },
+    { prop: "comment-to" },
+    { prop: "subtractfeefromamount" }
+  ];
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('instantsendtoaddress', result, "instantsendtoaddress");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+  syscoinClient.instantSendToAddress.apply(syscoinClient, arr);
+};
