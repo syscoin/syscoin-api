@@ -65,13 +65,7 @@ exports.privatesend = function(args, res, next) {
      * request (privatesend)
      **/
     var argList = [
-        { prop: "masternode-tx-hash" },
-        { prop: "masternode-tx" },
-        { prop: "governance-hash" },
-        { prop: "vote-signal" },
-        { prop: "vote-outcome" },
-        { prop: "time" },
-        { prop: "vote-sig" }
+        { prop: "command" }
     ];
 
     var cb = function(err, result, resHeaders) {
@@ -85,7 +79,7 @@ exports.privatesend = function(args, res, next) {
         res.end(JSON.stringify(result));
     };
 
-    var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+    var arr = varUtils.getArgsArr(argList, args, "GET", cb);
     syscoinClient.privateSend.apply(syscoinClient, arr);
 };
 
@@ -108,5 +102,6 @@ exports.importelectrumwallet = function(args, res, next) {
 
     //var arr = varUtils.getArgsArr(argList, args, "POST", cb);
     var arr = [args['filename'],args['index'], cb];
+    console.log(arr);
     syscoinClient.importElectrumWallet.apply(syscoinClient, arr);
 };

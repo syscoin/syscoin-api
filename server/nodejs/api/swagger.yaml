@@ -2172,7 +2172,7 @@ paths:
       x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
   /privatesend:
-    post:
+    get:
       tags:
       - "Masternodes"
       description: "Anonymous mixing and sending coins."
@@ -2198,7 +2198,7 @@ paths:
       x-swagger-router-controller: "Masternodes"
     x-swagger-router-controller: "rpc"
   /importelectrumwallet:
-    post:
+    get:
       tags:
       - "Masternodes"
       description: "Imports keys from an Electrum wallet export file (.csv or .json)."

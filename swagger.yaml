@@ -2089,7 +2089,7 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
             $ref: "#/definitions/ErrorResponse"
   /privatesend:
     x-swagger-router-controller: rpc
-    post:
+    get:
       operationId: privatesend
       description: Anonymous mixing and sending coins.
       security:
@@ -2116,7 +2116,7 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
             $ref: "#/definitions/ErrorResponse"
   /importelectrumwallet:
     x-swagger-router-controller: rpc
-    post:
+    get:
       operationId: importelectrumwallet
       description: Imports keys from an Electrum wallet export file (.csv or .json).
       security:
