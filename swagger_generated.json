@@ -28,6 +28,43 @@
   "consumes" : [ "application/json" ],
   "produces" : [ "application/json" ],
   "paths" : {
+    "/assetinfo" : {
+      "get" : {
+        "tags" : [ "Assets" ],
+        "description" : "Show stored values of a single asset and its. Set getinputs to true if you want to get the allocation inputs, if applicable.",
+        "operationId" : "assetinfo",
+        "parameters" : [ {
+          "name" : "asset",
+          "in" : "query",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "getinputs",
+          "in" : "query",
+          "required" : true,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "object",
+              "properties" : { }
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
     "/login" : {
       "get" : {
         "tags" : [ "Blockmarket" ],
@@ -4288,11 +4325,6 @@
         "pubkey" : "pubkey"
       }
     },
-    "AliasHistoryEntry" : {
-      "allOf" : [ {
-        "$ref" : "#/definitions/Alias"
-      } ]
-    },
     "Cert" : {
       "properties" : {
         "cert" : {
@@ -6678,6 +6710,63 @@
         "confirmations" : 6.02745618307040320615897144307382404804229736328125,
         "account" : "account",
         "txids" : [ "txids", "txids" ]
+      }
+    },
+    "Asset" : {
+      "required" : [ "_id" ],
+      "properties" : {
+        "_id" : {
+          "type" : "string"
+        },
+        "txid" : {
+          "type" : "string"
+        },
+        "height" : {
+          "type" : "number"
+        },
+        "time" : {
+          "type" : "number"
+        },
+        "publicvalue" : {
+          "type" : "string"
+        },
+        "category" : {
+          "type" : "string"
+        },
+        "alias" : {
+          "type" : "string"
+        },
+        "balance" : {
+          "type" : "number"
+        },
+        "total_supply" : {
+          "type" : "number"
+        },
+        "max_supply" : {
+          "type" : "number"
+        },
+        "interest_rate" : {
+          "type" : "number"
+        },
+        "can_adjust_interest_rate" : {
+          "type" : "boolean"
+        },
+        "inputs" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/AssetInput"
+          }
+        }
+      }
+    },
+    "AssetInput" : {
+      "properties" : {
+        "start" : {
+          "type" : "number"
+        },
+        "end" : {
+          "type" : "number"
+        }
       }
     }
   }

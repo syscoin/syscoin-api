@@ -29,3 +29,7 @@ module.exports.aliaswhitelist = function aliaswhitelist (req, res, next) {
   console.log('wassup q')
   Aliases.aliaswhitelist(req.swagger.params, res, next);
 };
+
+module.exports.assetinfo = function assetinfo (req, res, next) {
+  Aliases.assetinfo(req.swagger.params, res, next);
+};

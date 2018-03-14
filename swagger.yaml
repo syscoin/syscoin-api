@@ -30,6 +30,33 @@ tags:
 - name: Certificates
   description: Operations related to digital certificates.
 paths:
+  /assetinfo:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: assetinfo
+      description: Show stored values of a single asset and its. Set getinputs to true if you want to get the allocation inputs, if applicable.
+      security:
+      - token: []
+      tags:
+      - Assets
+      parameters:
+      - name: asset
+        in: query
+        required: true
+        type: string
+      - name: getinputs
+        in: query
+        required: true
+        type: boolean        
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: "#/definitions/Asset"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /login:
     x-swagger-router-controller: blockmarket
     get:
@@ -3282,12 +3309,6 @@ definitions:
         $ref: "#/definitions/MultiSignatureInfo"
       pubkey:
         type: string
-  AliasHistoryEntry:
-    allOf:
-    - $ref: "#/definitions/Alias"
-    properties:
-      type:
-        type: string
   Cert:
     properties:
       cert:
@@ -4657,3 +4678,41 @@ definitions:
           type: string
       ismine:
         type: boolean
+  Asset:
+    required:
+    - _id
+    properties:
+      _id:
+        type: string
+      txid:
+        type: string
+      height:
+        type: number
+      time:
+        type: number
+      publicvalue:
+        type: string
+      category:
+        type: string
+      alias:
+        type: string
+      balance:
+        type: number
+      total_supply:
+        type: number
+      max_supply:
+        type: number
+      interest_rate:
+        type: number  
+      can_adjust_interest_rate:
+        type: boolean        
+      inputs:
+        type: array
+        items:
+          $ref: "#/definitions/AssetInput"
+  AssetInput:
+    properties:
+      start:
+        type: number
+      end:
+        type: number

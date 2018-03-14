@@ -150,3 +150,26 @@ exports.aliaswhitelist = function(args, res, next) {
   var arr = varUtils.getArgsArr(argList, args, "GET", cb);
   syscoinClient.aliasWhitelist.apply(syscoinClient, arr);
 }
+//assets
+exports.assetinfo = function(args, res, next) {
+  var argList = [
+    { prop: "asset", },
+    { prop: "getinputs", defaultValue: true }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('asset allocation sender status', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  console.log('this is what u want q')
+  console.log(arr)
+  syscoinClient.assetInfo.apply(syscoinClient, arr);
+}
