@@ -202,3 +202,23 @@ module.exports.getaddressmempool = function getaddressmempool (req, res, next) {
 module.exports.syscoinsendrawtransaction = function getaddressmempool (req, res, next) {
   General.syscoinsendrawtransaction(req.swagger.params, res, next);
 };
+
+module.exports.getgenerate = function getgenerate (req, res, next) {
+  General.getgenerate(req.swagger.params, res, next);
+};
+
+module.exports.setgenerate = function setgenerate (req, res, next) {
+  General.setgenerate(req.swagger.params, res, next);
+};
+
+module.exports.setnetworkactive = function setnetworkactive (req, res, next) {
+  General.setnetworkactive(req.swagger.params, res, next);
+};
+
+module.exports.mnsync = function mnsync (req, res, next) {
+  General.mnsync(req.swagger.params, res, next);
+};
+
+module.exports.dumphdinfo = function dumphdinfo (req, res, next) {
+  General.dumphdinfo(req.swagger.params, res, next);
+};

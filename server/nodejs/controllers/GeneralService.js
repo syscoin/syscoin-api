@@ -1168,3 +1168,108 @@ exports.syscoinsendrawtransaction = function(args, res, next) {
     console.log(arr);
     syscoinClient.syscoinSendRawTransaction.apply(syscoinClient, arr);
 };
+
+exports.getgenerate = function(args, res, next) {
+  var argList = [];
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('getgenerate', result, "getgenerate");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.getGenerate.apply(syscoinClient, arr);
+};
+
+exports.setgenerate = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * generate (Boolean)
+   * genproclimit (Number)
+   **/
+  var argList = [
+    { prop: "generate" },
+    { prop: "genproclimit" },
+  ];
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('setgenerate', result, "setgenerate");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.setGenerate.apply(syscoinClient, arr);
+};
+
+exports.setnetworkactive = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * state (Boolean)
+   **/
+  var argList = [
+    { prop: "state" },
+  ];
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('setnetworkactive', result, "setnetworkactive");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.setNetworkActive.apply(syscoinClient, arr);
+};
+
+exports.mnsync = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * command (String)
+   **/
+  var argList = [
+    { prop: "command" },
+  ];
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('mnsync', result, "mnsync");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.mnSync.apply(syscoinClient, arr);
+};
+
+exports.dumphdinfo = function(args, res, next) {
+  var argList = [];
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('dumphdinfo', result, "dumphdinfo");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.dumpHdInfo.apply(syscoinClient, arr);
+};
