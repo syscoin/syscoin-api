@@ -6,10 +6,8 @@ var commonUtils = require('./util/commonUtils');
 exports.aliasbalance = function(args, res, next) {
   var argList = [
     { prop: "alias" },
-    // { prop: "minconf", defaultValue: 1 }
   ];
 
-  // args.minconf.value = varUtils.correctTypes(args.minconf.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -49,11 +47,6 @@ exports.aliasinfo = function(args, res, next) {
 /* Changed */
 exports.aliasnew = function(args, res, next) {
   var argList = [
-    // { prop: "aliaspeg" },
-    // { prop: "password"},
-    // { prop: "safesearch", defaultValue: "Yes" },
-    // { prop: "nrequired", defaultValue: 0 },
-    // { prop: "aliases", defaultValue: "[]" }
     { prop: "aliasname" },
     { prop: "publicvalue" },
     { prop: "accept_transfers_flags", defaultValue: 3 },
@@ -64,7 +57,6 @@ exports.aliasnew = function(args, res, next) {
     { prop: "witness"},
   ];
 
-  // args.request.value.nrequired = varUtils.correctTypes(args.request.value.nrequired, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -84,16 +76,11 @@ exports.aliasnew = function(args, res, next) {
 /* Changed */
 exports.aliaspay = function(args, res, next) {
   var argList = [
-    // { prop: "alias" },
-    // { prop: "minconf", defaultValue: 0 },
-    // { prop: "comment", defaultValue: "" }
     { prop: "aliasfrom" },
     { prop: "amounts" },
-    { prop: "instantsend" },
-    { prop: "subtractfeefromamount" },
+    { prop: "instantsend"},
+    { prop: "subtractfeefromamount"},
   ];
-
-  // args.request.value.nrequired = varUtils.correctTypes(args.request.value.nrequired, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -116,15 +103,13 @@ exports.aliasupdate = function(args, res, next) {
   var argList = [
     { prop: "aliasname" },
     { prop: "publicvalue" },
+    { prop: "address"},
     { prop: "accept_transfers_flags", defaultValue: 3 },
     { prop: "expire_timestamp", defaultValue: 3600 },
-    { prop: "address"},
     { prop: "encryption_privatekey"},
     { prop: "encryption_publickey"},
     { prop: "witness"},
   ];
-
-  args.request.value.nrequired = varUtils.correctTypes(args.request.value.nrequired, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');

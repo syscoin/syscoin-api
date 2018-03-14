@@ -25,8 +25,6 @@ exports.certinfo = function(args, res, next) {
 /* Changed */
 exports.certnew = function(args, res, next) {
   var argList = [
-    //{ prop: "private" },
-    //{ prop: "safesearch", defaultValue: "Yes" },
     { prop: "alias" },
     { prop: "title" },
     { prop: "public" },
@@ -52,8 +50,6 @@ exports.certnew = function(args, res, next) {
 /* Changed */
 exports.certtransfer = function(args, res, next) {
   var argList = [
-    //{ prop: "certkey" },
-    //{ prop: "viewonly", defaultValue: "0" }
     { prop: "alias" },
     { prop: "guid" },
     { prop: "public" },
@@ -61,8 +57,6 @@ exports.certtransfer = function(args, res, next) {
     { prop: "witness" },
 
   ];
-
-  args.request.value.viewonly = varUtils.correctTypes(args.request.value.viewonly, varUtils.TYPE_CONVERSION.BOOL_TO_NUM_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -82,9 +76,6 @@ exports.certtransfer = function(args, res, next) {
 /* Changed */
 exports.certupdate = function(args, res, next) {
   var argList = [
-    //{ prop: "alias" },
-    //{ prop: "private" },
-    //{ prop: "safesearch", defaultValue: "Yes" },
     { prop: "guid" },
     { prop: "title" },
     { prop: "public" },

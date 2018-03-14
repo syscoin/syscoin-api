@@ -370,7 +370,7 @@ paths:
         in: body
         required: true
         schema:
-            $ref: "#/definitions/AliasUpdateRequest"
+          $ref: "#/definitions/AliasUpdateRequest"
       responses:
         "200":
           description: Success
@@ -382,6 +382,33 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+
+  /aliasbalance:
+    get:
+      tags:
+      - "Aliases"
+      description: "Returns the total amount received by the given alias in transactions\
+        \ with at least minconf confirmations."
+      operationId: "aliasbalance"
+      parameters:
+      - name: "alias"
+        in: "query"
+        description: "The syscoin alias for transactions"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "number"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Aliases"
+    x-swagger-router-controller: "rpc"
 
   /certinfo:
     x-swagger-router-controller: rpc
@@ -3002,154 +3029,135 @@ definitions:
   AliasNewRequest:
     required:
     - aliasname
-    - aliaspeg
     - publicvalue
+    - accept_transfers_flags
+    - expire_timestamp
+    - address
+    - encryption_privatekey
+    - encryption_publickey
+    - witness
     properties:
-      aliaspeg:
-        description: Alias peg which will be used for conversion operations on all Syscoin services related to this Alias
-        type: string
       aliasname:
-        description: Alias name
+        description: "Alias name"
         type: string
       publicvalue:
-        description: Alias public profile data, 1023 chars max.
+        description: "alias public profile data, 256 characters max."
         type: string
-      password:
-        description: "Used to generate your public/private key that controls this alias. Warning: Calling this function over a public network can lead to someone reading your password in plain text."
-        type: string
-      safesearch: #should be boolean
-        description: set to No if this alias should only show in the search when safe search is not selected. Defaults to Yes (alias shows with or without safe search selected in search lists).
-        type: string
-      accepttransfers:
-        description: set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.
-        type: string
-      expire:
-        description: Time in seconds. Future time when to expire alias. It is exponentially more expensive per year, calculation is FEERATE*(1.5^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias. Defaults to 1 year.
-        type: string
-      nrequired:
-        description: For multisig aliases only. The number of required signatures out of the n aliases for a multisig alias update.
+      accept_transfers_flags:
+        description: "0 for none, 1 for accepting certificate transfers, 2 for accepting asset transfers and 3 for all. Default is 3."
         type: number
-      aliases:
-        description: "For multisig aliases only. A json array of aliases which are used to sign on an update to this alias.
-           [
-             \"alias\"    Existing syscoin alias name
-             ,...
-           ]"
-        type: array
-        items:
-          type: string
+      expire_timestamp:
+        description: "Epoch time when to expire alias. It is exponentially more expensive per year, calculation is FEERATE*(2.88^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias. Defaults to 1 hour."
+        type: number
+      address:
+        description: "Address for this alias."
+        type: string
+      encryption_privatekey:
+        description: "Encrypted private key used for encryption decryption of private data related to this alias. Should be encrypted to publickey."
+        type: string
+      encryption_publickey:
+        description: "Public key used for encryption decryption of private data related to this alias."
+        type: string
+      witness:
+        description: "Witness alias name that will sign for web-of-trust notarization of this transaction."
+        type: string
   AliasUpdateRequest:
     required:
-    - aliaspeg
     - aliasname
     - publicvalue
+    - accept_transfers_flags
+    - expire_timestamp
+    - address
+    - encryption_privatekey
+    - encryption_publickey
+    - witness
     properties:
-      aliaspeg:
-        description: Alias peg which will be used for conversion operations on all Syscoin services related to this Alias
-        type: string
       aliasname:
-        description: Alias name
+        description: "Alias name"
         type: string
       publicvalue:
-        description: Alias public profile data, 1023 chars max.
+        description: "alias public profile data, 256 characters max."
         type: string
-      privatevalue:
-        description: Alias private profile data, 1023 chars max. Will be private and readable by owner only.
-        type: string
-      password:
-        description: "Used to generate your public/private key that controls this alias. Warning: Calling this function over a public network can lead to someone reading your password in plain text."
-        type: string
-      safesearch: #should be boolean
-        description: set to No if this alias should only show in the search when safe search is not selected. Defaults to Yes (alias shows with or without safe search selected in search lists).
-        type: string
-      toalias_pubkey:
-        description: receiver syscoin alias pub key, if transferring alias.
-        type: string
-      accepttransfers:
-        description: set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.
-        type: string
-      expire:
-        description: Time in seconds. Future time when to expire alias. It is exponentially more expensive per year, calculation is FEERATE*(1.5^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias. Defaults to 1 year.
-        type: string
-      nrequired:
-        description: For multisig aliases only. The number of required signatures out of the n aliases for a multisig alias update.
+      accept_transfers_flags:
+        description: "0 for none, 1 for accepting certificate transfers, 2 for accepting asset transfers and 3 for all. Default is 3."
         type: number
-      aliases:
-        description: "For multisig aliases only. A json array of aliases which are used to sign on an update to this alias.
-           [
-             \"alias\"    Existing syscoin alias name
-             ,...
-           ]"
-        type: array
-        items:
-          type: string
+      expire_timestamp:
+        description: "Epoch time when to expire alias. It is exponentially more expensive per year, calculation is FEERATE*(2.88^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias. Defaults to 1 hour."
+        type: number
+      address:
+        description: "Address for this alias."
+        type: string
+      encryption_privatekey:
+        description: "Encrypted private key used for encryption decryption of private data related to this alias. Should be encrypted to publickey."
+        type: string
+      encryption_publickey:
+        description: "Public key used for encryption decryption of private data related to this alias."
+        type: string
+      witness:
+        description: "Witness alias name that will sign for web-of-trust notarization of this transaction."
+        type: string
   CertNewRequest:
     required:
     - alias
     - title
-    - private
     - public
+    - category
+    - witness
     properties:
       alias:
         description: An alias you own.
         type: string
       title:
-        description: title, 255 bytes max.
-        type: string
-      private:
-        description: private data, 1024 characters max.
+        description: title, 256 bytes max.
         type: string
       public:
-        description: public data, 1024 characters max.
-        type: string
-      safesearch: #should be boolean
-        description: "set to No if this cert should only show in the search when safe search is not selected. Defaults to Yes (cert shows with or without safe search selected in search lists)."
+        description: public data, 256 characters max.
         type: string
       category:
         description: category, 25 characters max. Defaults to certificates;
         type: string
+      witness:
+        description: Witness alias name that will sign for web-of-trust notarization of this transaction.
+        type: string
   CertTransferRequest:
     required:
-    - certkey
+    - guid
     - alias
     properties:
-      certkey:
+      guid:
         description: Certificate guidkey.
         type: string
       alias:
         description: Alias to transfer this certificate to.
         type: string
-      viewonly:
-        description: Transfer the certificate as view-only. Recipient cannot edit, transfer or sell this certificate in the future.
-        type: boolean
+      public:
+        description: public data, 256 characters max.
+        type: string
+      accessflags: 
+        description: Set new access flags for new owner for this certificate, 0 for read-only, 1 for edit, 2 for edit and transfer access. Default is 2.
+        type: number
+      witness:
+        description: Witness alias name that will sign for web-of-trust notarization of this transaction.
+        type: string
   CertUpdateRequest:
     required:
     - guid
-    - alias
     - title
-    - private
-    - public
     properties:
       guid:
         description: certificate guidkey.
         type: string
-      alias:
-        description: an alias you own to associate with this certificate.
-        type: string
       title:
         description: certificate title, 255 bytes max.
-        type: string
-      private:
-        description: Private certificate data, 1024 characters max.
         type: string
       public:
         description: Public certificate data, 1024 characters max.
         type: string
-      safesearch: #should be boolean
-        description: "set to No if this cert should only show in the search when safe search is not selected. Defaults to Yes (cert shows with or without safe search selected in search lists)."
-        type: string
       category:
-        description: "category, 256 characters max. Defaults to certificates"
+        description: category, 256 characters max. Defaults to "certificates"
+        type: string
+      witness:
+        description: Witness alias name that will sign for web-of-trust notarization of this transaction.
         type: string
   EscrowClaimRefundRequest:
     required:
@@ -3222,24 +3230,22 @@ definitions:
         type: number
   AliasPayRequest:
     required:
-    - alias
+    - aliasfrom
     - amounts
+    - instantsend
+    - subtractfeefromamount
     properties:
-      alias:
-        description: Alias you own to pay from
+      fromalias:
+        description: Alias to pay from
         type: string
       amounts:
-        description: "A json object with aliases and amounts
-    {
-      \"address\":amount   (numeric or string) The syscoin alias is the key, the numeric amount (can be string) in SYS is the value
-      ,...
-    }"
+        description: A stringified JSON object with aliases and amounts. { "address":amount, ... } (numeric or string) The syscoin alias is the key, the numeric amount (can be string) in SYS is the value.
         type: string
-      minconf:
-        description: Only use the balance confirmed at least this many times.
-        type: number
-      comment:
-        description: A comment
+      instantsend:
+        description: Set to true to use InstantSend to send this transaction or false otherwise.
+        type: boolean
+      subtractfeefromamount:
+        description: Set to "true" to subtract fee from amount or "false" otherwise.
         type: string
   GetNewAddressRequest:
     properties:
