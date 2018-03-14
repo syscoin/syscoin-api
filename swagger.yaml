@@ -3106,7 +3106,7 @@ so payments received with the address will be credited to 'account'."
         200:
           description: "Success"
           schema:
-            $ref: "#/definitions/get_address_balance_response"
+            $ref: "#/definitions/getAddressBalanceResponse"
         default:
            description: "Error"
            schema:
@@ -3140,7 +3140,7 @@ so payments received with the address will be credited to 'account'."
            schema:
              type: "array"
              items:
-               $ref: "#/definitions/get_address_deltas_response_object"
+               $ref: "#/definitions/getAddressDeltasResponseObject"
          default:
             description: "Error"
             schema:
@@ -3166,16 +3166,223 @@ so payments received with the address will be credited to 'account'."
            schema:
              type: "array"
              items:
-               $ref: "#/definitions/get_address_mem_pool_response_object"
+               $ref: "#/definitions/getAddressMemPoolResponseObject"
          default:
             description: "Error"
             schema:
               $ref: "#/definitions/ErrorResponse"
-       x-swagger-router-controller: "General"
      x-swagger-router-controller: "rpc"
+  /sentinelping:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: sentinelping
+      description: Keep-alive message for masternode via TCP ping requests.
+      security:
+      - token: []
+      tags:
+      - Masternodes
+      parameters:
+      - name: version
+        in: query
+        description: Sentinel version in the form 'x.x.x'
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /voteraw:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: voteraw
+      description: Compile and relay a governance vote with provided external signature instead of signing vote internally.
+      security:
+      - token: []
+      tags:
+       - Masternodes
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/VoteRawRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /escrowbid:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: escrowbid
+      description: Bid on an auction.
+      security:
+      - token: []
+      tags:
+      - Escrow
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/EscrowBidRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /escrowcreaterawtransaction:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: escrowcreaterawtransaction
+      description: Creates raw transaction for escrow refund or release, sign the output raw transaction and pass it via the rawtx parameter to escrowrelease. Type is 'refund' or 'release'. Third parameter is array of input (txid, vout, amount) pairs to be used to fund escrow payment. User role represents either 'seller', 'buyer' or 'arbiter', represents who signed for the payment of the escrow. 'seller' or 'arbiter' is valid for type 'refund', while 'buyer' or 'arbiter' is valid for type 'release'. You only need to provide this parameter when calling escrowrelease or escrowrefund.
+      security:
+      - token: []
+      tags:
+      - Escrow
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/EscrowCreateRawTransactionRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string #TODO: double check
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /syscoinsendrawtransaction:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: syscoinsendrawtransaction
+      description: Signed raw transaction (serialized, hex-encoded) sent out to the network.
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/SendRawTransactionRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
 # complex objects have schema definitions
 definitions:
-  get_address_mem_pool_response_object:
+  SendRawTransactionRequest:
+    required:
+    - hexstring
+    properties:
+      hexstring:
+        type: string
+      allowhighfees:
+        type: boolean
+      instantsend:
+        type: boolean
+  GetAddressUTXOsEntry:
+    properties:
+      address:
+        type: string
+      txid:
+        type: string
+      outputIndex:
+        type: number
+      script:
+        type: string
+      satoshis:
+        type: number
+      height:
+        type: number
+  EscrowCreateRawTransactionRequest:
+    required:
+    - type
+    - escrowguid
+    - inputs
+    properties:
+      type:
+        type: string
+      escrowguid:
+        type: string
+      inputs:
+        type: array
+        items:
+          $ref: "#/definitions/GetAddressUTXOsEntry"
+      role:
+        type: string
+  EscrowBidRequest:
+    required:
+    - alias
+    - escrow
+    - bid_in_payment_option
+    - bid_in_offer_currency
+    properties:
+      alias:
+        description: An alias you own.
+        type: string
+      escrow:
+        description: Escrow GUID to place bid on.
+        type: string
+      bid_in_payment_option:
+        description: Amount to bid on offer through escrow. Bid is in payment option currency. Example, If offer is paid in SYS and you have deposited 10 SYS in escrow and would like to increase your total bid to 14 SYS enter 14 here. It is per unit of purchase.
+        type: number
+      bid_in_offer_currency:
+        description: Converted value of bid_in_payment_option from paymentOption currency to offer currency. For example, offer is priced in USD and purchased in BTC, this field will be the BTC/USD value. It is per unit of purchase.
+        type: number
+      witness:
+        description: Witness alias name that will sign for web-of-trust notarization of this transaction.
+        type: string
+  VoteRawRequest:
+    required:
+    - masternode-tx-hash
+    - masternode-tx-index
+    - governance-hash
+    - vote-signal
+    - vote-outcome
+    - time
+    - vote-sig
+    properties:
+      masternode-tx-hash:
+        type: string
+      masternode-tx-index:
+        type: string
+      governance-hash:
+        type: string
+      vote-signal:
+        type: string
+      vote-outcome:
+        type: string
+      time:
+        type: number
+      vote-sig:
+        type: string
+  getAddressMemPoolResponseObject:
     properties:
       satoshis:
         type: "string"
@@ -3201,7 +3408,7 @@ definitions:
       prevout:
         type: "string"
         description: "The previous transaction output index (if spending)"
-  get_address_deltas_response_object:
+  getAddressDeltasResponseObject:
     properties:
       satoshis:
         type: "string"
@@ -3218,7 +3425,7 @@ definitions:
       address:
         type: "string"
         description: "The base58check encoded address"
-  get_address_balance_response:
+  getAddressBalanceResponse:
     properties:
       balance:
         type: "string"

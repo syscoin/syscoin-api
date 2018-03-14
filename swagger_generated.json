@@ -4018,7 +4018,7 @@
           "200" : {
             "description" : "Success",
             "schema" : {
-              "$ref" : "#/definitions/get_address_balance_response"
+              "$ref" : "#/definitions/getAddressBalanceResponse"
             }
           },
           "default" : {
@@ -4062,7 +4062,7 @@
             "schema" : {
               "type" : "array",
               "items" : {
-                "$ref" : "#/definitions/get_address_deltas_response_object"
+                "$ref" : "#/definitions/getAddressDeltasResponseObject"
               }
             }
           },
@@ -4097,7 +4097,102 @@
             "schema" : {
               "type" : "array",
               "items" : {
-                "$ref" : "#/definitions/get_address_mem_pool_response_object"
+                "$ref" : "#/definitions/getAddressMemPoolResponseObject"
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/sentinelping" : {
+      "post" : {
+        "tags" : [ "Masternodes" ],
+        "description" : "Keep-alive message for masternode via TCP ping requests.",
+        "operationId" : "sentinelping",
+        "parameters" : [ {
+          "name" : "version",
+          "in" : "query",
+          "description" : "Sentinel version in the form 'x.x.x'",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/voteraw" : {
+      "post" : {
+        "tags" : [ "Masternodes" ],
+        "description" : "Compile and relay a governance vote with provided external signature instead of signing vote internally.",
+        "operationId" : "voteraw",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "request",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/VoteRawRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/escrowbid" : {
+      "post" : {
+        "tags" : [ "Escrow" ],
+        "description" : "Bid on an auction.",
+        "operationId" : "escrowbid",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "request",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/EscrowBidRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "string"
               }
             }
           },
@@ -4108,7 +4203,78 @@
             }
           }
         },
-        "x-swagger-router-controller" : "General"
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/escrowcreaterawtransaction" : {
+      "post" : {
+        "tags" : [ "Escrow" ],
+        "description" : "Creates raw transaction for escrow refund or release, sign the output raw transaction and pass it via the rawtx parameter to escrowrelease. Type is 'refund' or 'release'. Third parameter is array of input (txid, vout, amount) pairs to be used to fund escrow payment. User role represents either 'seller', 'buyer' or 'arbiter', represents who signed for the payment of the escrow. 'seller' or 'arbiter' is valid for type 'refund', while 'buyer' or 'arbiter' is valid for type 'release'. You only need to provide this parameter when calling escrowrelease or escrowrefund.",
+        "operationId" : "escrowcreaterawtransaction",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "request",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/EscrowCreateRawTransactionRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "string"
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/syscoinsendrawtransaction" : {
+      "post" : {
+        "tags" : [ "General" ],
+        "description" : "Signed raw transaction (serialized, hex-encoded) sent out to the network.",
+        "operationId" : "syscoinsendrawtransaction",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "request",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/SendRawTransactionRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
       },
       "x-swagger-router-controller" : "rpc"
     }
@@ -4121,7 +4287,163 @@
     }
   },
   "definitions" : {
-    "get_address_mem_pool_response_object" : {
+    "SendRawTransactionRequest" : {
+      "required" : [ "hexstring" ],
+      "properties" : {
+        "hexstring" : {
+          "type" : "string"
+        },
+        "allowhighfees" : {
+          "type" : "boolean"
+        },
+        "instantsend" : {
+          "type" : "boolean"
+        }
+      },
+      "example" : {
+        "instantsend" : true,
+        "allowhighfees" : true,
+        "hexstring" : "hexstring"
+      }
+    },
+    "GetAddressUTXOsEntry" : {
+      "properties" : {
+        "address" : {
+          "type" : "string"
+        },
+        "txid" : {
+          "type" : "string"
+        },
+        "outputIndex" : {
+          "type" : "number"
+        },
+        "script" : {
+          "type" : "string"
+        },
+        "satoshis" : {
+          "type" : "number"
+        },
+        "height" : {
+          "type" : "number"
+        }
+      },
+      "example" : {
+        "outputIndex" : 0.80082819046101150206595775671303272247314453125,
+        "address" : "address",
+        "txid" : "txid",
+        "script" : "script",
+        "satoshis" : 6.02745618307040320615897144307382404804229736328125,
+        "height" : 1.46581298050294517310021547018550336360931396484375
+      }
+    },
+    "EscrowCreateRawTransactionRequest" : {
+      "required" : [ "escrowguid", "inputs", "type" ],
+      "properties" : {
+        "type" : {
+          "type" : "string"
+        },
+        "escrowguid" : {
+          "type" : "string"
+        },
+        "inputs" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/GetAddressUTXOsEntry"
+          }
+        },
+        "role" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "role" : "role",
+        "inputs" : [ {
+          "outputIndex" : 0.80082819046101150206595775671303272247314453125,
+          "address" : "address",
+          "txid" : "txid",
+          "script" : "script",
+          "satoshis" : 6.02745618307040320615897144307382404804229736328125,
+          "height" : 1.46581298050294517310021547018550336360931396484375
+        }, {
+          "outputIndex" : 0.80082819046101150206595775671303272247314453125,
+          "address" : "address",
+          "txid" : "txid",
+          "script" : "script",
+          "satoshis" : 6.02745618307040320615897144307382404804229736328125,
+          "height" : 1.46581298050294517310021547018550336360931396484375
+        } ],
+        "escrowguid" : "escrowguid",
+        "type" : "type"
+      }
+    },
+    "EscrowBidRequest" : {
+      "required" : [ "alias", "bid_in_offer_currency", "bid_in_payment_option", "escrow" ],
+      "properties" : {
+        "alias" : {
+          "type" : "string",
+          "description" : "An alias you own."
+        },
+        "escrow" : {
+          "type" : "string",
+          "description" : "Escrow GUID to place bid on."
+        },
+        "bid_in_payment_option" : {
+          "type" : "number",
+          "description" : "Amount to bid on offer through escrow. Bid is in payment option currency. Example, If offer is paid in SYS and you have deposited 10 SYS in escrow and would like to increase your total bid to 14 SYS enter 14 here. It is per unit of purchase."
+        },
+        "bid_in_offer_currency" : {
+          "type" : "number",
+          "description" : "Converted value of bid_in_payment_option from paymentOption currency to offer currency. For example, offer is priced in USD and purchased in BTC, this field will be the BTC/USD value. It is per unit of purchase."
+        },
+        "witness" : {
+          "type" : "string",
+          "description" : "Witness alias name that will sign for web-of-trust notarization of this transaction."
+        }
+      },
+      "example" : {
+        "bid_in_offer_currency" : 6.02745618307040320615897144307382404804229736328125,
+        "witness" : "witness",
+        "bid_in_payment_option" : 0.80082819046101150206595775671303272247314453125,
+        "alias" : "alias",
+        "escrow" : "escrow"
+      }
+    },
+    "VoteRawRequest" : {
+      "required" : [ "governance-hash", "masternode-tx-hash", "masternode-tx-index", "time", "vote-outcome", "vote-sig", "vote-signal" ],
+      "properties" : {
+        "masternode-tx-hash" : {
+          "type" : "string"
+        },
+        "masternode-tx-index" : {
+          "type" : "string"
+        },
+        "governance-hash" : {
+          "type" : "string"
+        },
+        "vote-signal" : {
+          "type" : "string"
+        },
+        "vote-outcome" : {
+          "type" : "string"
+        },
+        "time" : {
+          "type" : "number"
+        },
+        "vote-sig" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "masternode-tx-index" : "masternode-tx-index",
+        "vote-signal" : "vote-signal",
+        "masternode-tx-hash" : "masternode-tx-hash",
+        "governance-hash" : "governance-hash",
+        "time" : 0.80082819046101150206595775671303272247314453125,
+        "vote-sig" : "vote-sig",
+        "vote-outcome" : "vote-outcome"
+      }
+    },
+    "getAddressMemPoolResponseObject" : {
       "properties" : {
         "satoshis" : {
           "type" : "string",
@@ -4167,7 +4489,7 @@
         "timestamp" : 1.46581298050294517310021547018550336360931396484375
       }
     },
-    "get_address_deltas_response_object" : {
+    "getAddressDeltasResponseObject" : {
       "properties" : {
         "satoshis" : {
           "type" : "string",
@@ -4198,7 +4520,7 @@
         "height" : 6.02745618307040320615897144307382404804229736328125
       }
     },
-    "get_address_balance_response" : {
+    "getAddressBalanceResponse" : {
       "properties" : {
         "balance" : {
           "type" : "string",
