@@ -2087,6 +2087,32 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /debug:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: debug
+      description: Change debug category on the fly. Specify single category or use comma to specify many.
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: command
+        in: query
+        description: |
+          0|1|addrman|alert|bench|coindb|db|lock|rand
+          |rpc|selectcoins|mempool|mempoolrej|net|proxy
+          |prune|http|libevent|tor|zmq|syscoin|privatesend|instantsend
+          |masternode|spork|keepass|mnpayments|gobject
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /privatesend:
     x-swagger-router-controller: rpc
     get:

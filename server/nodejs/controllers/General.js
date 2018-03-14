@@ -222,3 +222,7 @@ module.exports.mnsync = function mnsync (req, res, next) {
 module.exports.dumphdinfo = function dumphdinfo (req, res, next) {
   General.dumphdinfo(req.swagger.params, res, next);
 };
+
+module.exports.debug = function debug (req, res, next) {
+  General.debug(req.swagger.params, res, next);
+};

@@ -1273,3 +1273,26 @@ exports.dumphdinfo = function(args, res, next) {
   var arr = varUtils.getArgsArr(argList, args, "GET", cb);
   syscoinClient.dumpHdInfo.apply(syscoinClient, arr);
 };
+
+exports.debug = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * command (String)
+   **/
+  var argList = [
+    { prop: "command" },
+  ];
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('debug', result, "debug");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.debug.apply(syscoinClient, arr);
+};

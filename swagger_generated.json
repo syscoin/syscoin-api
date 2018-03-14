@@ -2716,6 +2716,35 @@
       },
       "x-swagger-router-controller" : "rpc"
     },
+    "/debug" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "Change debug category on the fly. Specify single category or use comma to specify many.",
+        "operationId" : "debug",
+        "parameters" : [ {
+          "name" : "command",
+          "in" : "query",
+          "description" : "0|1|addrman|alert|bench|coindb|db|lock|rand\n|rpc|selectcoins|mempool|mempoolrej|net|proxy\n|prune|http|libevent|tor|zmq|syscoin|privatesend|instantsend\n|masternode|spork|keepass|mnpayments|gobject\n",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
     "/privatesend" : {
       "get" : {
         "tags" : [ "Masternodes" ],
