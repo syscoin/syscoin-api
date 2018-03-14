@@ -1082,10 +1082,6 @@ exports.getaddressbalance = function(args, res, next) {
      * parameters expected in the args:
      * request (getaddressbalance)
      **/
-    var argList = [
-        { prop: "addresses" }
-    ];
-
     var cb = function(err, result, resHeaders) {
         res.setHeader('Content-Type', 'application/json');
 
@@ -1096,8 +1092,7 @@ exports.getaddressbalance = function(args, res, next) {
         commonUtils.log('get balance of address', result, "getaddressbalance");
         res.end(JSON.stringify(result));
     };
-
-    var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+    var arr = [{"addresses":args['addresses']['value']},cb];
     syscoinClient.getAddressBalance.apply(syscoinClient, arr);
 };
 
@@ -1108,12 +1103,6 @@ exports.getaddressdeltas = function(args, res, next) {
      * parameters expected in the args:
      * request (getaddressdeltas)
      **/
-    var argList = [
-        { prop: "addresses" },
-        { prop: "start" },
-        { prop: "end" }
-    ];
-
     var cb = function(err, result, resHeaders) {
         res.setHeader('Content-Type', 'application/json');
 
@@ -1125,7 +1114,12 @@ exports.getaddressdeltas = function(args, res, next) {
         res.end(JSON.stringify(result));
     };
 
-    var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+    var arr = [{
+      "addresses": args['addresses']['value'],
+       "start": args['start']['value'],
+       "end": args['end']['value']
+    }, cb];
+    console.log(arr);
     syscoinClient.getAddressDeltas.apply(syscoinClient, arr);
 };
 
@@ -1134,10 +1128,6 @@ exports.getaddressmempool = function(args, res, next) {
      * parameters expected in the args:
      * request (getaddressmempool)
      **/
-    var argList = [
-        { prop: "addresses" }
-    ];
-
     var cb = function(err, result, resHeaders) {
         res.setHeader('Content-Type', 'application/json');
 
@@ -1148,9 +1138,8 @@ exports.getaddressmempool = function(args, res, next) {
         commonUtils.log('getaddressmempool', result, "getaddressmempool");
         res.end(JSON.stringify(result));
     };
-
-    var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-    syscoinClient.getAddressMemPool.apply(syscoinClient, arr);
+    var arr = [{"addresses":args['addresses']['value']},cb];
+    syscoinClient.getAddressMempool.apply(syscoinClient, arr);
 };
 
 
@@ -1176,5 +1165,6 @@ exports.syscoinsendrawtransaction = function(args, res, next) {
     };
 
     var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-    syscoinClient.syscoinSendrRawRransaction.apply(syscoinClient, arr);
+    console.log(arr);
+    syscoinClient.syscoinSendRawTransaction.apply(syscoinClient, arr);
 };

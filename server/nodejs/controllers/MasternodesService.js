@@ -25,10 +25,6 @@ exports.sentinelping = function(args, res, next) {
     };
 
     var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-    console.log("============================");
-    console.log(arr);
-    console.log("============================");
-    console.log(syscoinClient.getAddressBalance);
     syscoinClient.sentInelPing.apply(syscoinClient, arr);
 };
 
