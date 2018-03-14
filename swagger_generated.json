@@ -12,9 +12,6 @@
     "name" : "Aliases",
     "description" : "Operations related to aliases."
   }, {
-    "name" : "Messaging",
-    "description" : "Operations related to messaging."
-  }, {
     "name" : "Offers",
     "description" : "Operations related to offers and the decentralized marketplace functionality."
   }, {
@@ -357,227 +354,6 @@
       },
       "x-swagger-router-controller" : "rpc"
     },
-    "/aliasaffiliates" : {
-      "get" : {
-        "tags" : [ "Aliases" ],
-        "description" : "list affiliations with merchant offers.",
-        "operationId" : "aliasaffiliates",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "type" : "object",
-                "properties" : { }
-              }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/aliasauthenticate" : {
-      "get" : {
-        "tags" : [ "Aliases" ],
-        "description" : "Authenticates an alias with a provided password and returns the private key if successful. Warning: Calling this function over a public network can lead to someone reading your password/private key in plain text.",
-        "operationId" : "aliasauthenticate",
-        "parameters" : [ {
-          "name" : "alias",
-          "in" : "query",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "password",
-          "in" : "query",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "type" : "object",
-                "properties" : { }
-              }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/aliasbalance" : {
-      "get" : {
-        "tags" : [ "Aliases" ],
-        "description" : "Returns the total amount received by the given alias in transactions with at least minconf confirmations.",
-        "operationId" : "aliasbalance",
-        "parameters" : [ {
-          "name" : "alias",
-          "in" : "query",
-          "description" : "The syscoin alias for transactions",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "minconf",
-          "in" : "query",
-          "description" : "?Only include transactions confirmed at least this many times. default=1.",
-          "required" : false,
-          "type" : "number"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "number"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/aliascount" : {
-      "get" : {
-        "tags" : [ "Aliases" ],
-        "description" : "Count aliases that an array of aliases own.",
-        "operationId" : "aliascount",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "number"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/aliasfilter" : {
-      "get" : {
-        "tags" : [ "Aliases" ],
-        "description" : "Scan and filter aliases aliasfilter \"\" 5 # list aliases updated in last 5 blocks aliasfilter \"^alias\" # list all aliases starting with \"alias\" aliasfilter 36000 0 0 stat # display stats (number of aliases) on active aliases",
-        "operationId" : "aliasfilter",
-        "parameters" : [ {
-          "name" : "regexp",
-          "in" : "query",
-          "description" : "apply [regexp] on aliases, empty means all aliases",
-          "required" : false,
-          "type" : "string"
-        }, {
-          "name" : "from",
-          "in" : "query",
-          "description" : "show results from this GUID [from], empty means first",
-          "required" : false,
-          "type" : "string"
-        }, {
-          "name" : "count",
-          "in" : "query",
-          "description" : "number of results to return.",
-          "required" : false,
-          "type" : "string"
-        }, {
-          "name" : "safesearch",
-          "in" : "query",
-          "description" : "shows all aliases that are safe to display (not on the ban list)",
-          "required" : false,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/Alias"
-              }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/aliashistory" : {
-      "get" : {
-        "tags" : [ "Aliases" ],
-        "description" : "List all stored values of an alias.",
-        "operationId" : "aliashistory",
-        "parameters" : [ {
-          "name" : "aliasname",
-          "in" : "query",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/AliasHistoryEntry"
-              }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
     "/aliasinfo" : {
       "get" : {
         "tags" : [ "Aliases" ],
@@ -594,53 +370,6 @@
             "description" : "Success",
             "schema" : {
               "$ref" : "#/definitions/Alias"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/aliaslist" : {
-      "get" : {
-        "tags" : [ "Aliases" ],
-        "description" : "List my own aliases.",
-        "operationId" : "aliaslist",
-        "parameters" : [ {
-          "name" : "aliasname",
-          "in" : "query",
-          "description" : "Alias name to use as filter.",
-          "required" : false,
-          "type" : "string"
-        }, {
-          "name" : "count",
-          "in" : "query",
-          "description" : "The number of results to return",
-          "required" : false,
-          "type" : "number"
-        }, {
-          "name" : "from",
-          "in" : "query",
-          "description" : "The number of results to skip",
-          "required" : false,
-          "type" : "number"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/Alias"
-              }
             }
           },
           "default" : {
@@ -764,133 +493,6 @@
       },
       "x-swagger-router-controller" : "rpc"
     },
-    "/certcount" : {
-      "get" : {
-        "tags" : [ "Certificates" ],
-        "description" : "Count certificates that an array of aliases own.",
-        "operationId" : "certcount",
-        "parameters" : [ {
-          "name" : "aliases",
-          "in" : "query",
-          "required" : false,
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "number"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/certfilter" : {
-      "get" : {
-        "tags" : [ "Certificates" ],
-        "description" : "scan and filter certs certfilter \"\" 5 = list certs updated in last 5 blocks certfilter \"^cert\" = list all certs starting with \"cert\" certfilter 36000 0 0 stat = display stats (number of certs) on active certs",
-        "operationId" : "certfilter",
-        "parameters" : [ {
-          "name" : "regexp",
-          "in" : "query",
-          "description" : "apply [regexp] on certes, empty means all certs",
-          "required" : false,
-          "type" : "string"
-        }, {
-          "name" : "from",
-          "in" : "query",
-          "description" : "show results from number [from]",
-          "required" : false,
-          "type" : "string"
-        }, {
-          "name" : "count",
-          "in" : "query",
-          "description" : "the number of results to return",
-          "required" : false,
-          "type" : "number"
-        }, {
-          "name" : "safesearch",
-          "in" : "query",
-          "description" : "shows all certs that are safe to display (not on the ban list)",
-          "required" : false,
-          "type" : "string"
-        }, {
-          "name" : "category",
-          "in" : "query",
-          "description" : "category you want to search in, empty for all",
-          "required" : false,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/Cert"
-              }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/certhistory" : {
-      "get" : {
-        "tags" : [ "Certificates" ],
-        "description" : "List all stored values of an cert.",
-        "operationId" : "certhistory",
-        "parameters" : [ {
-          "name" : "certname",
-          "in" : "query",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/CertHistoryEntry"
-              }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
     "/certinfo" : {
       "get" : {
         "tags" : [ "Certificates" ],
@@ -907,60 +509,6 @@
             "description" : "Success",
             "schema" : {
               "$ref" : "#/definitions/Cert"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/certlist" : {
-      "get" : {
-        "tags" : [ "Certificates" ],
-        "description" : "List certificates that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in certificates.",
-        "operationId" : "certlist",
-        "parameters" : [ {
-          "name" : "aliases",
-          "in" : "query",
-          "required" : false,
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "cert",
-          "in" : "query",
-          "required" : false,
-          "type" : "string"
-        }, {
-          "name" : "count",
-          "in" : "query",
-          "description" : "The number of results to return",
-          "required" : false,
-          "type" : "number"
-        }, {
-          "name" : "from",
-          "in" : "query",
-          "description" : "The number of results to skip",
-          "required" : false,
-          "type" : "number"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/Cert"
-              }
             }
           },
           "default" : {
@@ -1215,78 +763,6 @@
       },
       "x-swagger-router-controller" : "rpc"
     },
-    "/escrowclaimrefund" : {
-      "post" : {
-        "tags" : [ "Escrow" ],
-        "description" : "Claim escrow funds released from seller or arbiter using escrowrefund. Requires wallet passphrase to be set with walletpassphrase call.",
-        "operationId" : "escrowclaimrefund",
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "request",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/EscrowClaimRefundRequest"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "type" : "string"
-              }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/escrowclaimrelease" : {
-      "post" : {
-        "tags" : [ "Escrow" ],
-        "description" : "Claim escrow funds released from buyer or arbiter using escrowrelease. Requires wallet passphrase to be set with walletpassphrase call.",
-        "operationId" : "escrowclaimrelease",
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "request",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/EscrowClaimReleaseRequest"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "type" : "string"
-              }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
     "/escrowcompleterefund" : {
       "post" : {
         "tags" : [ "Escrow" ],
@@ -1308,56 +784,6 @@
               "items" : {
                 "type" : "string"
               }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/escrowcount" : {
-      "get" : {
-        "tags" : [ "Escrow" ],
-        "description" : "Count escrows that an set of aliases are involved in.",
-        "operationId" : "escrowcount",
-        "parameters" : [ {
-          "name" : "buyerAliases",
-          "in" : "query",
-          "required" : false,
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "sellerAliases",
-          "in" : "query",
-          "required" : false,
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "arbiterAliases",
-          "in" : "query",
-          "required" : false,
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "number"
             }
           },
           "default" : {
@@ -1445,88 +871,6 @@
       },
       "x-swagger-router-controller" : "rpc"
     },
-    "/escrowfilter" : {
-      "get" : {
-        "tags" : [ "Escrow" ],
-        "description" : "scan and filter escrows",
-        "operationId" : "escrowfilter",
-        "parameters" : [ {
-          "name" : "regexp",
-          "in" : "query",
-          "description" : "Apply [regexp] on escrows, empty means all escrows",
-          "required" : false,
-          "type" : "string"
-        }, {
-          "name" : "from",
-          "in" : "query",
-          "description" : "Show results from this GUID [from], 0 means first.",
-          "required" : false,
-          "type" : "string"
-        }, {
-          "name" : "count",
-          "in" : "query",
-          "description" : "the number of results to return",
-          "required" : false,
-          "type" : "number"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/Escrow"
-              }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/escrowhistory" : {
-      "get" : {
-        "tags" : [ "Escrow" ],
-        "description" : "List all stored values of an escrow.",
-        "operationId" : "escrowhistory",
-        "parameters" : [ {
-          "name" : "escrow",
-          "in" : "query",
-          "description" : "GUID of escrow",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/Escrow"
-              }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
     "/escrowinfo" : {
       "get" : {
         "tags" : [ "Escrow" ],
@@ -1544,80 +888,6 @@
             "description" : "Success",
             "schema" : {
               "$ref" : "#/definitions/Escrow"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/escrowlist" : {
-      "get" : {
-        "tags" : [ "Escrow" ],
-        "description" : "List escrows that an array of aliases are involved in.",
-        "operationId" : "escrowlist",
-        "parameters" : [ {
-          "name" : "buyerAliases",
-          "in" : "query",
-          "description" : "List of buyer aliases to display escrows from",
-          "required" : false,
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "sellerAliases",
-          "in" : "query",
-          "description" : "List of seller aliases to display escrows from",
-          "required" : false,
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "arbiterAliases",
-          "in" : "query",
-          "description" : "List of arbiter aliases to display escrows from",
-          "required" : false,
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "escrow",
-          "in" : "query",
-          "description" : "GUID of escrow",
-          "required" : false,
-          "type" : "string"
-        }, {
-          "name" : "count",
-          "in" : "query",
-          "description" : "The number of results to return",
-          "required" : false,
-          "type" : "number"
-        }, {
-          "name" : "from",
-          "in" : "query",
-          "description" : "The number of results to skip",
-          "required" : false,
-          "type" : "number"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/Escrow"
-              }
             }
           },
           "default" : {
@@ -1989,32 +1259,6 @@
       },
       "x-swagger-router-controller" : "rpc"
     },
-    "/getwalletbalance" : {
-      "get" : {
-        "tags" : [ "General" ],
-        "description" : "Returns wallet balance for all accounts. Does not include watch only accounts.",
-        "operationId" : "getwalletbalance",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "number"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
     "/getnewaddress" : {
       "post" : {
         "tags" : [ "General" ],
@@ -2188,75 +1432,12 @@
       },
       "x-swagger-router-controller" : "rpc"
     },
-    "/getv2address" : {
-      "get" : {
-        "tags" : [ "General" ],
-        "description" : "Returns a new Syscoin (starts with 1) address for receiving payments. If 'account' is specified (DEPRECATED), it is added to the address book so payments received with the address will be credited to 'account'.",
-        "operationId" : "getv2address",
-        "parameters" : [ {
-          "name" : "account",
-          "in" : "query",
-          "description" : "DEPRECATED. The account name for the address to be linked to. If not provided, the default account \"\" is used. It can also be set to the empty string \"\" to represent the default account. The account does not need to exist, it will be created if there is no account by the given name.",
-          "required" : false,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "string"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
     "/getwalletinfo" : {
       "get" : {
         "tags" : [ "General" ],
         "description" : "Returns an object containing various wallet state info.",
         "operationId" : "getwalletinfo",
         "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "$ref" : "#/definitions/WalletInfo"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/getzaddress" : {
-      "get" : {
-        "tags" : [ "General" ],
-        "description" : "Returns a new ZCash address for receiving payments in ZCash transaparent tokens. so payments received with the address will be credited to 'account'.",
-        "operationId" : "getzaddress",
-        "parameters" : [ {
-          "name" : "address",
-          "in" : "query",
-          "required" : true,
-          "type" : "string"
-        } ],
         "responses" : {
           "200" : {
             "description" : "Success",
@@ -2322,42 +1503,6 @@
           "schema" : {
             "$ref" : "#/definitions/ImportPrivKeyRequest"
           }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "string"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/importprunedfunds" : {
-      "get" : {
-        "tags" : [ "General" ],
-        "description" : "Imports funds without rescan. Corresponding address or script must previously be included in wallet. Aimed towards pruned wallets. The end-user is responsible to import additional transactions that subsequently spend the imported outputs or rescan after the point in the blockchain the transaction is included.",
-        "operationId" : "importprunedfunds",
-        "parameters" : [ {
-          "name" : "rawtransaction",
-          "in" : "query",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "txoutproof",
-          "in" : "query",
-          "required" : true,
-          "type" : "string"
         } ],
         "responses" : {
           "200" : {
@@ -2709,246 +1854,6 @@
       },
       "x-swagger-router-controller" : "rpc"
     },
-    "/messageinfo" : {
-      "get" : {
-        "tags" : [ "Messaging" ],
-        "description" : "Show stored values of a single message.",
-        "operationId" : "messageinfo",
-        "parameters" : [ {
-          "name" : "guid",
-          "in" : "query",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "$ref" : "#/definitions/Message"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/messagenew" : {
-      "post" : {
-        "tags" : [ "Messaging" ],
-        "description" : "Create a new Syscoin encrypted message.",
-        "operationId" : "messagenew",
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "request",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/MessageNewRequest"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "type" : "string"
-              }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/messagereceivecount" : {
-      "get" : {
-        "tags" : [ "Messaging" ],
-        "description" : "Count received messages that an array of aliases own.",
-        "operationId" : "messagereceivecount",
-        "parameters" : [ {
-          "name" : "aliases",
-          "in" : "query",
-          "required" : false,
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "number"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/messagereceivelist" : {
-      "get" : {
-        "tags" : [ "Messaging" ],
-        "description" : "List received messages that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in message.",
-        "operationId" : "messagereceivelist",
-        "parameters" : [ {
-          "name" : "aliases",
-          "in" : "query",
-          "required" : false,
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "message",
-          "in" : "query",
-          "required" : false,
-          "type" : "string"
-        }, {
-          "name" : "count",
-          "in" : "query",
-          "description" : "The number of results to return",
-          "required" : false,
-          "type" : "number"
-        }, {
-          "name" : "from",
-          "in" : "query",
-          "description" : "The number of results to skip",
-          "required" : false,
-          "type" : "number"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/Message"
-              }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/messagesentcount" : {
-      "get" : {
-        "tags" : [ "Messaging" ],
-        "description" : "Count sent messages that an array of aliases own.",
-        "operationId" : "messagesentcount",
-        "parameters" : [ {
-          "name" : "aliases",
-          "in" : "query",
-          "required" : false,
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "number"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/messagesentlist" : {
-      "get" : {
-        "tags" : [ "Messaging" ],
-        "description" : "List sent messages that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in message.",
-        "operationId" : "messagesentlist",
-        "parameters" : [ {
-          "name" : "aliases",
-          "in" : "query",
-          "required" : false,
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "message",
-          "in" : "query",
-          "required" : false,
-          "type" : "string"
-        }, {
-          "name" : "count",
-          "in" : "query",
-          "description" : "The number of results to return",
-          "required" : false,
-          "type" : "number"
-        }, {
-          "name" : "from",
-          "in" : "query",
-          "description" : "The number of results to skip",
-          "required" : false,
-          "type" : "number"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/Message"
-              }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        }
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
     "/move" : {
       "post" : {
         "tags" : [ "General" ],
@@ -2967,438 +1872,6 @@
             "description" : "Success",
             "schema" : {
               "type" : "boolean"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/offeraccept" : {
-      "post" : {
-        "tags" : [ "Offers" ],
-        "description" : "Accept&Pay for a confirmed offer.",
-        "operationId" : "offeraccept",
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "request",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/OfferAcceptRequest"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "type" : "string"
-              }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/offeracceptacknowledge" : {
-      "post" : {
-        "tags" : [ "Offers" ],
-        "description" : "Acknowledge offer payment as seller of offer. Deducts qty of offer and increases number of sold inventory.",
-        "operationId" : "offeracceptacknowledge",
-        "parameters" : [ {
-          "name" : "offerguid",
-          "in" : "query",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "offeracceptguid",
-          "in" : "query",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "type" : "string"
-              }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/offeracceptcount" : {
-      "get" : {
-        "tags" : [ "Offers" ],
-        "description" : "List count of offer accept for a set of aliases. filterpurchases filters results for count of accepts that have been bought with aliases passed in(as buyer), filtersales filters results for count of accepts purchased by aliases passed in(as merchant or affiliate).",
-        "operationId" : "offeracceptcount",
-        "parameters" : [ {
-          "name" : "aliases",
-          "in" : "query",
-          "required" : false,
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "filterpurchases",
-          "in" : "query",
-          "required" : false,
-          "type" : "boolean"
-        }, {
-          "name" : "filtersales",
-          "in" : "query",
-          "required" : false,
-          "type" : "boolean"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "number"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/offeracceptfeedback" : {
-      "post" : {
-        "tags" : [ "Offers" ],
-        "description" : "Send feedback and rating for offer accept specified. Ratings are numbers from 1 to 5",
-        "operationId" : "offeracceptfeedback",
-        "parameters" : [ {
-          "name" : "offerguid",
-          "in" : "query",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "offeracceptguid",
-          "in" : "query",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "feedback",
-          "in" : "query",
-          "required" : false,
-          "type" : "string"
-        }, {
-          "name" : "rating",
-          "in" : "query",
-          "required" : false,
-          "type" : "number"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "type" : "string"
-              }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/offeracceptlist" : {
-      "get" : {
-        "tags" : [ "Offers" ],
-        "description" : "List offer accepts for a set of aliases. filterpurchases filters results for accepts that have been bought with aliases passed in(as buyer), filtersales filters results for accepts purchased by aliases passed in(as merchant or affiliate).",
-        "operationId" : "offeracceptlist",
-        "parameters" : [ {
-          "name" : "aliases",
-          "in" : "query",
-          "required" : false,
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "guid",
-          "in" : "query",
-          "required" : false,
-          "type" : "string"
-        }, {
-          "name" : "filterpurchases",
-          "in" : "query",
-          "required" : false,
-          "type" : "boolean"
-        }, {
-          "name" : "filtersales",
-          "in" : "query",
-          "required" : false,
-          "type" : "boolean"
-        }, {
-          "name" : "count",
-          "in" : "query",
-          "description" : "The number of results to return",
-          "required" : false,
-          "type" : "number"
-        }, {
-          "name" : "from",
-          "in" : "query",
-          "description" : "The number of results to skip",
-          "required" : false,
-          "type" : "number"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/OfferAccept"
-              }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/offeraddwhitelist" : {
-      "post" : {
-        "tags" : [ "Offers" ],
-        "description" : "Add to the affiliate list of your offer(controls who can resell). Requires wallet passphrase to be set with walletpassphrase call.",
-        "operationId" : "offeraddwhitelist",
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "request",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/OfferAddWhitelistRequest"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "type" : "string"
-              }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/offerclearwhitelist" : {
-      "post" : {
-        "tags" : [ "Offers" ],
-        "description" : "Clear the affiliate list of your offer(controls who can resell). Requires wallet passphrase to be set with walletpassphrase call.",
-        "operationId" : "offerclearwhitelist",
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "request",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/OfferClearWhitelistRequest"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "type" : "string"
-              }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/offercount" : {
-      "get" : {
-        "tags" : [ "Offers" ],
-        "description" : "Count offers that an array of aliases own.",
-        "operationId" : "offercount",
-        "parameters" : [ {
-          "name" : "aliases",
-          "in" : "query",
-          "required" : false,
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "number"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/offerfilter" : {
-      "get" : {
-        "tags" : [ "Offers" ],
-        "description" : "scan and filter offers",
-        "operationId" : "offerfilter",
-        "parameters" : [ {
-          "name" : "regexp",
-          "in" : "query",
-          "description" : "apply [regexp] on offeres, empty means all offers",
-          "required" : false,
-          "type" : "string"
-        }, {
-          "name" : "from",
-          "in" : "query",
-          "description" : "show results from number [from]",
-          "required" : false,
-          "type" : "string"
-        }, {
-          "name" : "count",
-          "in" : "query",
-          "description" : "the number of results to return",
-          "required" : false,
-          "type" : "number"
-        }, {
-          "name" : "safesearch",
-          "in" : "query",
-          "description" : "shows all offers that are safe to display (not on the ban list)",
-          "required" : false,
-          "type" : "string"
-        }, {
-          "name" : "category",
-          "in" : "query",
-          "description" : "Category you want to search in, empty for all",
-          "required" : false,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/Offer"
-              }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/offerhistory" : {
-      "get" : {
-        "tags" : [ "Offers" ],
-        "description" : "List all stored values of an offer.",
-        "operationId" : "offerhistory",
-        "parameters" : [ {
-          "name" : "offer",
-          "in" : "query",
-          "description" : "Offer GUID.",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/OfferHistoryEntry"
-              }
             }
           },
           "default" : {
@@ -3481,60 +1954,6 @@
       },
       "x-swagger-router-controller" : "rpc"
     },
-    "/offerlist" : {
-      "get" : {
-        "tags" : [ "Offers" ],
-        "description" : "list offers that an array of aliases own.",
-        "operationId" : "offerlist",
-        "parameters" : [ {
-          "name" : "aliases",
-          "in" : "query",
-          "required" : false,
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "guid",
-          "in" : "query",
-          "required" : false,
-          "type" : "string"
-        }, {
-          "name" : "count",
-          "in" : "query",
-          "description" : "The number of results to return",
-          "required" : false,
-          "type" : "number"
-        }, {
-          "name" : "from",
-          "in" : "query",
-          "description" : "The number of results to skip",
-          "required" : false,
-          "type" : "number"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/Offer"
-              }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
     "/offernew" : {
       "post" : {
         "tags" : [ "Offers" ],
@@ -3551,42 +1970,6 @@
         "responses" : {
           "200" : {
             "description" : "Success; Returns an array of 2 elements- tx id and offer GUID.",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "type" : "string"
-              }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/offerremovewhitelist" : {
-      "post" : {
-        "tags" : [ "Offers" ],
-        "description" : "Remove from the affiliate list of your offer(controls who can resell). Requires wallet passphrase to be set with walletpassphrase call.",
-        "operationId" : "offerremovewhitelist",
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "request",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/OfferRemoveWhitelistRequest"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
             "schema" : {
               "type" : "array",
               "items" : {
@@ -3643,40 +2026,6 @@
       },
       "x-swagger-router-controller" : "rpc"
     },
-    "/offerwhitelist" : {
-      "get" : {
-        "tags" : [ "Offers" ],
-        "description" : "List all affiliates for this offer.",
-        "operationId" : "offerwhitelist",
-        "parameters" : [ {
-          "name" : "offerguid",
-          "in" : "query",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/OfferWhitelistEntry"
-              }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
     "/sendfrom" : {
       "post" : {
         "tags" : [ "General" ],
@@ -3689,37 +2038,6 @@
           "schema" : {
             "$ref" : "#/definitions/SendFromRequest"
           }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "string"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/removeprunedfunds" : {
-      "get" : {
-        "tags" : [ "General" ],
-        "description" : "Deletes the specified transaction from the wallet. Meant for use with pruned wallets and as a companion to importprunedfunds. This will effect wallet balances.",
-        "operationId" : "removeprunedfunds",
-        "parameters" : [ {
-          "name" : "txid",
-          "in" : "query",
-          "required" : true,
-          "type" : "string"
         } ],
         "responses" : {
           "200" : {
@@ -3944,37 +2262,6 @@
           "required" : true,
           "type" : "string"
         }, {
-          "name" : "hexstring",
-          "in" : "query",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "string"
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/syscoinsignrawtransaction" : {
-      "get" : {
-        "tags" : [ "General" ],
-        "description" : "Sign inputs for raw transaction (serialized, hex-encoded) and sends them out to the network if signing is complete",
-        "operationId" : "syscoinsignrawtransaction",
-        "parameters" : [ {
           "name" : "hexstring",
           "in" : "query",
           "required" : true,
@@ -5759,15 +4046,6 @@
         "message" : {
           "type" : "string"
         }
-      },
-      "example" : {
-        "subject" : "subject",
-        "GUID" : "GUID",
-        "txid" : "txid",
-        "from" : "from",
-        "time" : 0.80082819046101150206595775671303272247314453125,
-        "to" : "to",
-        "message" : "message"
       }
     },
     "OfferAccept" : {
@@ -5853,33 +4131,6 @@
         "pay_message" : {
           "type" : "string"
         }
-      },
-      "example" : {
-        "seller" : "seller",
-        "paymentoption_display" : "paymentoption_display",
-        "pay_message" : "pay_message",
-        "ismine" : true,
-        "sysprice" : 2.3021358869347654518833223846741020679473876953125,
-        "title" : "title",
-        "offer" : "offer",
-        "total" : 9.301444243932575517419536481611430644989013671875,
-        "price" : 7.061401241503109105224211816675961017608642578125,
-        "avg_rating" : 3.61607674925191080461672754609026014804840087890625,
-        "buyer_fedback" : [ "buyer_fedback", "buyer_fedback" ],
-        "currency" : "currency",
-        "systotal" : 5.63737665663332876420099637471139430999755859375,
-        "id" : "id",
-        "avg_rating_display" : "avg_rating_display",
-        "height" : 6.02745618307040320615897144307382404804229736328125,
-        "offer_discount_percentage" : 5.962133916683182377482808078639209270477294921875,
-        "quantity" : 1.46581298050294517310021547018550336360931396484375,
-        "paymentoption" : 0.80082819046101150206595775671303272247314453125,
-        "txid" : "txid",
-        "seller_fedback" : [ "seller_fedback", "seller_fedback" ],
-        "buyer" : "buyer",
-        "exttxid" : "exttxid",
-        "time" : "time",
-        "status" : "status"
       }
     },
     "OfferWhitelistEntry" : {
@@ -5893,11 +4144,6 @@
         "offer_discount_percentage" : {
           "type" : "number"
         }
-      },
-      "example" : {
-        "expiresin" : 0.80082819046101150206595775671303272247314453125,
-        "offer_discount_percentage" : 6.02745618307040320615897144307382404804229736328125,
-        "alias" : "alias"
       }
     },
     "OfferHistoryEntry" : {
@@ -6297,10 +4543,6 @@
         "rawtx" : {
           "type" : "string"
         }
-      },
-      "example" : {
-        "rawtx" : "rawtx",
-        "guid" : "guid"
       }
     },
     "EscrowClaimReleaseRequest" : {
@@ -6312,10 +4554,6 @@
         "rawtx" : {
           "type" : "string"
         }
-      },
-      "example" : {
-        "rawtx" : "rawtx",
-        "guid" : "guid"
       }
     },
     "EscrowCompleteRefundRequest" : {
@@ -6544,13 +4782,6 @@
           "type" : "string",
           "description" : "Message encrypted to sending alias."
         }
-      },
-      "example" : {
-        "fromalias" : "fromalias",
-        "toalias" : "toalias",
-        "tomessage" : "tomessage",
-        "subject" : "subject",
-        "frommessage" : "frommessage"
       }
     },
     "MoveRequest" : {
@@ -6612,14 +4843,6 @@
           "type" : "string",
           "description" : "If Ext TxId is defined, specify a valid payment option used to make payment. Default is SYS."
         }
-      },
-      "example" : {
-        "quantity" : 0.80082819046101150206595775671303272247314453125,
-        "exttxid" : "exttxid",
-        "paymentoption" : "paymentoption",
-        "alias" : "alias",
-        "guid" : "guid",
-        "message" : "message"
       }
     },
     "OfferAddWhitelistRequest" : {
@@ -6637,11 +4860,6 @@
           "type" : "number",
           "description" : "Percentage of discount given to affiliate for this offer. 0 to 99."
         }
-      },
-      "example" : {
-        "discountPercentage" : 0.80082819046101150206595775671303272247314453125,
-        "offerguid" : "offerguid",
-        "aliasguid" : "aliasguid"
       }
     },
     "OfferClearWhitelistRequest" : {
@@ -6650,9 +4868,6 @@
         "offerguid" : {
           "type" : "string"
         }
-      },
-      "example" : {
-        "offerguid" : "offerguid"
       }
     },
     "OfferLinkRequest" : {
@@ -6758,10 +4973,6 @@
         "aliasguid" : {
           "type" : "string"
         }
-      },
-      "example" : {
-        "offerguid" : "offerguid",
-        "aliasguid" : "aliasguid"
       }
     },
     "OfferUpdateRequest" : {

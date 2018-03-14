@@ -1970,6 +1970,33 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /privatesend:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: privatesend
+      description: Anonymous mixing and sending coins.
+      security:
+      - token: []
+      tags:
+      - Masternodes
+      parameters:
+      - name: command
+        in: query
+        description: |
+          'start' - Start Mixing
+          'stop' - Stop mixing
+          'reset' - Reset mixing
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
 # complex objects have schema definitions
 definitions:
   SendRawTransactionRequest:
