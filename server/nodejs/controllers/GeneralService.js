@@ -1233,7 +1233,9 @@ exports.getaddresstxids = function(args, res, next) {
     res.end(JSON.stringify(result));
   };
 
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  // var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  var arr = [{"addresses":args['addresses']['value'], "start": args['start']['value'], "end": args['end']['value']},cb];
+
   syscoinClient.getAddressTxids.apply(syscoinClient, arr);
 }
 
@@ -1257,7 +1259,8 @@ exports.getaddressutxos = function(args, res, next) {
     res.end(JSON.stringify(result));
   };
 
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  // var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  var arr = [{"addresses":args['addresses']['value']},cb];
 
   console.log("vohoooo again", arr)
 
