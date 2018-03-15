@@ -17,6 +17,8 @@ tags:
   description: "Operations related to escrow."
 - name: "Certificates"
   description: "Operations related to digital certificates."
+- name: "Assets"
+  description: "Assets like ECR20 token"
 schemes:
 - "http"
 - "https"
@@ -25,10 +27,37 @@ consumes:
 produces:
 - "application/json"
 paths:
+  /assetsend:
+    post:
+      tags:
+      - "Aliases"
+      description: "Send an asset allocation you own to another alias."
+      operationId: "assetsend"
+      parameters:
+      - in: "body"
+        name: "request"
+        required: true
+        schema:
+          $ref: "#/definitions/AssetSendRequest"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Aliases"
+    x-swagger-router-controller: "rpc"
   /assetinfo:
     get:
       tags:
-      - "Assets"
+      - "Aliases"
       description: "Show stored values of a single asset and its. Set getinputs to\
         \ true if you want to get the allocation inputs, if applicable."
       operationId: "assetinfo"
@@ -44,16 +73,13 @@ paths:
       responses:
         200:
           description: "Success"
-          schema:
-            type: "object"
-            properties: {}
         default:
           description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
       security:
       - token: []
-      x-swagger-router-controller: "Assets"
+      x-swagger-router-controller: "Aliases"
     x-swagger-router-controller: "rpc"
   /login:
     get:
@@ -5543,3 +5569,54 @@ definitions:
         type: "number"
       end:
         type: "number"
+  AssetSendRequest:
+    required:
+    - "aliasfrom"
+    - "amounts"
+    - "asset"
+    properties:
+      asset:
+        type: "string"
+        description: "Asset name."
+      aliasfrom:
+        type: "string"
+        description: "Alias to transfer from."
+      amounts:
+        type: "array"
+        description: "A json object with aliases and amounts { \"aliasto\":amount\
+          \   alias to amounts mapping, can be multiple mappings OR if using inputranges\
+          \ \"aliasto\":\"aliasname\" alias to range mappings, can be multiple ranges\
+          \ and multiple mappings \"ranges\": \"start\":index \"end\":index }"
+        items:
+          $ref: "#/definitions/AssetAmount"
+      memo:
+        type: "string"
+        description: "Message to include in this asset allocation transfer."
+      witness:
+        type: "string"
+        description: "Witness alias name that will sign for web-of-trust notarization\
+          \ of this transaction."
+    example:
+      witness: "witness"
+      amounts:
+      - amount: 0.80082819046101150206595775671303272247314453125
+        aliasto: "aliasto"
+      - amount: 0.80082819046101150206595775671303272247314453125
+        aliasto: "aliasto"
+      memo: "memo"
+      asset: "asset"
+      aliasfrom: "aliasfrom"
+  AssetAmount:
+    required:
+    - "aliasto"
+    - "amount"
+    properties:
+      aliasto:
+        type: "string"
+        description: "alias to send to"
+      amount:
+        type: "number"
+        description: "amount you want to send"
+    example:
+      amount: 0.80082819046101150206595775671303272247314453125
+      aliasto: "aliasto"

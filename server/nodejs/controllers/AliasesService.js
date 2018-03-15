@@ -173,3 +173,27 @@ exports.assetinfo = function(args, res, next) {
   console.log(arr)
   syscoinClient.assetInfo.apply(syscoinClient, arr);
 }
+
+exports.assetsend = function(args, res, next) {
+  var argList = [
+    { prop: "asset" },
+    { prop: "aliasfrom" },
+    { prop: "amounts" },
+    { prop: "memo" },
+    { prop: "witness" }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('asset allocation sender status', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+  syscoinClient.assetSend.apply(syscoinClient, arr);
+}

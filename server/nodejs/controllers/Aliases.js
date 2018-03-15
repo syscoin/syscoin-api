@@ -33,3 +33,7 @@ module.exports.aliaswhitelist = function aliaswhitelist (req, res, next) {
 module.exports.assetinfo = function assetinfo (req, res, next) {
   Aliases.assetinfo(req.swagger.params, res, next);
 };
+
+module.exports.assetsend = function assetsend (req, res, next) {
+  Aliases.assetsend(req.swagger.params, res, next);
+};

@@ -29,7 +29,35 @@ tags:
   description: Operations related to escrow.
 - name: Certificates
   description: Operations related to digital certificates.
+- name: Assets
+  description: Assets like ECR20 token
 paths:
+  /assetsend:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: assetsend
+      description: Send an asset allocation you own to another alias.
+      security:
+      - token: []
+      tags:
+      - Aliases
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/AssetSendRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /assetinfo:
     x-swagger-router-controller: rpc
     get:
@@ -38,7 +66,7 @@ paths:
       security:
       - token: []
       tags:
-      - Assets
+      - Aliases
       parameters:
       - name: asset
         in: query
@@ -4715,4 +4743,46 @@ definitions:
       start:
         type: number
       end:
+        type: number
+  AssetSendRequest:
+    required:
+    - asset
+    - aliasfrom
+    - amounts
+    properties:
+      asset:
+        description: Asset name.
+        type: string
+      aliasfrom:
+        description: Alias to transfer from.
+        type: string
+      amounts:
+        description: "A json object with aliases and amounts
+    {
+      \"aliasto\":amount   alias to amounts mapping, can be multiple mappings
+      OR if using inputranges
+      \"aliasto\":\"aliasname\" alias to range mappings, can be multiple ranges and multiple mappings
+        \"ranges\":
+          \"start\":index
+          \"end\":index
+    }"
+        type: array
+        items:
+          $ref: "#/definitions/AssetAmount"
+      memo:
+        description: Message to include in this asset allocation transfer.
+        type: string  
+      witness:
+        description: Witness alias name that will sign for web-of-trust notarization of this transaction.
+        type: string
+  AssetAmount:
+    required: 
+    - aliasto
+    - amount
+    properties:
+      aliasto:
+        description: alias to send to
+        type: string
+      amount:
+        description: amount you want to send
         type: number
