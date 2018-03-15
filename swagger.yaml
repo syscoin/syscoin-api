@@ -603,12 +603,13 @@ paths:
       security:
       - token: []
       tags:
-      - Escrow
+      - Escrow 
       parameters:
-      - name: escrowguid
-        in: query
+      - name: request
+        in: body
         required: true
-        type: string
+        schema:
+          $ref: "#/definitions/EscrowacknowledgeRequest"
       responses:
         "200":
           description: Success
@@ -2039,6 +2040,17 @@ definitions:
           $ref: "#/definitions/GetAddressUTXOsEntry"
       role:
         type: string
+  EscrowacknowledgeRequest:
+    required:
+    - escrowguid
+    - witness
+    properties:
+      escrowguid:
+        description: Escrow guid
+        type: string
+      witness:
+        description: Witness alias name that will sign for web-of-trust notarization of this transaction.
+        type: string
   EscrowBidRequest:
     required:
     - alias
@@ -3143,6 +3155,8 @@ definitions:
     required:
     - guid
     - title
+    - public
+    - witness
     properties:
       guid:
         description: certificate guidkey.
@@ -3179,10 +3193,16 @@ definitions:
     required:
     - escrowguid
     - rawtx
+    - witness
     properties:
       escrowguid:
+        description: Escrow ID
         type: string
       rawtx:
+        description: Raw fully signed syscoin escrow transaction. It is the signed response from escrowcreaterawtransaction. You must sign this transaction externally prior to passing in.
+        type: string
+      witness:
+        description: Witness alias name that will sign for web-of-trust notarization of this transaction.
         type: string
   EscrowCompleteReleaseRequest:
     required:
@@ -3232,10 +3252,8 @@ definitions:
     required:
     - aliasfrom
     - amounts
-    - instantsend
-    - subtractfeefromamount
     properties:
-      fromalias:
+      aliasfrom:
         description: Alias to pay from
         type: string
       amounts:
@@ -3245,7 +3263,7 @@ definitions:
         description: Set to true to use InstantSend to send this transaction or false otherwise.
         type: boolean
       subtractfeefromamount:
-        description: Set to "true" to subtract fee from amount or "false" otherwise.
+        description: Set to true to subtract fee from amount or false otherwise.
         type: string
   GetNewAddressRequest:
     properties:

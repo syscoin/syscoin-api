@@ -616,10 +616,11 @@ paths:
         \ offer and increases number of sold inventory."
       operationId: "escrowacknowledge"
       parameters:
-      - name: "escrowguid"
-        in: "query"
+      - in: "body"
+        name: "request"
         required: true
-        type: "string"
+        schema:
+          $ref: "#/definitions/EscrowacknowledgeRequest"
       responses:
         200:
           description: "Success"
@@ -2149,6 +2150,21 @@ definitions:
         height: 1.46581298050294517310021547018550336360931396484375
       escrowguid: "escrowguid"
       type: "type"
+  EscrowacknowledgeRequest:
+    required:
+    - "escrowguid"
+    - "witness"
+    properties:
+      escrowguid:
+        type: "string"
+        description: "Escrow guid"
+      witness:
+        type: "string"
+        description: "Witness alias name that will sign for web-of-trust notarization\
+          \ of this transaction."
+    example:
+      witness: "witness"
+      escrowguid: "escrowguid"
   EscrowBidRequest:
     required:
     - "alias"
@@ -3666,7 +3682,9 @@ definitions:
   CertUpdateRequest:
     required:
     - "guid"
+    - "public"
     - "title"
+    - "witness"
     properties:
       guid:
         type: "string"
@@ -3710,12 +3728,22 @@ definitions:
     required:
     - "escrowguid"
     - "rawtx"
+    - "witness"
     properties:
       escrowguid:
         type: "string"
+        description: "Escrow ID"
       rawtx:
         type: "string"
+        description: "Raw fully signed syscoin escrow transaction. It is the signed\
+          \ response from escrowcreaterawtransaction. You must sign this transaction\
+          \ externally prior to passing in."
+      witness:
+        type: "string"
+        description: "Witness alias name that will sign for web-of-trust notarization\
+          \ of this transaction."
     example:
+      witness: "witness"
       escrowguid: "escrowguid"
       rawtx: "rawtx"
   EscrowCompleteReleaseRequest:
@@ -3780,11 +3808,10 @@ definitions:
       height: 6.02745618307040320615897144307382404804229736328125
   AliasPayRequest:
     required:
+    - "aliasfrom"
     - "amounts"
-    - "instantsend"
-    - "subtractfeefromamount"
     properties:
-      fromalias:
+      aliasfrom:
         type: "string"
         description: "Alias to pay from"
       amounts:
@@ -3798,11 +3825,11 @@ definitions:
           \ otherwise."
       subtractfeefromamount:
         type: "string"
-        description: "Set to \"true\" to subtract fee from amount or \"false\" otherwise."
+        description: "Set to true to subtract fee from amount or false otherwise."
     example:
-      fromalias: "fromalias"
       amounts: "amounts"
       instantsend: true
+      aliasfrom: "aliasfrom"
       subtractfeefromamount: "subtractfeefromamount"
   GetNewAddressRequest:
     properties:

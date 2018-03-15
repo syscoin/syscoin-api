@@ -73,11 +73,6 @@ exports.escrowcompleterelease = function(args, res, next) {
 /* Changed */
 exports.escrowfeedback = function(args, res, next) {
   var argList = [
-    //{ prop: "userrole" },
-    //{ prop: "feedbackprimary" },
-    //{ prop: "ratingprimary" },
-    //{ prop: "feedbacksecondary" },
-    //{ prop: "ratingsecondary" }
     { prop: "escrowguid" },
     { prop: "userfrom" },
     { prop: "feedback" },

@@ -768,10 +768,12 @@
         "description" : "Acknowledge escrow payment as seller of offer. Deducts qty of offer and increases number of sold inventory.",
         "operationId" : "escrowacknowledge",
         "parameters" : [ {
-          "name" : "escrowguid",
-          "in" : "query",
+          "in" : "body",
+          "name" : "request",
           "required" : true,
-          "type" : "string"
+          "schema" : {
+            "$ref" : "#/definitions/EscrowacknowledgeRequest"
+          }
         } ],
         "responses" : {
           "200" : {
@@ -2696,6 +2698,23 @@
         "type" : "type"
       }
     },
+    "EscrowacknowledgeRequest" : {
+      "required" : [ "escrowguid", "witness" ],
+      "properties" : {
+        "escrowguid" : {
+          "type" : "string",
+          "description" : "Escrow guid"
+        },
+        "witness" : {
+          "type" : "string",
+          "description" : "Witness alias name that will sign for web-of-trust notarization of this transaction."
+        }
+      },
+      "example" : {
+        "witness" : "witness",
+        "escrowguid" : "escrowguid"
+      }
+    },
     "EscrowBidRequest" : {
       "required" : [ "alias", "bid_in_offer_currency", "bid_in_payment_option", "escrow" ],
       "properties" : {
@@ -4505,7 +4524,7 @@
       }
     },
     "CertUpdateRequest" : {
-      "required" : [ "guid", "title" ],
+      "required" : [ "guid", "public", "title", "witness" ],
       "properties" : {
         "guid" : {
           "type" : "string",
@@ -4559,16 +4578,23 @@
       }
     },
     "EscrowCompleteRefundRequest" : {
-      "required" : [ "escrowguid", "rawtx" ],
+      "required" : [ "escrowguid", "rawtx", "witness" ],
       "properties" : {
         "escrowguid" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Escrow ID"
         },
         "rawtx" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Raw fully signed syscoin escrow transaction. It is the signed response from escrowcreaterawtransaction. You must sign this transaction externally prior to passing in."
+        },
+        "witness" : {
+          "type" : "string",
+          "description" : "Witness alias name that will sign for web-of-trust notarization of this transaction."
         }
       },
       "example" : {
+        "witness" : "witness",
         "escrowguid" : "escrowguid",
         "rawtx" : "rawtx"
       }
@@ -4641,9 +4667,9 @@
       }
     },
     "AliasPayRequest" : {
-      "required" : [ "amounts", "instantsend", "subtractfeefromamount" ],
+      "required" : [ "aliasfrom", "amounts" ],
       "properties" : {
-        "fromalias" : {
+        "aliasfrom" : {
           "type" : "string",
           "description" : "Alias to pay from"
         },
@@ -4657,13 +4683,13 @@
         },
         "subtractfeefromamount" : {
           "type" : "string",
-          "description" : "Set to \"true\" to subtract fee from amount or \"false\" otherwise."
+          "description" : "Set to true to subtract fee from amount or false otherwise."
         }
       },
       "example" : {
-        "fromalias" : "fromalias",
         "amounts" : "amounts",
         "instantsend" : true,
+        "aliasfrom" : "aliasfrom",
         "subtractfeefromamount" : "subtractfeefromamount"
       }
     },
