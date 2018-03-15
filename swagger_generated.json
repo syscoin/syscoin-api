@@ -873,7 +873,7 @@
     "/escrowfeedback" : {
       "post" : {
         "tags" : [ "Escrow" ],
-        "description" : "Send feedback for primary and secondary users in escrow, depending on who you are. Ratings are numbers from 1 to 5. User Role is either 'buyer', 'seller', 'reseller', or 'arbiter'. If you are the buyer, feedbackprimary is for seller and feedbacksecondary is for arbiter. If you are the seller, feedbackprimary is for buyer and feedbacksecondary is for arbiter. If you are the arbiter, feedbackprimary is for buyer and feedbacksecondary is for seller. If arbiter didn't do any work for this escrow you can leave his feedback empty and rating as a 0.",
+        "description" : "Send feedback for primary and secondary users in escrow, depending on who you are.",
         "operationId" : "escrowfeedback",
         "parameters" : [ {
           "in" : "body",
@@ -3598,38 +3598,54 @@
       }
     },
     "EscrowRefundRequest" : {
-      "required" : [ "escrowguid", "userrole" ],
+      "required" : [ "escrowguid", "rawtx", "userrole" ],
       "properties" : {
         "escrowguid" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Escrow ID"
         },
         "userrole" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "User role represents either 'seller' or 'arbiter'"
         },
         "rawtx" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "signed response from escrowreleasecreaterawtransaction."
+        },
+        "witness" : {
+          "type" : "string",
+          "description" : "Witness alias name that will sign for web-of-trust notarization of this transaction."
         }
       },
       "example" : {
+        "witness" : "witness",
         "escrowguid" : "escrowguid",
         "rawtx" : "rawtx",
         "userrole" : "userrole"
       }
     },
     "EscrowReleaseRequest" : {
-      "required" : [ "escrowguid", "userrole" ],
+      "required" : [ "escrowguid", "rawtx", "userrole" ],
       "properties" : {
         "escrowguid" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Escrow ID"
         },
         "userrole" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "User role represents either 'buyer' or 'arbiter'."
         },
         "rawtx" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Signed response from escrowcreaterawtransaction."
+        },
+        "witness" : {
+          "type" : "string",
+          "description" : "Witness alias name that will sign for web-of-trust notarization of this transaction."
         }
       },
       "example" : {
+        "witness" : "witness",
         "escrowguid" : "escrowguid",
         "rawtx" : "rawtx",
         "userrole" : "userrole"
@@ -4413,7 +4429,7 @@
       }
     },
     "AliasUpdateRequest" : {
-      "required" : [ "accept_transfers_flags", "address", "aliasname", "encryption_privatekey", "encryption_publickey", "expire_timestamp", "publicvalue", "witness" ],
+      "required" : [ "address", "aliasname" ],
       "properties" : {
         "aliasname" : {
           "type" : "string",
@@ -4424,11 +4440,11 @@
           "description" : "alias public profile data, 256 characters max."
         },
         "accept_transfers_flags" : {
-          "type" : "number",
+          "type" : "integer",
           "description" : "0 for none, 1 for accepting certificate transfers, 2 for accepting asset transfers and 3 for all. Default is 3."
         },
         "expire_timestamp" : {
-          "type" : "number",
+          "type" : "integer",
           "description" : "Epoch time when to expire alias. It is exponentially more expensive per year, calculation is FEERATE*(2.88^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias. Defaults to 1 hour."
         },
         "address" : {
@@ -4454,9 +4470,9 @@
         "publicvalue" : "publicvalue",
         "address" : "address",
         "encryption_privatekey" : "encryption_privatekey",
-        "expire_timestamp" : 6.02745618307040320615897144307382404804229736328125,
+        "expire_timestamp" : 6,
         "encryption_publickey" : "encryption_publickey",
-        "accept_transfers_flags" : 0.80082819046101150206595775671303272247314453125
+        "accept_transfers_flags" : 0
       }
     },
     "CertNewRequest" : {
@@ -4578,7 +4594,7 @@
       }
     },
     "EscrowCompleteRefundRequest" : {
-      "required" : [ "escrowguid", "rawtx", "witness" ],
+      "required" : [ "escrowguid", "rawtx" ],
       "properties" : {
         "escrowguid" : {
           "type" : "string",
@@ -4603,41 +4619,72 @@
       "required" : [ "escrowguid", "rawtx" ],
       "properties" : {
         "escrowguid" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Escrow ID"
         },
         "rawtx" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Raw fully signed syscoin escrow transaction. It is the signed response from escrowcreaterawtransaction. You must sign this transaction externally prior to passing in."
+        },
+        "witness" : {
+          "type" : "string",
+          "description" : "Witness alias name that will sign for web-of-trust notarization of this transaction."
         }
       },
       "example" : {
+        "witness" : "witness",
         "escrowguid" : "escrowguid",
         "rawtx" : "rawtx"
       }
     },
     "EscrowNewRequest" : {
-      "required" : [ "alias", "arbiter", "message", "offer", "quantity" ],
+      "required" : [ "alias", "arbiter_alias", "arbiter_fee", "bid_in_offer_currency", "bid_in_payment_option", "buynow", "extTx", "getamountandaddress", "network_fee", "offer", "paymentoption", "quantity", "shipping_amount", "total_in_payment_option", "witness_fee" ],
       "properties" : {
+        "getamountandaddress" : {
+          "type" : "boolean",
+          "description" : "True or false. Get deposit and total escrow amount aswell as escrow address for funding. If buynow is false pass bid amount in bid_in_payment_option to get total needed to complete escrow. If buynow is true amount is calculated based on offer price and quantity."
+        },
         "alias" : {
           "type" : "string",
           "description" : "An alias you own."
+        },
+        "arbiter_alias" : {
+          "type" : "string",
+          "description" : "Alias of Arbiter."
         },
         "offer" : {
           "type" : "string",
           "description" : "GUID of offer that this escrow is managing."
         },
         "quantity" : {
-          "type" : "number",
+          "type" : "integer",
           "description" : "Quantity of items to buy of offer."
         },
-        "message" : {
-          "type" : "string",
-          "description" : "Delivery details to seller. 256 characters max."
+        "buynow" : {
+          "type" : "boolean",
+          "description" : "Specify whether the escrow involves purchasing offer for the full offer price if set to true, or through a bidding auction if set to false. If buynow is false, an initial deposit may be used to secure a bid if required by the seller."
         },
-        "arbiter" : {
-          "type" : "string",
-          "description" : "Alias of Arbiter."
+        "total_in_payment_option" : {
+          "type" : "number",
+          "description" : "Total amount of the offer price. Amount is in paymentOption currency. It is per unit of purchase."
         },
-        "exttx" : {
+        "shipping_amount" : {
+          "type" : "number",
+          "description" : "Amount to add to shipping for merchant. Amount is in paymentOption currency. Example; If merchant requests 0.1 BTC for shipping and escrow is paid in BTC, enter 0.1 here. Default is 0. Buyer can also add shipping using escrowaddshipping upon merchant request."
+        },
+        "network_fee" : {
+          "type" : "number",
+          "description" : "Network fee in satoshi per byte for the transaction. Generally the escrow transaction is about 400 bytes. Default is 25 for SYS or ZEC and 250 for BTC payments"
+        },
+        "arbiter_fee" : {
+          "type" : "number",
+          "description" : "Arbiter fee in fractional amount of the amount_in_payment_option value. For example 0.75% is 0.0075 and represents 0.0075*amount_in_payment_option satoshis paid to arbiter in the event arbiter is used to resolve a dispute. Default and minimum is 0.005."
+        },
+        "witness_fee" : {
+          "type" : "number",
+          "description" : "Witness fee in fractional amount of the amount_in_payment_option value. For example 0.3% is 0.003 and represents 0.003*amount_in_payment_option satoshis paid to witness in the event witness signs off on an escrow through any of the following calls escrownew/escrowbid/escrowrelease/escrowrefund. Default is 0"
+        },
+        "extTx" : {
           "type" : "string",
           "description" : "External transaction ID if paid with another blockchain."
         },
@@ -4645,25 +4692,36 @@
           "type" : "string",
           "description" : "If extTx is defined, specify a valid payment option used to make payment. Default is SYS."
         },
-        "redeemscript" : {
-          "type" : "string",
-          "description" : "If paid in external chain, enter redeemScript that generateescrowmultisig returns"
-        },
-        "height" : {
+        "bid_in_payment_option" : {
           "type" : "number",
-          "description" : "If paid in extneral chain, enter height that generateescrowmultisig returns"
+          "description" : "Initial bid amount you are willing to pay escrow for this offer. Amount is in paymentOption currency. It is per unit of purchase. If buynow is set to true, this value is disregarded."
+        },
+        "bid_in_offer_currency" : {
+          "type" : "number",
+          "description" : "Converted value of bid_in_payment_option from paymentOption currency to offer currency. For example; offer is priced in USD and purchased in BTC, this field will be the BTC/USD value. If buynow is set to true, this value is disregarded."
+        },
+        "witness" : {
+          "type" : "string",
+          "description" : "Witness alias name that will sign for web-of-trust notarization of this transaction."
         }
       },
       "example" : {
-        "offer" : "offer",
-        "arbiter" : "arbiter",
-        "exttx" : "exttx",
-        "quantity" : 0.80082819046101150206595775671303272247314453125,
+        "bid_in_offer_currency" : 9.301444243932575517419536481611430644989013671875,
+        "extTx" : "extTx",
+        "quantity" : 0,
+        "total_in_payment_option" : 6.02745618307040320615897144307382404804229736328125,
         "paymentoption" : "paymentoption",
+        "witness_fee" : 2.3021358869347654518833223846741020679473876953125,
+        "arbiter_alias" : "arbiter_alias",
+        "bid_in_payment_option" : 7.061401241503109105224211816675961017608642578125,
+        "network_fee" : 5.962133916683182377482808078639209270477294921875,
+        "offer" : "offer",
+        "shipping_amount" : 1.46581298050294517310021547018550336360931396484375,
+        "witness" : "witness",
+        "buynow" : true,
         "alias" : "alias",
-        "message" : "message",
-        "redeemscript" : "redeemscript",
-        "height" : 6.02745618307040320615897144307382404804229736328125
+        "arbiter_fee" : 5.63737665663332876420099637471139430999755859375,
+        "getamountandaddress" : true
       }
     },
     "AliasPayRequest" : {
@@ -5252,34 +5310,40 @@
       }
     },
     "EscrowFeedbackRequest" : {
-      "required" : [ "escrowguid", "feedbackprimary", "feedbacksecondary", "ratingprimary", "ratingsecondary", "userrole" ],
+      "required" : [ "escrowguid", "feedback", "rating", "userfrom", "userto" ],
       "properties" : {
         "escrowguid" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Escrow ID"
         },
-        "userrole" : {
-          "type" : "string"
+        "userfrom" : {
+          "type" : "string",
+          "description" : "Your role ('buyer', 'seller', 'reseller', or 'arbiter')"
         },
-        "feedbackprimary" : {
-          "type" : "string"
+        "feedback" : {
+          "type" : "string",
+          "description" : "Feedback description"
         },
-        "ratingprimary" : {
-          "type" : "number"
+        "rating" : {
+          "type" : "integer",
+          "description" : "Ratings are numbers from 1 to 5"
         },
-        "feedbacksecondary" : {
-          "type" : "string"
+        "userto" : {
+          "type" : "string",
+          "description" : "His role ('buyer', 'seller', 'reseller', or 'arbiter')"
         },
-        "ratingsecondary" : {
-          "type" : "number"
+        "witness" : {
+          "type" : "string",
+          "description" : "Witness alias name that will sign for web-of-trust notarization of this transaction."
         }
       },
       "example" : {
-        "feedbacksecondary" : "feedbacksecondary",
-        "ratingprimary" : 0.80082819046101150206595775671303272247314453125,
+        "feedback" : "feedback",
+        "witness" : "witness",
+        "userfrom" : "userfrom",
         "escrowguid" : "escrowguid",
-        "ratingsecondary" : 6.02745618307040320615897144307382404804229736328125,
-        "feedbackprimary" : "feedbackprimary",
-        "userrole" : "userrole"
+        "rating" : 0,
+        "userto" : "userto"
       }
     },
     "GenerateEscrowMultisigRequest" : {

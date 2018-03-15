@@ -82,11 +82,6 @@ exports.aliaspay = function(args, res, next) {
     { prop: "subtractfeefromamount"},
   ];
 
-  
-  //args.subtractfeefromamount.value = varUtils.correctTypes(args.subtractfeefromamount.value, varUtils.TYPE_CONVERSION.BOOL_TO_STRING);
-  console.log('ACZ -------> ',args);
-
-
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
 

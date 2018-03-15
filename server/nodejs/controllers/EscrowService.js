@@ -52,7 +52,7 @@ exports.escrowcompleterelease = function(args, res, next) {
   var argList = [
     { prop: "escrowguid" },
     { prop: "rawtx"},
-    { porp: "witness" }
+    { porp: "witness", defaultValue: "" }
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -79,7 +79,6 @@ exports.escrowfeedback = function(args, res, next) {
     { prop: "rating" },
     { prop: "userto" },
     { prop: "witness" },
-
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -131,15 +130,6 @@ exports.escrowlist = function(args, res, next) {
 /* Changed*/ 
 exports.escrownew = function(args, res, next) {
   var argList = [
-    //{ prop: "alias" },
-    //{ prop: "offer" },
-    //{ prop: "quantity" },
-    //{ prop: "message" },
-    //{ prop: "arbiter" },
-    //{ prop: "exttx", defaultValue: "" },
-    //{ prop: "paymentoption", defaultValue: "SYS" },
-    //{ prop: "redeemscript", defaultValue: "" },
-    //{ prop: "height", defaultValue: "0" }
     { prop: "getamountandaddress" },
     { prop: "alias" },
     { prop: "arbiter_alias" },
@@ -147,19 +137,17 @@ exports.escrownew = function(args, res, next) {
     { prop: "quantity" },
     { prop: "buynow" },
     { prop: "total_in_payment_option" },
-    { prop: "shipping amount" },
+    { prop: "shipping_amount" },
     { prop: "network_fee" },
-    { prop: "arbiter_fee" },
-    { prop: "witness_fee" },
+    { prop: "arbiter_fee", defaultValue: 0.005 },
+    { prop: "witness_fee", defaultValue: 0 },
     { prop: "extTx" },
-    { prop: "paymentoption" },
+    { prop: "paymentoption", defaultValue: "SYS" },
     { prop: "bid_in_payment_option" },
     { prop: "bid_in_offer_currency" },
     { prop: "witness" },
 
   ];
-
-  args.request.value.quantity = varUtils.correctTypes(args.request.value.quantity, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   if(varUtils.notNullOrUndefined(args.request.value.height))
     args.request.value.height = args.request.value.height.toString(); //number to string
