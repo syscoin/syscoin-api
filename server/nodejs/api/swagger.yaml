@@ -3315,10 +3315,6 @@ paths:
       responses:
         200:
           description: "Success"
-          schema:
-            type: "array"
-            items:
-              type: "string"
         default:
           description: "Error"
           schema:

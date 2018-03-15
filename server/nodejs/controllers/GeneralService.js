@@ -1365,7 +1365,9 @@ exports.getspentinfo = function(args, res, next) {
     res.end(JSON.stringify(result));
   };
 
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  // var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  var arr = [{txid: args['txid']['value'], index: args['index']['value']},cb];
+  console.log("sending arguments to .apply(): ", arr);
   syscoinClient.getSpentInfo.apply(syscoinClient, arr);
 }
 

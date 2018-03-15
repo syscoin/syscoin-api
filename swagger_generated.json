@@ -4146,13 +4146,7 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "type" : "string"
-              }
-            }
+            "description" : "Success"
           },
           "default" : {
             "description" : "Error",
