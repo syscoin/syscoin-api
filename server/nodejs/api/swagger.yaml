@@ -27,6 +27,93 @@ consumes:
 produces:
 - "application/json"
 paths:
+  /assetallocationsend:
+    post:
+      tags:
+      - "Aliases"
+      description: "Send an asset you own to another alias as an asset allocation."
+      operationId: "assetallocationsend"
+      parameters:
+      - in: "body"
+        name: "request"
+        required: true
+        schema:
+          $ref: "#/definitions/AssetSendRequest"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Aliases"
+    x-swagger-router-controller: "rpc"
+  /assetallocationinfo:
+    get:
+      tags:
+      - "Aliases"
+      description: "Show stored values of a single asset allocation. Set getinputs\
+        \ to true if you want to get the allocation inputs, if applicable."
+      operationId: "assetallocationinfo"
+      parameters:
+      - name: "asset"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "alias"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "getinputs"
+        in: "query"
+        required: true
+        type: "boolean"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/AssetAllocation"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Aliases"
+    x-swagger-router-controller: "rpc"
+  /assetnew:
+    post:
+      tags:
+      - "Aliases"
+      description: "Create a new Syscoin Asset."
+      operationId: "assetnew"
+      parameters:
+      - in: "body"
+        name: "request"
+        required: true
+        schema:
+          $ref: "#/definitions/AssetNewRequest"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Aliases"
+    x-swagger-router-controller: "rpc"
   /assetsend:
     post:
       tags:
@@ -5569,6 +5656,9 @@ definitions:
         type: "number"
       end:
         type: "number"
+    example:
+      start: 5.962133916683182377482808078639209270477294921875
+      end: 5.63737665663332876420099637471139430999755859375
   AssetSendRequest:
     required:
     - "aliasfrom"
@@ -5620,3 +5710,97 @@ definitions:
     example:
       amount: 0.80082819046101150206595775671303272247314453125
       aliasto: "aliasto"
+  AssetNewRequest:
+    required:
+    - "alias"
+    - "name"
+    - "public"
+    properties:
+      name:
+        type: "string"
+        description: "name, 20 characters max."
+      alias:
+        type: "string"
+        description: "An alias you own."
+      public:
+        type: "string"
+        description: "Public data, 512 characters max."
+      category:
+        type: "string"
+        description: "Category, 256 characters max. Defaults to assets."
+      supply:
+        type: "number"
+        description: "Initial supply of asset. Can mint more supply up to total_supply\
+          \ amount or if total_supply is -1 then minting is uncapped."
+      max_supply:
+        type: "number"
+        description: "Maximum supply of this asset. Set to -1 for uncapped."
+      use_inputranges:
+        type: "boolean"
+        description: "If this asset uses an input for every token, useful if you need\
+          \ to keep track of a token regardless of ownership."
+      interest_rate:
+        type: "number"
+        description: "The annual interest rate if any. Money supply is still capped\
+          \ to total supply. Should be between 0 and 1 and represents a percentage\
+          \ divided by 100."
+      can_adjust_interest_rate:
+        type: "boolean"
+        description: "Ability to adjust interest rate through assetupdate in the future."
+      witness:
+        type: "string"
+        description: "Witness alias name that will sign for web-of-trust notarization\
+          \ of this transaction."
+    example:
+      witness: "witness"
+      can_adjust_interest_rate: true
+      public: "public"
+      name: "name"
+      max_supply: 6.02745618307040320615897144307382404804229736328125
+      alias: "alias"
+      interest_rate: 1.46581298050294517310021547018550336360931396484375
+      use_inputranges: true
+      category: "category"
+      supply: 0.80082819046101150206595775671303272247314453125
+  AssetAllocation:
+    required:
+    - "_id"
+    discriminator: "_id"
+    properties:
+      _id:
+        type: "string"
+      asset:
+        type: "string"
+      txid:
+        type: "string"
+      height:
+        type: "number"
+      alias:
+        type: "string"
+      balance:
+        type: "number"
+      interest_claim_height:
+        type: "number"
+      memo:
+        type: "string"
+      inputs:
+        type: "array"
+        items:
+          $ref: "#/definitions/AssetInput"
+      accumulated_interest:
+        type: "number"
+    example:
+      balance: 6.02745618307040320615897144307382404804229736328125
+      inputs:
+      - start: 5.962133916683182377482808078639209270477294921875
+        end: 5.63737665663332876420099637471139430999755859375
+      - start: 5.962133916683182377482808078639209270477294921875
+        end: 5.63737665663332876420099637471139430999755859375
+      txid: "txid"
+      alias: "alias"
+      interest_claim_height: 1.46581298050294517310021547018550336360931396484375
+      memo: "memo"
+      _id: "_id"
+      asset: "asset"
+      accumulated_interest: 2.3021358869347654518833223846741020679473876953125
+      height: 0.80082819046101150206595775671303272247314453125
