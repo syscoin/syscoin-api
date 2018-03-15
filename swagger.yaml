@@ -29,9 +29,92 @@ tags:
   description: Operations related to escrow.
 - name: Certificates
   description: Operations related to digital certificates.
-- name: Assets
+- name: Asset
   description: Assets like ECR20 token
 paths:
+  /assetupdate:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: assetupdate
+      description: Perform an update on an asset you control.
+      security:
+      - token: []
+      tags:
+      - Asset
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/AssetUpdateRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /assettransfer:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: assettransfer
+      description: Transfer asset from one user to another.
+      security:
+      - token: []
+      tags:
+      - Asset
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/AssetTransferRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /assetallocationsenderstatus:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: assetallocationsenderstatus
+      description: "Show status as it pertains to any current Z-DAG conflicts or warnings related to a sender or sender/txid combination of an asset allocation transfer. Leave txid empty if you are not checking for a specific transfer. Return value is in the status field and can represent 4 levels(-1:Not Found, 0:OK, 1:Warning or 2:Critical)"
+      security:
+      - token: []
+      tags:
+      - Asset
+      parameters:
+      - name: asset
+        in: query
+        required: true
+        type: string
+      - name: sender
+        in: query
+        required: true
+        type: string        
+      - name: txid
+        in: query
+        required: true
+        type: string        
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/AssetAllocationSenderStatus"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /assetallocationsend:
     x-swagger-router-controller: rpc
     post:
@@ -40,7 +123,7 @@ paths:
       security:
       - token: []
       tags:
-      - Aliases
+      - Asset
       parameters:
       - name: request
         in: body
@@ -66,7 +149,7 @@ paths:
       security:
       - token: []
       tags:
-      - Aliases
+      - Asset
       parameters:
       - name: asset
         in: query
@@ -97,7 +180,7 @@ paths:
       security:
       - token: []
       tags:
-      - Aliases
+      - Asset
       parameters:
       - name: request
         in: body
@@ -123,7 +206,7 @@ paths:
       security:
       - token: []
       tags:
-      - Aliases
+      - Asset
       parameters:
       - name: request
         in: body
@@ -149,7 +232,7 @@ paths:
       security:
       - token: []
       tags:
-      - Aliases
+      - Asset
       parameters:
       - name: asset
         in: query
@@ -4932,3 +5015,48 @@ definitions:
           $ref: "#/definitions/AssetInput"
       accumulated_interest:
         type: number
+  AssetAllocationSenderStatus:
+    properties:
+      status:
+        description: Level -1 means not found, not a ZDAG transaction, perhaps it is already confirmed. Level 0 means OK. Level 1 means warning (checked that in the mempool there are more spending balances than current POW sender balance). An active stance should be taken and perhaps a deeper analysis as to potential conflicts related to the sender. Level 2 means an active double spend was found and any depending asset allocation sends are also flagged as dangerous and should wait for POW confirmation before proceeding.
+        type: number
+  AssetTransferRequest:
+    required:
+    - asset
+    - alias
+    properties:
+      asset:
+        description: Asset name.
+        type: string
+      alias:
+        description: Alias to transfer this asset to.
+        type: string
+      witness:
+        description: Witness alias name that will sign for web-of-trust notarization of this transaction.
+        type: string
+  AssetUpdateRequest:
+    required:
+    - asset
+    - public
+    - category
+    - supply
+    - interest_rate
+    properties:
+      asset:
+        description: Asset name.
+        type: string
+      public:
+        description: Public data, 512 characters max.
+        type: string
+      category:
+        description: Set to assets
+        type: string
+      supply:
+        description: New supply of asset. Can mint more supply up to total_supply amount or if max_supply is -1 then minting is uncapped.
+        type: string
+      interest_rate:
+        description: The annual interest rate if any. Money supply is still capped to total supply. Should be between 0 and 1 and represents a percentage divided by 100. Can only set if this asset allows adjustment of interest rate.
+        type: string  
+      witness:
+        description: Witness alias name that will sign for web-of-trust notarization of this transaction.
+        type: string 

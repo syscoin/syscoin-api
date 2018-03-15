@@ -17,7 +17,7 @@ tags:
   description: "Operations related to escrow."
 - name: "Certificates"
   description: "Operations related to digital certificates."
-- name: "Assets"
+- name: "Asset"
   description: "Assets like ECR20 token"
 schemes:
 - "http"
@@ -27,10 +27,100 @@ consumes:
 produces:
 - "application/json"
 paths:
+  /assetupdate:
+    post:
+      tags:
+      - "Asset"
+      description: "Perform an update on an asset you control."
+      operationId: "assetupdate"
+      parameters:
+      - in: "body"
+        name: "request"
+        required: true
+        schema:
+          $ref: "#/definitions/AssetUpdateRequest"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Asset"
+    x-swagger-router-controller: "rpc"
+  /assettransfer:
+    post:
+      tags:
+      - "Asset"
+      description: "Transfer asset from one user to another."
+      operationId: "assettransfer"
+      parameters:
+      - in: "body"
+        name: "request"
+        required: true
+        schema:
+          $ref: "#/definitions/AssetTransferRequest"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Asset"
+    x-swagger-router-controller: "rpc"
+  /assetallocationsenderstatus:
+    get:
+      tags:
+      - "Asset"
+      description: "Show status as it pertains to any current Z-DAG conflicts or warnings\
+        \ related to a sender or sender/txid combination of an asset allocation transfer.\
+        \ Leave txid empty if you are not checking for a specific transfer. Return\
+        \ value is in the status field and can represent 4 levels(-1:Not Found, 0:OK,\
+        \ 1:Warning or 2:Critical)"
+      operationId: "assetallocationsenderstatus"
+      parameters:
+      - name: "asset"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "sender"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "txid"
+        in: "query"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/AssetAllocationSenderStatus"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Asset"
+    x-swagger-router-controller: "rpc"
   /assetallocationsend:
     post:
       tags:
-      - "Aliases"
+      - "Asset"
       description: "Send an asset you own to another alias as an asset allocation."
       operationId: "assetallocationsend"
       parameters:
@@ -52,12 +142,12 @@ paths:
             $ref: "#/definitions/ErrorResponse"
       security:
       - token: []
-      x-swagger-router-controller: "Aliases"
+      x-swagger-router-controller: "Asset"
     x-swagger-router-controller: "rpc"
   /assetallocationinfo:
     get:
       tags:
-      - "Aliases"
+      - "Asset"
       description: "Show stored values of a single asset allocation. Set getinputs\
         \ to true if you want to get the allocation inputs, if applicable."
       operationId: "assetallocationinfo"
@@ -85,12 +175,12 @@ paths:
             $ref: "#/definitions/ErrorResponse"
       security:
       - token: []
-      x-swagger-router-controller: "Aliases"
+      x-swagger-router-controller: "Asset"
     x-swagger-router-controller: "rpc"
   /assetnew:
     post:
       tags:
-      - "Aliases"
+      - "Asset"
       description: "Create a new Syscoin Asset."
       operationId: "assetnew"
       parameters:
@@ -112,12 +202,12 @@ paths:
             $ref: "#/definitions/ErrorResponse"
       security:
       - token: []
-      x-swagger-router-controller: "Aliases"
+      x-swagger-router-controller: "Asset"
     x-swagger-router-controller: "rpc"
   /assetsend:
     post:
       tags:
-      - "Aliases"
+      - "Asset"
       description: "Send an asset allocation you own to another alias."
       operationId: "assetsend"
       parameters:
@@ -139,12 +229,12 @@ paths:
             $ref: "#/definitions/ErrorResponse"
       security:
       - token: []
-      x-swagger-router-controller: "Aliases"
+      x-swagger-router-controller: "Asset"
     x-swagger-router-controller: "rpc"
   /assetinfo:
     get:
       tags:
-      - "Aliases"
+      - "Asset"
       description: "Show stored values of a single asset and its. Set getinputs to\
         \ true if you want to get the allocation inputs, if applicable."
       operationId: "assetinfo"
@@ -166,7 +256,7 @@ paths:
             $ref: "#/definitions/ErrorResponse"
       security:
       - token: []
-      x-swagger-router-controller: "Aliases"
+      x-swagger-router-controller: "Asset"
     x-swagger-router-controller: "rpc"
   /login:
     get:
@@ -5804,3 +5894,74 @@ definitions:
       asset: "asset"
       accumulated_interest: 2.3021358869347654518833223846741020679473876953125
       height: 0.80082819046101150206595775671303272247314453125
+  AssetAllocationSenderStatus:
+    properties:
+      status:
+        type: "number"
+        description: "Level -1 means not found, not a ZDAG transaction, perhaps it\
+          \ is already confirmed. Level 0 means OK. Level 1 means warning (checked\
+          \ that in the mempool there are more spending balances than current POW\
+          \ sender balance). An active stance should be taken and perhaps a deeper\
+          \ analysis as to potential conflicts related to the sender. Level 2 means\
+          \ an active double spend was found and any depending asset allocation sends\
+          \ are also flagged as dangerous and should wait for POW confirmation before\
+          \ proceeding."
+    example:
+      status: 0.80082819046101150206595775671303272247314453125
+  AssetTransferRequest:
+    required:
+    - "alias"
+    - "asset"
+    properties:
+      asset:
+        type: "string"
+        description: "Asset name."
+      alias:
+        type: "string"
+        description: "Alias to transfer this asset to."
+      witness:
+        type: "string"
+        description: "Witness alias name that will sign for web-of-trust notarization\
+          \ of this transaction."
+    example:
+      witness: "witness"
+      alias: "alias"
+      asset: "asset"
+  AssetUpdateRequest:
+    required:
+    - "asset"
+    - "category"
+    - "interest_rate"
+    - "public"
+    - "supply"
+    properties:
+      asset:
+        type: "string"
+        description: "Asset name."
+      public:
+        type: "string"
+        description: "Public data, 512 characters max."
+      category:
+        type: "string"
+        description: "Set to assets"
+      supply:
+        type: "string"
+        description: "New supply of asset. Can mint more supply up to total_supply\
+          \ amount or if max_supply is -1 then minting is uncapped."
+      interest_rate:
+        type: "string"
+        description: "The annual interest rate if any. Money supply is still capped\
+          \ to total supply. Should be between 0 and 1 and represents a percentage\
+          \ divided by 100. Can only set if this asset allows adjustment of interest\
+          \ rate."
+      witness:
+        type: "string"
+        description: "Witness alias name that will sign for web-of-trust notarization\
+          \ of this transaction."
+    example:
+      witness: "witness"
+      public: "public"
+      interest_rate: "interest_rate"
+      asset: "asset"
+      category: "category"
+      supply: "supply"
