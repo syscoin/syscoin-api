@@ -3760,25 +3760,35 @@ definitions:
   TransactionListEntry:
     properties:
       account:
-        description: DEPRECATED. The account name associated with the transaction. It will be "" for the default account.
+        description: "DEPRECATED. The account name associated with the transaction. \
+                      It will be \"\" for the default account."
         type: string
       address:
         description: The syscoin address of the transaction. Not present for move transactions (category = move).
         type: string
       category:
-        description: The transaction category. 'move' is a local (off blockchain) transaction between accounts, and not associated with an address, transaction id or block. 'send' and 'receive' transactions are associated with an address, transaction id and block details
+        description: "The transaction category. 'move' is a local (off blockchain) \
+                      transaction between accounts, and not associated with an address, \
+                      transaction id or block. 'send' and 'receive' transactions are \
+                      associated with an address, transaction id and block details. Example values&#58; 'send|receive|move'"
         type: string
       amount:
-        description: The amount in SYS. This is negative for the 'send' category, and for the 'move' category for moves outbound. It is positive for the 'receive' category, and for the 'move' category for inbound funds.
-        type: number
+        description: "The amount in SYS. This is negative for the 'send' category, and for the \
+                     'move' category for moves outbound. It is positive for the 'receive' category, \
+                      and for the 'move' category for inbound funds."
       vout:
         description: the vout value
         type: number
       fee:
         description: The amount of the fee in SYS. This is negative and only available for the 'send' category of transactions.
         type: number
+      instantlock:
+        description: Current transaction lock state. Available for 'send' and 'receive' category of transactions.
+        type: boolean
       confirmations:
-        description: The number of confirmations for the transaction. Available for 'send' and'receive' category of transactions. Negative confirmations indicate the transation conflicts with the block chain
+        description: "The number of blockchain confirmations for the transaction. Available for 'send' and \
+                      'receive' category of transactions. Negative confirmations indicate the \
+                     transation conflicts with the block chain"
         type: number
       trusted:
         description: Whether we consider the outputs of this unconfirmed transaction safe to spend.
@@ -3787,8 +3797,8 @@ definitions:
         description: The block hash containing the transaction. Available for 'send' and 'receive' category of transactions.
         type: string
       blockindex:
-        description: The block index containing the transaction. Available for 'send' and 'receive' category of transactions.
-        type: string
+        description: The index of the transaction in the block that includes it. Available for 'send' and 'receive' category of transactions.
+        type: number
       blocktime:
         description: The block time in seconds since epoch (1 Jan 1970 GMT).
         type: number
@@ -3805,10 +3815,16 @@ definitions:
         description: If a comment is associated with the transaction.
         type: string
       label:
-        description:  A comment for the address/transaction, if any
+        description: A comment for the address/transaction, if any
         type: string
       otheraccount:
-        description: For the 'move' category of transactions, the account the funds came from (for receiving funds, positive amounts), or went to (for sending funds, negative amounts).
+        description: "For the 'move' category of transactions, the account the funds came \
+                      from (for receiving funds, positive amounts), or went to (for sending funds, \
+                      negative amounts)."
+        type: string
+      bip125-replaceable:
+        description: "Whether this transaction could be replaced due to BIP125 (replace-by-fee); \
+                             may be unknown for unconfirmed transactions not in the mempool. Example&#58; \"yes|no|unknown\""
         type: string
   Message:
     properties:

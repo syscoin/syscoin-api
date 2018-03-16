@@ -4106,12 +4106,7 @@ definitions:
         description: "The transaction category. 'move' is a local (off blockchain)\
           \ transaction between accounts, and not associated with an address, transaction\
           \ id or block. 'send' and 'receive' transactions are associated with an\
-          \ address, transaction id and block details"
-      amount:
-        type: "number"
-        description: "The amount in SYS. This is negative for the 'send' category,\
-          \ and for the 'move' category for moves outbound. It is positive for the\
-          \ 'receive' category, and for the 'move' category for inbound funds."
+          \ address, transaction id and block details. Example values&#58; 'send|receive|move'"
       vout:
         type: "number"
         description: "the vout value"
@@ -4119,11 +4114,15 @@ definitions:
         type: "number"
         description: "The amount of the fee in SYS. This is negative and only available\
           \ for the 'send' category of transactions."
+      instantlock:
+        type: "boolean"
+        description: "Current transaction lock state. Available for 'send' and 'receive'\
+          \ category of transactions."
       confirmations:
         type: "number"
-        description: "The number of confirmations for the transaction. Available for\
-          \ 'send' and'receive' category of transactions. Negative confirmations indicate\
-          \ the transation conflicts with the block chain"
+        description: "The number of blockchain confirmations for the transaction.\
+          \ Available for 'send' and 'receive' category of transactions. Negative\
+          \ confirmations indicate the transation conflicts with the block chain"
       trusted:
         type: "boolean"
         description: "Whether we consider the outputs of this unconfirmed transaction\
@@ -4133,9 +4132,9 @@ definitions:
         description: "The block hash containing the transaction. Available for 'send'\
           \ and 'receive' category of transactions."
       blockindex:
-        type: "string"
-        description: "The block index containing the transaction. Available for 'send'\
-          \ and 'receive' category of transactions."
+        type: "number"
+        description: "The index of the transaction in the block that includes it.\
+          \ Available for 'send' and 'receive' category of transactions."
       blocktime:
         type: "number"
         description: "The block time in seconds since epoch (1 Jan 1970 GMT)."
@@ -4162,15 +4161,21 @@ definitions:
         description: "For the 'move' category of transactions, the account the funds\
           \ came from (for receiving funds, positive amounts), or went to (for sending\
           \ funds, negative amounts)."
+      bip125-replaceable:
+        type: "string"
+        description: "Whether this transaction could be replaced due to BIP125 (replace-by-fee);\
+          \ may be unknown for unconfirmed transactions not in the mempool. Example&#58;\
+          \ \"yes|no|unknown\""
     example:
-      amount: 0.80082819046101150206595775671303272247314453125
       address: "aeiou"
-      fee: 1.46581298050294517310021547018550336360931396484375
+      instantlock: true
+      bip125-replaceable: "aeiou"
+      fee: 6.02745618307040320615897144307382404804229736328125
       txid: "aeiou"
       label: "aeiou"
       otheraccount: "aeiou"
-      confirmations: 5.962133916683182377482808078639209270477294921875
-      vout: 6.02745618307040320615897144307382404804229736328125
+      confirmations: 1.46581298050294517310021547018550336360931396484375
+      vout: 0.80082819046101150206595775671303272247314453125
       blockhash: "aeiou"
       timereceived: 7.061401241503109105224211816675961017608642578125
       trusted: true
@@ -4178,7 +4183,7 @@ definitions:
       comment: "aeiou"
       time: 2.3021358869347654518833223846741020679473876953125
       category: "aeiou"
-      blockindex: "aeiou"
+      blockindex: 5.962133916683182377482808078639209270477294921875
       account: "aeiou"
   Message:
     properties:
