@@ -145,12 +145,13 @@ exports.assetinfo = function(args, res, next) {
   
   exports.assetupdate = function(args, res, next) {
     var argList = [
-      { prop: "asset" },
-      { prop: "public" },
-      { prop: "category" },
-      { prop: "supply" },
-      { prop: "witness" },
-      { prop: "interest_rate"}
+      { prop: "asset", },
+      { prop: "public", },
+      { prop: "category", },
+      { prop: "supply", },
+      { prop: "interest_rate", },
+      { prop: "witness", }
+
     ];
   
     var cb = function(err, result, resHeaders) {
@@ -165,21 +166,27 @@ exports.assetinfo = function(args, res, next) {
     };
   
     var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+    //console.log('manually printing value ====>: ');
+    //console.log(args.request.value.public)
+    //var arr = [{"_id":'qcoin', "public": 'somepublicinfo',"category": 'assets', "supply": 5000, "interest_rate": 0, "witness": "" },cb];
+    console.log('arrr ====>: ');
+    console.log(arr)
     syscoinClient.assetUpdate.apply(syscoinClient, arr);
   }
   
   exports.assetnew = function(args, res, next) {
     var argList = [
-      { prop: "name", defaultValue: 'some_coin_name' },
-      { prop: "alias" },
-      { prop: "public" },
-      { prop: "category" },
-      { prop: "supply" },
-      { prop: "max_supply" },
-      { prop: "use_inputranges" },
-      { prop: "interest_rate" },
-      { prop: "can_adjust_interest_rate" },
-      { prop: "witness" }
+      { prop: "name", },
+      { prop: "alias", },
+      { prop: "public", },
+      { prop: "category", },
+      { prop: "supply", },
+      { prop: "max_supply", },
+      { prop: "use_inputranges", },
+      { prop: "interest_rate", },
+      { prop: "can_adjust_interest_rate", },
+      { prop: "witness", }
+
     ];
   
     var cb = function(err, result, resHeaders) {
@@ -189,10 +196,15 @@ exports.assetinfo = function(args, res, next) {
         return commonUtils.reportError(res, err);
       }
   
-      console.log('asset new', result);
+      console.log('asset update', result);
       res.end(JSON.stringify(result));
     };
   
     var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+    //console.log('manually printing value ====>: ');
+    //console.log(args.request.value.public)
+    //var arr = [{"_id":'qcoin', "public": 'somepublicinfo',"category": 'assets', "supply": 5000, "interest_rate": 0, "witness": "" },cb];
+    console.log('arrr ====>: ');
+    console.log(arr)
     syscoinClient.assetNew.apply(syscoinClient, arr);
   }
