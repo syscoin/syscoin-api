@@ -57,33 +57,16 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: syscoinlistreceivebyaddress
-      description: "TBD"
+      description: Returns all addresses and balances associated with address
       security:
       - token: []
       tags:
       - General
-      parameters:
-      - name: address
-        in: query
-        required: true
-        type: string
-      - name: balance
-        in: query
-        required: true
-        type: number
-      - name: label
-        in: query
-        required: false
-        type: string
-      - name: alias
-        in: query
-        required: true
-        type: string
       responses:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/GetBlockResponse"
+            $ref: "#/definitions/SyscoinAddressEntry"
         default:
           description: Error
           schema:
@@ -4851,3 +4834,13 @@ definitions:
           type: string
       ismine:
         type: boolean
+  SyscoinAddressEntry:
+    properties:
+      address:
+        type: string
+      balance:
+        type: number
+      label:
+        type: string
+      alias:
+        type: string
