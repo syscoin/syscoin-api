@@ -183,6 +183,9 @@ exports.assetinfo = function(args, res, next) {
       { prop: "witness", }
 
     ];
+
+
+    args.request.value.max_supply = varUtils.correctTypes(args.request.value.max_supply, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
   
     var cb = function(err, result, resHeaders) {
       res.setHeader('Content-Type', 'application/json');
