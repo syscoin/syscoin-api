@@ -311,7 +311,10 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "Success"
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/Asset"
+            }
           },
           "default" : {
             "description" : "Error",
@@ -358,7 +361,7 @@
     "/getblock" : {
       "get" : {
         "tags" : [ "General" ],
-        "description" : "?If verbose is false, returns a string that is serialized, hex-encoded data for block 'hash'. If verbose is true, returns an Object with information about block <hash>.",
+        "description" : "If verbose is false, returns a string that is serialized, hex-encoded data for block 'hash'. If verbose is true, returns an Object with information about block <hash>.",
         "operationId" : "getblock",
         "parameters" : [ {
           "name" : "hash",
@@ -7018,6 +7021,27 @@
             "$ref" : "#/definitions/AssetInput"
           }
         }
+      },
+      "example" : {
+        "can_adjust_interest_rate" : true,
+        "total_supply" : 5.962133916683182377482808078639209270477294921875,
+        "inputs" : [ {
+          "start" : 5.962133916683182377482808078639209270477294921875,
+          "end" : 5.63737665663332876420099637471139430999755859375
+        }, {
+          "start" : 5.962133916683182377482808078639209270477294921875,
+          "end" : 5.63737665663332876420099637471139430999755859375
+        } ],
+        "txid" : "txid",
+        "publicvalue" : "publicvalue",
+        "balance" : 1.46581298050294517310021547018550336360931396484375,
+        "max_supply" : 5.63737665663332876420099637471139430999755859375,
+        "alias" : "alias",
+        "interest_rate" : 2.3021358869347654518833223846741020679473876953125,
+        "_id" : "_id",
+        "time" : 6.02745618307040320615897144307382404804229736328125,
+        "category" : "category",
+        "height" : 0.80082819046101150206595775671303272247314453125
       }
     },
     "AssetInput" : {
@@ -7245,7 +7269,7 @@
           "description" : "Maximum supply of this asset. Set to -1 for uncapped."
         },
         "use_inputranges" : {
-          "type" : "string",
+          "type" : "boolean",
           "description" : "If this asset uses an input for every token, useful if you need to keep track of a token regardless of ownership."
         },
         "interest_rate" : {
@@ -7253,7 +7277,7 @@
           "description" : "The annual interest rate if any. Money supply is still capped to total supply. Should be between 0 and 1 and represents a percentage divided by 100."
         },
         "can_adjust_interest_rate" : {
-          "type" : "string",
+          "type" : "boolean",
           "description" : "Ability to adjust interest rate through assetupdate in the future."
         },
         "witness" : {
@@ -7263,13 +7287,13 @@
       },
       "example" : {
         "witness" : "witness",
-        "can_adjust_interest_rate" : "can_adjust_interest_rate",
+        "can_adjust_interest_rate" : true,
         "public" : "public",
         "name" : "name",
         "max_supply" : 6.02745618307040320615897144307382404804229736328125,
         "alias" : "alias",
         "interest_rate" : 1.46581298050294517310021547018550336360931396484375,
-        "use_inputranges" : "use_inputranges",
+        "use_inputranges" : true,
         "category" : "category",
         "supply" : 0.80082819046101150206595775671303272247314453125
       }

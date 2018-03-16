@@ -246,7 +246,7 @@ paths:
         "200":
           description: Success
           schema:
-            type: "#/definitions/Asset"
+            $ref: "#/definitions/Asset"
         default:
           description: Error
           schema:
@@ -278,7 +278,7 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: getblock
-      description: "﻿If verbose is false, returns a string that is serialized, hex-encoded data for block 'hash'. \
+      description: "If verbose is false, returns a string that is serialized, hex-encoded data for block 'hash'. \
                     If verbose is true, returns an Object with information about block <hash>."
       security:
       - token: []

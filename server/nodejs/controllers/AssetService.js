@@ -166,11 +166,6 @@ exports.assetinfo = function(args, res, next) {
     };
   
     var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-    //console.log('manually printing value ====>: ');
-    //console.log(args.request.value.public)
-    //var arr = [{"_id":'qcoin', "public": 'somepublicinfo',"category": 'assets', "supply": 5000, "interest_rate": 0, "witness": "" },cb];
-    console.log('arrr ====>: ');
-    console.log(arr)
     syscoinClient.assetUpdate.apply(syscoinClient, arr);
   }
   
@@ -201,10 +196,5 @@ exports.assetinfo = function(args, res, next) {
     };
   
     var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-    //console.log('manually printing value ====>: ');
-    //console.log(args.request.value.public)
-    //var arr = [{"_id":'qcoin', "public": 'somepublicinfo',"category": 'assets', "supply": 5000, "interest_rate": 0, "witness": "" },cb];
-    console.log('arrr ====>: ');
-    console.log(arr)
     syscoinClient.assetNew.apply(syscoinClient, arr);
   }
