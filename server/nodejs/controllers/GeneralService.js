@@ -1208,3 +1208,25 @@ exports.walletpassphrasechange = function(args, res, next) {
   syscoinClient.walletPassphraseChange.apply(syscoinClient, arr);
 }
 
+exports.syscoinlistreceivebyaddress = function(args, res, next) {
+  var argList = [
+    { prop: "address" },
+    { prop: "balance" },
+    { prop: "label" },
+    { prop: "alias" },
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('syscoin list receive by address ', result, "syscoinlistreceivebyaddress");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.walletPassphraseChange.apply(syscoinClient, arr);
+}

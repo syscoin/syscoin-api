@@ -53,6 +53,42 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /syscoinlistreceivebyaddress :
+    x-swagger-router-controller: rpc
+    get:
+      operationId: syscoinlistreceivebyaddress
+      description: "TBD"
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: address
+        in: query
+        required: true
+        type: string
+      - name: balance
+        in: query
+        required: true
+        type: number
+      - name: label
+        in: query
+        required: false
+        type: string
+      - name: alias
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetBlockResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /getblock:
     x-swagger-router-controller: rpc
     get:
