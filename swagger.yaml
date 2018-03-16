@@ -1457,7 +1457,49 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+  /listunspent:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: listunspent
+      description: 'Returns array of unspent transaction outputs
+with between minconf and maxconf (inclusive) confirmations.
+Optionally filter to only include txouts paid to specified addresses.
+Results are an array of Objects, each of which has:
+{txid, vout, scriptPubKey, amount, confirmations}'
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: minconf
+        in: query
+        description: The minimum confirmations to filter.
+        default: 1
+        required: false
+        type: integer
+      - name: maxconf
+        in: query
+        description: The maximum confirmations to filter
+        default: 9999999
+        required: false
+        type: number
+      - name: adresses
+        in: query
+        description: A json array of syscoin addresses to filter
+        default: []
+        required: false
+        type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/UnspentListEntry"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /listtransactions:
     x-swagger-router-controller: rpc
     get:
@@ -1470,22 +1512,26 @@ paths:
       parameters:
       - name: account
         in: query
-        description: DEPRECATED. The account name. Should be "*".
+        description: The account name. Should be "*".
+        default: "*"
         required: false
         type: string
       - name: count
         in: query
         description: The number of transactions to return
+        default: 10
         required: false
         type: number
       - name: from
         in: query
         description: The number of transactions to skip
+        default: 0
         required: false
         type: number
       - name: includeWatchonly
         in: query
         description: Include transactions to watchonly addresses (see 'importaddress')
+        default: false
         type: boolean
       responses:
         "200":
@@ -1811,12 +1857,9 @@ paths:
       tags:
       - General
       parameters:
-      - name: alias
-        in: query
-        required: true
-        type: string
       - name: hexstring
         in: query
+        description: The transaction hex string.
         required: true
         type: string
       responses:
@@ -2865,6 +2908,38 @@ definitions:
       to:
         description: If a comment to is associated with the transaction.
         type: string
+  UnspentListEntry:
+    properties:
+      txid:
+        description: The transaction id 
+        type: string
+      vout:
+        description: The vout value
+        type: number
+      address:
+        description: The syscoin address
+        type: string
+      account:
+        description: 'DEPRECATED. The associated account, or "" for the default account'
+        type: string
+      scriptPubKey:
+        description: The script key
+        type: string
+      amount:
+        description: The transaction amount in SYS
+        type: number
+      confirmations:
+        description: The number of confirmations
+        type: number
+      ps_rounds:
+        description: The number of PS round
+        type: number
+      spendable:
+        description: Whether we have the private keys to spend this output
+        type: boolean
+      solvable:
+        description: Whether we know how to spend this output, ignoring the lack of keys
+        type: boolean
   TransactionListEntry:
     properties:
       account:
@@ -3626,8 +3701,13 @@ definitions:
         description: he amount in SYS (transaction fee is added on top).
         type: number
       minconf:
+        default: 1
         description: Only use funds with at least this many confirmations.
-        type: number
+        type: integer
+      addlockconf:
+        default: false
+        description: Whether to add 5 confirmations to transactions locked via InstantSend.
+        type: boolean
       comment:
         description: A comment used to store what the transaction is for. This is not part of the transaction, just kept in your wallet.
         type: string
@@ -3640,20 +3720,33 @@ definitions:
     - amounts
     properties:
       fromaccount:
-        description: DEPRECATED. The account to send the funds from. Should be "" for the default account
+        description: 'The account to send the funds from. Should be "" for the default account'
         type: string
       amounts:
-        description: A json object with addresses and amounts { "address":amount   (numeric) The syscoin address is the key, the numeric amount in SYS is the value,...}
+        description: 'A json object with addresses and amounts { "address":amount   (numeric) The syscoin address is the key, the numeric amount in SYS is the value,...}'
         type: string
       minconf:
+        default: 1
         description: Only use the balance confirmed at least this many times.
-        type: number
+        type: integer
+      addlockconf:
+        default: false
+        description: Only use the balance confirmed at least this many times.
+        type: boolean
       comment:
         description: A comment used to store what the transaction is for. This is not part of the transaction, just kept in your wallet.
         type: string
       subtractfeefromamount:
-        description: A json array with addresses. The fee will be equally deducted from the amount of each selected address. Those recipients will receive less syscoins than you enter in their corresponding amount field. If no addresses are specified here, the sender pays the fee. [ "address" Subtract fee from this address,... ]
+        description: 'A json array with addresses. The fee will be equally deducted from the amount of each selected address. Those recipients will receive less syscoins than you enter in their corresponding amount field. If no addresses are specified here, the sender pays the fee. [ "address" Subtract fee from this address,... ]'
         type: string
+      use_is:
+        default: false
+        description: 'Send this transaction as InstantSend (default: false)'
+        type: boolean
+      use_ps:
+        default: false
+        description: "Use anonymized funds only (default: false)"
+        type: boolean
   SendToAddressRequest:
     required:
     - syscoinaddress
@@ -3672,8 +3765,17 @@ definitions:
         description: An optional comment to store the name of the person or organization to which you're sending the transaction. This is not part of the transaction, it is just kept in your wallet.
         type: string
       subtractfeefromamount:
+        default: false
         description: The fee will be deducted from the amount being sent. The recipient will receive less syscoins than you enter in the amount field.
-        type: string
+        type: boolean
+      use_is:
+        default: false
+        description: "Send this transaction as InstantSend (default: false)"
+        type: boolean
+      use_ps:
+        default: false
+        description: "Use anonymized funds only (default: false)"
+        type: boolean
   SignMessageRequest:
     required:
     - syscoinaddress

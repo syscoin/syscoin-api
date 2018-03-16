@@ -1501,6 +1501,48 @@ paths:
       - token: []
       x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
+  /listunspent:
+    get:
+      tags:
+      - "General"
+      description: "Returns array of unspent transaction outputs with between minconf\
+        \ and maxconf (inclusive) confirmations. Optionally filter to only include\
+        \ txouts paid to specified addresses. Results are an array of Objects, each\
+        \ of which has: {txid, vout, scriptPubKey, amount, confirmations}"
+      operationId: "listunspent"
+      parameters:
+      - name: "minconf"
+        in: "query"
+        description: "The minimum confirmations to filter."
+        required: false
+        type: "integer"
+        default: 1
+      - name: "maxconf"
+        in: "query"
+        description: "The maximum confirmations to filter"
+        required: false
+        type: "number"
+        default: 9999999
+      - name: "adresses"
+        in: "query"
+        description: "A json array of syscoin addresses to filter"
+        required: false
+        type: "number"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/UnspentListEntry"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /listtransactions:
     get:
       tags:
@@ -1511,24 +1553,28 @@ paths:
       parameters:
       - name: "account"
         in: "query"
-        description: "DEPRECATED. The account name. Should be \"*\"."
+        description: "The account name. Should be \"*\"."
         required: false
         type: "string"
+        default: "*"
       - name: "count"
         in: "query"
         description: "The number of transactions to return"
         required: false
         type: "number"
+        default: 10
       - name: "from"
         in: "query"
         description: "The number of transactions to skip"
         required: false
         type: "number"
+        default: 0
       - name: "includeWatchonly"
         in: "query"
         description: "Include transactions to watchonly addresses (see 'importaddress')"
         required: false
         type: "boolean"
+        default: false
       responses:
         200:
           description: "Success"
@@ -1869,12 +1915,9 @@ paths:
         \ data output(OP_RETURN)"
       operationId: "syscoindecoderawtransaction"
       parameters:
-      - name: "alias"
-        in: "query"
-        required: true
-        type: "string"
       - name: "hexstring"
         in: "query"
+        description: "The transaction hex string."
         required: true
         type: "string"
       responses:
@@ -3274,6 +3317,51 @@ definitions:
       category: "category"
       blockindex: 5.63737665663332876420099637471139430999755859375
       account: "account"
+  UnspentListEntry:
+    properties:
+      txid:
+        type: "string"
+        description: "The transaction id"
+      vout:
+        type: "number"
+        description: "The vout value"
+      address:
+        type: "string"
+        description: "The syscoin address"
+      account:
+        type: "string"
+        description: "DEPRECATED. The associated account, or \"\" for the default\
+          \ account"
+      scriptPubKey:
+        type: "string"
+        description: "The script key"
+      amount:
+        type: "number"
+        description: "The transaction amount in SYS"
+      confirmations:
+        type: "number"
+        description: "The number of confirmations"
+      ps_rounds:
+        type: "number"
+        description: "The number of PS round"
+      spendable:
+        type: "boolean"
+        description: "Whether we have the private keys to spend this output"
+      solvable:
+        type: "boolean"
+        description: "Whether we know how to spend this output, ignoring the lack\
+          \ of keys"
+    example:
+      scriptPubKey: "scriptPubKey"
+      amount: 6.02745618307040320615897144307382404804229736328125
+      ps_rounds: 5.962133916683182377482808078639209270477294921875
+      spendable: true
+      solvable: true
+      address: "address"
+      txid: "txid"
+      confirmations: 1.46581298050294517310021547018550336360931396484375
+      account: "account"
+      vout: 0.80082819046101150206595775671303272247314453125
   TransactionListEntry:
     properties:
       account:
@@ -4306,8 +4394,12 @@ definitions:
         type: "number"
         description: "he amount in SYS (transaction fee is added on top)."
       minconf:
-        type: "number"
+        type: "integer"
         description: "Only use funds with at least this many confirmations."
+      addlockconf:
+        type: "boolean"
+        description: "Whether to add 5 confirmations to transactions locked via InstantSend."
+        default: false
       comment:
         type: "string"
         description: "A comment used to store what the transaction is for. This is\
@@ -4320,7 +4412,8 @@ definitions:
     example:
       fromaccount: "fromaccount"
       amount: 0.80082819046101150206595775671303272247314453125
-      minconf: 6.02745618307040320615897144307382404804229736328125
+      minconf: 6
+      addlockconf: false
       commentto: "commentto"
       comment: "comment"
       tosyscoinaddress: "tosyscoinaddress"
@@ -4331,16 +4424,20 @@ definitions:
     properties:
       fromaccount:
         type: "string"
-        description: "DEPRECATED. The account to send the funds from. Should be \"\
-          \" for the default account"
+        description: "The account to send the funds from. Should be \"\" for the default\
+          \ account"
       amounts:
         type: "string"
         description: "A json object with addresses and amounts { \"address\":amount\
           \   (numeric) The syscoin address is the key, the numeric amount in SYS\
           \ is the value,...}"
       minconf:
-        type: "number"
+        type: "integer"
         description: "Only use the balance confirmed at least this many times."
+      addlockconf:
+        type: "boolean"
+        description: "Only use the balance confirmed at least this many times."
+        default: false
       comment:
         type: "string"
         description: "A comment used to store what the transaction is for. This is\
@@ -4352,10 +4449,21 @@ definitions:
           \ less syscoins than you enter in their corresponding amount field. If no\
           \ addresses are specified here, the sender pays the fee. [ \"address\" Subtract\
           \ fee from this address,... ]"
+      use_is:
+        type: "boolean"
+        description: "Send this transaction as InstantSend (default: false)"
+        default: false
+      use_ps:
+        type: "boolean"
+        description: "Use anonymized funds only (default: false)"
+        default: false
     example:
       fromaccount: "fromaccount"
+      use_ps: false
       amounts: "amounts"
-      minconf: 0.80082819046101150206595775671303272247314453125
+      minconf: 0
+      addlockconf: false
+      use_is: false
       comment: "comment"
       subtractfeefromamount: "subtractfeefromamount"
   SendToAddressRequest:
@@ -4379,15 +4487,26 @@ definitions:
           \ to which you're sending the transaction. This is not part of the transaction,\
           \ it is just kept in your wallet."
       subtractfeefromamount:
-        type: "string"
+        type: "boolean"
         description: "The fee will be deducted from the amount being sent. The recipient\
           \ will receive less syscoins than you enter in the amount field."
+        default: false
+      use_is:
+        type: "boolean"
+        description: "Send this transaction as InstantSend (default: false)"
+        default: false
+      use_ps:
+        type: "boolean"
+        description: "Use anonymized funds only (default: false)"
+        default: false
     example:
+      use_ps: false
       amount: 0.80082819046101150206595775671303272247314453125
       syscoinaddress: "syscoinaddress"
+      use_is: false
       commentto: "commentto"
       comment: "comment"
-      subtractfeefromamount: "subtractfeefromamount"
+      subtractfeefromamount: false
   SignMessageRequest:
     required:
     - "message"

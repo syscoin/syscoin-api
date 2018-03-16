@@ -138,6 +138,10 @@ module.exports.listtransactions = function listtransactions (req, res, next) {
   General.listtransactions(req.swagger.params, res, next);
 };
 
+module.exports.listunspent = function listunspent (req, res, next) {
+  General.listunspent(req.swagger.params, res, next);
+};
+
 module.exports.move = function move (req, res, next) {
   General.move(req.swagger.params, res, next);
 };
