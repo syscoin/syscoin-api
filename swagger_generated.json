@@ -1258,9 +1258,10 @@
         "parameters" : [ {
           "name" : "account",
           "in" : "query",
-          "description" : "DEPRECATED. The selected account, or \"*\" for entire wallet. It may be the default account using \"\".",
+          "description" : "It need \"*\" for entire wallet",
           "required" : false,
-          "type" : "string"
+          "type" : "string",
+          "default" : "null"
         }, {
           "name" : "minconf",
           "in" : "query",
@@ -1330,7 +1331,7 @@
     "/getreceivedbyaccount" : {
       "get" : {
         "tags" : [ "General" ],
-        "description" : "DEPRECATED. Returns the total amount received by addresses with <account> in transactions with at least [minconf] confirmations.",
+        "description" : "Returns the total amount received by addresses with <account> in transactions with at least [minconf] confirmations.",
         "operationId" : "getreceivedbyaccount",
         "parameters" : [ {
           "name" : "account",
@@ -1343,7 +1344,15 @@
           "in" : "query",
           "description" : "Only include transactions confirmed at least this many times.",
           "required" : false,
-          "type" : "number"
+          "type" : "integer",
+          "default" : 1
+        }, {
+          "name" : "addlockconf",
+          "in" : "query",
+          "description" : "Whether to add 5 confirmations to transactions locked via InstantSend.",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
         } ],
         "responses" : {
           "200" : {
@@ -1381,7 +1390,15 @@
           "in" : "query",
           "description" : "Only include transactions confirmed at least this many times.",
           "required" : false,
-          "type" : "number"
+          "type" : "integer",
+          "default" : 1
+        }, {
+          "name" : "addlockconf",
+          "in" : "query",
+          "description" : "Whether to add 5 confirmations to transactions locked via InstantSend.",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
         } ],
         "responses" : {
           "200" : {
@@ -1628,20 +1645,29 @@
     "/listaccounts" : {
       "get" : {
         "tags" : [ "General" ],
-        "description" : "DEPRECATED. Returns Object that has account names as keys, account balances as values.",
+        "description" : "Returns Object that has account names as keys, account balances as values.",
         "operationId" : "listaccounts",
         "parameters" : [ {
           "name" : "minconf",
           "in" : "query",
           "description" : "Only include transactions with at least this many confirmations",
           "required" : false,
-          "type" : "number"
+          "type" : "integer",
+          "default" : 1
+        }, {
+          "name" : "addlockconf",
+          "in" : "query",
+          "description" : "Whether to add 5 confirmations to transactions locked via InstantSend.",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
         }, {
           "name" : "includeWatchonly",
           "in" : "query",
           "description" : "Include balances in watchonly addresses (see 'importaddress')",
           "required" : false,
-          "type" : "boolean"
+          "type" : "boolean",
+          "default" : false
         } ],
         "responses" : {
           "200" : {
@@ -1699,26 +1725,36 @@
     "/listreceivedbyaccount" : {
       "get" : {
         "tags" : [ "General" ],
-        "description" : "DEPRECATED. List balances by account.",
+        "description" : "List balances by account.",
         "operationId" : "listreceivedbyaccount",
         "parameters" : [ {
           "name" : "minconf",
           "in" : "query",
           "description" : "Only include transactions confirmed at least this many times.",
           "required" : false,
-          "type" : "number"
+          "type" : "number",
+          "default" : 1.0
+        }, {
+          "name" : "addlockconf",
+          "in" : "query",
+          "description" : "Whether to add 5 confirmations to transactions locked via InstantSend.",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
         }, {
           "name" : "includeempty",
           "in" : "query",
           "description" : "Whether to include accounts that haven't received any payments.",
           "required" : false,
-          "type" : "boolean"
+          "type" : "boolean",
+          "default" : false
         }, {
           "name" : "includeWatchonly",
           "in" : "query",
           "description" : "Whether to include watchonly addresses (see 'importaddress').",
           "required" : false,
-          "type" : "boolean"
+          "type" : "boolean",
+          "default" : false
         } ],
         "responses" : {
           "200" : {
@@ -1753,19 +1789,29 @@
           "in" : "query",
           "description" : "Only include transactions confirmed at least this many times.",
           "required" : false,
-          "type" : "number"
+          "type" : "integer",
+          "default" : 1
+        }, {
+          "name" : "addlockconf",
+          "in" : "query",
+          "description" : "Whether to add 5 confirmations to transactions locked via InstantSend.",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
         }, {
           "name" : "includeempty",
           "in" : "query",
           "description" : "Whether to include accounts that haven't received any payments.",
           "required" : false,
-          "type" : "boolean"
+          "type" : "boolean",
+          "default" : false
         }, {
           "name" : "includeWatchonly",
           "in" : "query",
           "description" : "Whether to include watchonly addresses (see 'importaddress').",
           "required" : false,
-          "type" : "boolean"
+          "type" : "boolean",
+          "default" : false
         } ],
         "responses" : {
           "200" : {

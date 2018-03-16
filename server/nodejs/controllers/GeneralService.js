@@ -418,7 +418,7 @@ exports.getreceivedbyaccount = function(args, res, next) {
   var argList = [
     { prop: "account" },
     { prop: "minconf", defaultValue: 1 },
-    { prop: "addlockconf"}
+    { prop: "addlockconf", defaultValue: false}
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -445,7 +445,8 @@ exports.getreceivedbyaddress = function(args, res, next) {
    **/
   var argList = [
     { prop: "syscoinaddress" },
-    { prop: "minconf", defaultValue: 1 }
+    { prop: "minconf", defaultValue: 1 },
+    { prop: "addlockconf", defaultValue: false}
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -639,7 +640,7 @@ exports.listaccounts = function(args, res, next) {
    **/
   var argList = [
     { prop: "minconf", defaultValue: 1 },
-    { prop: "addlockconf" },
+    { prop: "addlockconf", defaultValue: false },
     { prop: "includeWatchonly", defaultValue: false }
   ];
 

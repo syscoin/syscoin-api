@@ -977,8 +977,9 @@ paths:
       parameters:
       - name: account
         in: query
-        description: DEPRECATED. The selected account, or "*" for entire wallet. It may be the default account using "".
+        description: It need "*" for entire wallet
         required: false
+        default: 
         type: string
       - name: minconf
         in: query
@@ -1029,22 +1030,30 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: getreceivedbyaccount
-      description: DEPRECATED. Returns the total amount received by addresses with <account> in transactions with at least [minconf] confirmations.
+      description: Returns the total amount received by addresses with <account> in transactions with at least [minconf] confirmations.
       security:
       - token: []
       tags:
       - General
       parameters:
       - name: account
+      
         in: query
         description: The selected account, may be the default account using "".
         required: true
         type: string
       - name: minconf
+        default: 1
         in: query
         description: Only include transactions confirmed at least this many times.
         required: false
-        type: number
+        type: integer
+      - name: addlockconf
+        default: false
+        in: query
+        description: Whether to add 5 confirmations to transactions locked via InstantSend.
+        required: false
+        type: boolean
       responses:
         "200":
           description: Success
@@ -1071,10 +1080,17 @@ paths:
         required: true
         type: string
       - name: minconf
+        default: 1
         in: query
         description: Only include transactions confirmed at least this many times.
         required: false
-        type: number
+        type: integer
+      - name: addlockconf
+        default: false
+        in: query
+        description: Whether to add 5 confirmations to transactions locked via InstantSend.
+        required: false
+        type: boolean
       responses:
         "200":
           description: Success
@@ -1257,18 +1273,26 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: listaccounts
-      description: DEPRECATED. Returns Object that has account names as keys, account balances as values.
+      description: Returns Object that has account names as keys, account balances as values.
       security:
       - token: []
       tags:
       - General
       parameters:
       - name: minconf
+        default: 1
         in: query
         description: Only include transactions with at least this many confirmations
         required: false
-        type: number
+        type: integer
+      - name: addlockconf
+        default: false
+        in: query
+        description: Whether to add 5 confirmations to transactions locked via InstantSend.
+        required: false
+        type: boolean
       - name: includeWatchonly
+        default: false
         in: query
         description: Include balances in watchonly addresses (see 'importaddress')
         required: false
@@ -1310,23 +1334,32 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: listreceivedbyaccount
-      description: DEPRECATED. List balances by account.
+      description: List balances by account.
       security:
       - token: []
       tags:
       - General
       parameters:
       - name: minconf
+        default: 1
         in: query
         description: Only include transactions confirmed at least this many times.
         required: false
         type: number
+      - name: addlockconf
+        default: false
+        in: query
+        description: Whether to add 5 confirmations to transactions locked via InstantSend.
+        required: false
+        type: boolean
       - name: includeempty
+        default: false
         in: query
         description: Whether to include accounts that haven't received any payments.
         required: false
         type: boolean
       - name: includeWatchonly
+        default: false
         in: query
         description: Whether to include watchonly addresses (see 'importaddress').
         required: false
@@ -1354,16 +1387,25 @@ paths:
       - General
       parameters:
       - name: minconf
+        default: 1
         in: query
         description: Only include transactions confirmed at least this many times.
         required: false
-        type: number
+        type: integer
+      - name: addlockconf
+        default: false
+        in: query
+        description: Whether to add 5 confirmations to transactions locked via InstantSend.
+        required: false
+        type: boolean
       - name: includeempty
+        default: false
         in: query
         description: Whether to include accounts that haven't received any payments.
         required: false
         type: boolean
       - name: includeWatchonly
+        default: false
         in: query
         description: Whether to include watchonly addresses (see 'importaddress').
         required: false
