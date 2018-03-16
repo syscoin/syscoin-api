@@ -131,9 +131,8 @@ exports.aliasupdate = function(args, res, next) {
 }
 
 exports.aliaswhitelist = function(args, res, next) {
-  console.log('yo q123')
   var argList = [
-    { prop: "alias" }
+    { prop: "aliasname" }
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -148,5 +147,50 @@ exports.aliaswhitelist = function(args, res, next) {
   };
 
   var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  console.log(arr)
   syscoinClient.aliasWhitelist.apply(syscoinClient, arr);
+}
+
+exports.aliasclearwhitelist = function(args, res, next) {
+  console.log('yo q im in alias clear whitelist')
+  var argList = [
+    { prop: "owneralias", },
+    { prop: "witness", }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('Alias clear whitelist:', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+  syscoinClient.aliasClearWhitelist.apply(syscoinClient, arr);
+}
+
+exports.aliasupdatewhitelist = function(args, res, next) {
+  var argList = [
+    { prop: "owneralias" },
+    { prop: "entries" },
+    { prop: "witness", defaultValue: "" }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('Alias update whitelist:', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+  syscoinClient.aliasUpdateWhitelist.apply(syscoinClient, arr);
 }
