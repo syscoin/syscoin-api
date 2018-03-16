@@ -2,7 +2,6 @@
 
 var url = require('url');
 
-
 var Aliases = require('./AliasesService');
 
 module.exports.aliasbalance = function aliasbalance (req, res, next) {
