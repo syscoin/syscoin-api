@@ -21,8 +21,6 @@ tags:
   description: All general wallet operations.
 - name: Aliases
   description: Operations related to aliases.
-- name: Messaging
-  description: Operations related to messaging.
 - name: Offers
   description: Operations related to offers and the decentralized marketplace functionality.
 - name: Escrow
@@ -101,11 +99,11 @@ paths:
       - name: sender
         in: query
         required: true
-        type: string        
+        type: string
       - name: txid
         in: query
         required: true
-        type: string        
+        type: string
       responses:
         "200":
           description: Success
@@ -140,7 +138,7 @@ paths:
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"   
+            $ref: "#/definitions/ErrorResponse"
   /assetallocationinfo:
     x-swagger-router-controller: rpc
     get:
@@ -158,11 +156,11 @@ paths:
       - name: alias
         in: query
         required: true
-        type: string        
+        type: string
       - name: getinputs
         in: query
         required: true
-        type: boolean        
+        type: boolean
       responses:
         "200":
           description: Success
@@ -241,7 +239,7 @@ paths:
       - name: getinputs
         in: query
         required: true
-        type: boolean        
+        type: boolean
       responses:
         "200":
           description: Success
@@ -302,7 +300,7 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  
+
   /getblockchaininfo:
     x-swagger-router-controller: rpc
     get:
@@ -501,6 +499,7 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+
   /aliasbalance:
     x-swagger-router-controller: rpc
     get:
@@ -656,108 +655,6 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /certcount:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: certcount
-      description: Count certificates that an array of aliases own.
-      security:
-      - token: []
-      tags:
-      - Certificates
-      parameters:
-      - name: aliases
-        in: query
-        required: false
-        type: array
-        items:
-          type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: number
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /certfilter:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: certfilter
-      description: "scan and filter certs
-        certfilter \"\" 5 = list certs updated in last 5 blocks
-        certfilter \"^cert\" = list all certs starting with \"cert\"
-        certfilter 36000 0 0 stat = display stats (number of certs) on active certs"
-      security:
-      - token: []
-      tags:
-      - Certificates
-      parameters:
-      - name: regexp
-        in: query
-        description: apply [regexp] on certes, empty means all certs
-        required: false
-        type: string
-      - name: from
-        in: query
-        description: show results from number [from]
-        required: false
-        type: string
-      - name: count
-        in: query
-        description: the number of results to return
-        required: false
-        type: number
-      - name: safesearch #should be boolean
-        in: query
-        description: shows all certs that are safe to display (not on the ban list)
-        required: false
-        type: string
-      - name: category
-        in: query
-        description: category you want to search in, empty for all
-        required: false
-        type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/Cert"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /certhistory:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: certhistory
-      description: List all stored values of an cert.
-      security:
-      - token: []
-      tags:
-      - Certificates
-      parameters:
-      - name: certname
-        in: query
-        required: true
-        type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/CertHistoryEntry"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
   /certinfo:
     x-swagger-router-controller: rpc
     get:
@@ -777,48 +674,6 @@ paths:
           description: Success
           schema:
             $ref: "#/definitions/Cert"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /certlist:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: certlist
-      description: List certificates that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in certificates.
-      security:
-      - token: []
-      tags:
-      - Certificates
-      parameters:
-      - name: aliases
-        in: query
-        required: false
-        type: array
-        items:
-          type: string
-      - name: cert
-        in: query
-        required: false
-        type: string
-      - name: count
-        description: The number of results to return
-        in: query
-        required: false
-        type: number
-      - name: from
-        description: The number of results to skip
-        in: query
-        required: false
-        type: number
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/Cert"
         default:
           description: Error
           schema:
@@ -1011,59 +866,6 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /escrowclaimrefund:
-    x-swagger-router-controller: rpc
-    post:
-      operationId: escrowclaimrefund
-      description: Claim escrow funds released from seller or arbiter using escrowrefund. Requires wallet passphrase to be set with walletpassphrase call.
-      security:
-      - token: []
-      tags:
-      - Escrow
-      parameters:
-      - name: request
-        in: body
-        required: true
-        schema:
-          $ref: "#/definitions/EscrowClaimRefundRequest"
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              type: string #TODO: double check
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /escrowclaimrelease:
-    x-swagger-router-controller: rpc
-    post:
-      operationId: escrowclaimrelease
-      description: Claim escrow funds released from buyer or arbiter using escrowrelease. Requires wallet passphrase to be set with walletpassphrase call.
-      security:
-      - token: []
-      tags:
-      - Escrow
-      parameters:
-      - name: request
-        in: body
-        required: true
-        schema:
-          $ref: "#/definitions/EscrowClaimReleaseRequest"
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              type: string #TODO: double check
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
 
   /escrowcompleterefund:
     x-swagger-router-controller: rpc
@@ -1087,44 +889,6 @@ paths:
             type: array
             items:
               type: string #TODO: double check
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /escrowcount:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: escrowcount
-      description: Count escrows that an set of aliases are involved in.
-      security:
-      - token: []
-      tags:
-      - Escrow
-      parameters:
-      - name: buyerAliases
-        in: query
-        required: false
-        type: array
-        items:
-          type: string
-      - name: sellerAliases
-        in: query
-        required: false
-        type: array
-        items:
-          type: string
-      - name: arbiterAliases
-        in: query
-        required: false
-        type: array
-        items:
-          type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: number
         default:
           description: Error
           schema:
@@ -1188,70 +952,6 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /escrowfilter:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: escrowfilter
-      description: scan and filter escrows
-      security:
-      - token: []
-      tags:
-      - Escrow
-      parameters:
-      - name: regexp
-        in: query
-        description: Apply [regexp] on escrows, empty means all escrows
-        required: false
-        type: string
-      - name: from
-        in: query
-        description: Show results from this GUID [from], 0 means first.
-        required: false
-        type: string
-      - name: count
-        in: query
-        description: the number of results to return
-        required: false
-        type: number
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/Escrow"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /escrowhistory:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: escrowhistory
-      description: List all stored values of an escrow.
-      security:
-      - token: []
-      tags:
-      - Escrow
-      parameters:
-      - name: escrow
-        description: GUID of escrow
-        in: query
-        required: true
-        type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/Escrow"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
   /escrowinfo:
     x-swagger-router-controller: rpc
     get:
@@ -1272,64 +972,6 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
           description: Success
           schema:
             $ref: "#/definitions/Escrow"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /escrowlist:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: escrowlist
-      description: List escrows that an array of aliases are involved in.
-      security:
-      - token: []
-      tags:
-      - Escrow
-      parameters:
-      - name: buyerAliases
-        description: List of buyer aliases to display escrows from
-        in: query
-        required: false
-        type: array
-        items:
-          type: string
-      - name: sellerAliases
-        description: List of seller aliases to display escrows from
-        in: query
-        required: false
-        type: array
-        items:
-          type: string
-      - name: arbiterAliases
-        description: List of arbiter aliases to display escrows from
-        in: query
-        required: false
-        type: array
-        items:
-          type: string
-      - name: escrow
-        description: GUID of escrow
-        in: query
-        required: false
-        type: string
-      - name: count
-        description: The number of results to return
-        in: query
-        required: false
-        type: number
-      - name: from
-        description: The number of results to skip
-        in: query
-        required: false
-        type: number
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/Escrow"
         default:
           description: Error
           schema:
@@ -1607,25 +1249,6 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /getwalletbalance:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: getwalletbalance
-      description: Returns wallet balance for all accounts. Does not include watch only accounts.
-      security:
-      - token: []
-      tags:
-      - General
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: number
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
   /getnewaddress:
     x-swagger-router-controller: rpc
     post:
@@ -1760,31 +1383,6 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /getv2address:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: getv2address
-      description: Returns a new Syscoin (starts with 1) address for receiving payments. If 'account' is specified (DEPRECATED), it is added to the address book so payments received with the address will be credited to 'account'.
-      security:
-      - token: []
-      tags:
-      - General
-      parameters:
-      - name: account
-        in: query
-        description: DEPRECATED. The account name for the address to be linked to. If not provided, the default account "" is used. It can also be set to the empty string "" to represent the default account. The account does not need to exist, it will be created if there is no account by the given name.
-        required: false
-        type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: string
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
   /getwalletinfo:
     x-swagger-router-controller: rpc
     get:
@@ -1794,31 +1392,6 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
       - token: []
       tags:
       - General
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: "#/definitions/WalletInfo"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /getzaddress:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: getzaddress
-      description: "Returns a new ZCash address for receiving payments in ZCash transaparent tokens.
-so payments received with the address will be credited to 'account'."
-      security:
-      - token: []
-      tags:
-      - General
-      parameters:
-      - name: address
-        in: query
-        required: true
-        type: string
       responses:
         "200":
           description: Success
@@ -1869,34 +1442,6 @@ so payments received with the address will be credited to 'account'."
         required: true
         schema:
           $ref: "#/definitions/ImportPrivKeyRequest"
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: string
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /importprunedfunds:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: importprunedfunds
-      description: Imports funds without rescan. Corresponding address or script must previously be included in wallet. Aimed towards pruned wallets. The end-user is responsible to import additional transactions that subsequently spend the imported outputs or rescan after the point in the blockchain the transaction is included.
-      security:
-      - token: []
-      tags:
-      - General
-      parameters:
-      - name: rawtransaction
-        in: query
-        required: true
-        type: string
-      - name: txoutproof
-        in: query
-        required: true
-        type: string
       responses:
         "200":
           description: Success
@@ -2161,191 +1706,6 @@ so payments received with the address will be credited to 'account'."
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /messageinfo:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: messageinfo
-      description: Show stored values of a single message.
-      security:
-      - token: []
-      tags:
-      - Messaging
-      parameters:
-      - name: guid
-        in: query
-        required: true
-        type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: "#/definitions/Message"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /messagenew:
-    x-swagger-router-controller: rpc
-    post:
-      operationId: messagenew
-      description: Create a new Syscoin encrypted message.
-      security:
-      - token: []
-      tags:
-      - Messaging
-      parameters:
-      - name: request
-        in: body
-        required: true
-        schema:
-          $ref: "#/definitions/MessageNewRequest"
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              type: string
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /messagereceivecount:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: messagereceivecount
-      description: Count received messages that an array of aliases own.
-      security:
-      - token: []
-      tags:
-      - Messaging
-      parameters:
-      - name: aliases
-        in: query
-        required: false
-        type: array
-        items:
-          type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: number
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /messagereceivelist:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: messagereceivelist
-      description: List received messages that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in message.
-      security:
-      - token: []
-      tags:
-      - Messaging
-      parameters:
-      - name: aliases
-        in: query
-        required: false
-        type: array
-        items:
-          type: string
-      - name: message
-        in: query
-        required: false
-        type: string
-      - name: count
-        description: The number of results to return
-        in: query
-        required: false
-        type: number
-      - name: from
-        description: The number of results to skip
-        in: query
-        required: false
-        type: number
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/Message"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /messagesentcount:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: messagesentcount
-      description: Count sent messages that an array of aliases own.
-      security:
-      - token: []
-      tags:
-      - Messaging
-      parameters:
-      - name: aliases
-        in: query
-        required: false
-        type: array
-        items:
-          type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: number
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /messagesentlist:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: messagesentlist
-      description: List sent messages that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in message.
-      tags:
-      - Messaging
-      parameters:
-      - name: aliases
-        in: query
-        required: false
-        type: array
-        items:
-          type: string
-      - name: message
-        in: query
-        required: false
-        type: string
-      - name: count
-        description: The number of results to return
-        in: query
-        required: false
-        type: number
-      - name: from
-        description: The number of results to skip
-        in: query
-        required: false
-        type: number
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/Message"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
   /move:
     x-swagger-router-controller: rpc
     post:
@@ -2366,339 +1726,6 @@ so payments received with the address will be credited to 'account'."
           description: Success
           schema:
             type: boolean
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /offeraccept:
-    x-swagger-router-controller: rpc
-    post:
-      operationId: offeraccept
-      description: Accept&Pay for a confirmed offer.
-      security:
-      - token: []
-      tags:
-      - Offers
-      parameters:
-      - name: request
-        in: body
-        required: true
-        schema:
-          $ref: "#/definitions/OfferAcceptRequest"
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              type: string
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /offeracceptacknowledge:
-    x-swagger-router-controller: rpc
-    post:
-      operationId: offeracceptacknowledge
-      description: Acknowledge offer payment as seller of offer. Deducts qty of offer and increases number of sold inventory.
-      security:
-      - token: []
-      tags:
-      - Offers
-      parameters:
-      - name: offerguid
-        in: query
-        required: true
-        type: string
-      - name: offeracceptguid
-        in: query
-        required: true
-        type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              type: string
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /offeracceptcount:
-      x-swagger-router-controller: rpc
-      get:
-        operationId: offeracceptcount
-        description: List count of offer accept for a set of aliases. filterpurchases filters results for count of accepts that have been bought with aliases passed in(as buyer), filtersales filters results for count of accepts purchased by aliases passed in(as merchant or affiliate).
-        security:
-            - token: []
-        tags:
-        - Offers
-        parameters:
-        - name: aliases
-          in: query
-          required: false
-          type: array
-          items:
-            type: string
-        - name: filterpurchases
-          in: query
-          required: false
-          type: boolean
-        - name: filtersales
-          in: query
-          required: false
-          type: boolean
-        responses:
-          "200":
-            description: Success
-            schema:
-              type: number
-          default:
-            description: Error
-            schema:
-              $ref: "#/definitions/ErrorResponse"
-
-  /offeracceptfeedback:
-    x-swagger-router-controller: rpc
-    post:
-      operationId: offeracceptfeedback
-      description: Send feedback and rating for offer accept specified. Ratings are numbers from 1 to 5
-      security:
-      - token: []
-      tags:
-      - Offers
-      parameters:
-      - name: offerguid
-        in: query
-        required: true
-        type: string
-      - name: offeracceptguid
-        in: query
-        required: true
-        type: string
-      - name: feedback
-        in: query
-        required: false
-        type: string
-      - name: rating
-        in: query
-        required: false
-        type: number
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              type: string
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /offeracceptlist:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: offeracceptlist
-      description: List offer accepts for a set of aliases. filterpurchases filters results for accepts that have been bought with aliases passed in(as buyer), filtersales filters results for accepts purchased by aliases passed in(as merchant or affiliate).
-      security:
-          - token: []
-      tags:
-      - Offers
-      parameters:
-      - name: aliases
-        in: query
-        required: false
-        type: array
-        items:
-          type: string
-      - name: guid
-        in: query
-        required: false
-        type: string
-      - name: filterpurchases
-        in: query
-        required: false
-        type: boolean
-      - name: filtersales
-        in: query
-        required: false
-        type: boolean
-      - name: count
-        description: The number of results to return
-        in: query
-        required: false
-        type: number
-      - name: from
-        description: The number of results to skip
-        in: query
-        required: false
-        type: number
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/OfferAccept"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /offeraddwhitelist:
-    x-swagger-router-controller: rpc
-    post:
-      operationId: offeraddwhitelist
-      description: Add to the affiliate list of your offer(controls who can resell). Requires wallet passphrase to be set with walletpassphrase call.
-      security:
-      - token: []
-      tags:
-      - Offers
-      parameters:
-      - name: request
-        in: body
-        required: true
-        schema:
-          $ref: "#/definitions/OfferAddWhitelistRequest"
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              type: string
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /offerclearwhitelist:
-    x-swagger-router-controller: rpc
-    post:
-      operationId: offerclearwhitelist
-      description: Clear the affiliate list of your offer(controls who can resell). Requires wallet passphrase to be set with walletpassphrase call.
-      security:
-      - token: []
-      tags:
-      - Offers
-      parameters:
-      - name: request
-        in: body
-        required: true
-        schema:
-          $ref: "#/definitions/OfferClearWhitelistRequest"
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              type: string
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /offercount:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: offercount
-      description: Count offers that an array of aliases own.
-      security:
-      - token: []
-      tags:
-      - Offers
-      parameters:
-      - name: aliases
-        in: query
-        required: false
-        type: array
-        items:
-          type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: number
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /offerfilter:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: offerfilter
-      description: scan and filter offers
-      security:
-      - token: []
-      tags:
-      - Offers
-      parameters:
-      - name: regexp
-        in: query
-        description: apply [regexp] on offeres, empty means all offers
-        required: false
-        type: string
-      - name: from
-        in: query
-        description: show results from number [from]
-        required: false
-        type: string
-      - name: count
-        in: query
-        description: the number of results to return
-        required: false
-        type: number
-      - name: safesearch #should be boolean
-        in: query
-        description: shows all offers that are safe to display (not on the ban list)
-        required: false
-        type: string
-      - name: category
-        in: query
-        description: Category you want to search in, empty for all
-        required: false
-        type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/Offer"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /offerhistory:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: offerhistory
-      description: List all stored values of an offer.
-      security:
-      - token: []
-      tags:
-      - Offers
-      parameters:
-      - name: offer
-        in: query
-        description: Offer GUID.
-        required: true
-        type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/OfferHistoryEntry"
         default:
           description: Error
           schema:
@@ -2755,48 +1782,6 @@ so payments received with the address will be credited to 'account'."
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /offerlist:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: offerlist
-      description: list offers that an array of aliases own.
-      security:
-      - token: []
-      tags:
-      - Offers
-      parameters:
-      - name: aliases
-        in: query
-        required: false
-        type: array
-        items:
-          type: string
-      - name: guid
-        in: query
-        required: false
-        type: string
-      - name: count
-        description: The number of results to return
-        in: query
-        required: false
-        type: number
-      - name: from
-        description: The number of results to skip
-        in: query
-        required: false
-        type: number
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/Offer"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
   /offernew:
     x-swagger-router-controller: rpc
     post:
@@ -2815,33 +1800,6 @@ so payments received with the address will be credited to 'account'."
       responses:
         "200":
           description: Success; Returns an array of 2 elements- tx id and offer GUID.
-          schema:
-            type: array
-            items:
-              type: string
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /offerremovewhitelist:
-    x-swagger-router-controller: rpc
-    post:
-      operationId: offerremovewhitelist
-      description: Remove from the affiliate list of your offer(controls who can resell). Requires wallet passphrase to be set with walletpassphrase call.
-      security:
-      - token: []
-      tags:
-      - Offers
-      parameters:
-      - name: request
-        in: body
-        required: true
-        schema:
-          $ref: "#/definitions/OfferRemoveWhitelistRequest"
-      responses:
-        "200":
-          description: Success
           schema:
             type: array
             items:
@@ -2878,32 +1836,6 @@ so payments received with the address will be credited to 'account'."
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /offerwhitelist:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: offerwhitelist
-      description: List all affiliates for this offer.
-      security:
-      - token: []
-      tags:
-      - Offers
-      parameters: #TODO: review RPC param names
-      - name: offerguid
-        in: query
-        required: true
-        type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/OfferWhitelistEntry"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
   /sendfrom:
     x-swagger-router-controller: rpc
     post:
@@ -2919,30 +1851,6 @@ so payments received with the address will be credited to 'account'."
         required: true
         schema:
           $ref: "#/definitions/SendFromRequest"
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: string
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /removeprunedfunds:
-    x-swagger-router-controller: rpc
-    get:
-      operationId: removeprunedfunds
-      description: Deletes the specified transaction from the wallet. Meant for use with pruned wallets and as a companion to importprunedfunds. This will effect wallet balances.
-      security:
-      - token: []
-      tags:
-      - General
-      parameters:
-      - name: txid
-        in: query
-        required: true
-        type: string
       responses:
         "200":
           description: Success
@@ -3128,18 +2036,370 @@ so payments received with the address will be credited to 'account'."
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /syscoinsignrawtransaction:
+# Added new path here
+  /getaddressbalance:
+    get:
+      tags:
+      - "General"
+      description: "get address balance "
+      operationId: "getaddressbalance"
+      parameters:
+      - name: "addresses"
+        in: "query"
+        required: true
+        type: "array"
+        items:
+          type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/getAddressBalanceResponse"
+        default:
+           description: "Error"
+           schema:
+             $ref: "#/definitions/ErrorResponse"
+    x-swagger-router-controller: "rpc"
+  /getaddressdeltas:
+     get:
+       tags:
+       - "General"
+       description: "getaddressdeltas"
+       operationId: "getaddressdeltas"
+       parameters:
+       - name: "addresses"
+         in: "query"
+         required: true
+         type: "array"
+         items:
+           type: "string"
+       - name: "start"
+         in: "query"
+         required: true
+         type: "number"
+       - name: "end"
+         in: "query"
+         required: true
+         type: "number"
+       responses:
+         200:
+           description: "Success"
+           schema:
+             type: "array"
+             items:
+               $ref: "#/definitions/getAddressDeltasResponseObject"
+         default:
+            description: "Error"
+            schema:
+              $ref: "#/definitions/ErrorResponse"
+       x-swagger-router-controller: "General"
+     x-swagger-router-controller: "rpc"
+  /getaddressmempool:
+     get:
+       tags:
+       - "General"
+       description: "getaddressdeltas"
+       operationId: "getaddressmempool"
+       parameters:
+       - name: "addresses"
+         in: "query"
+         required: true
+         type: "array"
+         items:
+           type: "string"
+       responses:
+         200:
+           description: "Success"
+           schema:
+             type: "array"
+             items:
+               $ref: "#/definitions/getAddressMemPoolResponseObject"
+         default:
+            description: "Error"
+            schema:
+              $ref: "#/definitions/ErrorResponse"
+     x-swagger-router-controller: "rpc"
+  /sentinelping:
     x-swagger-router-controller: rpc
     get:
-      operationId: syscoinsignrawtransaction
-      description: Sign inputs for raw transaction (serialized, hex-encoded) and sends them out to the network if signing is complete
+      operationId: sentinelping
+      description: Keep-alive message for masternode via TCP ping requests.
+      security:
+      - token: []
+      tags:
+      - Masternodes
+      parameters:
+      - name: version
+        in: query
+        description: Sentinel version in the form 'x.x.x'
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: boolean
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /voteraw:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: voteraw
+      description: Compile and relay a governance vote with provided external signature instead of signing vote internally.
+      security:
+      - token: []
+      tags:
+       - Masternodes
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/VoteRawRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /escrowbid:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: escrowbid
+      description: Bid on an auction.
+      security:
+      - token: []
+      tags:
+      - Escrow
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/EscrowBidRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /escrowcreaterawtransaction:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: escrowcreaterawtransaction
+      description: Creates raw transaction for escrow refund or release, sign the output raw transaction and pass it via the rawtx parameter to escrowrelease. Type is 'refund' or 'release'. Third parameter is array of input (txid, vout, amount) pairs to be used to fund escrow payment. User role represents either 'seller', 'buyer' or 'arbiter', represents who signed for the payment of the escrow. 'seller' or 'arbiter' is valid for type 'refund', while 'buyer' or 'arbiter' is valid for type 'release'. You only need to provide this parameter when calling escrowrelease or escrowrefund.
+      security:
+      - token: []
+      tags:
+      - Escrow
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/EscrowCreateRawTransactionRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string #TODO: double check
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /syscoinsendrawtransaction:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: syscoinsendrawtransaction
+      description: Signed raw transaction (serialized, hex-encoded) sent out to the network.
       security:
       - token: []
       tags:
       - General
       parameters:
-      - name: hexstring
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/SendRawTransactionRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /getgenerate:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getgenerate
+      description: Returns true if generation is ON, otherwise false
+      security:
+      - token: []
+      tags:
+      - General
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: boolean
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /setgenerate:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: setgenerate
+      description: |
+        Set 'generate' true or false to turn generation on or off.
+        Generation is limited to 'genproclimit' processors, -1 is unlimited.
+        See the getgenerate call for the current setting
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: generate
         in: query
+        required: true
+        type: boolean
+      - name: genproclimit
+        in: query
+        required: false
+        type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /setnetworkactive:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: setnetworkactive
+      description: |
+        Set 'networkactive' true or false
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: state
+        in: query
+        required: true
+        type: boolean
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: boolean
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /mnsync:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: mnsync
+      description: Returns the sync status, updates to the next step or resets it entirely.
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: command
+        in: query
+        description: |
+          'status' - Sync status
+          'next' - Update to next step
+          'reset' - Reset it entirely
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /dumphdinfo:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: dumphdinfo
+      description: Returns an object containing sensitive private info about this HD wallet.
+      security:
+      - token: []
+      tags:
+      - General
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/DumpHdInfoResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /debug:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: debug
+      description: Change debug category on the fly. Specify single category or use comma to specify many.
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: command
+        in: query
+        description: |
+          0|1|addrman|alert|bench|coindb|db|lock|rand
+          |rpc|selectcoins|mempool|mempoolrej|net|proxy
+          |prune|http|libevent|tor|zmq|syscoin|privatesend|instantsend
+          |masternode|spork|keepass|mnpayments|gobject
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /privatesend:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: privatesend
+      description: Anonymous mixing and sending coins.
+      security:
+      - token: []
+      tags:
+      - Masternodes
+      parameters:
+      - name: command
+        in: query
+        description: |
+          'start' - Start Mixing
+          'stop' - Stop mixing
+          'reset' - Reset mixing
         required: true
         type: string
       responses:
@@ -3151,9 +2411,218 @@ so payments received with the address will be credited to 'account'."
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+  /importelectrumwallet:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: importelectrumwallet
+      description: Imports keys from an Electrum wallet export file (.csv or .json).
+      security:
+      - token: []
+      tags:
+      - Masternodes
+      parameters:
+      - name: filename
+        in: query
+        description: (string, required) The Electrum wallet export file, should be in csv or json format
+        required: true
+        type: string
+      - name: index
+        in: query
+        description: (numeric, optional, default=0) Rescan the wallet for transactions starting from this block index
+        type: number
+        default: 0
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /instantsendtoaddress:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: instantsendtoaddress
+      description: Send multiple times. Amounts are double-precision floating point numbers. Requires wallet passphrase to be set with walletpassphrase call.
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/instantSendToAddressRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
 # complex objects have schema definitions
 definitions:
+  instantSendToAddressRequest:
+    required:
+    - syscoinaddress
+    - amount
+    properties:
+      syscoinaddress:
+        type: string
+        description: (string, required) The syscoin address to send to.
+      amount:
+        type: number
+        description: (numeric, required) The amount in sys to send. eg 0.1
+      comment:
+        type: string
+        description: (string, optional) A comment used to store what the transaction is for.
+      comment-to:
+        type: string
+        description: (string, optional) A comment to store the name of the person or organization to which you're sending the transaction. This is not part of the transaction, just kept in your wallet.
+      subtractfeefromamount:
+        type: boolean
+        description: The fee will be deducted from the amount being sent.
+  SendRawTransactionRequest:
+    required:
+    - hexstring
+    properties:
+      hexstring:
+        type: string
+      allowhighfees:
+        type: boolean
+      instantsend:
+        type: boolean
+  GetAddressUTXOsEntry:
+    properties:
+      address:
+        type: string
+      txid:
+        type: string
+      outputIndex:
+        type: number
+      script:
+        type: string
+      satoshis:
+        type: number
+      height:
+        type: number
+  EscrowCreateRawTransactionRequest:
+    required:
+    - type
+    - escrowguid
+    - inputs
+    properties:
+      type:
+        type: string
+      escrowguid:
+        type: string
+      inputs:
+        type: array
+        items:
+          $ref: "#/definitions/GetAddressUTXOsEntry"
+      role:
+        type: string
+  EscrowBidRequest:
+    required:
+    - alias
+    - escrow
+    - bid_in_payment_option
+    - bid_in_offer_currency
+    properties:
+      alias:
+        description: An alias you own.
+        type: string
+      escrow:
+        description: Escrow GUID to place bid on.
+        type: string
+      bid_in_payment_option:
+        description: Amount to bid on offer through escrow. Bid is in payment option currency. Example, If offer is paid in SYS and you have deposited 10 SYS in escrow and would like to increase your total bid to 14 SYS enter 14 here. It is per unit of purchase.
+        type: number
+      bid_in_offer_currency:
+        description: Converted value of bid_in_payment_option from paymentOption currency to offer currency. For example, offer is priced in USD and purchased in BTC, this field will be the BTC/USD value. It is per unit of purchase.
+        type: number
+      witness:
+        description: Witness alias name that will sign for web-of-trust notarization of this transaction.
+        type: string
+  VoteRawRequest:
+    required:
+    - masternode-tx-hash
+    - masternode-tx-index
+    - governance-hash
+    - vote-signal
+    - vote-outcome
+    - time
+    - vote-sig
+    properties:
+      masternode-tx-hash:
+        type: string
+      masternode-tx-index:
+        type: string
+      governance-hash:
+        type: string
+      vote-signal:
+        type: string
+      vote-outcome:
+        type: string
+      time:
+        type: number
+      vote-sig:
+        type: string
+  getAddressMemPoolResponseObject:
+    properties:
+      satoshis:
+        type: "string"
+        description: "The difference of satoshis"
+      txid:
+        type: "string"
+        description: "The related txid"
+      index:
+        type: "number"
+        description: "The related input or output index"
+      height:
+        type: "number"
+        description: "The block height"
+      address:
+        type: "string"
+        description: "The base58check encoded address"
+      timestamp:
+        type: "number"
+        description: "The time the transaction entered the mempool (seconds)"
+      prevtxid:
+        type: "string"
+        description: "The previous txid (if spending)"
+      prevout:
+        type: "string"
+        description: "The previous transaction output index (if spending)"
+  getAddressDeltasResponseObject:
+    properties:
+      satoshis:
+        type: "string"
+        description: "The difference of satoshis"
+      txid:
+        type: "string"
+        description: "The related txid"
+      index:
+        type: "number"
+        description: "The related input or output index"
+      height:
+        type: "number"
+        description: "The block height"
+      address:
+        type: "string"
+        description: "The base58check encoded address"
+  getAddressBalanceResponse:
+    properties:
+      balance:
+        type: "string"
+        description: "balance againts address"
+      received:
+        type: "string"
+        description: "received againts address"
   Info:
     required:
     - version
@@ -4872,6 +4341,14 @@ definitions:
           type: string
       ismine:
         type: boolean
+  DumpHdInfoResponse:
+    properties:
+      hdseed:
+        type: string
+      mnemonic:
+        type: string
+      mnemonicpassphrase:
+        type: string
   Asset:
     required:
     - _id
@@ -4897,9 +4374,9 @@ definitions:
       max_supply:
         type: number
       interest_rate:
-        type: number  
+        type: number
       can_adjust_interest_rate:
-        type: boolean        
+        type: boolean
       inputs:
         type: array
         items:
@@ -4937,12 +4414,12 @@ definitions:
           $ref: "#/definitions/AssetAmount"
       memo:
         description: Message to include in this asset allocation transfer.
-        type: string  
+        type: string
       witness:
         description: Witness alias name that will sign for web-of-trust notarization of this transaction.
         type: string
   AssetAmount:
-    required: 
+    required:
     - aliasto
     - amount
     properties:
@@ -4960,13 +4437,13 @@ definitions:
       _id:
         type: string
       asset:
-        type: string        
+        type: string
       txid:
         type: string
       height:
         type: number
       alias:
-        type: string        
+        type: string
       balance:
         type: number
       interest_claim_height:
@@ -5014,10 +4491,10 @@ definitions:
         type: number
       interest_rate:
         description: The annual interest rate if any. Money supply is still capped to total supply. Should be between 0 and 1 and represents a percentage divided by 100. Can only set if this asset allows adjustment of interest rate.
-        type: number  
+        type: number
       witness:
         description: Witness alias name that will sign for web-of-trust notarization of this transaction.
-        type: string 
+        type: string
   AssetNewRequest:
     properties:
       name:
@@ -5037,16 +4514,16 @@ definitions:
         type: number
       max_supply:
         description: Maximum supply of this asset. Set to -1 for uncapped.
-        type: number  
+        type: number
       use_inputranges:
         description: If this asset uses an input for every token, useful if you need to keep track of a token regardless of ownership.
-        type: boolean  
+        type: boolean
       interest_rate:
         description: The annual interest rate if any. Money supply is still capped to total supply. Should be between 0 and 1 and represents a percentage divided by 100.
-        type: number  
+        type: number
       can_adjust_interest_rate:
         description: Ability to adjust interest rate through assetupdate in the future.
-        type: boolean         
+        type: boolean
       witness:
         description: Witness alias name that will sign for web-of-trust notarization of this transaction.
         type: string

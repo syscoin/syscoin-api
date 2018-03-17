@@ -2,7 +2,6 @@
 
 var url = require('url');
 
-
 var Aliases = require('./AliasesService');
 
 module.exports.aliasbalance = function aliasbalance (req, res, next) {
@@ -26,6 +25,5 @@ module.exports.aliasupdate = function aliasupdate (req, res, next) {
 };
 
 module.exports.aliaswhitelist = function aliaswhitelist (req, res, next) {
-  console.log('wassup q')
   Aliases.aliaswhitelist(req.swagger.params, res, next);
 };

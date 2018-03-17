@@ -44,18 +44,15 @@ exports.aliasinfo = function(args, res, next) {
 
 exports.aliasnew = function(args, res, next) {
   var argList = [
-    { prop: "aliaspeg" },
     { prop: "aliasname" },
-    { prop: "password"},
     { prop: "publicvalue" },
-    { prop: "safesearch", defaultValue: "Yes" },
-    { prop: "accepttransfers", defaultValue: "Yes" },
-    { prop: "expire", defaultValue: 0 },
-    { prop: "nrequired", defaultValue: 0 },
-    { prop: "aliases", defaultValue: "[]" }
+    { prop: "accept_transfers_flags", defaultValue: 3 },
+    { prop: "expire_timestamp", defaultValue: 3600 },
+    { prop: "address"},
+    { prop: "encryption_privatekey"},
+    { prop: "encryption_publickey"},
+    { prop: "witness"},
   ];
-
-  args.request.value.nrequired = varUtils.correctTypes(args.request.value.nrequired, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -74,13 +71,11 @@ exports.aliasnew = function(args, res, next) {
 
 exports.aliaspay = function(args, res, next) {
   var argList = [
-    { prop: "alias" },
+    { prop: "aliasfrom" },
     { prop: "amounts" },
-    { prop: "minconf", defaultValue: 0 },
-    { prop: "comment", defaultValue: "" }
+    { prop: "instantsend" },
+    { prop: "subtractfeefromamount" }
   ];
-
-  args.request.value.nrequired = varUtils.correctTypes(args.request.value.nrequired, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -100,17 +95,14 @@ exports.aliaspay = function(args, res, next) {
 exports.aliasupdate = function(args, res, next) {
   //TODO: update core RPC docs on param ordering- order of this array MATTERS!!!!
   var argList = [
-    { prop: "aliaspeg" },
     { prop: "aliasname" },
     { prop: "publicvalue" },
-    { prop: "privatevalue", defaultValue: "" },
-    { prop: "safesearch", defaultValue: "Yes" },
-    { prop: "toalias_pubkey", defaultValue: "" },
-    { prop: "password", defaultValue: "" },
-    { prop: "accepttransfers", defaultValue: "Yes" },
-    { prop: "expire", defaultValue: 0 },
-    { prop: "nrequired", defaultValue: 0 },
-    { prop: "aliases", defaultValue: [] }
+    { prop: "accept_transfers_flags", defaultValue: 3 },
+    { prop: "expire_timestamp", defaultValue: 3600 },
+    { prop: "address"},
+    { prop: "encryption_privatekey"},
+    { prop: "encryption_publickey"},
+    { prop: "witness"}
   ];
 
   args.request.value.nrequired = varUtils.correctTypes(args.request.value.nrequired, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
