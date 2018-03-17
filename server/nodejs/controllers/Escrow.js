@@ -38,12 +38,6 @@ module.exports.escrowrelease = function escrowrelease (req, res, next) {
   Escrow.escrowrelease(req.swagger.params, res, next);
 };
 
-/* Deprecated */
-module.exports.generateescrowmultisig = function generateescrowmultisig (req, res, next) {
-  Escrow.generateescrowmultisig(req.swagger.params, res, next);
-};
-
-
 module.exports.escrowbid = function generateescrowmultisig (req, res, next) {
   Escrow.escrowbid(req.swagger.params, res, next);
 };

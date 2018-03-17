@@ -418,7 +418,7 @@ exports.getreceivedbyaccount = function(args, res, next) {
   var argList = [
     { prop: "account" },
     { prop: "minconf", defaultValue: 1 },
-    { prop: "addlockconf"}
+    { prop: "addlockconf", defaultValue: false}
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -445,7 +445,8 @@ exports.getreceivedbyaddress = function(args, res, next) {
    **/
   var argList = [
     { prop: "syscoinaddress" },
-    { prop: "minconf", defaultValue: 1 }
+    { prop: "minconf", defaultValue: 1 },
+    { prop: "addlockconf", defaultValue: false}
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -639,7 +640,7 @@ exports.listaccounts = function(args, res, next) {
    **/
   var argList = [
     { prop: "minconf", defaultValue: 1 },
-    { prop: "addlockconf" },
+    { prop: "addlockconf", defaultValue: false },
     { prop: "includeWatchonly", defaultValue: false }
   ];
 
@@ -787,6 +788,36 @@ exports.listtransactions = function(args, res, next) {
   syscoinClient.listTransactions.apply(syscoinClient, arr);
 }
 
+exports.listunspent = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * account (String)
+   * count (BigDecimal)
+   * from (BigDecimal)
+   * includeWatchonly (Boolean)
+   **/
+  var argList = [
+    { prop: "minconf", defaultValue: 1 },
+    { prop: "maxconf", defaultValue: 9999999 },
+    { prop: "adresses", defaultValue: [] },
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('List transactions ', result, "listtransactions");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.listUnspent.apply(syscoinClient, arr);
+}
+
+
 exports.move = function(args, res, next) {
   /**
    * parameters expected in the args:
@@ -826,6 +857,7 @@ exports.sendfrom = function(args, res, next) {
     { prop: "tosyscoinaddress" },
     { prop: "amount" },
     { prop: "minconf", defaultValue: 1 },
+    { prop: "addlockconf", defaultValue: false},
     { prop: "comment", defaultValue: "" },
     { prop: "commentto", defaultValue: ""}
   ];
@@ -854,8 +886,11 @@ exports.sendmany = function(args, res, next) {
     { prop: "fromaccount" },
     { prop: "amounts" },
     { prop: "minconf", defaultValue: 1 },
+    { prop: "addlockconf", defaultValue: false },
     { prop: "comment", defaultValue: "" },
-    { prop: "subtractfeefromamount", defaultValue: [] }
+    { prop: "subtractfeefromamount", defaultValue: [] },
+    { prop: "use_is", defaultValue: false},
+    { prop: "use_ps", defaultValue: false}
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -881,12 +916,12 @@ exports.sendtoaddress = function(args, res, next) {
   var argList = [
     { prop: "syscoinaddress" },
     { prop: "amount" },
-    { prop: "comment", defaultValue: "" },
-    { prop: "commentto", defaultValue: "" },
-    { prop: "subtractfeefromamount", defaultValue: false }
+    { prop: "comment"},
+    { prop: "commentto"},
+    { prop: "subtractfeefromamount", defaultValue: false },
+    { prop: "use_is", defaultValue: false },
+    { prop: "use_ps", defaultValue: false }
   ];
-
-  args.request.value.amount = varUtils.correctTypes(args.request.value.amount, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -931,11 +966,9 @@ exports.signmessage = function(args, res, next) {
 exports.syscoindecoderawtransaction = function(args, res, next) {
   /**
    * parameters expected in the args:
-   * alias (String)
    * hexstring (String)
    **/
   var argList = [
-    { prop: "alias" },
     { prop: "hexstring" }
   ];
 

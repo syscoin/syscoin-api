@@ -700,7 +700,7 @@ paths:
         in: body
         required: true
         schema:
-            $ref: "#/definitions/AliasUpdateRequest"
+          $ref: "#/definitions/AliasUpdateRequest"
       responses:
         "200":
           description: Success
@@ -712,6 +712,33 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+
+  /aliasbalance:
+    get:
+      tags:
+      - "Aliases"
+      description: "Returns the total amount received by the given alias in transactions\
+        \ with at least minconf confirmations."
+      operationId: "aliasbalance"
+      parameters:
+      - name: "alias"
+        in: "query"
+        description: "The syscoin alias for transactions"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "number"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Aliases"
+    x-swagger-router-controller: "rpc"
 
   /certinfo:
     x-swagger-router-controller: rpc
@@ -908,10 +935,11 @@ paths:
       tags:
       - Escrow
       parameters:
-      - name: escrowguid
-        in: query
+      - name: request
+        in: body
         required: true
-        type: string
+        schema:
+          $ref: "#/definitions/EscrowacknowledgeRequest"
       responses:
         "200":
           description: Success
@@ -923,7 +951,6 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-
 
   /escrowcompleterefund:
     x-swagger-router-controller: rpc
@@ -983,11 +1010,7 @@ paths:
     x-swagger-router-controller: rpc
     post:
       operationId: escrowfeedback
-      description: "Send feedback for primary and secondary users in escrow, depending on who you are. Ratings are numbers from 1 to 5. User Role is either 'buyer', 'seller', 'reseller', or 'arbiter'.
-If you are the buyer, feedbackprimary is for seller and feedbacksecondary is for arbiter.
-If you are the seller, feedbackprimary is for buyer and feedbacksecondary is for arbiter.
-If you are the arbiter, feedbackprimary is for buyer and feedbacksecondary is for seller.
-If arbiter didn't do any work for this escrow you can leave his feedback empty and rating as a 0."
+      description: Send feedback for primary and secondary users in escrow, depending on who you are.
       security:
       - token: []
       tags:
@@ -1284,8 +1307,9 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
       parameters:
       - name: account
         in: query
-        description: DEPRECATED. The selected account, or "*" for entire wallet. It may be the default account using "".
+        description: It need "*" for entire wallet
         required: false
+        default:
         type: string
       - name: minconf
         in: query
@@ -1336,22 +1360,30 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
     x-swagger-router-controller: rpc
     get:
       operationId: getreceivedbyaccount
-      description: DEPRECATED. Returns the total amount received by addresses with <account> in transactions with at least [minconf] confirmations.
+      description: Returns the total amount received by addresses with <account> in transactions with at least [minconf] confirmations.
       security:
       - token: []
       tags:
       - General
       parameters:
       - name: account
+
         in: query
         description: The selected account, may be the default account using "".
         required: true
         type: string
       - name: minconf
+        default: 1
         in: query
         description: Only include transactions confirmed at least this many times.
         required: false
-        type: number
+        type: integer
+      - name: addlockconf
+        default: false
+        in: query
+        description: Whether to add 5 confirmations to transactions locked via InstantSend.
+        required: false
+        type: boolean
       responses:
         "200":
           description: Success
@@ -1378,10 +1410,17 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
         required: true
         type: string
       - name: minconf
+        default: 1
         in: query
         description: Only include transactions confirmed at least this many times.
         required: false
-        type: number
+        type: integer
+      - name: addlockconf
+        default: false
+        in: query
+        description: Whether to add 5 confirmations to transactions locked via InstantSend.
+        required: false
+        type: boolean
       responses:
         "200":
           description: Success
@@ -1564,18 +1603,26 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
     x-swagger-router-controller: rpc
     get:
       operationId: listaccounts
-      description: DEPRECATED. Returns Object that has account names as keys, account balances as values.
+      description: Returns Object that has account names as keys, account balances as values.
       security:
       - token: []
       tags:
       - General
       parameters:
       - name: minconf
+        default: 1
         in: query
         description: Only include transactions with at least this many confirmations
         required: false
-        type: number
+        type: integer
+      - name: addlockconf
+        default: false
+        in: query
+        description: Whether to add 5 confirmations to transactions locked via InstantSend.
+        required: false
+        type: boolean
       - name: includeWatchonly
+        default: false
         in: query
         description: Include balances in watchonly addresses (see 'importaddress')
         required: false
@@ -1617,23 +1664,32 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
     x-swagger-router-controller: rpc
     get:
       operationId: listreceivedbyaccount
-      description: DEPRECATED. List balances by account.
+      description: List balances by account.
       security:
       - token: []
       tags:
       - General
       parameters:
       - name: minconf
+        default: 1
         in: query
         description: Only include transactions confirmed at least this many times.
         required: false
         type: number
+      - name: addlockconf
+        default: false
+        in: query
+        description: Whether to add 5 confirmations to transactions locked via InstantSend.
+        required: false
+        type: boolean
       - name: includeempty
+        default: false
         in: query
         description: Whether to include accounts that haven't received any payments.
         required: false
         type: boolean
       - name: includeWatchonly
+        default: false
         in: query
         description: Whether to include watchonly addresses (see 'importaddress').
         required: false
@@ -1661,16 +1717,25 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
       - General
       parameters:
       - name: minconf
+        default: 1
         in: query
         description: Only include transactions confirmed at least this many times.
         required: false
-        type: number
+        type: integer
+      - name: addlockconf
+        default: false
+        in: query
+        description: Whether to add 5 confirmations to transactions locked via InstantSend.
+        required: false
+        type: boolean
       - name: includeempty
+        default: false
         in: query
         description: Whether to include accounts that haven't received any payments.
         required: false
         type: boolean
       - name: includeWatchonly
+        default: false
         in: query
         description: Whether to include watchonly addresses (see 'importaddress').
         required: false
@@ -1722,7 +1787,49 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+  /listunspent:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: listunspent
+      description: 'Returns array of unspent transaction outputs
+with between minconf and maxconf (inclusive) confirmations.
+Optionally filter to only include txouts paid to specified addresses.
+Results are an array of Objects, each of which has:
+{txid, vout, scriptPubKey, amount, confirmations}'
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: minconf
+        in: query
+        description: The minimum confirmations to filter.
+        default: 1
+        required: false
+        type: integer
+      - name: maxconf
+        in: query
+        description: The maximum confirmations to filter
+        default: 9999999
+        required: false
+        type: number
+      - name: adresses
+        in: query
+        description: A json array of syscoin addresses to filter
+        default: []
+        required: false
+        type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/UnspentListEntry"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /listtransactions:
     x-swagger-router-controller: rpc
     get:
@@ -1735,22 +1842,26 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
       parameters:
       - name: account
         in: query
-        description: DEPRECATED. The account name. Should be "*".
+        description: The account name. Should be "*".
+        default: "*"
         required: false
         type: string
       - name: count
         in: query
         description: The number of transactions to return
+        default: 10
         required: false
         type: number
       - name: from
         in: query
         description: The number of transactions to skip
+        default: 0
         required: false
         type: number
       - name: includeWatchonly
         in: query
         description: Include transactions to watchonly addresses (see 'importaddress')
+        default: false
         type: boolean
       responses:
         "200":
@@ -2076,12 +2187,9 @@ If arbiter didn't do any work for this escrow you can leave his feedback empty a
       tags:
       - General
       parameters:
-      - name: alias
-        in: query
-        required: true
-        type: string
       - name: hexstring
         in: query
+        description: The transaction hex string.
         required: true
         type: string
       responses:
@@ -2946,6 +3054,17 @@ definitions:
           $ref: "#/definitions/GetAddressUTXOsEntry"
       role:
         type: string
+  EscrowacknowledgeRequest:
+    required:
+    - escrowguid
+    - witness
+    properties:
+      escrowguid:
+        description: Escrow guid
+        type: string
+      witness:
+        description: Witness alias name that will sign for web-of-trust notarization of this transaction.
+        type: string
   EscrowBidRequest:
     required:
     - alias
@@ -3516,23 +3635,37 @@ definitions:
     required:
     - escrowguid
     - userrole
+    - rawtx
     properties:
       escrowguid:
+        description: Escrow ID
         type: string
       userrole:
+        description: User role represents either 'seller' or 'arbiter'
         type: string
       rawtx:
+        description: signed response from escrowreleasecreaterawtransaction.
+        type: string
+      witness:
+        description: "Witness alias name that will sign for web-of-trust notarization of this transaction."
         type: string
   EscrowReleaseRequest:
     required:
     - escrowguid
     - userrole
+    - rawtx
     properties:
       escrowguid:
+        description: Escrow ID
         type: string
       userrole:
+        description: User role represents either 'buyer' or 'arbiter'.
         type: string
       rawtx:
+        description: Signed response from escrowcreaterawtransaction.
+        type: string
+      witness:
+        description: "Witness alias name that will sign for web-of-trust notarization of this transaction."
         type: string
   Transaction:
     properties:
@@ -3703,6 +3836,38 @@ definitions:
       to:
         description: If a comment to is associated with the transaction.
         type: string
+  UnspentListEntry:
+    properties:
+      txid:
+        description: The transaction id
+        type: string
+      vout:
+        description: The vout value
+        type: number
+      address:
+        description: The syscoin address
+        type: string
+      account:
+        description: 'DEPRECATED. The associated account, or "" for the default account'
+        type: string
+      scriptPubKey:
+        description: The script key
+        type: string
+      amount:
+        description: The transaction amount in SYS
+        type: number
+      confirmations:
+        description: The number of confirmations
+        type: number
+      ps_rounds:
+        description: The number of PS round
+        type: number
+      spendable:
+        description: Whether we have the private keys to spend this output
+        type: boolean
+      solvable:
+        description: Whether we know how to spend this output, ignoring the lack of keys
+        type: boolean
   TransactionListEntry:
     properties:
       account:
@@ -3963,154 +4128,131 @@ definitions:
   AliasNewRequest:
     required:
     - aliasname
-    - aliaspeg
     - publicvalue
+    - accept_transfers_flags
+    - expire_timestamp
+    - address
+    - encryption_privatekey
+    - encryption_publickey
+    - witness
     properties:
-      aliaspeg:
-        description: Alias peg which will be used for conversion operations on all Syscoin services related to this Alias
-        type: string
       aliasname:
-        description: Alias name
+        description: "Alias name"
         type: string
       publicvalue:
-        description: Alias public profile data, 1023 chars max.
+        description: "alias public profile data, 256 characters max."
         type: string
-      password:
-        description: "Used to generate your public/private key that controls this alias. Warning: Calling this function over a public network can lead to someone reading your password in plain text."
-        type: string
-      safesearch: #should be boolean
-        description: set to No if this alias should only show in the search when safe search is not selected. Defaults to Yes (alias shows with or without safe search selected in search lists).
-        type: string
-      accepttransfers:
-        description: set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.
-        type: string
-      expire:
-        description: Time in seconds. Future time when to expire alias. It is exponentially more expensive per year, calculation is FEERATE*(1.5^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias. Defaults to 1 year.
-        type: string
-      nrequired:
-        description: For multisig aliases only. The number of required signatures out of the n aliases for a multisig alias update.
+      accept_transfers_flags:
+        description: "0 for none, 1 for accepting certificate transfers, 2 for accepting asset transfers and 3 for all. Default is 3."
         type: number
-      aliases:
-        description: "For multisig aliases only. A json array of aliases which are used to sign on an update to this alias.
-           [
-             \"alias\"    Existing syscoin alias name
-             ,...
-           ]"
-        type: array
-        items:
-          type: string
+      expire_timestamp:
+        description: "Epoch time when to expire alias. It is exponentially more expensive per year, calculation is FEERATE*(2.88^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias. Defaults to 1 hour."
+        type: number
+      address:
+        description: "Address for this alias."
+        type: string
+      encryption_privatekey:
+        description: "Encrypted private key used for encryption decryption of private data related to this alias. Should be encrypted to publickey."
+        type: string
+      encryption_publickey:
+        description: "Public key used for encryption decryption of private data related to this alias."
+        type: string
+      witness:
+        description: "Witness alias name that will sign for web-of-trust notarization of this transaction."
+        type: string
   AliasUpdateRequest:
     required:
-    - aliaspeg
     - aliasname
-    - publicvalue
+    - address
     properties:
-      aliaspeg:
-        description: Alias peg which will be used for conversion operations on all Syscoin services related to this Alias
-        type: string
       aliasname:
-        description: Alias name
+        description: "Alias name"
         type: string
       publicvalue:
-        description: Alias public profile data, 1023 chars max.
+        description: "alias public profile data, 256 characters max."
         type: string
-      privatevalue:
-        description: Alias private profile data, 1023 chars max. Will be private and readable by owner only.
+      accept_transfers_flags:
+        description: "0 for none, 1 for accepting certificate transfers, 2 for accepting asset transfers and 3 for all. Default is 3."
+        type: integer
+      expire_timestamp:
+        description: "Epoch time when to expire alias. It is exponentially more expensive per year, calculation is FEERATE*(2.88^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias. Defaults to 1 hour."
+        type: integer
+      address:
+        description: "Address for this alias."
         type: string
-      password:
-        description: "Used to generate your public/private key that controls this alias. Warning: Calling this function over a public network can lead to someone reading your password in plain text."
+      encryption_privatekey:
+        description: "Encrypted private key used for encryption decryption of private data related to this alias. Should be encrypted to publickey."
         type: string
-      safesearch: #should be boolean
-        description: set to No if this alias should only show in the search when safe search is not selected. Defaults to Yes (alias shows with or without safe search selected in search lists).
+      encryption_publickey:
+        description: "Public key used for encryption decryption of private data related to this alias."
         type: string
-      toalias_pubkey:
-        description: receiver syscoin alias pub key, if transferring alias.
+      witness:
+        description: "Witness alias name that will sign for web-of-trust notarization of this transaction."
         type: string
-      accepttransfers:
-        description: set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.
-        type: string
-      expire:
-        description: Time in seconds. Future time when to expire alias. It is exponentially more expensive per year, calculation is FEERATE*(1.5^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias. Defaults to 1 year.
-        type: string
-      nrequired:
-        description: For multisig aliases only. The number of required signatures out of the n aliases for a multisig alias update.
-        type: number
-      aliases:
-        description: "For multisig aliases only. A json array of aliases which are used to sign on an update to this alias.
-           [
-             \"alias\"    Existing syscoin alias name
-             ,...
-           ]"
-        type: array
-        items:
-          type: string
   CertNewRequest:
     required:
     - alias
     - title
-    - private
     - public
+    - category
+    - witness
     properties:
       alias:
         description: An alias you own.
         type: string
       title:
-        description: title, 255 bytes max.
-        type: string
-      private:
-        description: private data, 1024 characters max.
+        description: title, 256 bytes max.
         type: string
       public:
-        description: public data, 1024 characters max.
-        type: string
-      safesearch: #should be boolean
-        description: "set to No if this cert should only show in the search when safe search is not selected. Defaults to Yes (cert shows with or without safe search selected in search lists)."
+        description: public data, 256 characters max.
         type: string
       category:
         description: category, 25 characters max. Defaults to certificates;
         type: string
+      witness:
+        description: Witness alias name that will sign for web-of-trust notarization of this transaction.
+        type: string
   CertTransferRequest:
     required:
-    - certkey
+    - guid
     - alias
     properties:
-      certkey:
+      guid:
         description: Certificate guidkey.
         type: string
       alias:
         description: Alias to transfer this certificate to.
         type: string
-      viewonly:
-        description: Transfer the certificate as view-only. Recipient cannot edit, transfer or sell this certificate in the future.
-        type: boolean
+      public:
+        description: public data, 256 characters max.
+        type: string
+      accessflags:
+        description: Set new access flags for new owner for this certificate, 0 for read-only, 1 for edit, 2 for edit and transfer access. Default is 2.
+        type: number
+      witness:
+        description: Witness alias name that will sign for web-of-trust notarization of this transaction.
+        type: string
   CertUpdateRequest:
     required:
     - guid
-    - alias
     - title
-    - private
     - public
+    - witness
     properties:
       guid:
         description: certificate guidkey.
         type: string
-      alias:
-        description: an alias you own to associate with this certificate.
-        type: string
       title:
         description: certificate title, 255 bytes max.
-        type: string
-      private:
-        description: Private certificate data, 1024 characters max.
         type: string
       public:
         description: Public certificate data, 1024 characters max.
         type: string
-      safesearch: #should be boolean
-        description: "set to No if this cert should only show in the search when safe search is not selected. Defaults to Yes (cert shows with or without safe search selected in search lists)."
-        type: string
       category:
-        description: "category, 256 characters max. Defaults to certificates"
+        description: category, 256 characters max. Defaults to "certificates"
+        type: string
+      witness:
+        description: Witness alias name that will sign for web-of-trust notarization of this transaction.
         type: string
   EscrowClaimRefundRequest:
     required:
@@ -4134,8 +4276,13 @@ definitions:
     - rawtx
     properties:
       escrowguid:
+        description: Escrow ID
         type: string
       rawtx:
+        description: Raw fully signed syscoin escrow transaction. It is the signed response from escrowcreaterawtransaction. You must sign this transaction externally prior to passing in.
+        type: string
+      witness:
+        description: Witness alias name that will sign for web-of-trust notarization of this transaction.
         type: string
   EscrowCompleteReleaseRequest:
     required:
@@ -4143,64 +4290,96 @@ definitions:
     - rawtx
     properties:
       escrowguid:
+        description: Escrow ID
         type: string
       rawtx:
+        description: Raw fully signed syscoin escrow transaction. It is the signed response from escrowcreaterawtransaction. You must sign this transaction externally prior to passing in.
+        type: string
+      witness:
+        description: Witness alias name that will sign for web-of-trust notarization of this transaction.
         type: string
   EscrowNewRequest:
     required:
+    - getamountandaddress
     - alias
+    - arbiter_alias
     - offer
     - quantity
-    - message
-    - arbiter
+    - buynow
+    - total_in_payment_option
+    - shipping_amount
+    - network_fee
+    - arbiter_fee
+    - witness_fee
+    - extTx
+    - paymentoption
+    - bid_in_payment_option
+    - bid_in_offer_currency
     properties:
+      getamountandaddress:
+        description: True or false. Get deposit and total escrow amount aswell as escrow address for funding. If buynow is false pass bid amount in bid_in_payment_option to get total needed to complete escrow. If buynow is true amount is calculated based on offer price and quantity.
+        type: boolean
       alias:
         description: An alias you own.
+        type: string
+      arbiter_alias:
+        description: Alias of Arbiter.
         type: string
       offer:
         description: GUID of offer that this escrow is managing.
         type: string
       quantity:
         description: Quantity of items to buy of offer.
+        type: integer
+      buynow:
+        description: Specify whether the escrow involves purchasing offer for the full offer price if set to true, or through a bidding auction if set to false. If buynow is false, an initial deposit may be used to secure a bid if required by the seller.
+        type: boolean
+      total_in_payment_option:
+        description: Total amount of the offer price. Amount is in paymentOption currency. It is per unit of purchase.
         type: number
-      message:
-        description: Delivery details to seller. 256 characters max.
-        type: string
-      arbiter:
-        description: Alias of Arbiter.
-        type: string
-      exttx:
+      shipping_amount:
+        description: Amount to add to shipping for merchant. Amount is in paymentOption currency. Example; If merchant requests 0.1 BTC for shipping and escrow is paid in BTC, enter 0.1 here. Default is 0. Buyer can also add shipping using escrowaddshipping upon merchant request.
+        type: number
+      network_fee:
+        description: Network fee in satoshi per byte for the transaction. Generally the escrow transaction is about 400 bytes. Default is 25 for SYS or ZEC and 250 for BTC payments
+        type: number
+      arbiter_fee:
+        description: Arbiter fee in fractional amount of the amount_in_payment_option value. For example 0.75% is 0.0075 and represents 0.0075*amount_in_payment_option satoshis paid to arbiter in the event arbiter is used to resolve a dispute. Default and minimum is 0.005.
+        type: number
+      witness_fee:
+        description: Witness fee in fractional amount of the amount_in_payment_option value. For example 0.3% is 0.003 and represents 0.003*amount_in_payment_option satoshis paid to witness in the event witness signs off on an escrow through any of the following calls escrownew/escrowbid/escrowrelease/escrowrefund. Default is 0
+        type: number
+      extTx:
         description: External transaction ID if paid with another blockchain.
         type: string
       paymentoption:
         description: If extTx is defined, specify a valid payment option used to make payment. Default is SYS.
         type: string
-      redeemscript:
-        description: If paid in external chain, enter redeemScript that generateescrowmultisig returns
-        type: string
-      height:
-        description: If paid in extneral chain, enter height that generateescrowmultisig returns
+      bid_in_payment_option:
+        description: Initial bid amount you are willing to pay escrow for this offer. Amount is in paymentOption currency. It is per unit of purchase. If buynow is set to true, this value is disregarded.
         type: number
+      bid_in_offer_currency:
+        description: Converted value of bid_in_payment_option from paymentOption currency to offer currency. For example; offer is priced in USD and purchased in BTC, this field will be the BTC/USD value. If buynow is set to true, this value is disregarded.
+        type: number
+      witness:
+        description: Witness alias name that will sign for web-of-trust notarization of this transaction.
+        type: string
   AliasPayRequest:
     required:
-    - alias
+    - aliasfrom
     - amounts
     properties:
-      alias:
-        description: Alias you own to pay from
+      aliasfrom:
+        description: Alias to pay from
         type: string
       amounts:
-        description: "A json object with aliases and amounts
-    {
-      \"address\":amount   (numeric or string) The syscoin alias is the key, the numeric amount (can be string) in SYS is the value
-      ,...
-    }"
+        description: A stringified JSON object with aliases and amounts. { "address":amount, ... } (numeric or string) The syscoin alias is the key, the numeric amount (can be string) in SYS is the value.
         type: string
-      minconf:
-        description: Only use the balance confirmed at least this many times.
-        type: number
-      comment:
-        description: A comment
+      instantsend:
+        description: Set to true to use InstantSend to send this transaction or false otherwise.
+        type: boolean
+      subtractfeefromamount:
+        description: Set to true to subtract fee from amount or false otherwise.
         type: string
   GetNewAddressRequest:
     properties:
@@ -4483,8 +4662,13 @@ definitions:
         description: he amount in SYS (transaction fee is added on top).
         type: number
       minconf:
+        default: 1
         description: Only use funds with at least this many confirmations.
-        type: number
+        type: integer
+      addlockconf:
+        default: false
+        description: Whether to add 5 confirmations to transactions locked via InstantSend.
+        type: boolean
       comment:
         description: A comment used to store what the transaction is for. This is not part of the transaction, just kept in your wallet.
         type: string
@@ -4497,20 +4681,33 @@ definitions:
     - amounts
     properties:
       fromaccount:
-        description: DEPRECATED. The account to send the funds from. Should be "" for the default account
+        description: 'The account to send the funds from. Should be "" for the default account'
         type: string
       amounts:
-        description: A json object with addresses and amounts { "address":amount   (numeric) The syscoin address is the key, the numeric amount in SYS is the value,...}
+        description: 'A json object with addresses and amounts { "address":amount   (numeric) The syscoin address is the key, the numeric amount in SYS is the value,...}'
         type: string
       minconf:
+        default: 1
         description: Only use the balance confirmed at least this many times.
-        type: number
+        type: integer
+      addlockconf:
+        default: false
+        description: Only use the balance confirmed at least this many times.
+        type: boolean
       comment:
         description: A comment used to store what the transaction is for. This is not part of the transaction, just kept in your wallet.
         type: string
       subtractfeefromamount:
-        description: A json array with addresses. The fee will be equally deducted from the amount of each selected address. Those recipients will receive less syscoins than you enter in their corresponding amount field. If no addresses are specified here, the sender pays the fee. [ "address" Subtract fee from this address,... ]
+        description: 'A json array with addresses. The fee will be equally deducted from the amount of each selected address. Those recipients will receive less syscoins than you enter in their corresponding amount field. If no addresses are specified here, the sender pays the fee. [ "address" Subtract fee from this address,... ]'
         type: string
+      use_is:
+        default: false
+        description: 'Send this transaction as InstantSend (default: false)'
+        type: boolean
+      use_ps:
+        default: false
+        description: "Use anonymized funds only (default: false)"
+        type: boolean
   SendToAddressRequest:
     required:
     - syscoinaddress
@@ -4529,8 +4726,17 @@ definitions:
         description: An optional comment to store the name of the person or organization to which you're sending the transaction. This is not part of the transaction, it is just kept in your wallet.
         type: string
       subtractfeefromamount:
+        default: false
         description: The fee will be deducted from the amount being sent. The recipient will receive less syscoins than you enter in the amount field.
-        type: string
+        type: boolean
+      use_is:
+        default: false
+        description: "Send this transaction as InstantSend (default: false)"
+        type: boolean
+      use_ps:
+        default: false
+        description: "Use anonymized funds only (default: false)"
+        type: boolean
   SignMessageRequest:
     required:
     - syscoinaddress
@@ -4579,24 +4785,29 @@ definitions:
   EscrowFeedbackRequest:
     required:
     - escrowguid
-    - userrole
-    - feedbackprimary
-    - ratingprimary
-    - feedbacksecondary
-    - ratingsecondary
+    - userfrom
+    - feedback
+    - rating
+    - userto
     properties:
       escrowguid:
+        description: Escrow ID
         type: string
-      userrole:
+      userfrom:
+        description: Your role ('buyer', 'seller', 'reseller', or 'arbiter')
         type: string
-      feedbackprimary:
+      feedback:
+        description: Feedback description
         type: string
-      ratingprimary:
-        type: number
-      feedbacksecondary:
+      rating:
+        description: Ratings are numbers from 1 to 5
+        type: integer
+      userto:
+        description: His role ('buyer', 'seller', 'reseller', or 'arbiter')
         type: string
-      ratingsecondary:
-        type: number
+      witness:
+        description: Witness alias name that will sign for web-of-trust notarization of this transaction.
+        type: string
   GenerateEscrowMultisigRequest:
     required:
     - buyer

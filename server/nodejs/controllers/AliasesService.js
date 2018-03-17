@@ -2,6 +2,7 @@ var syscoinClient = require('../index').syscoinClient;
 var varUtils = require('./util/varUtils');
 var commonUtils = require('./util/commonUtils');
 
+/* Changed */
 exports.aliasbalance = function(args, res, next) {
   var argList = [
     { prop: "alias" }
@@ -51,7 +52,7 @@ exports.aliasnew = function(args, res, next) {
     { prop: "address"},
     { prop: "encryption_privatekey"},
     { prop: "encryption_publickey"},
-    { prop: "witness"},
+    { prop: "witness"}
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -73,8 +74,8 @@ exports.aliaspay = function(args, res, next) {
   var argList = [
     { prop: "aliasfrom" },
     { prop: "amounts" },
-    { prop: "instantsend" },
-    { prop: "subtractfeefromamount" }
+    { prop: "instantsend"},
+    { prop: "subtractfeefromamount"}
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -97,15 +98,13 @@ exports.aliasupdate = function(args, res, next) {
   var argList = [
     { prop: "aliasname" },
     { prop: "publicvalue" },
+    { prop: "address"},
     { prop: "accept_transfers_flags", defaultValue: 3 },
     { prop: "expire_timestamp", defaultValue: 3600 },
-    { prop: "address"},
     { prop: "encryption_privatekey"},
     { prop: "encryption_publickey"},
     { prop: "witness"}
   ];
-
-  args.request.value.nrequired = varUtils.correctTypes(args.request.value.nrequired, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
