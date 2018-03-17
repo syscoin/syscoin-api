@@ -223,3 +223,54 @@ module.exports.debug = function debug (req, res, next) {
 module.exports.instantsendtoaddress = function debug (req, res, next) {
   General.instantsendtoaddress(req.swagger.params, res, next);
 };
+module.exports.getaddresstxids = function getaddresstxids (req, res, next) {
+  General.getaddresstxids(req.swagger.params, res, next);
+};
+
+module.exports.getaddressutxos = function getaddressutxos (req, res, next) {
+  General.getaddressutxos(req.swagger.params, res, next);
+};
+
+module.exports.getblockhashes = function getblockhashes (req, res, next) {
+  General.getblockhashes(req.swagger.params, res, next);
+};
+
+module.exports.getblockheaders = function getblockheaders (req, res, next) {
+  General.getblockheaders(req.swagger.params, res, next);
+};
+
+module.exports.getchaintips = function getchaintips (req, res, next) {
+  General.getchaintips(req.swagger.params, res, next);
+};
+
+module.exports.getspentinfo = function getspentinfo (req, res, next) {
+  General.getspentinfo(req.swagger.params, res, next);
+};
+
+module.exports.getgovernanceinfo = function getgovernanceinfo (req, res, next) {
+  General.getgovernanceinfo(req.swagger.params, res, next);
+};
+
+module.exports.getpoolinfo = function getpoolinfo (req, res, next) {
+  General.getpoolinfo(req.swagger.params, res, next);
+};
+
+module.exports.getsuperblockbudget = function getsuperblockbudget (req, res, next) {
+  General.getsuperblockbudget(req.swagger.params, res, next);
+};
+
+module.exports.gobject = function gobject (req, res, next) {
+  General.gobject(req.swagger.params, res, next);
+};
+
+module.exports.masternode = function masternode (req, res, next) {
+  General.masternode(req.swagger.params, res, next);
+};
+
+module.exports.masternodebroadcast = function masternodebroadcast (req, res, next) {
+  General.masternodebroadcast(req.swagger.params, res, next);
+};
+
+module.exports.masternodelist = function masternodelist (req, res, next) {
+  General.masternodelist(req.swagger.params, res, next);
+};
