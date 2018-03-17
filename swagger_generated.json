@@ -20,11 +20,312 @@
   }, {
     "name" : "Certificates",
     "description" : "Operations related to digital certificates."
+  }, {
+    "name" : "Asset",
+    "description" : "Assets like ECR20 token"
   } ],
   "schemes" : [ "http", "https" ],
   "consumes" : [ "application/json" ],
   "produces" : [ "application/json" ],
   "paths" : {
+    "/assetupdate" : {
+      "post" : {
+        "tags" : [ "Asset" ],
+        "description" : "Perform an update on an asset you control.",
+        "operationId" : "assetupdate",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "request",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/AssetUpdateRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "string"
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/assettransfer" : {
+      "post" : {
+        "tags" : [ "Asset" ],
+        "description" : "Transfer asset from one user to another.",
+        "operationId" : "assettransfer",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "request",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/AssetTransferRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "string"
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/assetallocationsenderstatus" : {
+      "get" : {
+        "tags" : [ "Asset" ],
+        "description" : "Show status as it pertains to any current Z-DAG conflicts or warnings related to a sender or sender/txid combination of an asset allocation transfer. Leave txid empty if you are not checking for a specific transfer. Return value is in the status field and can represent 4 levels(-1:Not Found, 0:OK, 1:Warning or 2:Critical)",
+        "operationId" : "assetallocationsenderstatus",
+        "parameters" : [ {
+          "name" : "asset",
+          "in" : "query",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "sender",
+          "in" : "query",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "txid",
+          "in" : "query",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/AssetAllocationSenderStatus"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/assetallocationsend" : {
+      "post" : {
+        "tags" : [ "Asset" ],
+        "description" : "Send an asset you own to another alias as an asset allocation.",
+        "operationId" : "assetallocationsend",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "request",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/AssetSendRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "string"
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/assetallocationinfo" : {
+      "get" : {
+        "tags" : [ "Asset" ],
+        "description" : "Show stored values of a single asset allocation. Set getinputs to true if you want to get the allocation inputs, if applicable.",
+        "operationId" : "assetallocationinfo",
+        "parameters" : [ {
+          "name" : "asset",
+          "in" : "query",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "alias",
+          "in" : "query",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "getinputs",
+          "in" : "query",
+          "required" : true,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/AssetAllocation"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/assetnew" : {
+      "post" : {
+        "tags" : [ "Asset" ],
+        "description" : "Create a new Syscoin Asset.",
+        "operationId" : "assetnew",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "request",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/AssetNewRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "string"
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/assetsend" : {
+      "post" : {
+        "tags" : [ "Asset" ],
+        "description" : "Send an asset allocation you own to another alias.",
+        "operationId" : "assetsend",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "request",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/AssetSendRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "string"
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/assetinfo" : {
+      "get" : {
+        "tags" : [ "Asset" ],
+        "description" : "Show stored values of a single asset and its. Set getinputs to true if you want to get the allocation inputs, if applicable.",
+        "operationId" : "assetinfo",
+        "parameters" : [ {
+          "name" : "asset",
+          "in" : "query",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "getinputs",
+          "in" : "query",
+          "required" : true,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/Asset"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
     "/login" : {
       "get" : {
         "tags" : [ "Blockmarket" ],
@@ -57,7 +358,7 @@
     "/getblock" : {
       "get" : {
         "tags" : [ "General" ],
-        "description" : "?If verbose is false, returns a string that is serialized, hex-encoded data for block 'hash'. If verbose is true, returns an Object with information about block <hash>.",
+        "description" : "If verbose is false, returns a string that is serialized, hex-encoded data for block 'hash'. If verbose is true, returns an Object with information about block <hash>.",
         "operationId" : "getblock",
         "parameters" : [ {
           "name" : "hash",
@@ -354,8 +655,6 @@
       },
       "x-swagger-router-controller" : "rpc"
     },
-<<<<<<< HEAD
-=======
     "/aliasbalance" : {
       "get" : {
         "tags" : [ "Aliases" ],
@@ -498,7 +797,6 @@
       },
       "x-swagger-router-controller" : "rpc"
     },
->>>>>>> 4efa83e1059fb5b3cc38b5e38d839ac0c6b12417
     "/aliasinfo" : {
       "get" : {
         "tags" : [ "Aliases" ],
@@ -1345,38 +1643,6 @@
               "items" : {
                 "type" : "string"
               }
-            }
-          },
-          "default" : {
-            "description" : "Error",
-            "schema" : {
-              "$ref" : "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "token" : [ ]
-        } ]
-      },
-      "x-swagger-router-controller" : "rpc"
-    },
-    "/getaddressbalance" : {
-      "get" : {
-        "tags" : [ "General" ],
-        "description" : "Returns the balance for addresses or aliases",
-        "operationId" : "getaddressbalance",
-        "parameters" : [ {
-          "name" : "addresses",
-          "in" : "query",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "schema" : {
-              "type" : "object",
-              "properties" : { }
             }
           },
           "default" : {
@@ -2491,8 +2757,7 @@
               "$ref" : "#/definitions/ErrorResponse"
             }
           }
-        },
-        "x-swagger-router-controller" : "General"
+        }
       },
       "x-swagger-router-controller" : "rpc"
     },
@@ -3012,6 +3277,432 @@
             "schema" : {
               "type" : "string"
             }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/getaddresstxids" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "Get address transaction ids",
+        "operationId" : "getaddresstxids",
+        "parameters" : [ {
+          "name" : "addresses",
+          "in" : "query",
+          "required" : true,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "start",
+          "in" : "query",
+          "required" : true,
+          "type" : "number"
+        }, {
+          "name" : "end",
+          "in" : "query",
+          "required" : true,
+          "type" : "number"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "string"
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/getaddressutxos" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "Returns all unspent outputs for addresses or aliases",
+        "operationId" : "getaddressutxos",
+        "parameters" : [ {
+          "name" : "addresses",
+          "in" : "query",
+          "required" : true,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/GetAddressUTXOsEntry"
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/getblockhashes" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "Returns array of hashes of blocks within the timestamp range provided.",
+        "operationId" : "getblockhashes",
+        "parameters" : [ {
+          "name" : "high",
+          "in" : "query",
+          "required" : true,
+          "type" : "number"
+        }, {
+          "name" : "low",
+          "in" : "query",
+          "required" : true,
+          "type" : "number"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "string"
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/getblockheaders" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "Returns an array of items with information about <count> blockheaders starting from <hash>.\nIf verbose is false, each item is a string that is serialized, hex-encoded data for a single blockheader.\nIf verbose is true, each item is an Object with information about a single blockheader.\n",
+        "operationId" : "getblockheaders",
+        "parameters" : [ {
+          "name" : "hash",
+          "in" : "query",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "count",
+          "in" : "query",
+          "required" : true,
+          "type" : "number"
+        }, {
+          "name" : "verbose",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/getchaintips" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "Returns chain tips",
+        "operationId" : "getchaintips",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/GetChainTipsResponse"
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/getspentinfo" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "Returns the txid and index where an output is spent",
+        "operationId" : "getspentinfo",
+        "parameters" : [ {
+          "name" : "txid",
+          "in" : "query",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "index",
+          "in" : "query",
+          "required" : true,
+          "type" : "number"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/GetSpentInfoResponse"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/getgovernanceinfo" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "Returns an object containing governance parameters",
+        "operationId" : "getgovernanceinfo",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/GovernanceInfoResponse"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/getpoolinfo" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "Returns an object containing mixing pool related information",
+        "operationId" : "getpoolinfo",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/PoolInfoResponse"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/getsuperblockbudget" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "Returns the absolute maximum sum of superblock payments allowed.",
+        "operationId" : "getsuperblockbudget",
+        "parameters" : [ {
+          "name" : "index",
+          "in" : "query",
+          "description" : "The block index",
+          "required" : true,
+          "type" : "number"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "number"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/gobject" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "Manage governance objects.",
+        "operationId" : "gobject",
+        "parameters" : [ {
+          "name" : "command",
+          "in" : "query",
+          "description" : "'check' - Validate governance object data (proposal only)\n'prepare' - Prepare governance object by signing and creating tx\n'submit' - Submit governance object to network\n'deserialize' - Deserialize governance object from hex string to JSON\n'count' - Count governance objects and votes\n'get' - Get governance object by hash\n'getvotes' - Get all votes for a governance object hash (including old votes)\n'getcurrentvotes' - Get only current (tallying) votes for a governance object hash (does not include old votes)\n'list' - List governance objects (can be filtered by signal and/or object type)\n'diff' - List differences since last diff\n'vote-alias' - Vote on a governance object by masternode alias (using masternode.conf setup)\n'vote-conf' - Vote on a governance object by masternode configured in syscoin.conf\n'vote-many'- Vote on a governance object by all masternodes (using masternode.conf setup)\n",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/masternode" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "Set of commands to execute masternode related actions.",
+        "operationId" : "masternode",
+        "parameters" : [ {
+          "name" : "command",
+          "in" : "query",
+          "description" : "'count' - Print number of all known masternodes (optional 'ps', 'enabled', 'all', 'qualify')\n'current' - Print info on current masternode winner to be paid the next block (calculated locally)\n'debug' - Print masternode status\n'genkey' - Generate new masternodeprivkey\n'outputs' - Print masternode compatible outputs\n'start' - Start local Hot masternode configured in syscoin.conf\n'start-alias' - Start single remote masternode by assigned alias configured in masternode.conf\n'start-[mode]' - Start remote masternodes configured in masternode.conf ([mode] can be one of 'all', 'missing', or 'disabled')\n'status' - Print masternode status information\n'list' - Print list of all known masternodes (see masternodelist for more info)\n'list-conf' - Print masternode.conf in JSON format\n'winner' - Print info on next masternode winner to vote for\n'winners'- Print list of masternode winners\n",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/masternodebroadcast" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "Set of commands to create and relay masternode broadcast messages.",
+        "operationId" : "masternodebroadcast",
+        "parameters" : [ {
+          "name" : "command",
+          "in" : "query",
+          "description" : "'create-alias' - Create single remote masternode broadcast message by assigned alias configured in masternode.conf\n'create-all' - Create remote masternode broadcast messages for all masternodes configured in masternode.conf\n'decode' - Decode masternode broadcast message\n'relay' - Relay masternode broadcast message to the network\n",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/masternodelist" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "Get a list of masternodes in different modes.",
+        "operationId" : "masternodelist",
+        "parameters" : [ {
+          "name" : "mode",
+          "in" : "query",
+          "description" : "(optional/required to use filter, defaults = status) The mode to run list in\n'activeseconds' - Print number of seconds masternode recognized by the network as enabled (since latest issued \\\"masternode start/start-many/start-alias\\\")\n'addr' - Print ip address associated with a masternode (can be additionally filtered, partial match)\n'full' - Print info in format 'status protocol payee lastseen activeseconds lastpaidtime lastpaidblock IP' (can be additionally filtered, partial match)\n'info' - Print info in format 'status protocol payee lastseen activeseconds sentinelversion sentinelstate IP' (can be additionally filtered, partial match)\n'lastpaidblock' - Print the last block height a node was paid on the network\n'lastpaidtime' - Print the last time a node was paid on the network\n'lastseen' - Print timestamp of when a masternode was last seen on the network\n'payee' - Print Syscoin address associated with a masternode (can be additionally filtered,partial match)\n'protocol' - Print protocol of a masternode (can be additionally filtered, exact match)\n'pubkey' - Print the masternode (not collateral) public key\n'rank' - Print rank of a masternode based on current block\n'status' - Print masternode status PRE_ENABLED / ENABLED / EXPIRED / WATCHDOG_EXPIRED / NEW_START_REQUIRED / UPDATE_REQUIRED / POSE_BAN / OUTPOINT_SPENT (can be additionally filtered, partial match)\n",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
           },
           "default" : {
             "description" : "Error",
@@ -3791,11 +4482,6 @@
         "time" : "time",
         "pubkey" : "pubkey"
       }
-    },
-    "AliasHistoryEntry" : {
-      "allOf" : [ {
-        "$ref" : "#/definitions/Alias"
-      } ]
     },
     "Cert" : {
       "properties" : {
@@ -6170,6 +6856,122 @@
         "txids" : [ "txids", "txids" ]
       }
     },
+    "GetChainTipsResponse" : {
+      "properties" : {
+        "height" : {
+          "type" : "number"
+        },
+        "hash" : {
+          "type" : "string"
+        },
+        "difficulty" : {
+          "type" : "number"
+        },
+        "chainwork" : {
+          "type" : "string"
+        },
+        "branchlen" : {
+          "type" : "number"
+        },
+        "status" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "difficulty" : 6.02745618307040320615897144307382404804229736328125,
+        "chainwork" : "chainwork",
+        "branchlen" : 1.46581298050294517310021547018550336360931396484375,
+        "hash" : "hash",
+        "height" : 0.80082819046101150206595775671303272247314453125,
+        "status" : "status"
+      }
+    },
+    "GetSpentInfoResponse" : {
+      "properties" : {
+        "txid" : {
+          "type" : "string"
+        },
+        "index" : {
+          "type" : "number"
+        }
+      },
+      "example" : {
+        "txid" : "txid",
+        "index" : 0.80082819046101150206595775671303272247314453125
+      }
+    },
+    "GovernanceInfoResponse" : {
+      "properties" : {
+        "governanceminquorum" : {
+          "type" : "number"
+        },
+        "masternodewatchdogmaxseconds" : {
+          "type" : "number"
+        },
+        "proposalfee" : {
+          "type" : "number"
+        },
+        "superblockcycle" : {
+          "type" : "number"
+        },
+        "lastsuperblock" : {
+          "type" : "number"
+        },
+        "nextsuperblock" : {
+          "type" : "number"
+        }
+      },
+      "example" : {
+        "nextsuperblock" : 2.3021358869347654518833223846741020679473876953125,
+        "proposalfee" : 1.46581298050294517310021547018550336360931396484375,
+        "lastsuperblock" : 5.63737665663332876420099637471139430999755859375,
+        "masternodewatchdogmaxseconds" : 6.02745618307040320615897144307382404804229736328125,
+        "governanceminquorum" : 0.80082819046101150206595775671303272247314453125,
+        "superblockcycle" : 5.962133916683182377482808078639209270477294921875
+      }
+    },
+    "PoolInfoResponse" : {
+      "properties" : {
+        "state" : {
+          "type" : "string"
+        },
+        "mixing_mode" : {
+          "type" : "string"
+        },
+        "queue" : {
+          "type" : "number"
+        },
+        "entries" : {
+          "type" : "number"
+        },
+        "status" : {
+          "type" : "string"
+        },
+        "outpoint" : {
+          "type" : "string"
+        },
+        "addr" : {
+          "type" : "string"
+        },
+        "keys_left" : {
+          "type" : "string"
+        },
+        "warnings" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "mixing_mode" : "mixing_mode",
+        "entries" : 6.02745618307040320615897144307382404804229736328125,
+        "warnings" : "warnings",
+        "state" : "state",
+        "addr" : "addr",
+        "queue" : 0.80082819046101150206595775671303272247314453125,
+        "outpoint" : "outpoint",
+        "status" : "status",
+        "keys_left" : "keys_left"
+      }
+    },
     "DumpHdInfoResponse" : {
       "properties" : {
         "hdseed" : {
@@ -6186,6 +6988,328 @@
         "hdseed" : "hdseed",
         "mnemonicpassphrase" : "mnemonicpassphrase",
         "mnemonic" : "mnemonic"
+      }
+    },
+    "Asset" : {
+      "required" : [ "_id" ],
+      "properties" : {
+        "_id" : {
+          "type" : "string"
+        },
+        "txid" : {
+          "type" : "string"
+        },
+        "height" : {
+          "type" : "number"
+        },
+        "time" : {
+          "type" : "number"
+        },
+        "publicvalue" : {
+          "type" : "string"
+        },
+        "category" : {
+          "type" : "string"
+        },
+        "alias" : {
+          "type" : "string"
+        },
+        "balance" : {
+          "type" : "number"
+        },
+        "total_supply" : {
+          "type" : "number"
+        },
+        "max_supply" : {
+          "type" : "number"
+        },
+        "interest_rate" : {
+          "type" : "number"
+        },
+        "can_adjust_interest_rate" : {
+          "type" : "boolean"
+        },
+        "inputs" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/AssetInput"
+          }
+        }
+      },
+      "example" : {
+        "can_adjust_interest_rate" : true,
+        "total_supply" : 5.962133916683182377482808078639209270477294921875,
+        "inputs" : [ {
+          "start" : 5.962133916683182377482808078639209270477294921875,
+          "end" : 5.63737665663332876420099637471139430999755859375
+        }, {
+          "start" : 5.962133916683182377482808078639209270477294921875,
+          "end" : 5.63737665663332876420099637471139430999755859375
+        } ],
+        "txid" : "txid",
+        "publicvalue" : "publicvalue",
+        "balance" : 1.46581298050294517310021547018550336360931396484375,
+        "max_supply" : 5.63737665663332876420099637471139430999755859375,
+        "alias" : "alias",
+        "interest_rate" : 2.3021358869347654518833223846741020679473876953125,
+        "_id" : "_id",
+        "time" : 6.02745618307040320615897144307382404804229736328125,
+        "category" : "category",
+        "height" : 0.80082819046101150206595775671303272247314453125
+      }
+    },
+    "AssetInput" : {
+      "properties" : {
+        "start" : {
+          "type" : "number"
+        },
+        "end" : {
+          "type" : "number"
+        }
+      },
+      "example" : {
+        "start" : 5.962133916683182377482808078639209270477294921875,
+        "end" : 5.63737665663332876420099637471139430999755859375
+      }
+    },
+    "AssetSendRequest" : {
+      "required" : [ "aliasfrom", "amounts", "asset" ],
+      "properties" : {
+        "asset" : {
+          "type" : "string",
+          "description" : "Asset name."
+        },
+        "aliasfrom" : {
+          "type" : "string",
+          "description" : "Alias to transfer from."
+        },
+        "amounts" : {
+          "type" : "array",
+          "description" : "A json object with aliases and amounts { \"aliasto\":amount   alias to amounts mapping, can be multiple mappings OR if using inputranges \"aliasto\":\"aliasname\" alias to range mappings, can be multiple ranges and multiple mappings \"ranges\": \"start\":index \"end\":index }",
+          "items" : {
+            "$ref" : "#/definitions/AssetAmount"
+          }
+        },
+        "memo" : {
+          "type" : "string",
+          "description" : "Message to include in this asset allocation transfer."
+        },
+        "witness" : {
+          "type" : "string",
+          "description" : "Witness alias name that will sign for web-of-trust notarization of this transaction."
+        }
+      },
+      "example" : {
+        "witness" : "witness",
+        "amounts" : [ {
+          "amount" : 0.80082819046101150206595775671303272247314453125,
+          "aliasto" : "aliasto"
+        }, {
+          "amount" : 0.80082819046101150206595775671303272247314453125,
+          "aliasto" : "aliasto"
+        } ],
+        "memo" : "memo",
+        "asset" : "asset",
+        "aliasfrom" : "aliasfrom"
+      }
+    },
+    "AssetAmount" : {
+      "required" : [ "aliasto", "amount" ],
+      "properties" : {
+        "aliasto" : {
+          "type" : "string",
+          "description" : "alias to send to"
+        },
+        "amount" : {
+          "type" : "number",
+          "description" : "amount you want to send"
+        }
+      },
+      "example" : {
+        "amount" : 0.80082819046101150206595775671303272247314453125,
+        "aliasto" : "aliasto"
+      }
+    },
+    "AssetAllocation" : {
+      "required" : [ "_id" ],
+      "discriminator" : "_id",
+      "properties" : {
+        "_id" : {
+          "type" : "string"
+        },
+        "asset" : {
+          "type" : "string"
+        },
+        "txid" : {
+          "type" : "string"
+        },
+        "height" : {
+          "type" : "number"
+        },
+        "alias" : {
+          "type" : "string"
+        },
+        "balance" : {
+          "type" : "number"
+        },
+        "interest_claim_height" : {
+          "type" : "number"
+        },
+        "memo" : {
+          "type" : "string"
+        },
+        "inputs" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/AssetInput"
+          }
+        },
+        "accumulated_interest" : {
+          "type" : "number"
+        }
+      },
+      "example" : {
+        "balance" : 6.02745618307040320615897144307382404804229736328125,
+        "inputs" : [ {
+          "start" : 5.962133916683182377482808078639209270477294921875,
+          "end" : 5.63737665663332876420099637471139430999755859375
+        }, {
+          "start" : 5.962133916683182377482808078639209270477294921875,
+          "end" : 5.63737665663332876420099637471139430999755859375
+        } ],
+        "txid" : "txid",
+        "alias" : "alias",
+        "interest_claim_height" : 1.46581298050294517310021547018550336360931396484375,
+        "memo" : "memo",
+        "_id" : "_id",
+        "asset" : "asset",
+        "accumulated_interest" : 2.3021358869347654518833223846741020679473876953125,
+        "height" : 0.80082819046101150206595775671303272247314453125
+      }
+    },
+    "AssetAllocationSenderStatus" : {
+      "properties" : {
+        "status" : {
+          "type" : "number",
+          "description" : "Level -1 means not found, not a ZDAG transaction, perhaps it is already confirmed. Level 0 means OK. Level 1 means warning (checked that in the mempool there are more spending balances than current POW sender balance). An active stance should be taken and perhaps a deeper analysis as to potential conflicts related to the sender. Level 2 means an active double spend was found and any depending asset allocation sends are also flagged as dangerous and should wait for POW confirmation before proceeding."
+        }
+      },
+      "example" : {
+        "status" : 0.80082819046101150206595775671303272247314453125
+      }
+    },
+    "AssetTransferRequest" : {
+      "required" : [ "alias", "asset" ],
+      "properties" : {
+        "asset" : {
+          "type" : "string",
+          "description" : "Asset name."
+        },
+        "alias" : {
+          "type" : "string",
+          "description" : "Alias to transfer this asset to."
+        },
+        "witness" : {
+          "type" : "string",
+          "description" : "Witness alias name that will sign for web-of-trust notarization of this transaction."
+        }
+      },
+      "example" : {
+        "witness" : "witness",
+        "alias" : "alias",
+        "asset" : "asset"
+      }
+    },
+    "AssetUpdateRequest" : {
+      "properties" : {
+        "asset" : {
+          "type" : "string",
+          "description" : "Asset name."
+        },
+        "public" : {
+          "type" : "string",
+          "description" : "Public data, 512 characters max."
+        },
+        "category" : {
+          "type" : "string",
+          "description" : "Set to assets"
+        },
+        "supply" : {
+          "type" : "number",
+          "description" : "New supply of asset. Can mint more supply up to total_supply amount or if max_supply is -1 then minting is uncapped."
+        },
+        "interest_rate" : {
+          "type" : "number",
+          "description" : "The annual interest rate if any. Money supply is still capped to total supply. Should be between 0 and 1 and represents a percentage divided by 100. Can only set if this asset allows adjustment of interest rate."
+        },
+        "witness" : {
+          "type" : "string",
+          "description" : "Witness alias name that will sign for web-of-trust notarization of this transaction."
+        }
+      },
+      "example" : {
+        "witness" : "witness",
+        "public" : "public",
+        "interest_rate" : 6.02745618307040320615897144307382404804229736328125,
+        "asset" : "asset",
+        "category" : "category",
+        "supply" : 0.80082819046101150206595775671303272247314453125
+      }
+    },
+    "AssetNewRequest" : {
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "description" : "name, 20 characters max."
+        },
+        "alias" : {
+          "type" : "string",
+          "description" : "An alias you own."
+        },
+        "public" : {
+          "type" : "string",
+          "description" : "Public data, 512 characters max."
+        },
+        "category" : {
+          "type" : "string",
+          "description" : "Category, 256 characters max. Defaults to assets."
+        },
+        "supply" : {
+          "type" : "number",
+          "description" : "Initial supply of asset. Can mint more supply up to total_supply amount or if total_supply is -1 then minting is uncapped."
+        },
+        "max_supply" : {
+          "type" : "number",
+          "description" : "Maximum supply of this asset. Set to -1 for uncapped."
+        },
+        "use_inputranges" : {
+          "type" : "boolean",
+          "description" : "If this asset uses an input for every token, useful if you need to keep track of a token regardless of ownership."
+        },
+        "interest_rate" : {
+          "type" : "number",
+          "description" : "The annual interest rate if any. Money supply is still capped to total supply. Should be between 0 and 1 and represents a percentage divided by 100."
+        },
+        "can_adjust_interest_rate" : {
+          "type" : "boolean",
+          "description" : "Ability to adjust interest rate through assetupdate in the future."
+        },
+        "witness" : {
+          "type" : "string",
+          "description" : "Witness alias name that will sign for web-of-trust notarization of this transaction."
+        }
+      },
+      "example" : {
+        "witness" : "witness",
+        "can_adjust_interest_rate" : true,
+        "public" : "public",
+        "name" : "name",
+        "max_supply" : 6.02745618307040320615897144307382404804229736328125,
+        "alias" : "alias",
+        "interest_rate" : 1.46581298050294517310021547018550336360931396484375,
+        "use_inputranges" : true,
+        "category" : "category",
+        "supply" : 0.80082819046101150206595775671303272247314453125
       }
     }
   }
