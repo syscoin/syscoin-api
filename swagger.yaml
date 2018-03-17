@@ -57,7 +57,7 @@ paths:
     x-swagger-router-controller: rpc
     get:
       operationId: syscoinlistreceivebyaddress
-      description: Returns all addresses and balances associated with address
+      description: Returns all addresses and balances associated with given address
       security:
       - token: []
       tags:
