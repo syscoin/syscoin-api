@@ -1208,7 +1208,7 @@ exports.walletpassphrasechange = function(args, res, next) {
   syscoinClient.walletPassphraseChange.apply(syscoinClient, arr);
 }
 
-exports.syscoinlistreceivebyaddress = function(args, res, next) {
+exports.syscoinlistreceivedbyaddress = function(args, res, next) {
   var argList = [
     { prop: "address" },
     { prop: "balance" },
@@ -1228,5 +1228,5 @@ exports.syscoinlistreceivebyaddress = function(args, res, next) {
   };
 
   var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.walletPassphraseChange.apply(syscoinClient, arr);
+  syscoinClient.syscoinListReceivedByAddress.apply(syscoinClient, arr);
 }

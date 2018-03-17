@@ -53,10 +53,10 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /syscoinlistreceivebyaddress :
+  /syscoinlistreceivedbyaddress:
     x-swagger-router-controller: rpc
     get:
-      operationId: syscoinlistreceivebyaddress
+      operationId: syscoinlistreceivedbyaddress
       description: Returns all addresses and balances associated with address
       security:
       - token: []

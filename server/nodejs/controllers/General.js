@@ -206,6 +206,6 @@ module.exports.walletpassphrasechange = function walletpassphrasechange (req, re
   General.walletpassphrasechange(req.swagger.params, res, next);
 };
 
-module.exports.syscoinlistreceivebyaddress = function syscoinlistreceivebyaddress (req, res, next) {
-  General.syscoinlistreceivebyaddress(req.swagger.params, res, next);
+module.exports.syscoinlistreceivedbyaddress = function syscoinlistreceivedbyaddress (req, res, next) {
+  General.syscoinlistreceivedbyaddress(req.swagger.params, res, next);
 };
