@@ -53,6 +53,25 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /syscoinlistreceivebyaddress :
+    x-swagger-router-controller: rpc
+    get:
+      operationId: syscoinlistreceivebyaddress
+      description: Returns all addresses and balances associated with address
+      security:
+      - token: []
+      tags:
+      - General
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/SyscoinAddressEntry"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /getblock:
     x-swagger-router-controller: rpc
     get:
@@ -4831,3 +4850,13 @@ definitions:
           type: string
       ismine:
         type: boolean
+  SyscoinAddressEntry:
+    properties:
+      address:
+        type: string
+      balance:
+        type: number
+      label:
+        type: string
+      alias:
+        type: string
