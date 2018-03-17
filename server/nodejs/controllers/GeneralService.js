@@ -1071,6 +1071,7 @@ exports.walletpassphrasechange = function(args, res, next) {
 
   var arr = varUtils.getArgsArr(argList, args, "POST", cb);
   syscoinClient.walletPassphraseChange.apply(syscoinClient, arr);
+
 };
 
 /*Added new functions heres*/

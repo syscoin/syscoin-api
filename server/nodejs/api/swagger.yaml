@@ -285,6 +285,120 @@ paths:
       - token: []
       x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
+<<<<<<< HEAD
+=======
+  /aliasbalance:
+    get:
+      tags:
+      - "Aliases"
+      description: "Returns the total amount received by the given alias in transactions\
+        \ with at least minconf confirmations."
+      operationId: "aliasbalance"
+      parameters:
+      - name: "alias"
+        in: "query"
+        description: "The syscoin alias for transactions"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "number"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Aliases"
+    x-swagger-router-controller: "rpc"
+  /aliaswhitelist:
+    get:
+      tags:
+      - "Aliases"
+      description: "List all affiliates for this alias."
+      operationId: "aliaswhitelist"
+      parameters:
+      - name: "aliasname"
+        in: "query"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/WhitelistEntry"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Aliases"
+    x-swagger-router-controller: "rpc"
+  /aliasclearwhitelist:
+    post:
+      tags:
+      - "Aliases"
+      description: "Clear your whitelist(controls who can resell)."
+      operationId: "aliasclearwhitelist"
+      parameters:
+      - in: "body"
+        name: "request"
+        required: true
+        schema:
+          $ref: "#/definitions/AliasClearWhiteListRequest"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "object"
+            properties: {}
+        500:
+          description: "aliasclearwhitelist [owner alias] [witness].  Clear your whitelist(controls\
+            \ who can resell)."
+          schema:
+            type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Aliases"
+    x-swagger-router-controller: "rpc"
+  /aliasupdatewhitelist:
+    post:
+      tags:
+      - "Aliases"
+      description: "Update to the whitelist(controls who can resell). Array of whitelist\
+        \ entries in parameter 1."
+      operationId: "aliasupdatewhitelist"
+      parameters:
+      - in: "body"
+        name: "request"
+        required: true
+        schema:
+          $ref: "#/definitions/AliasUpdateWhitelistRequest"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Aliases"
+    x-swagger-router-controller: "rpc"
+>>>>>>> 4efa83e1059fb5b3cc38b5e38d839ac0c6b12417
   /aliasinfo:
     get:
       tags:
@@ -962,6 +1076,31 @@ paths:
             type: "array"
             items:
               type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /getaddressbalance:
+    get:
+      tags:
+      - "General"
+      description: "Returns the balance for addresses or aliases"
+      operationId: "getaddressbalance"
+      parameters:
+      - name: "addresses"
+        in: "query"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "object"
+            properties: {}
         default:
           description: "Error"
           schema:
@@ -3732,6 +3871,51 @@ definitions:
       nrequired: 0.80082819046101150206595775671303272247314453125
       keysobject: "keysobject"
       account: "account"
+  AliasClearWhiteListRequest:
+    required:
+    - "owneralias"
+    - "witness"
+    properties:
+      owneralias:
+        type: "string"
+        description: "your alias"
+      witness:
+        type: "string"
+        description: "a witness alias"
+    example:
+      witness: "witness"
+      owneralias: "owneralias"
+  AliasUpdateWhitelistRequest:
+    required:
+    - "entries"
+    - "owneralias"
+    properties:
+      owneralias:
+        type: "string"
+        description: "owner alias controlling this whitelist."
+      entries:
+        type: "array"
+        description: " \"entries\"       (string) A json array of whitelist entries\
+          \ to add/remove/update [ \"alias\"     (string) Alias that you want to add\
+          \ to the affiliate whitelist. Can be * to represent that the offers owned\
+          \ by owner alias can be resold by anybody \"discount_percentage\"     (number)\
+          \ A discount percentage associated with this alias. The reseller can sell\
+          \ your offer at this discount, not accounting for any commissions he/she\
+          \ may set in his own reselling offer. 0 to 99. ,... ]"
+        items:
+          $ref: "#/definitions/WhitelistEntry"
+      witness:
+        type: "string"
+        description: "Witness alias name that will sign for web-of-trust notarization\
+          \ of this transaction."
+    example:
+      witness: "witness"
+      entries:
+      - alias: "alias"
+        discount_percentage: 0.80082819046101150206595775671303272247314453125
+      - alias: "alias"
+        discount_percentage: 0.80082819046101150206595775671303272247314453125
+      owneralias: "owneralias"
   AliasNewRequest:
     required:
     - "aliasname"
@@ -4853,6 +5037,15 @@ definitions:
       proxy_randomize_credentials: true
       name: "name"
       reachable: true
+  WhitelistEntry:
+    properties:
+      alias:
+        type: "string"
+      discount_percentage:
+        type: "number"
+    example:
+      alias: "alias"
+      discount_percentage: 0.80082819046101150206595775671303272247314453125
   ListReceivedByAddress:
     properties:
       address:
@@ -4893,6 +5086,19 @@ definitions:
       mnemonicpassphrase:
         type: "string"
     example:
+<<<<<<< HEAD
       hdseed: "hdseed"
       mnemonicpassphrase: "mnemonicpassphrase"
       mnemonic: "mnemonic"
+=======
+      witness: "witness"
+      can_adjust_interest_rate: true
+      public: "public"
+      name: "name"
+      max_supply: 6.02745618307040320615897144307382404804229736328125
+      alias: "alias"
+      interest_rate: 1.46581298050294517310021547018550336360931396484375
+      use_inputranges: true
+      category: "category"
+      supply: 0.80082819046101150206595775671303272247314453125
+>>>>>>> 4efa83e1059fb5b3cc38b5e38d839ac0c6b12417

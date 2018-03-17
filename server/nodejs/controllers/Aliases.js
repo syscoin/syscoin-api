@@ -27,3 +27,11 @@ module.exports.aliasupdate = function aliasupdate (req, res, next) {
 module.exports.aliaswhitelist = function aliaswhitelist (req, res, next) {
   Aliases.aliaswhitelist(req.swagger.params, res, next);
 };
+
+module.exports.aliasclearwhitelist = function aliasclearwhitelist (req, res, next) {
+  Aliases.aliasclearwhitelist(req.swagger.params, res, next);
+};
+
+module.exports.aliasupdatewhitelist = function aliasupdatewhitelist (req, res, next) {
+  Aliases.aliasupdatewhitelist(req.swagger.params, res, next);
+};
