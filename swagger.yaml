@@ -66,7 +66,9 @@ paths:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/SyscoinAddressEntry"
+            type: array
+            items:
+              $ref: "#/definitions/SyscoinAddressEntry"
         default:
           description: Error
           schema:
