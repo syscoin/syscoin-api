@@ -1135,7 +1135,6 @@ exports.getaddresstxids = function(args, res, next) {
     { prop: "start" },
     { prop: "end" }
   ];
-  console.log("vohoooo again")
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -1192,7 +1191,6 @@ exports.getblockhashes  = function(args, res, next) {
     { prop: "high" },
     { prop: "low" },
   ];
-  console.log("vohoooo again")
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -1221,7 +1219,6 @@ exports.getblockheaders  = function(args, res, next) {
     { prop: "count" },
     { prop: "verbose" }
   ];
-  console.log("vohoooo again")
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -1240,7 +1237,6 @@ exports.getblockheaders  = function(args, res, next) {
 
 exports.getchaintips  = function(args, res, next) {
   var argList = [];
-  console.log("vohoooo again")
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -1267,7 +1263,6 @@ exports.getspentinfo = function(args, res, next) {
     { prop: "txid" },
     { prop: "index" }
   ];
-  console.log("vohoooo again")
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -1288,7 +1283,6 @@ exports.getspentinfo = function(args, res, next) {
 
 exports.getgovernanceinfo = function(args, res, next) {
   var argList = [];
-  console.log("vohoooo again")
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -1307,7 +1301,6 @@ exports.getgovernanceinfo = function(args, res, next) {
 
 exports.getpoolinfo = function(args, res, next) {
   var argList = [];
-  console.log("vohoooo again")
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -1332,7 +1325,6 @@ exports.getsuperblockbudget  = function(args, res, next) {
   var argList = [
     { prop: "index" }
   ];
-  console.log("vohoooo again")
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -1357,7 +1349,6 @@ exports.gobject  = function(args, res, next) {
   var argList = [
     { prop: "command" }
   ];
-  console.log("vohoooo again")
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -1382,7 +1373,6 @@ exports.masternode = function(args, res, next) {
   var argList = [
     { prop: "command" },
   ];
-  console.log("vohoooo again")
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -1407,7 +1397,6 @@ exports.masternodebroadcast = function(args, res, next) {
   var argList = [
     { prop: "command" }
   ];
-  console.log("vohoooo again")
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -1432,7 +1421,6 @@ exports.masternodelist = function(args, res, next) {
   var argList = [
     { prop: "mode" },
   ];
-  console.log("vohoooo again")
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -1682,4 +1670,24 @@ exports.instantsendtoaddress = function(args, res, next) {
 
   var arr = varUtils.getArgsArr(argList, args, "POST", cb);
   syscoinClient.instantSendToAddress.apply(syscoinClient, arr);
+};
+
+exports.fundrawtransaction = function(args, res, next) {
+    var argList = [
+        { prop: "hexstring" },
+        { prop: "watching" }
+    ];
+    var cb = function(err, result, resHeaders) {
+        res.setHeader('Content-Type', 'application/json');
+
+        if (err) {
+            return commonUtils.reportError(res, err);
+        }
+
+        commonUtils.log('fundrawtransaction', result, "fundrawtransaction");
+        res.end(JSON.stringify(result));
+    };
+
+    var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+    syscoinClient.fundRawTransaction.apply(syscoinClient, arr);
 };

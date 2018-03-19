@@ -2409,6 +2409,30 @@ Results are an array of Objects, each of which has:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /fundrawtransaction:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: fundrawtransaction
+      description: Add inputs to a transaction until it has enough in value to meet its out value.
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/FundRawTransactionInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /getgenerate:
     x-swagger-router-controller: rpc
     get:
@@ -5265,3 +5289,9 @@ definitions:
       witness:
         description: Witness alias name that will sign for web-of-trust notarization of this transaction.
         type: string
+  FundRawTransactionInput:
+    properties:
+      hexstring:
+        type: string
+      watching:
+        type: boolean

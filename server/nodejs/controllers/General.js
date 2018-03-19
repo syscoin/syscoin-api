@@ -278,3 +278,7 @@ module.exports.masternodebroadcast = function masternodebroadcast (req, res, nex
 module.exports.masternodelist = function masternodelist (req, res, next) {
   General.masternodelist(req.swagger.params, res, next);
 };
+
+module.exports.fundrawtransaction = function masternodelist (req, res, next) {
+    General.fundrawtransaction(req.swagger.params, res, next);
+};
