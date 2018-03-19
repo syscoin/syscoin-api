@@ -2433,6 +2433,49 @@ Results are an array of Objects, each of which has:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /signrawtransaction:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: signrawtransaction
+      description: Sign inputs for raw transaction (serialized, hex-encoded).
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/SignRawTransactionInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /getblocktemplate:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getblocktemplate
+      description: Add inputs to a transaction until it has enough in value to meet its out value.
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: object
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /getgenerate:
     x-swagger-router-controller: rpc
     get:
@@ -5295,3 +5338,7 @@ definitions:
         type: string
       watching:
         type: boolean
+  SignRawTransactionInput:
+    properties:
+      hexstring:
+        type: string

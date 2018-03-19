@@ -2500,6 +2500,53 @@ paths:
       - token: []
       x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
+  /signrawtransaction:
+    post:
+      tags:
+      - "General"
+      description: "Sign inputs for raw transaction (serialized, hex-encoded)."
+      operationId: "signrawtransaction"
+      parameters:
+      - in: "body"
+        name: "request"
+        required: true
+        schema:
+          $ref: "#/definitions/SignRawTransactionInput"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /getblocktemplate:
+    get:
+      tags:
+      - "General"
+      description: "Add inputs to a transaction until it has enough in value to meet\
+        \ its out value."
+      operationId: "getblocktemplate"
+      parameters: []
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "object"
+            properties: {}
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /getgenerate:
     get:
       tags:
@@ -6290,3 +6337,9 @@ definitions:
     example:
       hexstring: "hexstring"
       watching: true
+  SignRawTransactionInput:
+    properties:
+      hexstring:
+        type: "string"
+    example:
+      hexstring: "hexstring"

@@ -282,3 +282,11 @@ module.exports.masternodelist = function masternodelist (req, res, next) {
 module.exports.fundrawtransaction = function masternodelist (req, res, next) {
     General.fundrawtransaction(req.swagger.params, res, next);
 };
+
+module.exports.getblocktemplate = function masternodelist (req, res, next) {
+    General.getblocktemplate(req.swagger.params, res, next);
+};
+
+module.exports.signrawtransaction = function masternodelist (req, res, next) {
+    General.signrawtransaction(req.swagger.params, res, next);
+};
