@@ -3140,6 +3140,39 @@
       },
       "x-swagger-router-controller" : "rpc"
     },
+    "/lockunspent" : {
+      "post" : {
+        "tags" : [ "General" ],
+        "description" : "Updates list of temporarily unspendable outputs.",
+        "operationId" : "lockunspent",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "request",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/LockUnspentInput"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
     "/signrawtransaction" : {
       "post" : {
         "tags" : [ "General" ],
@@ -7674,6 +7707,43 @@
       },
       "example" : {
         "hexstring" : "hexstring"
+      }
+    },
+    "LockUnspentInput" : {
+      "properties" : {
+        "unlock" : {
+          "type" : "boolean"
+        },
+        "transactions" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/LockUnspentTransaction"
+          }
+        }
+      },
+      "example" : {
+        "unlock" : true,
+        "transactions" : [ {
+          "txid" : "txid",
+          "vout" : 0.80082819046101150206595775671303272247314453125
+        }, {
+          "txid" : "txid",
+          "vout" : 0.80082819046101150206595775671303272247314453125
+        } ]
+      }
+    },
+    "LockUnspentTransaction" : {
+      "properties" : {
+        "txid" : {
+          "type" : "string"
+        },
+        "vout" : {
+          "type" : "number"
+        }
+      },
+      "example" : {
+        "txid" : "txid",
+        "vout" : 0.80082819046101150206595775671303272247314453125
       }
     }
   }

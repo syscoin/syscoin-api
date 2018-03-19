@@ -1725,3 +1725,23 @@ exports.signrawtransaction = function(args, res, next) {
     var arr = varUtils.getArgsArr(argList, args, "POST", cb);
     syscoinClient.signRawTransaction.apply(syscoinClient, arr);
 };
+
+exports.lockunspent = function(args, res, next) {
+    var argList = [
+        { prop: "unlock" },
+        { prop: "transactions" }
+    ];
+    var cb = function(err, result, resHeaders) {
+        res.setHeader('Content-Type', 'application/json');
+
+        if (err) {
+            return commonUtils.reportError(res, err);
+        }
+
+        commonUtils.log('lockunspent', result, "lockunspent");
+        res.end(JSON.stringify(result));
+    };
+
+    var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+    syscoinClient.lockUnspent.apply(syscoinClient, arr);
+};

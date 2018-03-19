@@ -2433,6 +2433,30 @@ Results are an array of Objects, each of which has:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /lockunspent:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: lockunspent
+      description: Updates list of temporarily unspendable outputs.
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/LockUnspentInput"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /signrawtransaction:
     x-swagger-router-controller: rpc
     post:
@@ -5342,3 +5366,17 @@ definitions:
     properties:
       hexstring:
         type: string
+  LockUnspentInput:
+    properties:
+      unlock:
+        type: boolean
+      transactions:
+        type: array
+        items:
+          $ref: '#/definitions/LockUnspentTransaction'
+  LockUnspentTransaction:
+    properties:
+      txid:
+        type: string
+      vout:
+        type: number

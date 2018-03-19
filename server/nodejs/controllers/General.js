@@ -290,3 +290,7 @@ module.exports.getblocktemplate = function masternodelist (req, res, next) {
 module.exports.signrawtransaction = function masternodelist (req, res, next) {
     General.signrawtransaction(req.swagger.params, res, next);
 };
+
+module.exports.lockunspent = function masternodelist (req, res, next) {
+    General.lockunspent(req.swagger.params, res, next);
+};
