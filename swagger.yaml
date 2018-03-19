@@ -1965,7 +1965,7 @@ Results are an array of Objects, each of which has:
         in: body
         required: true
         schema:
-          $ref: "#/definitions/OfferNewRequest"
+          $ref: "#/definitions/OfferNewInput"
       responses:
         "200":
           description: Success; Returns an array of 2 elements- tx id and offer GUID.
@@ -4631,52 +4631,6 @@ definitions:
       description:
         description: description, 1 KB max. Defaults to original description. Leave as '' to use default.
         type: string
-  OfferNewRequest:
-    required:
-    - alias
-    - category
-    - title
-    - quantity
-    - price
-    - description
-    - currency
-    properties:
-      alias:
-        description: An alias you own.
-        type: string
-      category:
-        description: category, 255 chars max.
-        type: string
-      title:
-        description: title, 255 chars max.
-        type: string
-      quantity:
-        description: quantity, > 0 or -1 for infinite
-        type: number
-      price:
-        description: price in <currency>, > 0
-        type: number
-      description:
-        description: description, 1 KB max.
-        type: string
-      currency:
-        description: The currency code that you want your offer to be in ie USD.
-        type: string
-      certguid: #TODO: check param name
-        description: Set this to the guid of a certificate you wish to sell
-        type: string
-      paymentoptions:
-        description: "'SYS' to accept SYS only, 'BTC' for BTC only, 'ZEC' for zcash only, or a |-delimited string to accept multiple currencies (e.g. 'BTC|SYS' to accept BTC or SYS). Leave empty for default. Defaults to 'SYS'."
-        type: string
-      geolocation:
-        description: set to your geolocation. Defaults to empty.
-        type: string
-      safesearch: #should be boolean
-        description: set to No if this offer should only show in the search when safe search is not selected. Defaults to Yes (offer shows with or without safe search selected in search lists).
-        type: string
-      private:
-        description: set to 1 if this offer should be private not be searchable. Defaults to 0.
-        type: boolean
   OfferRemoveWhitelistRequest:
     required:
     - offerguid
@@ -5380,3 +5334,39 @@ definitions:
         type: string
       vout:
         type: number
+  OfferNewInput:
+    properties:
+      alias:
+        type: string
+      category:
+        type: string
+      title:
+        type: string
+      quantity:
+        type: number
+      price:
+        type: number
+      description:
+        type: string
+      currency:
+        type: string
+      cert_guid:
+        type: string
+      payment_options:
+        type: string
+      private:
+        type: boolean
+      units:
+        type: number
+      offertype:
+        type: string
+      auction_expires:
+        type: number
+      auction_reserve:
+        type: number
+      auction_require_witness:
+        type: boolean
+      auction_deposit:
+        type: number
+      witness:
+        type: string

@@ -2508,7 +2508,7 @@
           "name" : "request",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/OfferNewRequest"
+            "$ref" : "#/definitions/OfferNewInput"
           }
         } ],
         "responses" : {
@@ -6447,73 +6447,6 @@
         "commission" : "commission"
       }
     },
-    "OfferNewRequest" : {
-      "required" : [ "alias", "category", "currency", "description", "price", "quantity", "title" ],
-      "properties" : {
-        "alias" : {
-          "type" : "string",
-          "description" : "An alias you own."
-        },
-        "category" : {
-          "type" : "string",
-          "description" : "category, 255 chars max."
-        },
-        "title" : {
-          "type" : "string",
-          "description" : "title, 255 chars max."
-        },
-        "quantity" : {
-          "type" : "number",
-          "description" : "quantity, > 0 or -1 for infinite"
-        },
-        "price" : {
-          "type" : "number",
-          "description" : "price in <currency>, > 0"
-        },
-        "description" : {
-          "type" : "string",
-          "description" : "description, 1 KB max."
-        },
-        "currency" : {
-          "type" : "string",
-          "description" : "The currency code that you want your offer to be in ie USD."
-        },
-        "certguid" : {
-          "type" : "string",
-          "description" : "Set this to the guid of a certificate you wish to sell"
-        },
-        "paymentoptions" : {
-          "type" : "string",
-          "description" : "'SYS' to accept SYS only, 'BTC' for BTC only, 'ZEC' for zcash only, or a |-delimited string to accept multiple currencies (e.g. 'BTC|SYS' to accept BTC or SYS). Leave empty for default. Defaults to 'SYS'."
-        },
-        "geolocation" : {
-          "type" : "string",
-          "description" : "set to your geolocation. Defaults to empty."
-        },
-        "safesearch" : {
-          "type" : "string",
-          "description" : "set to No if this offer should only show in the search when safe search is not selected. Defaults to Yes (offer shows with or without safe search selected in search lists)."
-        },
-        "private" : {
-          "type" : "boolean",
-          "description" : "set to 1 if this offer should be private not be searchable. Defaults to 0."
-        }
-      },
-      "example" : {
-        "private" : true,
-        "quantity" : 0.80082819046101150206595775671303272247314453125,
-        "price" : 6.02745618307040320615897144307382404804229736328125,
-        "safesearch" : "safesearch",
-        "certguid" : "certguid",
-        "alias" : "alias",
-        "description" : "description",
-        "currency" : "currency",
-        "category" : "category",
-        "title" : "title",
-        "paymentoptions" : "paymentoptions",
-        "geolocation" : "geolocation"
-      }
-    },
     "OfferRemoveWhitelistRequest" : {
       "required" : [ "aliasguid", "offerguid" ],
       "properties" : {
@@ -7744,6 +7677,80 @@
       "example" : {
         "txid" : "txid",
         "vout" : 0.80082819046101150206595775671303272247314453125
+      }
+    },
+    "OfferNewInput" : {
+      "properties" : {
+        "alias" : {
+          "type" : "string"
+        },
+        "category" : {
+          "type" : "string"
+        },
+        "title" : {
+          "type" : "string"
+        },
+        "quantity" : {
+          "type" : "number"
+        },
+        "price" : {
+          "type" : "number"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "currency" : {
+          "type" : "string"
+        },
+        "cert_guid" : {
+          "type" : "string"
+        },
+        "payment_options" : {
+          "type" : "string"
+        },
+        "private" : {
+          "type" : "boolean"
+        },
+        "units" : {
+          "type" : "number"
+        },
+        "offertype" : {
+          "type" : "string"
+        },
+        "auction_expires" : {
+          "type" : "number"
+        },
+        "auction_reserve" : {
+          "type" : "number"
+        },
+        "auction_require_witness" : {
+          "type" : "boolean"
+        },
+        "auction_deposit" : {
+          "type" : "number"
+        },
+        "witness" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "offertype" : "offertype",
+        "private" : true,
+        "quantity" : 0.80082819046101150206595775671303272247314453125,
+        "auction_expires" : 5.962133916683182377482808078639209270477294921875,
+        "description" : "description",
+        "units" : 1.46581298050294517310021547018550336360931396484375,
+        "auction_reserve" : 5.63737665663332876420099637471139430999755859375,
+        "title" : "title",
+        "auction_deposit" : 2.3021358869347654518833223846741020679473876953125,
+        "witness" : "witness",
+        "cert_guid" : "cert_guid",
+        "price" : 6.02745618307040320615897144307382404804229736328125,
+        "alias" : "alias",
+        "currency" : "currency",
+        "category" : "category",
+        "auction_require_witness" : true,
+        "payment_options" : "payment_options"
       }
     }
   }

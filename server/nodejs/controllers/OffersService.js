@@ -54,16 +54,17 @@ exports.offernew = function(args, res, next) {
     { prop: "price" },
     { prop: "description" },
     { prop: "currency" },
-    { prop: "certguid", defaultValue: "" },
-    { prop: "paymentoptions", defaultValue: "SYS" },
-    { prop: "geolocation", defaultValue: "" },
-    { prop: "safesearch", defaultValue: "Yes" },
-    { prop: "private", defaultValue: "0" }
+    { prop: "cert_guid"},
+    { prop: "payment_options"},
+    { prop: "private" },
+    { prop: "units" },
+    { prop: "offertype" },
+    { prop: "auction_expires" },
+    { prop: "auction_reserve" },
+    { prop: "auction_require_witness" },
+    { prop: "auction_deposit" },
+    { prop: "witness" }
   ];
-
-  args.request.value.private = varUtils.correctTypes(args.request.value.private, varUtils.TYPE_CONVERSION.BOOL_TO_NUM_STRING);
-  args.request.value.quantity = varUtils.correctTypes(args.request.value.quantity, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
-  args.request.value.price = varUtils.correctTypes(args.request.value.price, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
