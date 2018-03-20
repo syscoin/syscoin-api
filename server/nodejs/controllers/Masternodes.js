@@ -2,9 +2,7 @@
 
 var url = require('url');
 
-
 var MasterNode = require('./MasternodesService');
-
 
 module.exports.sentinelping = function sentinelping (req, res, next) {
     MasterNode.sentinelping(req.swagger.params, res, next);

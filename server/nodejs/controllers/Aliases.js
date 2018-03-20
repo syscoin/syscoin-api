@@ -35,3 +35,5 @@ module.exports.aliasclearwhitelist = function aliasclearwhitelist (req, res, nex
 module.exports.aliasupdatewhitelist = function aliasupdatewhitelist (req, res, next) {
   Aliases.aliasupdatewhitelist(req.swagger.params, res, next);
 };
+
+//missng aliasaddscript (we probably don't need this as Jag said)

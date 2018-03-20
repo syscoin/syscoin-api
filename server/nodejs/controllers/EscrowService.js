@@ -241,8 +241,10 @@ exports.escrowbid = function(args, res, next) {
 
 exports.escrowcreaterawtransaction = function(args, res, next) {
   var argList = [
+    { prop: "type" },
     { prop: "escrowguid" },
-    { prop: "inputs" }
+    { prop: "inputs" },
+    { prop: "role" }
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -260,3 +262,22 @@ exports.escrowcreaterawtransaction = function(args, res, next) {
   syscoinClient.escrowCreateRawTransaction.apply(syscoinClient, arr);
 };
 
+exports.escrowinfo = function(args, res, next) {
+  var argList = [
+    { prop: "escrowguid" }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('Generate Escrow escrowinfo:', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.escrowInfo.apply(syscoinClient, arr);
+};

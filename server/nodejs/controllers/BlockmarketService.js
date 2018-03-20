@@ -2,13 +2,9 @@
 
 var jwt    = require('jsonwebtoken');
 var Hashes   = require('jshashes');
-const MongoClient = require('mongodb').MongoClient;
-const ObjectID = require('mongodb').ObjectID;
-
 var config = require('../config');
 var rpcuser = require('../index').rpcuser;
 var rpcpass = require('../index').rpcpass;
-var mongoUtils = require('./util/mongoUtils');
 
 exports.login = function(args, res, next) {
   /**

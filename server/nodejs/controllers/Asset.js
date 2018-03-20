@@ -34,3 +34,5 @@ module.exports.assetinfo = function assetinfo (req, res, next) {
   module.exports.assetupdate = function assetupdate (req, res, next) {
     Aliases.assetupdate(req.swagger.params, res, next);
   };
+
+  //missing assetallocationcollectinterest

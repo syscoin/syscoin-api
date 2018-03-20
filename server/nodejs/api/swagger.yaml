@@ -1047,7 +1047,7 @@ paths:
       description: "Show stored values of a single escrow"
       operationId: "escrowinfo"
       parameters:
-      - name: "escrow"
+      - name: "escrowguid"
         in: "query"
         description: "GUID of escrow"
         required: true

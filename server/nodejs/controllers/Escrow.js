@@ -38,10 +38,14 @@ module.exports.escrowrelease = function escrowrelease (req, res, next) {
   Escrow.escrowrelease(req.swagger.params, res, next);
 };
 
-module.exports.escrowbid = function generateescrowmultisig (req, res, next) {
+module.exports.escrowbid = function escrowbid (req, res, next) {
   Escrow.escrowbid(req.swagger.params, res, next);
 };
 
-module.exports.escrowcreaterawtransaction = function generateescrowmultisig (req, res, next) {
+module.exports.escrowcreaterawtransaction = function escrowcreaterawtransaction (req, res, next) {
   Escrow.escrowcreaterawtransaction(req.swagger.params, res, next);
+};
+
+module.exports.escrowinfo = function escrowinfo (req, res, next) {
+  Escrow.escrowinfo(req.swagger.params, res, next);
 };
