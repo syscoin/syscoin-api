@@ -1992,7 +1992,7 @@ Results are an array of Objects, each of which has:
         in: body
         required: true
         schema:
-          $ref: "#/definitions/OfferUpdateRequest"
+          $ref: "#/definitions/OfferUpdateInput"
       responses:
         "200":
           description: Success; Returns an array with 1 element- tx id.
@@ -4640,57 +4640,6 @@ definitions:
         type: string
       aliasguid:
         type: string
-  OfferUpdateRequest:
-    required:
-    - alias
-    - guid
-    - category
-    - title
-    - quantity
-    - price
-    properties:
-      alias:
-        description: An alias you own.
-        type: string
-      guid:
-        description: GUID of offer to update.
-        type: string
-      category:
-        description: category, 255 chars max.
-        type: string
-      title:
-        description: title, 255 chars max.
-        type: string
-      quantity:
-        description: quantity, > 0 or -1 for infinite
-        type: number
-      price:
-        description: price in <currency>, > 0
-        type: number
-      description:
-        description: description, 1 KB max.
-        type: string
-      currency:
-        description: The currency code that you want your offer to be in ie USD.
-        type: string
-      private:
-        description: set to 1 if this offer should be private not be searchable. Defaults to 0.
-        type: boolean
-      certguid: #TODO: check param name
-        description: Set this to the guid of a certificate you wish to sell
-        type: string
-      geolocation:
-        description: set to your geolocation. Defaults to empty.
-        type: string
-      safesearch: #should be boolean
-        description: set to No if this offer should only show in the search when safe search is not selected. Defaults to Yes (offer shows with or without safe search selected in search lists).
-        type: string
-      commission:
-        description: For resold offers.
-        type: number
-      paymentoptions:
-        description: "'SYS' to accept SYS only, 'BTC' for BTC only, 'ZEC' for zcash only, or a |-delimited string to accept multiple currencies (e.g. 'BTC|SYS' to accept BTC or SYS). Leave empty for default. Defaults to 'SYS'."
-        type: string
   SendFromRequest:
     required:
     - fromaccount
@@ -5359,6 +5308,44 @@ definitions:
       units:
         type: number
       offertype:
+        type: string
+      auction_expires:
+        type: number
+      auction_reserve:
+        type: number
+      auction_require_witness:
+        type: boolean
+      auction_deposit:
+        type: number
+      witness:
+        type: string
+  OfferUpdateInput:
+    properties:
+      alias:
+        type: string
+      guid:
+        type: string
+      category:
+        type: string
+      title:
+        type: string
+      quantity:
+        type: number
+      price:
+        type: number
+      description:
+        type: string
+      currency:
+        type: string
+      private:
+        type: boolean
+      cert_guid:
+        type: string
+      commission:
+        type: number
+      payment_options:
+        type: string
+      offer_type:
         type: string
       auction_expires:
         type: number

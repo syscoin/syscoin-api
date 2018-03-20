@@ -91,18 +91,17 @@ exports.offerupdate = function(args, res, next) {
     { prop: "price" },
     { prop: "description" },
     { prop: "currency" },
-    { prop: "private", defaultValue: "0" },
-    { prop: "certguid", defaultValue: "" },
-    { prop: "geolocation", defaultValue: "" },
-    { prop: "safesearch", defaultValue: "Yes" },
-    { prop: "commission", defaultValue: "0" },
-    { prop: "paymentoptions", defaultValue: "0" }
+    { prop: "private" },
+    { prop: "cert_guid" },
+    { prop: "commission"},
+    { prop: "payment_options"},
+    { prop: "offer_type"},
+    { prop: "auction_expires"},
+    { prop: "auction_reserve"},
+    { prop: "auction_require_witness"},
+    { prop: "auction_deposit"},
+    { prop: "witness"}
   ];
-
-  args.request.value.private = varUtils.correctTypes(args.request.value.private, varUtils.TYPE_CONVERSION.BOOL_TO_NUM_STRING);
-  args.request.value.quantity = varUtils.correctTypes(args.request.value.quantity, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
-  args.request.value.price = varUtils.correctTypes(args.request.value.price, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
-  args.request.value.commission = varUtils.correctTypes(args.request.value.commission, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
