@@ -27,7 +27,8 @@ exports.offerlink = function(args, res, next) {
     { prop: "alias" },
     { prop: "guid" },
     { prop: "commission" },
-    { prop: "description", defaultValue: "" }
+    { prop: "description" },
+    { prop: "witness" }
   ];
 
   var cb = function(err, result, resHeaders) {

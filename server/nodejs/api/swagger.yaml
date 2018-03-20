@@ -3341,11 +3341,11 @@ definitions:
       masternode-tx-hash:
         type: "string"
       masternode-tx-index:
-        type: "string"
+        type: "number"
       governance-hash:
         type: "string"
       vote-signal:
-        type: "string"
+        type: "number"
       vote-outcome:
         type: "string"
       time:
@@ -3353,11 +3353,11 @@ definitions:
       vote-sig:
         type: "string"
     example:
-      masternode-tx-index: "masternode-tx-index"
-      vote-signal: "vote-signal"
+      masternode-tx-index: 0.80082819046101150206595775671303272247314453125
+      vote-signal: 6.02745618307040320615897144307382404804229736328125
       masternode-tx-hash: "masternode-tx-hash"
       governance-hash: "governance-hash"
-      time: 0.80082819046101150206595775671303272247314453125
+      time: 1.46581298050294517310021547018550336360931396484375
       vote-sig: "vote-sig"
       vote-outcome: "vote-outcome"
   getAddressMemPoolResponseObject:
@@ -5322,7 +5322,11 @@ definitions:
         type: "string"
         description: "description, 1 KB max. Defaults to original description. Leave\
           \ as '' to use default."
+      witness:
+        type: "string"
+        description: "witness if any.  Leave '' if not available."
     example:
+      witness: "witness"
       alias: "alias"
       guid: "guid"
       description: "description"

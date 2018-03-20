@@ -3191,11 +3191,11 @@ definitions:
       masternode-tx-hash:
         type: string
       masternode-tx-index:
-        type: string
+        type: number
       governance-hash:
         type: string
       vote-signal:
-        type: string
+        type: number
       vote-outcome:
         type: string
       time:
@@ -4627,9 +4627,12 @@ definitions:
         type: string
       commission:
         description: percentage of profit desired over original offer price, > 0, ie 5 for 5%
-        type: string
+        type: number
       description:
         description: description, 1 KB max. Defaults to original description. Leave as '' to use default.
+        type: string
+      witness:
+        description: witness if any.  Leave '' if not available.
         type: string
   OfferRemoveWhitelistRequest:
     required:
