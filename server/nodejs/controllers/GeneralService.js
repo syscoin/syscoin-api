@@ -1173,10 +1173,7 @@ exports.getaddressutxos = function(args, res, next) {
     res.end(JSON.stringify(result));
   };
 
-  // var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  var arr = [{"addresses":args['addresses']['value']},cb];
-
-  console.log("vohoooo again", arr)
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
 
   syscoinClient.getAddressUtxos.apply(syscoinClient, arr);
 }
@@ -1745,3 +1742,22 @@ exports.lockunspent = function(args, res, next) {
     var arr = varUtils.getArgsArr(argList, args, "POST", cb);
     syscoinClient.lockUnspent.apply(syscoinClient, arr);
 };
+
+exports.syscoinlistreceivebyaddress = function(args, res, next) {
+  var argList = [
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('syscoin list receive by address ', result, "syscoinlistreceivebyaddress");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.syscoinListReceiveByAddress.apply(syscoinClient, arr);
+}

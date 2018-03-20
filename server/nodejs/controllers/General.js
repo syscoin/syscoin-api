@@ -183,6 +183,10 @@ module.exports.walletpassphrasechange = function walletpassphrasechange (req, re
   General.walletpassphrasechange(req.swagger.params, res, next);
 };
 
+module.exports.syscoinlistreceivebyaddress = function syscoinlistreceivebyaddress (req, res, next) {
+  General.syscoinlistreceivebyaddress(req.swagger.params, res, next);
+};
+
 module.exports.getaddressbalance = function getaddressbalance (req, res, next) {
   console.log(req.swagger.params);
   General.getaddressbalance(req.swagger.params, res, next);
