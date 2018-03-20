@@ -3259,24 +3259,18 @@ definitions:
       inputs:
         type: "array"
         items:
-          $ref: "#/definitions/GetAddressUTXOsEntry"
+          $ref: "#/definitions/EscrowCreateRawTransactionDataInput"
       role:
         type: "string"
     example:
       role: "role"
       inputs:
-      - outputIndex: 0.80082819046101150206595775671303272247314453125
-        address: "address"
-        txid: "txid"
-        script: "script"
+      - txid: "txid"
+        vout: 0.80082819046101150206595775671303272247314453125
         satoshis: 6.02745618307040320615897144307382404804229736328125
-        height: 1.46581298050294517310021547018550336360931396484375
-      - outputIndex: 0.80082819046101150206595775671303272247314453125
-        address: "address"
-        txid: "txid"
-        script: "script"
+      - txid: "txid"
+        vout: 0.80082819046101150206595775671303272247314453125
         satoshis: 6.02745618307040320615897144307382404804229736328125
-        height: 1.46581298050294517310021547018550336360931396484375
       escrowguid: "escrowguid"
       type: "type"
   EscrowacknowledgeRequest:
@@ -5315,7 +5309,7 @@ definitions:
         type: "string"
         description: "offer guid that you are linking to"
       commission:
-        type: "string"
+        type: "number"
         description: "percentage of profit desired over original offer price, > 0,\
           \ ie 5 for 5%"
       description:
@@ -5330,7 +5324,7 @@ definitions:
       alias: "alias"
       guid: "guid"
       description: "description"
-      commission: "commission"
+      commission: 0.80082819046101150206595775671303272247314453125
   OfferRemoveWhitelistRequest:
     required:
     - "aliasguid"
@@ -6372,3 +6366,15 @@ definitions:
       offer_type: "offer_type"
       auction_require_witness: true
       payment_options: "payment_options"
+  EscrowCreateRawTransactionDataInput:
+    properties:
+      txid:
+        type: "string"
+      vout:
+        type: "number"
+      satoshis:
+        type: "number"
+    example:
+      txid: "txid"
+      vout: 0.80082819046101150206595775671303272247314453125
+      satoshis: 6.02745618307040320615897144307382404804229736328125
