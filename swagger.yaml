@@ -1043,7 +1043,7 @@ paths:
       tags:
       - Escrow
       parameters:
-      - name: escrow
+      - name: escrowguid
         description: GUID of escrow
         in: query
         required: true
@@ -3142,7 +3142,7 @@ definitions:
       inputs:
         type: array
         items:
-          $ref: "#/definitions/GetAddressUTXOsEntry"
+          $ref: "#/definitions/EscrowCreateRawTransactionDataInput"
       role:
         type: string
   EscrowacknowledgeRequest:
@@ -5360,3 +5360,11 @@ definitions:
         type: number
       witness:
         type: string
+  EscrowCreateRawTransactionDataInput:
+    properties:
+      txid:
+        type: string
+      vout:
+        type: number
+      satoshis:
+        type: number
