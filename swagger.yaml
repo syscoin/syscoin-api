@@ -4067,12 +4067,6 @@ definitions:
         type: number
       offer_discount_percentage:
         type: number #returns string "5%"
-  OfferHistoryEntry:
-    allOf:
-    - $ref: "#/definitions/Offer"
-    properties:
-      offertype:
-        type: string
   Offer:
     discriminator: _id
     required:
