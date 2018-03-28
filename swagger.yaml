@@ -1046,9 +1046,7 @@ paths:
         "200":
           description: Success
           schema:
-            type: array
-            items:
-              type: string
+            $ref: "#/definitions/EscrowFeedbackResponse"
         default:
           description: Error
           schema:
@@ -2373,9 +2371,7 @@ Results are an array of Objects, each of which has:
         "200":
           description: Success
           schema:
-            type: array
-            items:
-              type: string
+            $ref: "#/definitions/EscrowBidResponse"
         default:
           description: Error
           schema:
@@ -3561,108 +3557,50 @@ definitions:
       message:
         type: string
   Alias:
-    discriminator: name
+    discriminator: _id
     required:
-      - name
+      - _id
     properties:
-      name:
+      _id:
         type: string
-      value:
+      encryption_privatekey:
         type: string
-      privatevalue:
+      encryption_publickey:
         type: string
-      password:
+      publicvalue:
         type: string
       txid:
         type: string
+      time:
+        type: number
       address:
         type: string
-      alias_peg:
-        type: string
-      balance:
-        type: number
-      ismine:
-        type: boolean
-      safesearch:
-        type: string #should be boolean
-      acceptcerttransfers:
-        type: string #should be boolean
-      safetylevel:
-        type: number
-      buyer_rating:
-        type: number
-      buyer_ratingcount:
-        type: number
-      buyer_rating_display:
-        type: string
-      seller_rating:
-        type: number
-      seller_ratingcount:
-        type: number
-      seller_rating_display:
-        type: string
-      arbiter_rating:
-        type: number
-      arbiter_ratingcount:
-        type: number
-      arbiter_rating_display:
-        type: string
-      lastupdate_height:
-        type: number
-      expires_in:
+      accepttransferflags:
         type: number
       expires_on:
         type: number
       expired:
-        type: boolean #return 0/1
-      pending:
-        type: boolean #return 0/1
-      time:
-        type: string
-      multisiginfo:
-        $ref: "#/definitions/MultiSignatureInfo"
-      pubkey:
-        type: string
+        type: boolean
   Cert:
     properties:
-      cert:
+      _id:
         type: string
       txid:
         type: string
       height:
-        type: number #returns string wrapped num
+        type: number
+      time:
+        type: number
       title:
         type: string
-      time:
-        type: string
-      data:
-        type: string
-      pubdata:
+      publicvalue:
         type: string
       category:
         type: string
-      safesearch:
-        type: string #return string Yes/No
-      safetylevel:
-        type: number
-      ismine:
-        type: string #returns string wrapped boolean
       alias:
         type: string
-      transferviewonly:
-        type: string #returns string wrapped boolean
-      expires_in:
+      access_flags:
         type: number
-      expires_on:
-        type: number
-      expired:
-        type: boolean #returns 0/1
-  CertHistoryEntry:
-    allOf:
-      - $ref: "#/definitions/Cert"
-    properties:
-      certtype:
-        type: string
   Escrow:
     properties:
       escrowtype:
@@ -4136,76 +4074,60 @@ definitions:
       offertype:
         type: string
   Offer:
-    discriminator: offer
+    discriminator: _id
     required:
-    - offer
+    - _id
     properties:
-      offer:
+      _id:
         type: string
       cert:
         type: string
       txid:
         type: string
-      expires_in:
-        type: number
-      expired_block:
+      expires_on:
         type: number
       expired:
-        type: boolean #return 0/1
+        type: boolean
       height:
-        type: number #return string wrapped number
+        type: number
       category:
         type: string
       title:
         type: string
-      quantity:
-        type: string
       currency:
         type: string
-      sysprice:
-        type: number
       price:
-        type: number #returns string wrapped number
-      ismine:
-        type: boolean #returns string wrapped boolean
+        type: number
       commission:
-        type: number #returns string wrapped number
-      offerlink:
-        type: boolean #returns string wrapped boolean
-      offerlink_guid: #what is this
+        type: number
+      offerlink_guid:
         type: string
       offerlink_seller:
         type: string
-      private:
-        type: boolean #returns string Yes/No
-      safesearch:
-        type: string #should be boolean
-      safetylevel:
-        type: number
       paymentoptions:
+        type: string
+      offer_units:
         type: number
-      paymentoptions_display:
-        type: string
-      alias_peg:
-        type: string
+      quantity:
+        type: number
+      private:
+        type: boolean
       description:
         type: string
       alias:
         type: string
       address:
         type: string
-      alias_rating:
-        type: number
-      alias_rating_count:
-        type: number
-      alias_rating_display:
+      offertype:
         type: string
-      geolocation:
-        type: string
-      offers_sold:
+      auction_expires_on:
         type: number
-      time:
-        type: string
+      auction_reserve_price:
+        type: number
+      auction_require_witness:
+        type: boolean
+      auction_deposit:
+        type: number
   AddMultisigAddressRequest:
     required:
     - nrequired
@@ -5159,6 +5081,8 @@ definitions:
         type: number
       can_adjust_interest_rate:
         type: boolean
+      use_input_ranges:
+        type: boolean
       inputs:
         type: array
         items:
@@ -5415,3 +5339,43 @@ definitions:
         type: number
       satoshis:
         type: number
+  EscrowBidResponse:
+    properties:
+      _id:
+        type: string
+      offer:
+        type: string
+      escrow:
+        type: string
+      height:
+        type: number
+      bidder:
+        type: string
+      bid_in_offer_currency_per_unit:
+        type: number
+      bid_in_payment_option_per_unit:
+        type: number
+      witness:
+        type: string
+      status:
+        type: string
+  EscrowFeedbackResponse:
+    properties:
+      _id:
+        type: string
+      offer:
+        type: string
+      escrow:
+        type: string
+      txid:
+        type: number
+      time:
+        type: number
+      rating:
+        type: number
+      feedbackuserfrom:
+        type: number
+      feedbackuserto:
+        type: number
+      feedback:
+        type: string
