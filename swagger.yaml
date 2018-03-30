@@ -28,7 +28,7 @@ tags:
 - name: Certificates
   description: Operations related to digital certificates.
 - name: Asset
-  description: Assets like ECR20 token
+  description: Assets are similar to ERC20 tokens
 paths:
   /assetupdate:
     x-swagger-router-controller: rpc
@@ -567,6 +567,35 @@ paths:
             type: array
             items:
               $ref: "#/definitions/WhitelistEntry"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /aliasnewfund:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: aliasnewfund
+      description: fund an alias creation
+      security:
+      - token: []
+      tags:
+      - Aliases
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/AliasNewFundRequest"
+      responses:
+        "500":
+          description: "Could not send raw transaction: Cannot decode transaction from hex string or No funds found in addresses provided "
+          schema:
+            type: string
+        "200":
+          description: Success
+          schema:
+            type: string
         default:
           description: Error
           schema:
@@ -5373,3 +5402,11 @@ definitions:
         type: number
       feedback:
         type: string
+  AliasNewFundRequest:
+    properties:
+      hexstring:
+        type: string
+      addresses:
+        type: array
+        items:
+          type: object
