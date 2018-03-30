@@ -28,7 +28,7 @@ tags:
 - name: Certificates
   description: Operations related to digital certificates.
 - name: Asset
-  description: Assets like ECR20 token
+  description: Assets are similar to ERC20 tokens
 paths:
   /assetupdate:
     x-swagger-router-controller: rpc
