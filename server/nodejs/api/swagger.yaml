@@ -16,7 +16,7 @@ tags:
 - name: "Certificates"
   description: "Operations related to digital certificates."
 - name: "Asset"
-  description: "Assets similar to ECR20 token"
+  description: "Assets like ECR20 token"
 schemes:
 - "http"
 - "https"
@@ -594,6 +594,36 @@ paths:
       - token: []
       x-swagger-router-controller: "Aliases"
     x-swagger-router-controller: "rpc"
+  /aliasnewfund:
+    post:
+      tags:
+      - "Aliases"
+      description: "fund an alias creation"
+      operationId: "aliasnewfund"
+      parameters:
+      - in: "body"
+        name: "request"
+        required: true
+        schema:
+          $ref: "#/definitions/AliasNewFundRequest"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "string"
+        500:
+          description: "Could not send raw transaction: Cannot decode transaction\
+            \ from hex string or No funds found in addresses provided "
+          schema:
+            type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Aliases"
+    x-swagger-router-controller: "rpc"
   /aliasclearwhitelist:
     post:
       tags:
@@ -1051,9 +1081,7 @@ paths:
         200:
           description: "Success"
           schema:
-            type: "array"
-            items:
-              type: "string"
+            $ref: "#/definitions/EscrowFeedbackResponse"
         default:
           description: "Error"
           schema:
@@ -2425,9 +2453,7 @@ paths:
         200:
           description: "Success"
           schema:
-            type: "array"
-            items:
-              type: "string"
+            $ref: "#/definitions/EscrowBidResponse"
         default:
           description: "Error"
           schema:
@@ -3778,154 +3804,70 @@ definitions:
         type: "string"
   Alias:
     required:
-    - "name"
-    discriminator: "name"
+    - "_id"
+    discriminator: "_id"
     properties:
-      name:
+      _id:
         type: "string"
-      value:
+      encryption_privatekey:
         type: "string"
-      privatevalue:
+      encryption_publickey:
         type: "string"
-      password:
+      publicvalue:
         type: "string"
       txid:
         type: "string"
+      time:
+        type: "number"
       address:
         type: "string"
-      alias_peg:
-        type: "string"
-      balance:
-        type: "number"
-      ismine:
-        type: "boolean"
-      safesearch:
-        type: "string"
-      acceptcerttransfers:
-        type: "string"
-      safetylevel:
-        type: "number"
-      buyer_rating:
-        type: "number"
-      buyer_ratingcount:
-        type: "number"
-      buyer_rating_display:
-        type: "string"
-      seller_rating:
-        type: "number"
-      seller_ratingcount:
-        type: "number"
-      seller_rating_display:
-        type: "string"
-      arbiter_rating:
-        type: "number"
-      arbiter_ratingcount:
-        type: "number"
-      arbiter_rating_display:
-        type: "string"
-      lastupdate_height:
-        type: "number"
-      expires_in:
+      accepttransferflags:
         type: "number"
       expires_on:
         type: "number"
       expired:
         type: "boolean"
-      pending:
-        type: "boolean"
-      time:
-        type: "string"
-      multisiginfo:
-        $ref: "#/definitions/MultiSignatureInfo"
-      pubkey:
-        type: "string"
     example:
-      alias_peg: "alias_peg"
-      buyer_rating_display: "buyer_rating_display"
-      seller_rating_display: "seller_rating_display"
-      lastupdate_height: 3.61607674925191080461672754609026014804840087890625
-      safesearch: "safesearch"
-      expires_on: 4.1456080298839363962315474054776132106781005859375
-      pending: true
-      ismine: true
-      buyer_ratingcount: 5.962133916683182377482808078639209270477294921875
-      arbiter_ratingcount: 9.301444243932575517419536481611430644989013671875
-      password: "password"
-      expired: true
-      balance: 0.80082819046101150206595775671303272247314453125
-      arbiter_rating_display: "arbiter_rating_display"
-      seller_ratingcount: 2.3021358869347654518833223846741020679473876953125
-      value: "value"
-      expires_in: 2.027123023002321833274663731572218239307403564453125
-      multisiginfo:
-        reqsigners: "reqsigners"
-        reqsigs: 7.3862819483858839220147274318151175975799560546875
-        redeemscript: "redeemscript"
-      buyer_rating: 1.46581298050294517310021547018550336360931396484375
+      publicvalue: "publicvalue"
       address: "address"
+      expired: true
+      encryption_privatekey: "encryption_privatekey"
+      expires_on: 1.46581298050294517310021547018550336360931396484375
       txid: "txid"
-      seller_rating: 5.63737665663332876420099637471139430999755859375
-      privatevalue: "privatevalue"
-      safetylevel: 6.02745618307040320615897144307382404804229736328125
-      acceptcerttransfers: "acceptcerttransfers"
-      arbiter_rating: 7.061401241503109105224211816675961017608642578125
-      name: "name"
-      time: "time"
-      pubkey: "pubkey"
+      _id: "_id"
+      time: 0.80082819046101150206595775671303272247314453125
+      encryption_publickey: "encryption_publickey"
+      accepttransferflags: 6.02745618307040320615897144307382404804229736328125
   Cert:
     properties:
-      cert:
+      _id:
         type: "string"
       txid:
         type: "string"
       height:
         type: "number"
+      time:
+        type: "number"
       title:
         type: "string"
-      time:
-        type: "string"
-      data:
-        type: "string"
-      pubdata:
+      publicvalue:
         type: "string"
       category:
         type: "string"
-      safesearch:
-        type: "string"
-      safetylevel:
-        type: "number"
-      ismine:
-        type: "string"
       alias:
         type: "string"
-      transferviewonly:
-        type: "string"
-      expires_in:
+      access_flags:
         type: "number"
-      expires_on:
-        type: "number"
-      expired:
-        type: "boolean"
     example:
-      data: "data"
-      safesearch: "safesearch"
-      expires_on: 5.962133916683182377482808078639209270477294921875
+      publicvalue: "publicvalue"
       txid: "txid"
-      ismine: "ismine"
-      cert: "cert"
-      safetylevel: 6.02745618307040320615897144307382404804229736328125
-      transferviewonly: "transferviewonly"
-      title: "title"
-      pubdata: "pubdata"
-      expired: true
       alias: "alias"
-      time: "time"
+      _id: "_id"
+      time: 6.02745618307040320615897144307382404804229736328125
+      access_flags: 1.46581298050294517310021547018550336360931396484375
+      title: "title"
       category: "category"
-      expires_in: 1.46581298050294517310021547018550336360931396484375
       height: 0.80082819046101150206595775671303272247314453125
-  CertHistoryEntry:
-    allOf:
-    - $ref: "#/definitions/Cert"
   Escrow:
     properties:
       escrowtype:
@@ -4606,23 +4548,18 @@ definitions:
         type: "number"
       offer_discount_percentage:
         type: "number"
-  OfferHistoryEntry:
-    allOf:
-    - $ref: "#/definitions/Offer"
   Offer:
     required:
-    - "offer"
-    discriminator: "offer"
+    - "_id"
+    discriminator: "_id"
     properties:
-      offer:
+      _id:
         type: "string"
       cert:
         type: "string"
       txid:
         type: "string"
-      expires_in:
-        type: "number"
-      expired_block:
+      expires_on:
         type: "number"
       expired:
         type: "boolean"
@@ -4632,88 +4569,66 @@ definitions:
         type: "string"
       title:
         type: "string"
-      quantity:
-        type: "string"
       currency:
         type: "string"
-      sysprice:
-        type: "number"
       price:
         type: "number"
-      ismine:
-        type: "boolean"
       commission:
         type: "number"
-      offerlink:
-        type: "boolean"
       offerlink_guid:
         type: "string"
       offerlink_seller:
         type: "string"
+      paymentoptions:
+        type: "string"
+      offer_units:
+        type: "number"
+      quantity:
+        type: "number"
       private:
         type: "boolean"
-      safesearch:
-        type: "string"
-      safetylevel:
-        type: "number"
-      paymentoptions:
-        type: "number"
-      paymentoptions_display:
-        type: "string"
-      alias_peg:
-        type: "string"
       description:
         type: "string"
       alias:
         type: "string"
       address:
         type: "string"
-      alias_rating:
-        type: "number"
-      alias_rating_count:
-        type: "number"
-      alias_rating_display:
+      offertype:
         type: "string"
-      geolocation:
-        type: "string"
-      offers_sold:
+      auction_expires_on:
         type: "number"
-      time:
-        type: "string"
+      auction_reserve_price:
+        type: "number"
+      auction_require_witness:
+        type: "boolean"
+      auction_deposit:
+        type: "number"
     example:
-      alias_peg: "alias_peg"
+      auction_expires_on: 7.061401241503109105224211816675961017608642578125
+      offer_units: 5.63737665663332876420099637471139430999755859375
       private: true
-      safesearch: "safesearch"
-      offers_sold: 4.1456080298839363962315474054776132106781005859375
-      ismine: true
+      expires_on: 0.80082819046101150206595775671303272247314453125
       description: "description"
       cert: "cert"
-      sysprice: 5.962133916683182377482808078639209270477294921875
       title: "title"
-      offer: "offer"
+      auction_deposit: 3.61607674925191080461672754609026014804840087890625
       expired: true
-      price: 5.63737665663332876420099637471139430999755859375
-      alias_rating_count: 2.027123023002321833274663731572218239307403564453125
+      price: 1.46581298050294517310021547018550336360931396484375
       alias: "alias"
       currency: "currency"
-      commission: 2.3021358869347654518833223846741020679473876953125
-      expires_in: 0.80082819046101150206595775671303272247314453125
-      height: 1.46581298050294517310021547018550336360931396484375
-      quantity: "quantity"
+      commission: 5.962133916683182377482808078639209270477294921875
+      auction_require_witness: true
+      height: 6.02745618307040320615897144307382404804229736328125
+      offertype: "offertype"
+      quantity: 2.3021358869347654518833223846741020679473876953125
       address: "address"
-      offerlink: true
       txid: "txid"
-      alias_rating: 3.61607674925191080461672754609026014804840087890625
-      expired_block: 6.02745618307040320615897144307382404804229736328125
-      safetylevel: 7.061401241503109105224211816675961017608642578125
       offerlink_guid: "offerlink_guid"
-      paymentoptions: 9.301444243932575517419536481611430644989013671875
-      paymentoptions_display: "paymentoptions_display"
+      paymentoptions: "paymentoptions"
       offerlink_seller: "offerlink_seller"
-      alias_rating_display: "alias_rating_display"
-      time: "time"
+      auction_reserve_price: 9.301444243932575517419536481611430644989013671875
+      _id: "_id"
       category: "category"
-      geolocation: "geolocation"
   AddMultisigAddressRequest:
     required:
     - "keysobject"
@@ -5550,10 +5465,6 @@ definitions:
         type: "string"
       redeemscript:
         type: "string"
-    example:
-      reqsigners: "reqsigners"
-      reqsigs: 7.3862819483858839220147274318151175975799560546875
-      redeemscript: "redeemscript"
   EscrowFeedbackRequest:
     required:
     - "escrowguid"
@@ -6026,6 +5937,8 @@ definitions:
         type: "number"
       can_adjust_interest_rate:
         type: "boolean"
+      use_input_ranges:
+        type: "boolean"
       inputs:
         type: "array"
         items:
@@ -6040,6 +5953,7 @@ definitions:
         end: 5.63737665663332876420099637471139430999755859375
       txid: "txid"
       publicvalue: "publicvalue"
+      use_input_ranges: true
       balance: 1.46581298050294517310021547018550336360931396484375
       max_supply: 5.63737665663332876420099637471139430999755859375
       alias: "alias"
@@ -6425,3 +6339,81 @@ definitions:
       txid: "txid"
       vout: 0.80082819046101150206595775671303272247314453125
       satoshis: 6.02745618307040320615897144307382404804229736328125
+  EscrowBidResponse:
+    properties:
+      _id:
+        type: "string"
+      offer:
+        type: "string"
+      escrow:
+        type: "string"
+      height:
+        type: "number"
+      bidder:
+        type: "string"
+      bid_in_offer_currency_per_unit:
+        type: "number"
+      bid_in_payment_option_per_unit:
+        type: "number"
+      witness:
+        type: "string"
+      status:
+        type: "string"
+    example:
+      offer: "offer"
+      bid_in_payment_option_per_unit: 1.46581298050294517310021547018550336360931396484375
+      witness: "witness"
+      bidder: "bidder"
+      escrow: "escrow"
+      _id: "_id"
+      bid_in_offer_currency_per_unit: 6.02745618307040320615897144307382404804229736328125
+      height: 0.80082819046101150206595775671303272247314453125
+      status: "status"
+  EscrowFeedbackResponse:
+    properties:
+      _id:
+        type: "string"
+      offer:
+        type: "string"
+      escrow:
+        type: "string"
+      txid:
+        type: "number"
+      time:
+        type: "number"
+      rating:
+        type: "number"
+      feedbackuserfrom:
+        type: "number"
+      feedbackuserto:
+        type: "number"
+      feedback:
+        type: "string"
+    example:
+      offer: "offer"
+      feedback: "feedback"
+      feedbackuserfrom: 5.962133916683182377482808078639209270477294921875
+      rating: 1.46581298050294517310021547018550336360931396484375
+      escrow: "escrow"
+      txid: 0.80082819046101150206595775671303272247314453125
+      feedbackuserto: 5.63737665663332876420099637471139430999755859375
+      _id: "_id"
+      time: 6.02745618307040320615897144307382404804229736328125
+  AliasNewFundRequest:
+    properties:
+      hexstring:
+        type: "string"
+      addresses:
+        type: "array"
+        items:
+          type: "object"
+          properties: {}
+    example:
+      addresses:
+      - "{}"
+      - "{}"
+      hexstring: "hexstring"
+  AliasNewFundAddress:
+    properties:
+      address:
+        type: "string"

@@ -185,3 +185,24 @@ exports.aliasupdatewhitelist = function(args, res, next) {
   var arr = varUtils.getArgsArr(argList, args, "POST", cb);
   syscoinClient.aliasUpdateWhitelist.apply(syscoinClient, arr);
 }
+
+exports.aliasnewfund = function(args, res, next) {
+  var argList = [
+    { prop: "hexstring" },
+    { prop: "addresses" }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    console.log('aliasNewFund:', result);
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+  syscoinClient.aliasNewFund.apply(syscoinClient, arr);
+}

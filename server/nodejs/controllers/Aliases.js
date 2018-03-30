@@ -36,4 +36,7 @@ module.exports.aliasupdatewhitelist = function aliasupdatewhitelist (req, res, n
   Aliases.aliasupdatewhitelist(req.swagger.params, res, next);
 };
 
+module.exports.aliasnewfund = function aliasnewfund (req, res, next) {
+  Aliases.aliasnewfund(req.swagger.params, res, next);
+};
 //missng aliasaddscript (we probably don't need this as Jag said)
