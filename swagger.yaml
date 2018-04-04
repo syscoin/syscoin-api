@@ -1982,7 +1982,7 @@ Results are an array of Objects, each of which has:
         in: body
         required: true
         schema:
-          $ref: "#/definitions/OfferNewInput"
+          $ref: "#/definitions/OfferNewRequest"
       responses:
         "200":
           description: Success; Returns an array of 2 elements- tx id and offer GUID.
@@ -2009,7 +2009,7 @@ Results are an array of Objects, each of which has:
         in: body
         required: true
         schema:
-          $ref: "#/definitions/OfferUpdateInput"
+          $ref: "#/definitions/OfferUpdateRequest"
       responses:
         "200":
           description: Success; Returns an array with 1 element- tx id.
@@ -2438,7 +2438,7 @@ Results are an array of Objects, each of which has:
         in: body
         required: true
         schema:
-          $ref: "#/definitions/FundRawTransactionInput"
+          $ref: "#/definitions/FundRawTransactionRequest"
       responses:
         "200":
           description: Success
@@ -2462,7 +2462,7 @@ Results are an array of Objects, each of which has:
         in: body
         required: true
         schema:
-          $ref: "#/definitions/LockUnspentInput"
+          $ref: "#/definitions/LockUnspentRequest"
       responses:
         "200":
           description: Success
@@ -2486,7 +2486,7 @@ Results are an array of Objects, each of which has:
         in: body
         required: true
         schema:
-          $ref: "#/definitions/SignRawTransactionInput"
+          $ref: "#/definitions/SignRawTransactionRequest"
       responses:
         "200":
           description: Success
@@ -3157,7 +3157,7 @@ definitions:
       inputs:
         type: array
         items:
-          $ref: "#/definitions/EscrowCreateRawTransactionDataInput"
+          $ref: "#/definitions/EscrowCreateRawTransactionDataRequest"
       role:
         type: string
   EscrowacknowledgeRequest:
@@ -5223,17 +5223,17 @@ definitions:
       witness:
         description: Witness alias name that will sign for web-of-trust notarization of this transaction.
         type: string
-  FundRawTransactionInput:
+  FundRawTransactionRequest:
     properties:
       hexstring:
         type: string
       watching:
         type: boolean
-  SignRawTransactionInput:
+  SignRawTransactionRequest:
     properties:
       hexstring:
         type: string
-  LockUnspentInput:
+  LockUnspentRequest:
     properties:
       unlock:
         type: boolean
@@ -5247,7 +5247,7 @@ definitions:
         type: string
       vout:
         type: number
-  OfferNewInput:
+  OfferNewRequest:
     properties:
       alias:
         type: string
@@ -5283,7 +5283,7 @@ definitions:
         type: number
       witness:
         type: string
-  OfferUpdateInput:
+  OfferUpdateRequest:
     properties:
       alias:
         type: string
@@ -5321,7 +5321,7 @@ definitions:
         type: number
       witness:
         type: string
-  EscrowCreateRawTransactionDataInput:
+  EscrowCreateRawTransactionDataRequest:
     properties:
       txid:
         type: string
