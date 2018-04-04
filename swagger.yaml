@@ -1700,9 +1700,7 @@ paths:
           schema:
             type: array
             items:
-              type: array
-              items:
-                $ref: "#/definitions/AddressGrouping"
+              $ref: "#/definitions/AddressGrouping"
         default:
           description: Error
           schema:
@@ -3836,9 +3834,6 @@ definitions:
       amount:
         description: The amount in SYS
         type: number
-      account:
-        description: (optional) The account (DEPRECATED)
-        type: string
   Account:
     properties:
       involvesWatchonly:
@@ -3966,6 +3961,7 @@ definitions:
         description: "The amount in SYS. This is negative for the 'send' category, and for the \
                      'move' category for moves outbound. It is positive for the 'receive' category, \
                       and for the 'move' category for inbound funds."
+        type: number
       vout:
         description: the vout value
         type: number
