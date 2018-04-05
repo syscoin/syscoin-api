@@ -70,7 +70,7 @@ swagger-codegen generate -i swagger.yaml -o ./client/generated-client -l LANGUAG
 
 2. swagger-codegen (master branch)
 
-Clone https://github.com/swagger-api/swagger-codegen somehwere accessable without admin access
+Clone https://github.com/swagger-api/swagger-codegen somewhere accessible without admin access.
 
 
 3. syscoin-api (dev-3.0)
@@ -111,14 +111,14 @@ server=1
 * it will generate swagger specs for APIs, also pass the path to your swagger-codegen-cli.jar when asked (for me the path was `D:/syscoin/swagger-codegen/modules/swagger-codegen-cli/target/swagger-codegen-cli.jar`)
 
 
-* after succesfull message goto cd /server
+* after successful  message go to cd /server
 
 * run ``./gen_server_yaml.sh``
 
 
-    it will promt three questions one by one
+    it will prompt three questions one by one
 
-* project-languge  it should be nodejs-server
+* project-language  it should be nodejs-server
 
 * path of directory  it should be nodejs
 
@@ -132,7 +132,7 @@ You test your apis in browser open link http://localhost:8100/docs
 
 
 # Contributing
-This project is fully open source and welcomes pull requests at all levels. Simply fork the repository, apply your changes to the fork and then issue a pull request. Once reviewed the pull request will be integrated into master and (if warranted) released as a new official Syscoin API version.
+This project is fully open source and welcome pull requests at all levels. Simply fork the repository, apply your changes to the fork and then issue a pull request. Once reviewed the pull request will be integrated into master and (if warranted) released as a new official Syscoin API version.
 
 # Credits
 This project leverages the mega-awesome [swagger-tools](https://github.com/apigee-127/swagger-tools) middleware which does most all the work.
