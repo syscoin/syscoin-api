@@ -51,8 +51,89 @@ the [supported SwaggerJS client values](https://generator.swagger.io/#!/clients/
 swagger-codegen generate -i swagger.yaml -o ./client/generated-client -l LANGUAGE
 ```
 
+## Setting up the project
+
+
+
+##### STEPS TO RUN SYSCOIN-API 
+
+1. syscoin-core 3.0 (stable release)
+
+* We all have the zip file link, 
+* if dont have syscoin-core you can download it from this link .
+
+    ```https://github.com/syscoin/syscoin2/releases/tag/2.2TMNRC1```
+
+* Unzip and Add the path to syscoin-cli to environment variable
+* Run syscoin-qt.exe, you have to let it run for the entire period
+
+
+2. swagger-codegen (master branch)
+
+Clone https://github.com/swagger-api/swagger-codegen somewhere accessible without admin access.
+
+
+3. syscoin-api (dev-3.0)
+
+Before anything else create a file called `syscoin.conf` in Syscoin folder and copy the below content.
+
+For me the folder was in `C:\Users\Ahmer-syscoin\AppData\Roaming\SyscoinCore\`
+```addnode=52.168.163.156
+addnode=52.168.18.94
+rpcuser=u
+rpcpass=p
+rpcport=8336
+rpcallowip=127.0.0.1
+rpcpassword=p
+server=1
+```
+
+* Clone the repo (dev-3.0)
+
+* Create a file `.env` inside `/server/nodejs`
+
+* Copy this line inside the file `SYS_LOCATION=C:\Users\Ahmer-syscoin\AppData\Roaming\SyscoinCore\`
+
+* Update the path to your syscoin.conf file
+
+* On the root of the syscoin-api project run these commands
+
+        `git submodule init`
+        
+        `git submodule update`
+
+* Now goto `/server/nodejs` and run `npm install`
+
+##### After npm install, 
+
+* go to root of the project and run `./gen_spec.sh`
+
+* it will generate swagger specs for APIs, also pass the path to your swagger-codegen-cli.jar when asked (for me the path was `D:/syscoin/swagger-codegen/modules/swagger-codegen-cli/target/swagger-codegen-cli.jar`)
+
+
+* after successful  message go to cd /server
+
+* run ``./gen_server_yaml.sh``
+
+
+    it will prompt three questions one by one
+
+* project-language  it should be nodejs-server
+
+* path of directory  it should be nodejs
+
+* path of swagger-codegen-cli.jar file in my case `D:/syscoin/swagger-codegen/modules/swagger-codegen-cli/target/swagger-codegen-cli.jar`
+  
+* Now goto `/server/nodejs` and run `npm start`
+
+Now
+You test your apis in browser open link http://localhost:8100/docs
+
+
+
 # Contributing
-This project is fully open source and welcomes pull requests at all levels. Simply fork the repository, apply your changes to the fork and then issue a pull request. Once reviewed the pull request will be integrated into master and (if warranted) released as a new official Syscoin API version.
+This project is fully open source and welcome pull requests at all levels. Simply fork the repository, apply your changes to the fork and then issue a pull request. Once reviewed the pull request will be integrated into master and (if warranted) released as a new official Syscoin API version.
 
 # Credits
 This project leverages the mega-awesome [swagger-tools](https://github.com/apigee-127/swagger-tools) middleware which does most all the work.
+
