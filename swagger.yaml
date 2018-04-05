@@ -4996,20 +4996,6 @@ definitions:
         type: string
       alias:
         type: string
-  GetAddressUTXOsEntry:
-    properties:
-      address:
-        type: string
-      txid:
-        type: string
-      outputIndex:
-        type: number
-      script:
-        type: string
-      satoshis:
-        type: number
-      height:
-        type: number
   GetChainTipsResponse:
     properties:
       height:
