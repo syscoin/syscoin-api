@@ -218,6 +218,7 @@ exports.getaddressesbyaccount = function(args, res, next) {
   syscoinClient.getAddressesByAccount.apply(syscoinClient, arr);
 }
 
+/* Changed */
 exports.getbalance = function(args, res, next) {
   /**
    * parameters expected in the args:
@@ -227,7 +228,8 @@ exports.getbalance = function(args, res, next) {
    **/
   var argList = [
     { prop: "account", defaultValue: "*" },
-    { prop: "minconf", defaultValue: 0 },
+    { prop: "minconf", defaultValue: 1 },
+    { prop: "addlockconf", defaultValue: false},
     { prop: "includeWatchonly", defaultValue: false },
   ];
 
@@ -244,24 +246,6 @@ exports.getbalance = function(args, res, next) {
 
   var arr = varUtils.getArgsArr(argList, args, "GET", cb);
   syscoinClient.getBalance.apply(syscoinClient, arr);
-}
-
-exports.getwalletbalance = function(args, res, next) {
-  var argList = [];
-
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    commonUtils.log('Get WALLET balance ', result, "getwalletbalance");
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.getWalletBalance.apply(syscoinClient, arr);
 }
 
 exports.getblock = function(args, res, next) {
@@ -424,6 +408,7 @@ exports.getpeerinfo = function(args, res, next) {
   syscoinClient.getPeerInfo.apply(syscoinClient, arr);
 }
 
+/* Changed */
 exports.getreceivedbyaccount = function(args, res, next) {
   /**
    * parameters expected in the args:
@@ -432,7 +417,8 @@ exports.getreceivedbyaccount = function(args, res, next) {
    **/
   var argList = [
     { prop: "account" },
-    { prop: "minconf", defaultValue: 0 }
+    { prop: "minconf", defaultValue: 1 },
+    { prop: "addlockconf", defaultValue: false}
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -450,6 +436,7 @@ exports.getreceivedbyaccount = function(args, res, next) {
   syscoinClient.getReceivedByAccount.apply(syscoinClient, arr);
 }
 
+/* Changed */
 exports.getreceivedbyaddress = function(args, res, next) {
   /**
    * parameters expected in the args:
@@ -458,7 +445,8 @@ exports.getreceivedbyaddress = function(args, res, next) {
    **/
   var argList = [
     { prop: "syscoinaddress" },
-    { prop: "minconf", defaultValue: 0 }
+    { prop: "minconf", defaultValue: 1 },
+    { prop: "addlockconf", defaultValue: false}
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -521,30 +509,6 @@ exports.getunconfirmedbalance = function(args, res, next) {
   syscoinClient.getUnconfirmedBalance.apply(syscoinClient, arr);
 }
 
-exports.getv2address = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-   * account (String)
-   **/
-  var argList = [
-    { prop: "account" }
-  ];
-
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    commonUtils.log('Get v2 address ', result, "getv2address");
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.getv2address.apply(syscoinClient, arr);
-}
-
 exports.getwalletinfo = function(args, res, next) {
   var argList = [];
   var cb = function(err, result, resHeaders) {
@@ -560,30 +524,6 @@ exports.getwalletinfo = function(args, res, next) {
 
   var arr = varUtils.getArgsArr(argList, args, "GET", cb);
   syscoinClient.getWalletInfo.apply(syscoinClient, arr);
-}
-
-exports.getzaddress = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-   * address (String)
-   **/
-  var argList = [
-    { prop: "address" }
-  ];
-
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    commonUtils.log('Get Z Address', result, "getzaddress");
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.getZAddress.apply(syscoinClient, arr);
 }
 
 exports.importaddress = function(args, res, next) {
@@ -641,32 +581,6 @@ exports.importprivkey = function(args, res, next) {
   syscoinClient.importPrivKey.apply(syscoinClient, arr);
 }
 
-exports.importprunedfunds = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-   * rawtransaction (String)
-   * txoutproof (String)
-   **/
-  var argList = [
-    { prop: "rawtransaction" },
-    { prop: "txoutproof" }
-  ];
-
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    commonUtils.log('Import pruned funds ', result, "importprunedfunds");
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.importPrunedFunds.apply(syscoinClient, arr);
-}
-
 exports.importpubkey = function(args, res, next) {
   /**
    * parameters expected in the args:
@@ -717,6 +631,7 @@ exports.importwallet = function(args, res, next) {
   syscoinClient.importWallet.apply(syscoinClient, arr);
 }
 
+/* Changed */
 exports.listaccounts = function(args, res, next) {
   /**
    * parameters expected in the args:
@@ -724,7 +639,8 @@ exports.listaccounts = function(args, res, next) {
    * includeWatchonly (Boolean)
    **/
   var argList = [
-    { prop: "minconf", defaultValue: 0 },
+    { prop: "minconf", defaultValue: 1 },
+    { prop: "addlockconf", defaultValue: false },
     { prop: "includeWatchonly", defaultValue: false }
   ];
 
@@ -760,6 +676,7 @@ exports.listaddressgroupings = function(args, res, next) {
   syscoinClient.listAddressGroupings.apply(syscoinClient, arr);
 }
 
+/* Changed */
 exports.listreceivedbyaccount = function(args, res, next) {
   /**
    * parameters expected in the args:
@@ -769,6 +686,7 @@ exports.listreceivedbyaccount = function(args, res, next) {
    **/
   var argList = [
     { prop: "minconf", defaultValue: 0 },
+    { prop: "addlockconf", defaultValue: false },
     { prop: "includeempty", defaultValue: false },
     { prop: "includeWatchonly", defaultValue: false }
   ];
@@ -787,16 +705,12 @@ exports.listreceivedbyaccount = function(args, res, next) {
   var arr = varUtils.getArgsArr(argList, args, "GET", cb);
   syscoinClient.listReceivedByAccount.apply(syscoinClient, arr);
 }
-
+ /* Changed */
 exports.listreceivedbyaddress = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-   * minconf (BigDecimal)
-   * includeempty (Boolean)
-   * includeWatchonly (Boolean)
-   **/
+
   var argList = [
     { prop: "minconf", defaultValue: 0 },
+    { prop: "addlockconf", defaultValue: false },
     { prop: "includeempty", defaultValue: false },
     { prop: "includeWatchonly", defaultValue: false }
   ];
@@ -874,6 +788,36 @@ exports.listtransactions = function(args, res, next) {
   syscoinClient.listTransactions.apply(syscoinClient, arr);
 }
 
+exports.listunspent = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * account (String)
+   * count (BigDecimal)
+   * from (BigDecimal)
+   * includeWatchonly (Boolean)
+   **/
+  var argList = [
+    { prop: "minconf", defaultValue: 1 },
+    { prop: "maxconf", defaultValue: 9999999 },
+    { prop: "adresses", defaultValue: [] },
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('List transactions ', result, "listtransactions");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.listUnspent.apply(syscoinClient, arr);
+}
+
+
 exports.move = function(args, res, next) {
   /**
    * parameters expected in the args:
@@ -903,30 +847,6 @@ exports.move = function(args, res, next) {
   syscoinClient.move.apply(syscoinClient, arr);
 }
 
-exports.removeprunedfunds = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-   * txid (String)
-   **/
-  var argList = [
-    { prop: "txid" }
-  ];
-
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    commonUtils.log('Remove pruned funds ', result, "removeprunedfunds");
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.removePrunedFunds.apply(syscoinClient, arr);
-}
-
 exports.sendfrom = function(args, res, next) {
   /**
    * parameters expected in the args:
@@ -937,6 +857,7 @@ exports.sendfrom = function(args, res, next) {
     { prop: "tosyscoinaddress" },
     { prop: "amount" },
     { prop: "minconf", defaultValue: 1 },
+    { prop: "addlockconf", defaultValue: false},
     { prop: "comment", defaultValue: "" },
     { prop: "commentto", defaultValue: ""}
   ];
@@ -965,8 +886,11 @@ exports.sendmany = function(args, res, next) {
     { prop: "fromaccount" },
     { prop: "amounts" },
     { prop: "minconf", defaultValue: 1 },
+    { prop: "addlockconf", defaultValue: false },
     { prop: "comment", defaultValue: "" },
-    { prop: "subtractfeefromamount", defaultValue: [] }
+    { prop: "subtractfeefromamount", defaultValue: [] },
+    { prop: "use_is", defaultValue: false},
+    { prop: "use_ps", defaultValue: false}
   ];
 
   var cb = function(err, result, resHeaders) {
@@ -992,12 +916,12 @@ exports.sendtoaddress = function(args, res, next) {
   var argList = [
     { prop: "syscoinaddress" },
     { prop: "amount" },
-    { prop: "comment", defaultValue: "" },
-    { prop: "commentto", defaultValue: "" },
-    { prop: "subtractfeefromamount", defaultValue: false }
+    { prop: "comment"},
+    { prop: "commentto"},
+    { prop: "subtractfeefromamount", defaultValue: false },
+    { prop: "use_is", defaultValue: false },
+    { prop: "use_ps", defaultValue: false }
   ];
-
-  args.request.value.amount = varUtils.correctTypes(args.request.value.amount, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
   var cb = function(err, result, resHeaders) {
     res.setHeader('Content-Type', 'application/json');
@@ -1042,11 +966,9 @@ exports.signmessage = function(args, res, next) {
 exports.syscoindecoderawtransaction = function(args, res, next) {
   /**
    * parameters expected in the args:
-   * alias (String)
    * hexstring (String)
    **/
   var argList = [
-    { prop: "alias" },
     { prop: "hexstring" }
   ];
 
@@ -1063,30 +985,6 @@ exports.syscoindecoderawtransaction = function(args, res, next) {
 
   var arr = varUtils.getArgsArr(argList, args, "GET", cb);
   syscoinClient.syscoinDecodeRawTransaction.apply(syscoinClient, arr);
-}
-
-exports.syscoinsignrawtransaction = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-   * hexstring (String)
-   **/
-  var argList = [
-    { prop: "hexstring" }
-  ];
-
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    commonUtils.log('Syscoin sign raw transaction ', result, "syscoinsignrawtransaction");
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.syscoinSignRawTransaction.apply(syscoinClient, arr);
 }
 
 exports.validateaddress = function(args, res, next) {
@@ -1206,5 +1104,660 @@ exports.walletpassphrasechange = function(args, res, next) {
 
   var arr = varUtils.getArgsArr(argList, args, "POST", cb);
   syscoinClient.walletPassphraseChange.apply(syscoinClient, arr);
+
+};
+
+/*Added new functions heres*/
+/******************General**************************/
+
+
+exports.getaddressbalance = function(args, res, next) {
+    /**
+     * parameters expected in the args:
+     * request (getaddressbalance)
+     **/
+    var cb = function(err, result, resHeaders) {
+        res.setHeader('Content-Type', 'application/json');
+
+        if (err) {
+            return commonUtils.reportError(res, err);
+        }
+
+exports.getaddresstxids = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * addresses (Array)
+   * start (Number)
+   * end (Number)
+   **/
+  var argList = [
+    { prop: "addresses" },
+    { prop: "start" },
+    { prop: "end" }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('Get address transaction id ', result, "getaddresstxids");
+    res.end(JSON.stringify(result));
+  };
+
+  // var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  var arr = [{"addresses":args['addresses']['value'], "start": args['start']['value'], "end": args['end']['value']},cb];
+
+  syscoinClient.getAddressTxids.apply(syscoinClient, arr);
 }
 
+exports.getaddressutxos = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * addresses (Array)
+   **/
+  var argList = [
+    { prop: "addresses" }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('Returns all unspent outputs for an address (requires addressindex to be enabled) ', result, "getaddressutxos");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+
+  syscoinClient.getAddressUtxos.apply(syscoinClient, arr);
+}
+
+exports.getblockhashes  = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * high (Number)
+   * low (Number)
+   **/
+  var argList = [
+    { prop: "high" },
+    { prop: "low" },
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('Get address transaction id ', result, "getblockhashes ");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.getBlockHashes.apply(syscoinClient, arr);
+}
+// TODO: this need to be updated in root folder swagger.yaml
+exports.getblockheaders  = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * hash (String)
+   * count (Number)
+   * verbose (Boolean)
+   **/
+  var argList = [
+    { prop: "hash" },
+    { prop: "count" },
+    { prop: "verbose" }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('Get address transaction id ', result, "getblockheaders ");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.getBlockHeaders.apply(syscoinClient, arr);
+}
+
+exports.getchaintips  = function(args, res, next) {
+  var argList = [];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('Get address transaction id ', result, "getchaintips ");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.getChainTips.apply(syscoinClient, arr);
+}
+
+exports.getspentinfo = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * txid (String)
+   * index (Number)
+   **/
+  var argList = [
+    { prop: "txid" },
+    { prop: "index" }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('Get address transaction id ', result, "getspentinfo");
+    res.end(JSON.stringify(result));
+  };
+
+  // var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  var arr = [{txid: args['txid']['value'], index: args['index']['value']},cb];
+  console.log("sending arguments to .apply(): ", arr);
+  syscoinClient.getSpentInfo.apply(syscoinClient, arr);
+}
+
+exports.getgovernanceinfo = function(args, res, next) {
+  var argList = [];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('Get address transaction id ', result, "getgovernanceinfo");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.getGovernanceInfo.apply(syscoinClient, arr);
+}
+
+exports.getpoolinfo = function(args, res, next) {
+  var argList = [];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('Get address transaction id ', result, "getpoolinfo");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.getPoolInfo.apply(syscoinClient, arr);
+}
+
+exports.getsuperblockbudget  = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * index (number)
+   **/
+  var argList = [
+    { prop: "index" }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('Get address transaction id ', result, "getsuperblockbudget ");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.getSuperBlockBudget.apply(syscoinClient, arr);
+}
+
+exports.gobject  = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * command (String)
+   **/
+  var argList = [
+    { prop: "command" }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('Manage governance objects', result, "gobject");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.gObject.apply(syscoinClient, arr);
+}
+
+exports.masternode = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * command (String)
+   **/
+  var argList = [
+    { prop: "command" },
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('Set of commands to execute masternode related actions.', result, "masternode");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.masternode.apply(syscoinClient, arr);
+}
+
+exports.masternodebroadcast = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * command (String)
+   **/
+  var argList = [
+    { prop: "command" }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('Get address transaction id ', result, "masternodebroadcast");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.masternodeBroadcast.apply(syscoinClient, arr);
+}
+
+exports.masternodelist = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * mode (String)
+   **/
+  var argList = [
+    { prop: "mode" },
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('Get address transaction id ', result, "masternodelist");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.masternodeList.apply(syscoinClient, arr);
+}
+
+        commonUtils.log('get balance of address', result, "getaddressbalance");
+        res.end(JSON.stringify(result));
+    };
+    var arr = [{"addresses":args['addresses']['value']},cb];
+    syscoinClient.getAddressBalance.apply(syscoinClient, arr);
+};
+
+
+
+exports.getaddressdeltas = function(args, res, next) {
+    /**
+     * parameters expected in the args:
+     * request (getaddressdeltas)
+     **/
+    var cb = function(err, result, resHeaders) {
+        res.setHeader('Content-Type', 'application/json');
+
+        if (err) {
+            return commonUtils.reportError(res, err);
+        }
+
+        commonUtils.log('get balance of getaddressdeltas', result, "getaddressdeltas");
+        res.end(JSON.stringify(result));
+    };
+
+    var arr = [{
+      "addresses": args['addresses']['value'],
+       "start": args['start']['value'],
+       "end": args['end']['value']
+    }, cb];
+    console.log(arr);
+    syscoinClient.getAddressDeltas.apply(syscoinClient, arr);
+};
+
+exports.getaddressmempool = function(args, res, next) {
+    /**
+     * parameters expected in the args:
+     * request (getaddressmempool)
+     **/
+    var cb = function(err, result, resHeaders) {
+        res.setHeader('Content-Type', 'application/json');
+
+        if (err) {
+            return commonUtils.reportError(res, err);
+        }
+
+        commonUtils.log('getaddressmempool', result, "getaddressmempool");
+        res.end(JSON.stringify(result));
+    };
+    var arr = [{"addresses":args['addresses']['value']},cb];
+    syscoinClient.getAddressMempool.apply(syscoinClient, arr);
+};
+
+
+exports.syscoinsendrawtransaction = function(args, res, next) {
+    /**
+     * parameters expected in the args:
+     * request (syscoinsendrawtransaction)
+     **/
+    var argList = [
+        { prop: "hexstring" },
+        { prop: "allowhighfees" },
+        { prop: "instantsend" }
+    ];
+    var cb = function(err, result, resHeaders) {
+        res.setHeader('Content-Type', 'application/json');
+
+        if (err) {
+            return commonUtils.reportError(res, err);
+        }
+
+        commonUtils.log('syscoinsendrawtransaction', result, "syscoinsendrawtransaction");
+        res.end(JSON.stringify(result));
+    };
+
+    var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+    console.log(arr);
+    syscoinClient.syscoinSendRawTransaction.apply(syscoinClient, arr);
+};
+
+exports.getgenerate = function(args, res, next) {
+  var argList = [];
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('getgenerate', result, "getgenerate");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.getGenerate.apply(syscoinClient, arr);
+};
+
+exports.setgenerate = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * generate (Boolean)
+   * genproclimit (Number)
+   **/
+  var argList = [
+    { prop: "generate" },
+    { prop: "genproclimit" },
+  ];
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('setgenerate', result, "setgenerate");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.setGenerate.apply(syscoinClient, arr);
+};
+
+exports.setnetworkactive = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * state (Boolean)
+   **/
+  var argList = [
+    { prop: "state" },
+  ];
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('setnetworkactive', result, "setnetworkactive");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.setNetworkActive.apply(syscoinClient, arr);
+};
+
+exports.mnsync = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * command (String)
+   **/
+  var argList = [
+    { prop: "command" },
+  ];
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('mnsync', result, "mnsync");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.mnSync.apply(syscoinClient, arr);
+};
+
+exports.dumphdinfo = function(args, res, next) {
+  var argList = [];
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('dumphdinfo', result, "dumphdinfo");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.dumpHdInfo.apply(syscoinClient, arr);
+};
+
+exports.debug = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * command (String)
+   **/
+  var argList = [
+    { prop: "command" },
+  ];
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('debug', result, "debug");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.debug.apply(syscoinClient, arr);
+};
+
+exports.instantsendtoaddress = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * command (instantsendtoaddress)
+   **/
+  var argList = [
+    { prop: "syscoinaddress" },
+    { prop: "amount" },
+    { prop: "comment" },
+    { prop: "comment-to" },
+    { prop: "subtractfeefromamount" }
+  ];
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('instantsendtoaddress', result, "instantsendtoaddress");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+  syscoinClient.instantSendToAddress.apply(syscoinClient, arr);
+};
+
+exports.fundrawtransaction = function(args, res, next) {
+    var argList = [
+        { prop: "hexstring" },
+        { prop: "watching" }
+    ];
+    var cb = function(err, result, resHeaders) {
+        res.setHeader('Content-Type', 'application/json');
+
+        if (err) {
+            return commonUtils.reportError(res, err);
+        }
+
+        commonUtils.log('fundrawtransaction', result, "fundrawtransaction");
+        res.end(JSON.stringify(result));
+    };
+
+    var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+    syscoinClient.fundRawTransaction.apply(syscoinClient, arr);
+};
+
+exports.getblocktemplate = function(args, res, next) {
+    var argList = [];
+    var cb = function(err, result, resHeaders) {
+        res.setHeader('Content-Type', 'application/json');
+
+        if (err) {
+            return commonUtils.reportError(res, err);
+        }
+
+        commonUtils.log('getblocktemplate', result, "getblocktemplate");
+        res.end(JSON.stringify(result));
+    };
+
+    var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+    syscoinClient.getBlockTemplate.apply(syscoinClient, arr);
+};
+
+exports.signrawtransaction = function(args, res, next) {
+    var argList = [{ prop: "hexstring" }];
+    var cb = function(err, result, resHeaders) {
+        res.setHeader('Content-Type', 'application/json');
+
+        if (err) {
+            return commonUtils.reportError(res, err);
+        }
+
+        commonUtils.log('signrawtransaction', result, "signrawtransaction");
+        res.end(JSON.stringify(result));
+    };
+
+    var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+    syscoinClient.signRawTransaction.apply(syscoinClient, arr);
+};
+
+exports.lockunspent = function(args, res, next) {
+    var argList = [
+        { prop: "unlock" },
+        { prop: "transactions" }
+    ];
+    var cb = function(err, result, resHeaders) {
+        res.setHeader('Content-Type', 'application/json');
+
+        if (err) {
+            return commonUtils.reportError(res, err);
+        }
+
+        commonUtils.log('lockunspent', result, "lockunspent");
+        res.end(JSON.stringify(result));
+    };
+
+    var arr = varUtils.getArgsArr(argList, args, "POST", cb);
+    syscoinClient.lockUnspent.apply(syscoinClient, arr);
+};
+
+exports.syscoinlistreceivebyaddress = function(args, res, next) {
+  var argList = [
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('syscoin list receive by address ', result, "syscoinlistreceivebyaddress");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.syscoinListReceiveByAddress.apply(syscoinClient, arr);
+}
