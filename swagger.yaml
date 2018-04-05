@@ -2813,9 +2813,7 @@ Results are an array of Objects, each of which has:
       - name: addresses
         in: query
         required: true
-        type: array
-        items:
-          type: string
+        type: object
       responses:
         "200":
           description: Success
