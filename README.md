@@ -122,7 +122,7 @@ server=1
 
 * path of directory  it should be nodejs
 
-* path of swagger-codengen-cli.jar file in my case `D:/syscoin/swagger-codegen/modules/swagger-codegen-cli/target/swagger-codegen-cli.jar`
+* path of swagger-codegen-cli.jar file in my case `D:/syscoin/swagger-codegen/modules/swagger-codegen-cli/target/swagger-codegen-cli.jar`
   
 * Now goto `/server/nodejs` and run `npm start`
 
