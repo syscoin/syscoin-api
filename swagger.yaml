@@ -2813,7 +2813,7 @@ Results are an array of Objects, each of which has:
       - name: addresses
         in: query
         required: true
-        type: object
+        type: string
       responses:
         "200":
           description: Success
@@ -5121,6 +5121,11 @@ definitions:
         type: array
         items:
           $ref: "#/definitions/AssetAmount"
+      ranges:
+        description: "[{'start':index,'end':index},...]},...]"
+        type: array
+        items:
+          $ref: "#/definitions/AssetInput"
       memo:
         description: Message to include in this asset allocation transfer.
         type: string
