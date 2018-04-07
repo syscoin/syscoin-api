@@ -16,7 +16,7 @@ tags:
 - name: "Certificates"
   description: "Operations related to digital certificates."
 - name: "Asset"
-  description: "Assets like ECR20 token"
+  description: "Assets are similar to ERC20 tokens"
 schemes:
 - "http"
 - "https"
@@ -1730,9 +1730,7 @@ paths:
           schema:
             type: "array"
             items:
-              type: "array"
-              items:
-                $ref: "#/definitions/AddressGrouping"
+              $ref: "#/definitions/AddressGrouping"
         default:
           description: "Error"
           schema:
@@ -2048,7 +2046,7 @@ paths:
         name: "request"
         required: true
         schema:
-          $ref: "#/definitions/OfferNewInput"
+          $ref: "#/definitions/OfferNewRequest"
       responses:
         200:
           description: "Success; Returns an array of 2 elements- tx id and offer GUID."
@@ -2076,7 +2074,7 @@ paths:
         name: "request"
         required: true
         schema:
-          $ref: "#/definitions/OfferUpdateInput"
+          $ref: "#/definitions/OfferUpdateRequest"
       responses:
         200:
           description: "Success; Returns an array with 1 element- tx id."
@@ -2534,7 +2532,7 @@ paths:
         name: "request"
         required: true
         schema:
-          $ref: "#/definitions/FundRawTransactionInput"
+          $ref: "#/definitions/FundRawTransactionRequest"
       responses:
         200:
           description: "Success"
@@ -2559,7 +2557,7 @@ paths:
         name: "request"
         required: true
         schema:
-          $ref: "#/definitions/LockUnspentInput"
+          $ref: "#/definitions/LockUnspentRequest"
       responses:
         200:
           description: "Success"
@@ -2584,7 +2582,7 @@ paths:
         name: "request"
         required: true
         schema:
-          $ref: "#/definitions/SignRawTransactionInput"
+          $ref: "#/definitions/SignRawTransactionRequest"
       responses:
         200:
           description: "Success"
@@ -2896,9 +2894,7 @@ paths:
       - name: "addresses"
         in: "query"
         required: true
-        type: "array"
-        items:
-          type: "string"
+        type: "string"
       responses:
         200:
           description: "Success"
@@ -3307,7 +3303,7 @@ definitions:
       inputs:
         type: "array"
         items:
-          $ref: "#/definitions/EscrowCreateRawTransactionDataInput"
+          $ref: "#/definitions/EscrowCreateRawTransactionDataRequest"
       role:
         type: "string"
     example:
@@ -4172,13 +4168,9 @@ definitions:
       amount:
         type: "number"
         description: "The amount in SYS"
-      account:
-        type: "string"
-        description: "(optional) The account (DEPRECATED)"
     example:
       amount: 0.80082819046101150206595775671303272247314453125
       syscoinaddress: "syscoinaddress"
-      account: "account"
   Account:
     properties:
       involvesWatchonly:
@@ -4386,6 +4378,7 @@ definitions:
           \ id or block. 'send' and 'receive' transactions are associated with an\
           \ address, transaction id and block details. Example values&#58; 'send|receive|move'"
       amount:
+        type: "number"
         description: "The amount in SYS. This is negative for the 'send' category,\
           \ and for the 'move' category for moves outbound. It is positive for the\
           \ 'receive' category, and for the 'move' category for inbound funds."
@@ -4449,24 +4442,24 @@ definitions:
           \ may be unknown for unconfirmed transactions not in the mempool. Example&#58;\
           \ \"yes|no|unknown\""
     example:
-      amount: ""
+      amount: 0.80082819046101150206595775671303272247314453125
       address: "address"
       instantlock: true
       bip125-replaceable: "bip125-replaceable"
-      fee: 6.02745618307040320615897144307382404804229736328125
+      fee: 1.46581298050294517310021547018550336360931396484375
       txid: "txid"
       label: "label"
       otheraccount: "otheraccount"
-      confirmations: 1.46581298050294517310021547018550336360931396484375
-      vout: 0.80082819046101150206595775671303272247314453125
+      confirmations: 5.962133916683182377482808078639209270477294921875
+      vout: 6.02745618307040320615897144307382404804229736328125
       blockhash: "blockhash"
-      timereceived: 7.061401241503109105224211816675961017608642578125
+      timereceived: 9.301444243932575517419536481611430644989013671875
       trusted: true
-      blocktime: 5.63737665663332876420099637471139430999755859375
+      blocktime: 2.3021358869347654518833223846741020679473876953125
       comment: "comment"
-      time: 2.3021358869347654518833223846741020679473876953125
+      time: 7.061401241503109105224211816675961017608642578125
       category: "category"
-      blockindex: 5.962133916683182377482808078639209270477294921875
+      blockindex: 5.63737665663332876420099637471139430999755859375
       account: "account"
   Message:
     properties:
@@ -5947,10 +5940,10 @@ definitions:
       can_adjust_interest_rate: true
       total_supply: 5.962133916683182377482808078639209270477294921875
       inputs:
-      - start: 5.962133916683182377482808078639209270477294921875
-        end: 5.63737665663332876420099637471139430999755859375
-      - start: 5.962133916683182377482808078639209270477294921875
-        end: 5.63737665663332876420099637471139430999755859375
+      - start: 6.02745618307040320615897144307382404804229736328125
+        end: 1.46581298050294517310021547018550336360931396484375
+      - start: 6.02745618307040320615897144307382404804229736328125
+        end: 1.46581298050294517310021547018550336360931396484375
       txid: "txid"
       publicvalue: "publicvalue"
       use_input_ranges: true
@@ -5969,8 +5962,8 @@ definitions:
       end:
         type: "number"
     example:
-      start: 5.962133916683182377482808078639209270477294921875
-      end: 5.63737665663332876420099637471139430999755859375
+      start: 6.02745618307040320615897144307382404804229736328125
+      end: 1.46581298050294517310021547018550336360931396484375
   AssetSendRequest:
     required:
     - "aliasfrom"
@@ -5991,6 +5984,11 @@ definitions:
           \ and multiple mappings \"ranges\": \"start\":index \"end\":index }"
         items:
           $ref: "#/definitions/AssetAmount"
+      ranges:
+        type: "array"
+        description: "[{'start':index,'end':index},...]},...]"
+        items:
+          $ref: "#/definitions/AssetInput"
       memo:
         type: "string"
         description: "Message to include in this asset allocation transfer."
@@ -6005,6 +6003,11 @@ definitions:
         aliasto: "aliasto"
       - amount: 0.80082819046101150206595775671303272247314453125
         aliasto: "aliasto"
+      ranges:
+      - start: 6.02745618307040320615897144307382404804229736328125
+        end: 1.46581298050294517310021547018550336360931396484375
+      - start: 6.02745618307040320615897144307382404804229736328125
+        end: 1.46581298050294517310021547018550336360931396484375
       memo: "memo"
       asset: "asset"
       aliasfrom: "aliasfrom"
@@ -6052,17 +6055,17 @@ definitions:
     example:
       balance: 6.02745618307040320615897144307382404804229736328125
       inputs:
-      - start: 5.962133916683182377482808078639209270477294921875
-        end: 5.63737665663332876420099637471139430999755859375
-      - start: 5.962133916683182377482808078639209270477294921875
-        end: 5.63737665663332876420099637471139430999755859375
+      - start: 6.02745618307040320615897144307382404804229736328125
+        end: 1.46581298050294517310021547018550336360931396484375
+      - start: 6.02745618307040320615897144307382404804229736328125
+        end: 1.46581298050294517310021547018550336360931396484375
       txid: "txid"
       alias: "alias"
       interest_claim_height: 1.46581298050294517310021547018550336360931396484375
       memo: "memo"
       _id: "_id"
       asset: "asset"
-      accumulated_interest: 2.3021358869347654518833223846741020679473876953125
+      accumulated_interest: 5.962133916683182377482808078639209270477294921875
       height: 0.80082819046101150206595775671303272247314453125
   AssetAllocationSenderStatus:
     properties:
@@ -6177,7 +6180,7 @@ definitions:
       use_inputranges: true
       category: "category"
       supply: 0.80082819046101150206595775671303272247314453125
-  FundRawTransactionInput:
+  FundRawTransactionRequest:
     properties:
       hexstring:
         type: "string"
@@ -6186,13 +6189,13 @@ definitions:
     example:
       hexstring: "hexstring"
       watching: true
-  SignRawTransactionInput:
+  SignRawTransactionRequest:
     properties:
       hexstring:
         type: "string"
     example:
       hexstring: "hexstring"
-  LockUnspentInput:
+  LockUnspentRequest:
     properties:
       unlock:
         type: "boolean"
@@ -6216,7 +6219,7 @@ definitions:
     example:
       txid: "txid"
       vout: 0.80082819046101150206595775671303272247314453125
-  OfferNewInput:
+  OfferNewRequest:
     properties:
       alias:
         type: "string"
@@ -6270,7 +6273,7 @@ definitions:
       category: "category"
       auction_require_witness: true
       payment_options: "payment_options"
-  OfferUpdateInput:
+  OfferUpdateRequest:
     properties:
       alias:
         type: "string"
@@ -6327,7 +6330,7 @@ definitions:
       offer_type: "offer_type"
       auction_require_witness: true
       payment_options: "payment_options"
-  EscrowCreateRawTransactionDataInput:
+  EscrowCreateRawTransactionDataRequest:
     properties:
       txid:
         type: "string"
@@ -6413,7 +6416,3 @@ definitions:
       - "{}"
       - "{}"
       hexstring: "hexstring"
-  AliasNewFundAddress:
-    properties:
-      address:
-        type: "string"
