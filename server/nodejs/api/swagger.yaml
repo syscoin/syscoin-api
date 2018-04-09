@@ -2885,16 +2885,17 @@ paths:
       x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
   /getaddressutxos:
-    get:
+    post:
       tags:
       - "General"
       description: "Returns all unspent outputs for addresses or aliases"
       operationId: "getaddressutxos"
       parameters:
-      - name: "addresses"
-        in: "query"
+      - in: "body"
+        name: "addresses"
         required: true
-        type: "string"
+        schema:
+          $ref: "#/definitions/getAddressUtxosRequest"
       responses:
         200:
           description: "Success"
@@ -5984,11 +5985,6 @@ definitions:
           \ and multiple mappings \"ranges\": \"start\":index \"end\":index }"
         items:
           $ref: "#/definitions/AssetAmount"
-      ranges:
-        type: "array"
-        description: "[{'start':index,'end':index},...]},...]"
-        items:
-          $ref: "#/definitions/AssetInput"
       memo:
         type: "string"
         description: "Message to include in this asset allocation transfer."
@@ -6000,21 +5996,25 @@ definitions:
       witness: "witness"
       amounts:
       - amount: 0.80082819046101150206595775671303272247314453125
+        ranges:
+        - start: 6.02745618307040320615897144307382404804229736328125
+          end: 1.46581298050294517310021547018550336360931396484375
+        - start: 6.02745618307040320615897144307382404804229736328125
+          end: 1.46581298050294517310021547018550336360931396484375
         aliasto: "aliasto"
       - amount: 0.80082819046101150206595775671303272247314453125
+        ranges:
+        - start: 6.02745618307040320615897144307382404804229736328125
+          end: 1.46581298050294517310021547018550336360931396484375
+        - start: 6.02745618307040320615897144307382404804229736328125
+          end: 1.46581298050294517310021547018550336360931396484375
         aliasto: "aliasto"
-      ranges:
-      - start: 6.02745618307040320615897144307382404804229736328125
-        end: 1.46581298050294517310021547018550336360931396484375
-      - start: 6.02745618307040320615897144307382404804229736328125
-        end: 1.46581298050294517310021547018550336360931396484375
       memo: "memo"
       asset: "asset"
       aliasfrom: "aliasfrom"
   AssetAmount:
     required:
     - "aliasto"
-    - "amount"
     properties:
       aliasto:
         type: "string"
@@ -6022,8 +6022,18 @@ definitions:
       amount:
         type: "number"
         description: "amount you want to send"
+      ranges:
+        type: "array"
+        description: "[{'start':index,'end':index},...]},...]"
+        items:
+          $ref: "#/definitions/AssetInput"
     example:
       amount: 0.80082819046101150206595775671303272247314453125
+      ranges:
+      - start: 6.02745618307040320615897144307382404804229736328125
+        end: 1.46581298050294517310021547018550336360931396484375
+      - start: 6.02745618307040320615897144307382404804229736328125
+        end: 1.46581298050294517310021547018550336360931396484375
       aliasto: "aliasto"
   AssetAllocation:
     required:
@@ -6416,3 +6426,9 @@ definitions:
       - "{}"
       - "{}"
       hexstring: "hexstring"
+  getAddressUtxosRequest:
+    properties:
+      addresses:
+        type: "array"
+        items:
+          type: "string"

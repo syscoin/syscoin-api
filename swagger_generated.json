@@ -22,7 +22,7 @@
     "description" : "Operations related to digital certificates."
   }, {
     "name" : "Asset",
-    "description" : "Assets like ECR20 token"
+    "description" : "Assets are similar to ERC20 tokens"
   } ],
   "schemes" : [ "http", "https" ],
   "consumes" : [ "application/json" ],
@@ -2177,10 +2177,7 @@
             "schema" : {
               "type" : "array",
               "items" : {
-                "type" : "array",
-                "items" : {
-                  "$ref" : "#/definitions/AddressGrouping"
-                }
+                "$ref" : "#/definitions/AddressGrouping"
               }
             }
           },
@@ -2573,7 +2570,7 @@
           "name" : "request",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/OfferNewInput"
+            "$ref" : "#/definitions/OfferNewRequest"
           }
         } ],
         "responses" : {
@@ -2609,7 +2606,7 @@
           "name" : "request",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/OfferUpdateInput"
+            "$ref" : "#/definitions/OfferUpdateRequest"
           }
         } ],
         "responses" : {
@@ -3179,7 +3176,7 @@
           "name" : "request",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/FundRawTransactionInput"
+            "$ref" : "#/definitions/FundRawTransactionRequest"
           }
         } ],
         "responses" : {
@@ -3212,7 +3209,7 @@
           "name" : "request",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/LockUnspentInput"
+            "$ref" : "#/definitions/LockUnspentRequest"
           }
         } ],
         "responses" : {
@@ -3245,7 +3242,7 @@
           "name" : "request",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/SignRawTransactionInput"
+            "$ref" : "#/definitions/SignRawTransactionRequest"
           }
         } ],
         "responses" : {
@@ -3624,17 +3621,16 @@
       "x-swagger-router-controller" : "rpc"
     },
     "/getaddressutxos" : {
-      "get" : {
+      "post" : {
         "tags" : [ "General" ],
         "description" : "Returns all unspent outputs for addresses or aliases",
         "operationId" : "getaddressutxos",
         "parameters" : [ {
+          "in" : "body",
           "name" : "addresses",
-          "in" : "query",
           "required" : true,
-          "type" : "array",
-          "items" : {
-            "type" : "string"
+          "schema" : {
+            "$ref" : "#/definitions/getAddressUtxosRequest"
           }
         } ],
         "responses" : {
@@ -4097,7 +4093,7 @@
         "inputs" : {
           "type" : "array",
           "items" : {
-            "$ref" : "#/definitions/EscrowCreateRawTransactionDataInput"
+            "$ref" : "#/definitions/EscrowCreateRawTransactionDataRequest"
           }
         },
         "role" : {
@@ -5122,16 +5118,11 @@
         "amount" : {
           "type" : "number",
           "description" : "The amount in SYS"
-        },
-        "account" : {
-          "type" : "string",
-          "description" : "(optional) The account (DEPRECATED)"
         }
       },
       "example" : {
         "amount" : 0.80082819046101150206595775671303272247314453125,
-        "syscoinaddress" : "syscoinaddress",
-        "account" : "account"
+        "syscoinaddress" : "syscoinaddress"
       }
     },
     "Account" : {
@@ -5374,6 +5365,7 @@
           "description" : "The transaction category. 'move' is a local (off blockchain) transaction between accounts, and not associated with an address, transaction id or block. 'send' and 'receive' transactions are associated with an address, transaction id and block details. Example values&#58; 'send|receive|move'"
         },
         "amount" : {
+          "type" : "number",
           "description" : "The amount in SYS. This is negative for the 'send' category, and for the 'move' category for moves outbound. It is positive for the 'receive' category, and for the 'move' category for inbound funds."
         },
         "vout" : {
@@ -5438,24 +5430,24 @@
         }
       },
       "example" : {
-        "amount" : "",
+        "amount" : 0.80082819046101150206595775671303272247314453125,
         "address" : "address",
         "instantlock" : true,
         "bip125-replaceable" : "bip125-replaceable",
-        "fee" : 6.02745618307040320615897144307382404804229736328125,
+        "fee" : 1.46581298050294517310021547018550336360931396484375,
         "txid" : "txid",
         "label" : "label",
         "otheraccount" : "otheraccount",
-        "confirmations" : 1.46581298050294517310021547018550336360931396484375,
-        "vout" : 0.80082819046101150206595775671303272247314453125,
+        "confirmations" : 5.962133916683182377482808078639209270477294921875,
+        "vout" : 6.02745618307040320615897144307382404804229736328125,
         "blockhash" : "blockhash",
-        "timereceived" : 7.061401241503109105224211816675961017608642578125,
+        "timereceived" : 9.301444243932575517419536481611430644989013671875,
         "trusted" : true,
-        "blocktime" : 5.63737665663332876420099637471139430999755859375,
+        "blocktime" : 2.3021358869347654518833223846741020679473876953125,
         "comment" : "comment",
-        "time" : 2.3021358869347654518833223846741020679473876953125,
+        "time" : 7.061401241503109105224211816675961017608642578125,
         "category" : "category",
-        "blockindex" : 5.962133916683182377482808078639209270477294921875,
+        "blockindex" : 5.63737665663332876420099637471139430999755859375,
         "account" : "account"
       }
     },
@@ -7209,11 +7201,11 @@
         "can_adjust_interest_rate" : true,
         "total_supply" : 5.962133916683182377482808078639209270477294921875,
         "inputs" : [ {
-          "start" : 5.962133916683182377482808078639209270477294921875,
-          "end" : 5.63737665663332876420099637471139430999755859375
+          "start" : 6.02745618307040320615897144307382404804229736328125,
+          "end" : 1.46581298050294517310021547018550336360931396484375
         }, {
-          "start" : 5.962133916683182377482808078639209270477294921875,
-          "end" : 5.63737665663332876420099637471139430999755859375
+          "start" : 6.02745618307040320615897144307382404804229736328125,
+          "end" : 1.46581298050294517310021547018550336360931396484375
         } ],
         "txid" : "txid",
         "publicvalue" : "publicvalue",
@@ -7238,8 +7230,8 @@
         }
       },
       "example" : {
-        "start" : 5.962133916683182377482808078639209270477294921875,
-        "end" : 5.63737665663332876420099637471139430999755859375
+        "start" : 6.02745618307040320615897144307382404804229736328125,
+        "end" : 1.46581298050294517310021547018550336360931396484375
       }
     },
     "AssetSendRequest" : {
@@ -7273,9 +7265,23 @@
         "witness" : "witness",
         "amounts" : [ {
           "amount" : 0.80082819046101150206595775671303272247314453125,
+          "ranges" : [ {
+            "start" : 6.02745618307040320615897144307382404804229736328125,
+            "end" : 1.46581298050294517310021547018550336360931396484375
+          }, {
+            "start" : 6.02745618307040320615897144307382404804229736328125,
+            "end" : 1.46581298050294517310021547018550336360931396484375
+          } ],
           "aliasto" : "aliasto"
         }, {
           "amount" : 0.80082819046101150206595775671303272247314453125,
+          "ranges" : [ {
+            "start" : 6.02745618307040320615897144307382404804229736328125,
+            "end" : 1.46581298050294517310021547018550336360931396484375
+          }, {
+            "start" : 6.02745618307040320615897144307382404804229736328125,
+            "end" : 1.46581298050294517310021547018550336360931396484375
+          } ],
           "aliasto" : "aliasto"
         } ],
         "memo" : "memo",
@@ -7284,7 +7290,7 @@
       }
     },
     "AssetAmount" : {
-      "required" : [ "aliasto", "amount" ],
+      "required" : [ "aliasto" ],
       "properties" : {
         "aliasto" : {
           "type" : "string",
@@ -7293,10 +7299,24 @@
         "amount" : {
           "type" : "number",
           "description" : "amount you want to send"
+        },
+        "ranges" : {
+          "type" : "array",
+          "description" : "[{'start':index,'end':index},...]},...]",
+          "items" : {
+            "$ref" : "#/definitions/AssetInput"
+          }
         }
       },
       "example" : {
         "amount" : 0.80082819046101150206595775671303272247314453125,
+        "ranges" : [ {
+          "start" : 6.02745618307040320615897144307382404804229736328125,
+          "end" : 1.46581298050294517310021547018550336360931396484375
+        }, {
+          "start" : 6.02745618307040320615897144307382404804229736328125,
+          "end" : 1.46581298050294517310021547018550336360931396484375
+        } ],
         "aliasto" : "aliasto"
       }
     },
@@ -7341,11 +7361,11 @@
       "example" : {
         "balance" : 6.02745618307040320615897144307382404804229736328125,
         "inputs" : [ {
-          "start" : 5.962133916683182377482808078639209270477294921875,
-          "end" : 5.63737665663332876420099637471139430999755859375
+          "start" : 6.02745618307040320615897144307382404804229736328125,
+          "end" : 1.46581298050294517310021547018550336360931396484375
         }, {
-          "start" : 5.962133916683182377482808078639209270477294921875,
-          "end" : 5.63737665663332876420099637471139430999755859375
+          "start" : 6.02745618307040320615897144307382404804229736328125,
+          "end" : 1.46581298050294517310021547018550336360931396484375
         } ],
         "txid" : "txid",
         "alias" : "alias",
@@ -7353,7 +7373,7 @@
         "memo" : "memo",
         "_id" : "_id",
         "asset" : "asset",
-        "accumulated_interest" : 2.3021358869347654518833223846741020679473876953125,
+        "accumulated_interest" : 5.962133916683182377482808078639209270477294921875,
         "height" : 0.80082819046101150206595775671303272247314453125
       }
     },
@@ -7482,7 +7502,7 @@
         "supply" : 0.80082819046101150206595775671303272247314453125
       }
     },
-    "FundRawTransactionInput" : {
+    "FundRawTransactionRequest" : {
       "properties" : {
         "hexstring" : {
           "type" : "string"
@@ -7496,7 +7516,7 @@
         "watching" : true
       }
     },
-    "SignRawTransactionInput" : {
+    "SignRawTransactionRequest" : {
       "properties" : {
         "hexstring" : {
           "type" : "string"
@@ -7506,7 +7526,7 @@
         "hexstring" : "hexstring"
       }
     },
-    "LockUnspentInput" : {
+    "LockUnspentRequest" : {
       "properties" : {
         "unlock" : {
           "type" : "boolean"
@@ -7543,7 +7563,7 @@
         "vout" : 0.80082819046101150206595775671303272247314453125
       }
     },
-    "OfferNewInput" : {
+    "OfferNewRequest" : {
       "properties" : {
         "alias" : {
           "type" : "string"
@@ -7617,7 +7637,7 @@
         "payment_options" : "payment_options"
       }
     },
-    "OfferUpdateInput" : {
+    "OfferUpdateRequest" : {
       "properties" : {
         "alias" : {
           "type" : "string"
@@ -7695,7 +7715,7 @@
         "payment_options" : "payment_options"
       }
     },
-    "EscrowCreateRawTransactionDataInput" : {
+    "EscrowCreateRawTransactionDataRequest" : {
       "properties" : {
         "txid" : {
           "type" : "string"
@@ -7815,10 +7835,13 @@
         "hexstring" : "hexstring"
       }
     },
-    "AliasNewFundAddress" : {
+    "getAddressUtxosRequest" : {
       "properties" : {
-        "address" : {
-          "type" : "string"
+        "addresses" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
         }
       }
     }
