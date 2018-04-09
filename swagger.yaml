@@ -2802,7 +2802,7 @@ Results are an array of Objects, each of which has:
             $ref: "#/definitions/ErrorResponse"
   /getaddressutxos:
     x-swagger-router-controller: rpc
-    get:
+    post:
       operationId: getaddressutxos
       description: Returns all unspent outputs for addresses or aliases
       security:
@@ -2811,9 +2811,10 @@ Results are an array of Objects, each of which has:
       - General
       parameters:
       - name: addresses
-        in: query
+        in: body
         required: true
-        type: object
+        schema:
+          $ref: "#/definitions/getAddressUtxosRequest"
       responses:
         "200":
           description: Success
@@ -5130,7 +5131,6 @@ definitions:
   AssetAmount:
     required:
     - aliasto
-    - amount
     properties:
       aliasto:
         description: alias to send to
@@ -5138,6 +5138,11 @@ definitions:
       amount:
         description: amount you want to send
         type: number
+      ranges:
+        description: "[{'start':index,'end':index},...]},...]"
+        type: array
+        items:
+          $ref: "#/definitions/AssetInput"
   AssetAllocation:
     discriminator: _id
     required:
@@ -5390,3 +5395,9 @@ definitions:
         type: array
         items:
           type: object
+  getAddressUtxosRequest:
+    properties:
+      addresses:
+        type: array
+        items:
+          type: string
