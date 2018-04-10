@@ -1,7 +1,16 @@
 var config = {};
 
-//leave blank for default location of /root/.syscoin/ (must include trailing slash)
-config.sys_location = process.env.SYS_LOCATION || "/root/.syscoin/";
+//decide wether to use the live testnet or local isolated net
+if(process.env.ISOLATED){
+    //leave blank for default location of /root/.syscoin/ (must include trailing slash)
+    config.sys_location = process.env.SYS_ISO_LOCATION || "/root/.syscoin/";
+}
+else if(process.env.CONFIG){
+    config.sys_location = process.env.SYS_CONFIG_LOCATION || "/root/.syscoin/";
+}else{
+    //use in CONFIG mode by default
+    config.sys_location = process.env.SYS_CONFIG_LOCATION || "/root/.syscoin/";
+}
 
 config.debugEnabled = process.env.DEBUG || false;
 config.methodsWithLoggingDisabled = process.env.METHODS_WITH_LOGGING_DISABLED ? JSON.parse(process.env.METHODS_WITH_LOGGING_DISABLED) : [];
