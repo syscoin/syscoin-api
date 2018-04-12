@@ -5,7 +5,9 @@
   "scripts": {
     "start": "node .",
     "startd": "pm2 start node . $CONFIG --name 'sys-api-server'",
-    "test": "mocha **/*.spec.js -R spec"
+    "test": "mocha **/*.spec.js -R spec",
+    "isolated": "APIRUNMODE=isolated node .",
+    "integrated": "APIRUNMODE=integrated node ."
   },
   "main": "index.js",
   "keywords": [
