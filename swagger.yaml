@@ -3682,7 +3682,7 @@ definitions:
       expired:
         type: number #should be boolean but is 0/1
       status:
-        type: string
+        type: number
       buyer_feedback:
         type: array
         items:
