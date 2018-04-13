@@ -1,1 +1,2 @@
-{ "modelPropertyNaming": "original" }
+{ "modelPropertyNaming": "original",
+  "ngVersion": "2.0"}
