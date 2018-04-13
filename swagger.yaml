@@ -2448,7 +2448,7 @@ Results are an array of Objects, each of which has:
         "200":
           description: Success
           schema:
-            type: string
+            $ref: "#/definitions/SendRawTransactionResponse"
         default:
           description: Error
           schema:
@@ -2520,7 +2520,7 @@ Results are an array of Objects, each of which has:
         "200":
           description: Success
           schema:
-            type: string
+            $ref: "#/definitions/SignRawTransactionResponse"
         default:
           description: Error
           schema:
@@ -2814,7 +2814,7 @@ Results are an array of Objects, each of which has:
         in: body
         required: true
         schema:
-          $ref: "#/definitions/getAddressUtxosRequest"
+          $ref: "#/definitions/GetAddressUTXOsRequest"
       responses:
         "200":
           description: Success
@@ -5395,9 +5395,35 @@ definitions:
         type: array
         items:
           type: object
-  getAddressUtxosRequest:
+  GetAddressUTXOsRequest:
     properties:
       addresses:
         type: array
         items:
           type: string
+  SignRawTransactionRequest:
+    properties:
+      hex:
+        type: string
+      complete:
+        type: boolean
+      errors:
+        type: array
+        items:
+          $ref: "#/definitions/SignRawTransactionError"
+  SignRawTransactionError:
+    properties:
+      txid:
+        type: string
+      vout:
+        type: number
+      scriptSig:
+        type: string
+      sequence:
+        type: number
+      error:
+        type: string
+  SendRawTransactionRequest:
+    properties:
+      txid:
+        type: string
