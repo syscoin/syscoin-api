@@ -1377,7 +1377,6 @@ paths:
         description: "It need \"*\" for entire wallet"
         required: false
         type: "string"
-        default: "null"
       - name: "minconf"
         in: "query"
         description: "Only include transactions confirmed at least this many times."
@@ -3258,9 +3257,19 @@ definitions:
         type: "boolean"
         description: "The fee will be deducted from the amount being sent."
   SendRawTransactionRequest:
+    required:
+    - "hexstring"
     properties:
-      txid:
+      hexstring:
         type: "string"
+      allowhighfees:
+        type: "boolean"
+      instantsend:
+        type: "boolean"
+    example:
+      instantsend: true
+      allowhighfees: true
+      hexstring: "hexstring"
   GetAddressUTXOsEntry:
     properties:
       address:
@@ -3277,9 +3286,9 @@ definitions:
         type: "number"
     example:
       outputIndex: 0.80082819046101150206595775671303272247314453125
-      address: "aeiou"
-      txid: "aeiou"
-      script: "aeiou"
+      address: "address"
+      txid: "txid"
+      script: "script"
       satoshis: 6.02745618307040320615897144307382404804229736328125
       height: 1.46581298050294517310021547018550336360931396484375
   EscrowCreateRawTransactionRequest:
@@ -3298,6 +3307,17 @@ definitions:
           $ref: "#/definitions/EscrowCreateRawTransactionDataRequest"
       role:
         type: "string"
+    example:
+      role: "role"
+      inputs:
+      - txid: "txid"
+        vout: 0.80082819046101150206595775671303272247314453125
+        satoshis: 6.02745618307040320615897144307382404804229736328125
+      - txid: "txid"
+        vout: 0.80082819046101150206595775671303272247314453125
+        satoshis: 6.02745618307040320615897144307382404804229736328125
+      escrowguid: "escrowguid"
+      type: "type"
   EscrowacknowledgeRequest:
     required:
     - "escrowguid"
@@ -3310,6 +3330,9 @@ definitions:
         type: "string"
         description: "Witness alias name that will sign for web-of-trust notarization\
           \ of this transaction."
+    example:
+      witness: "witness"
+      escrowguid: "escrowguid"
   EscrowBidRequest:
     required:
     - "alias"
@@ -3338,6 +3361,12 @@ definitions:
         type: "string"
         description: "Witness alias name that will sign for web-of-trust notarization\
           \ of this transaction."
+    example:
+      bid_in_offer_currency: 6.02745618307040320615897144307382404804229736328125
+      witness: "witness"
+      bid_in_payment_option: 0.80082819046101150206595775671303272247314453125
+      alias: "alias"
+      escrow: "escrow"
   VoteRawRequest:
     required:
     - "governance-hash"
@@ -3362,6 +3391,14 @@ definitions:
         type: "number"
       vote-sig:
         type: "string"
+    example:
+      masternode-tx-index: 0.80082819046101150206595775671303272247314453125
+      vote-signal: 6.02745618307040320615897144307382404804229736328125
+      masternode-tx-hash: "masternode-tx-hash"
+      governance-hash: "governance-hash"
+      time: 1.46581298050294517310021547018550336360931396484375
+      vote-sig: "vote-sig"
+      vote-outcome: "vote-outcome"
   getAddressMemPoolResponseObject:
     properties:
       satoshis:
@@ -3389,12 +3426,12 @@ definitions:
         type: "string"
         description: "The previous transaction output index (if spending)"
     example:
-      address: "aeiou"
-      prevout: "aeiou"
-      txid: "aeiou"
+      address: "address"
+      prevout: "prevout"
+      txid: "txid"
       index: 0.80082819046101150206595775671303272247314453125
-      prevtxid: "aeiou"
-      satoshis: "aeiou"
+      prevtxid: "prevtxid"
+      satoshis: "satoshis"
       height: 6.02745618307040320615897144307382404804229736328125
       timestamp: 1.46581298050294517310021547018550336360931396484375
   getAddressDeltasResponseObject:
@@ -3415,10 +3452,10 @@ definitions:
         type: "string"
         description: "The base58check encoded address"
     example:
-      address: "aeiou"
-      txid: "aeiou"
+      address: "address"
+      txid: "txid"
       index: 0.80082819046101150206595775671303272247314453125
-      satoshis: "aeiou"
+      satoshis: "satoshis"
       height: 6.02745618307040320615897144307382404804229736328125
   getAddressBalanceResponse:
     properties:
@@ -3429,8 +3466,8 @@ definitions:
         type: "string"
         description: "received againts address"
     example:
-      balance: "aeiou"
-      received: "aeiou"
+      balance: "balance"
+      received: "received"
   Info:
     required:
     - "balance"
@@ -3510,13 +3547,13 @@ definitions:
       unlocked_until: 4.1456080298839363962315474054776132106781005859375
       paytxfee: 7.3862819483858839220147274318151175975799560546875
       difficulty: 9.301444243932575517419536481611430644989013671875
-      proxy: "aeiou"
+      proxy: "proxy"
       walletversion: 1.46581298050294517310021547018550336360931396484375
       balance: 5.962133916683182377482808078639209270477294921875
       keypoololdest: 3.61607674925191080461672754609026014804840087890625
       testnet: true
       connections: 7.061401241503109105224211816675961017608642578125
-      errors: "aeiou"
+      errors: "errors"
   MiningInfo:
     required:
     - "blocks"
@@ -3566,7 +3603,7 @@ definitions:
           \ calls)"
     example:
       difficulty: 5.962133916683182377482808078639209270477294921875
-      chain: "aeiou"
+      chain: "chain"
       currentblocktx: 1.46581298050294517310021547018550336360931396484375
       blocks: 0.80082819046101150206595775671303272247314453125
       networkhashps: 2.3021358869347654518833223846741020679473876953125
@@ -3575,7 +3612,7 @@ definitions:
       testnet: true
       pooledtx: 7.061401241503109105224211816675961017608642578125
       generate: true
-      errors: "aeiou"
+      errors: "errors"
   PeerInfoResponse:
     type: "array"
     items:
@@ -3748,14 +3785,14 @@ definitions:
         description: "DEPRECATED. The account associated with the address, \"\" is\
           \ the default account"
     example:
-      address: "aeiou"
+      address: "address"
       isscript: true
       iscompressed: true
       ismine: true
       isvalid: true
       iswatchonly: true
-      account: "aeiou"
-      pubkey: "aeiou"
+      account: "account"
+      pubkey: "pubkey"
   ErrorResponse:
     required:
     - "message"
@@ -3788,15 +3825,15 @@ definitions:
       expired:
         type: "boolean"
     example:
-      publicvalue: "aeiou"
-      address: "aeiou"
+      publicvalue: "publicvalue"
+      address: "address"
       expired: true
-      encryption_privatekey: "aeiou"
+      encryption_privatekey: "encryption_privatekey"
       expires_on: 1.46581298050294517310021547018550336360931396484375
-      txid: "aeiou"
-      _id: "aeiou"
+      txid: "txid"
+      _id: "_id"
       time: 0.80082819046101150206595775671303272247314453125
-      encryption_publickey: "aeiou"
+      encryption_publickey: "encryption_publickey"
       accepttransferflags: 6.02745618307040320615897144307382404804229736328125
   Cert:
     properties:
@@ -3819,14 +3856,14 @@ definitions:
       access_flags:
         type: "number"
     example:
-      publicvalue: "aeiou"
-      txid: "aeiou"
-      alias: "aeiou"
-      _id: "aeiou"
+      publicvalue: "publicvalue"
+      txid: "txid"
+      alias: "alias"
+      _id: "_id"
       time: 6.02745618307040320615897144307382404804229736328125
       access_flags: 1.46581298050294517310021547018550336360931396484375
-      title: "aeiou"
-      category: "aeiou"
+      title: "title"
+      category: "category"
       height: 0.80082819046101150206595775671303272247314453125
   Escrow:
     properties:
@@ -3909,45 +3946,48 @@ definitions:
       avg_rating_display:
         type: "string"
     example:
-      escrowtype: "aeiou"
-      seller: "aeiou"
+      escrowtype: "escrowtype"
+      seller: "seller"
       sysfee: 6.02745618307040320615897144307382404804229736328125
-      pay_message: "aeiou"
-      fee: "aeiou"
-      redeem_txid: "aeiou"
-      offer: "aeiou"
-      total: "aeiou"
-      paymemntoption_display: "aeiou"
+      pay_message: "pay_message"
+      fee: "fee"
+      redeem_txid: "redeem_txid"
+      offer: "offer"
+      total: "total"
+      paymemntoption_display: "paymemntoption_display"
       expired: 5.63737665663332876420099637471139430999755859375
       arbiter_feedback:
-      - "aeiou"
-      price: "aeiou"
+      - "arbiter_feedback"
+      - "arbiter_feedback"
+      price: "price"
       avg_rating: 2.027123023002321833274663731572218239307403564453125
-      escrow: "aeiou"
+      escrow: "escrow"
       systotal: 0.80082819046101150206595775671303272247314453125
-      currency: "aeiou"
-      escrowaddress: "aeiou"
-      avg_rating_display: "aeiou"
+      currency: "currency"
+      escrowaddress: "escrowaddress"
+      avg_rating_display: "avg_rating_display"
       totalwithfee: 1.46581298050294517310021547018550336360931396484375
-      height: "aeiou"
+      height: "height"
       avg_seller_feedback: 7.061401241503109105224211816675961017608642578125
-      quantity: "aeiou"
+      quantity: "quantity"
       paymentoption: 5.962133916683182377482808078639209270477294921875
-      txid: "aeiou"
-      offerlink_seller: "aeiou"
-      buyer: "aeiou"
-      arbiter: "aeiou"
+      txid: "txid"
+      offerlink_seller: "offerlink_seller"
+      buyer: "buyer"
+      arbiter: "arbiter"
       avg_arbiter_rating: 9.301444243932575517419536481611430644989013671875
-      exttxid: "aeiou"
+      exttxid: "exttxid"
       seller_feedback:
-      - "aeiou"
-      offertitle: "aeiou"
+      - "seller_feedback"
+      - "seller_feedback"
+      offertitle: "offertitle"
       avg_buyer_rating: 2.3021358869347654518833223846741020679473876953125
-      time: "aeiou"
+      time: "time"
       buyer_feedback:
-      - "aeiou"
+      - "buyer_feedback"
+      - "buyer_feedback"
       avg_rating_count: 3.61607674925191080461672754609026014804840087890625
-      status: "aeiou"
+      status: "status"
   EscrowRefundRequest:
     required:
     - "escrowguid"
@@ -3967,6 +4007,11 @@ definitions:
         type: "string"
         description: "Witness alias name that will sign for web-of-trust notarization\
           \ of this transaction."
+    example:
+      witness: "witness"
+      escrowguid: "escrowguid"
+      rawtx: "rawtx"
+      userrole: "userrole"
   EscrowReleaseRequest:
     required:
     - "escrowguid"
@@ -3986,6 +4031,11 @@ definitions:
         type: "string"
         description: "Witness alias name that will sign for web-of-trust notarization\
           \ of this transaction."
+    example:
+      witness: "witness"
+      escrowguid: "escrowguid"
+      rawtx: "rawtx"
+      userrole: "userrole"
   Transaction:
     properties:
       amount:
@@ -4020,19 +4070,25 @@ definitions:
         type: "string"
         description: "Raw data for transaction"
     example:
-      amount: "aeiou"
-      blockhash: "aeiou"
+      amount: "amount"
+      blockhash: "blockhash"
       timereceived: 5.63737665663332876420099637471139430999755859375
       blocktime: 1.46581298050294517310021547018550336360931396484375
-      txid: "aeiou"
+      txid: "txid"
       details:
       - amount: 2.3021358869347654518833223846741020679473876953125
-        address: "aeiou"
-        label: "aeiou"
-        category: "aeiou"
-        account: "aeiou"
+        address: "address"
+        label: "label"
+        category: "category"
+        account: "account"
         vout: 7.061401241503109105224211816675961017608642578125
-      hex: "aeiou"
+      - amount: 2.3021358869347654518833223846741020679473876953125
+        address: "address"
+        label: "label"
+        category: "category"
+        account: "account"
+        vout: 7.061401241503109105224211816675961017608642578125
+      hex: "hex"
       time: 5.962133916683182377482808078639209270477294921875
       confirmations: 0.80082819046101150206595775671303272247314453125
       blockindex: 6.02745618307040320615897144307382404804229736328125
@@ -4059,10 +4115,10 @@ definitions:
         description: "the vout value"
     example:
       amount: 2.3021358869347654518833223846741020679473876953125
-      address: "aeiou"
-      label: "aeiou"
-      category: "aeiou"
-      account: "aeiou"
+      address: "address"
+      label: "label"
+      category: "category"
+      account: "account"
       vout: 7.061401241503109105224211816675961017608642578125
   WalletInfo:
     properties:
@@ -4115,7 +4171,7 @@ definitions:
         description: "The amount in SYS"
     example:
       amount: 0.80082819046101150206595775671303272247314453125
-      syscoinaddress: "aeiou"
+      syscoinaddress: "syscoinaddress"
   Account:
     properties:
       involvesWatchonly:
@@ -4136,9 +4192,9 @@ definitions:
     example:
       amount: 0.80082819046101150206595775671303272247314453125
       involvesWatchonly: true
-      label: "aeiou"
+      label: "label"
       confirmations: 6.02745618307040320615897144307382404804229736328125
-      account: "aeiou"
+      account: "account"
   ListSinceBlockResponse:
     properties:
       transactions:
@@ -4149,24 +4205,40 @@ definitions:
         type: "string"
         description: "The hash of the last block"
     example:
-      lastblock: "aeiou"
+      lastblock: "lastblock"
       transactions:
       - amount: 0.80082819046101150206595775671303272247314453125
-        address: "aeiou"
+        address: "address"
         fee: 1.46581298050294517310021547018550336360931396484375
-        txid: "aeiou"
-        label: "aeiou"
+        txid: "txid"
+        label: "label"
         confirmations: 5.962133916683182377482808078639209270477294921875
         vout: 6.02745618307040320615897144307382404804229736328125
-        blockhash: "aeiou"
+        blockhash: "blockhash"
         timereceived: 9.301444243932575517419536481611430644989013671875
         blocktime: 2.3021358869347654518833223846741020679473876953125
-        comment: "aeiou"
+        comment: "comment"
         time: 7.061401241503109105224211816675961017608642578125
-        to: "aeiou"
-        category: "aeiou"
+        to: "to"
+        category: "category"
         blockindex: 5.63737665663332876420099637471139430999755859375
-        account: "aeiou"
+        account: "account"
+      - amount: 0.80082819046101150206595775671303272247314453125
+        address: "address"
+        fee: 1.46581298050294517310021547018550336360931396484375
+        txid: "txid"
+        label: "label"
+        confirmations: 5.962133916683182377482808078639209270477294921875
+        vout: 6.02745618307040320615897144307382404804229736328125
+        blockhash: "blockhash"
+        timereceived: 9.301444243932575517419536481611430644989013671875
+        blocktime: 2.3021358869347654518833223846741020679473876953125
+        comment: "comment"
+        time: 7.061401241503109105224211816675961017608642578125
+        to: "to"
+        category: "category"
+        blockindex: 5.63737665663332876420099637471139430999755859375
+        account: "account"
   SinceBlockTransactionEntry:
     properties:
       account:
@@ -4230,21 +4302,21 @@ definitions:
         description: "If a comment to is associated with the transaction."
     example:
       amount: 0.80082819046101150206595775671303272247314453125
-      address: "aeiou"
+      address: "address"
       fee: 1.46581298050294517310021547018550336360931396484375
-      txid: "aeiou"
-      label: "aeiou"
+      txid: "txid"
+      label: "label"
       confirmations: 5.962133916683182377482808078639209270477294921875
       vout: 6.02745618307040320615897144307382404804229736328125
-      blockhash: "aeiou"
+      blockhash: "blockhash"
       timereceived: 9.301444243932575517419536481611430644989013671875
       blocktime: 2.3021358869347654518833223846741020679473876953125
-      comment: "aeiou"
+      comment: "comment"
       time: 7.061401241503109105224211816675961017608642578125
-      to: "aeiou"
-      category: "aeiou"
+      to: "to"
+      category: "category"
       blockindex: 5.63737665663332876420099637471139430999755859375
-      account: "aeiou"
+      account: "account"
   UnspentListEntry:
     properties:
       txid:
@@ -4280,15 +4352,15 @@ definitions:
         description: "Whether we know how to spend this output, ignoring the lack\
           \ of keys"
     example:
-      scriptPubKey: "aeiou"
+      scriptPubKey: "scriptPubKey"
       amount: 6.02745618307040320615897144307382404804229736328125
       ps_rounds: 5.962133916683182377482808078639209270477294921875
       spendable: true
       solvable: true
-      address: "aeiou"
-      txid: "aeiou"
+      address: "address"
+      txid: "txid"
       confirmations: 1.46581298050294517310021547018550336360931396484375
-      account: "aeiou"
+      account: "account"
       vout: 0.80082819046101150206595775671303272247314453125
   TransactionListEntry:
     properties:
@@ -4372,24 +4444,24 @@ definitions:
           \ \"yes|no|unknown\""
     example:
       amount: 0.80082819046101150206595775671303272247314453125
-      address: "aeiou"
+      address: "address"
       instantlock: true
-      bip125-replaceable: "aeiou"
+      bip125-replaceable: "bip125-replaceable"
       fee: 1.46581298050294517310021547018550336360931396484375
-      txid: "aeiou"
-      label: "aeiou"
-      otheraccount: "aeiou"
+      txid: "txid"
+      label: "label"
+      otheraccount: "otheraccount"
       confirmations: 5.962133916683182377482808078639209270477294921875
       vout: 6.02745618307040320615897144307382404804229736328125
-      blockhash: "aeiou"
+      blockhash: "blockhash"
       timereceived: 9.301444243932575517419536481611430644989013671875
       trusted: true
       blocktime: 2.3021358869347654518833223846741020679473876953125
-      comment: "aeiou"
+      comment: "comment"
       time: 7.061401241503109105224211816675961017608642578125
-      category: "aeiou"
+      category: "category"
       blockindex: 5.63737665663332876420099637471139430999755859375
-      account: "aeiou"
+      account: "account"
   Message:
     properties:
       GUID:
@@ -4530,27 +4602,27 @@ definitions:
       offer_units: 5.63737665663332876420099637471139430999755859375
       private: true
       expires_on: 0.80082819046101150206595775671303272247314453125
-      description: "aeiou"
-      cert: "aeiou"
-      title: "aeiou"
+      description: "description"
+      cert: "cert"
+      title: "title"
       auction_deposit: 3.61607674925191080461672754609026014804840087890625
       expired: true
       price: 1.46581298050294517310021547018550336360931396484375
-      alias: "aeiou"
-      currency: "aeiou"
+      alias: "alias"
+      currency: "currency"
       commission: 5.962133916683182377482808078639209270477294921875
       auction_require_witness: true
       height: 6.02745618307040320615897144307382404804229736328125
-      offertype: "aeiou"
+      offertype: "offertype"
       quantity: 2.3021358869347654518833223846741020679473876953125
-      address: "aeiou"
-      txid: "aeiou"
-      offerlink_guid: "aeiou"
-      paymentoptions: "aeiou"
-      offerlink_seller: "aeiou"
+      address: "address"
+      txid: "txid"
+      offerlink_guid: "offerlink_guid"
+      paymentoptions: "paymentoptions"
+      offerlink_seller: "offerlink_seller"
       auction_reserve_price: 9.301444243932575517419536481611430644989013671875
-      _id: "aeiou"
-      category: "aeiou"
+      _id: "_id"
+      category: "category"
   AddMultisigAddressRequest:
     required:
     - "keysobject"
@@ -4567,6 +4639,10 @@ definitions:
       account:
         type: "string"
         description: "DEPRECATED. An account to assign the addresses to."
+    example:
+      nrequired: 0.80082819046101150206595775671303272247314453125
+      keysobject: "keysobject"
+      account: "account"
   AliasClearWhiteListRequest:
     required:
     - "owneralias"
@@ -4578,6 +4654,9 @@ definitions:
       witness:
         type: "string"
         description: "a witness alias"
+    example:
+      witness: "witness"
+      owneralias: "owneralias"
   AliasUpdateWhitelistRequest:
     required:
     - "entries"
@@ -4601,6 +4680,14 @@ definitions:
         type: "string"
         description: "Witness alias name that will sign for web-of-trust notarization\
           \ of this transaction."
+    example:
+      witness: "witness"
+      entries:
+      - alias: "alias"
+        discount_percentage: 0.80082819046101150206595775671303272247314453125
+      - alias: "alias"
+        discount_percentage: 0.80082819046101150206595775671303272247314453125
+      owneralias: "owneralias"
   AliasNewRequest:
     required:
     - "accept_transfers_flags"
@@ -4643,6 +4730,15 @@ definitions:
         type: "string"
         description: "Witness alias name that will sign for web-of-trust notarization\
           \ of this transaction."
+    example:
+      witness: "witness"
+      aliasname: "aliasname"
+      publicvalue: "publicvalue"
+      address: "address"
+      encryption_privatekey: "encryption_privatekey"
+      expire_timestamp: 6.02745618307040320615897144307382404804229736328125
+      encryption_publickey: "encryption_publickey"
+      accept_transfers_flags: 0.80082819046101150206595775671303272247314453125
   AliasUpdateRequest:
     required:
     - "address"
@@ -4679,6 +4775,15 @@ definitions:
         type: "string"
         description: "Witness alias name that will sign for web-of-trust notarization\
           \ of this transaction."
+    example:
+      witness: "witness"
+      aliasname: "aliasname"
+      publicvalue: "publicvalue"
+      address: "address"
+      encryption_privatekey: "encryption_privatekey"
+      expire_timestamp: 6
+      encryption_publickey: "encryption_publickey"
+      accept_transfers_flags: 0
   CertNewRequest:
     required:
     - "alias"
@@ -4703,6 +4808,12 @@ definitions:
         type: "string"
         description: "Witness alias name that will sign for web-of-trust notarization\
           \ of this transaction."
+    example:
+      witness: "witness"
+      public: "public"
+      alias: "alias"
+      title: "title"
+      category: "category"
   CertTransferRequest:
     required:
     - "alias"
@@ -4725,6 +4836,12 @@ definitions:
         type: "string"
         description: "Witness alias name that will sign for web-of-trust notarization\
           \ of this transaction."
+    example:
+      witness: "witness"
+      public: "public"
+      accessflags: 0.80082819046101150206595775671303272247314453125
+      guid: "guid"
+      alias: "alias"
   CertUpdateRequest:
     required:
     - "guid"
@@ -4748,6 +4865,12 @@ definitions:
         type: "string"
         description: "Witness alias name that will sign for web-of-trust notarization\
           \ of this transaction."
+    example:
+      witness: "witness"
+      public: "public"
+      guid: "guid"
+      title: "title"
+      category: "category"
   EscrowClaimRefundRequest:
     required:
     - "guid"
@@ -4781,6 +4904,10 @@ definitions:
         type: "string"
         description: "Witness alias name that will sign for web-of-trust notarization\
           \ of this transaction."
+    example:
+      witness: "witness"
+      escrowguid: "escrowguid"
+      rawtx: "rawtx"
   EscrowCompleteReleaseRequest:
     required:
     - "escrowguid"
@@ -4798,6 +4925,10 @@ definitions:
         type: "string"
         description: "Witness alias name that will sign for web-of-trust notarization\
           \ of this transaction."
+    example:
+      witness: "witness"
+      escrowguid: "escrowguid"
+      rawtx: "rawtx"
   EscrowNewRequest:
     required:
     - "alias"
@@ -4890,6 +5021,23 @@ definitions:
         type: "string"
         description: "Witness alias name that will sign for web-of-trust notarization\
           \ of this transaction."
+    example:
+      bid_in_offer_currency: 9.301444243932575517419536481611430644989013671875
+      extTx: "extTx"
+      quantity: 0
+      total_in_payment_option: 6.02745618307040320615897144307382404804229736328125
+      paymentoption: "paymentoption"
+      witness_fee: 2.3021358869347654518833223846741020679473876953125
+      arbiter_alias: "arbiter_alias"
+      bid_in_payment_option: 7.061401241503109105224211816675961017608642578125
+      network_fee: 5.962133916683182377482808078639209270477294921875
+      offer: "offer"
+      shipping_amount: 1.46581298050294517310021547018550336360931396484375
+      witness: "witness"
+      buynow: true
+      alias: "alias"
+      arbiter_fee: 5.63737665663332876420099637471139430999755859375
+      getamountandaddress: true
   AliasPayRequest:
     required:
     - "aliasfrom"
@@ -4910,6 +5058,11 @@ definitions:
       subtractfeefromamount:
         type: "string"
         description: "Set to true to subtract fee from amount or false otherwise."
+    example:
+      amounts: "amounts"
+      instantsend: true
+      aliasfrom: "aliasfrom"
+      subtractfeefromamount: "subtractfeefromamount"
   GetNewAddressRequest:
     properties:
       account:
@@ -4919,6 +5072,8 @@ definitions:
           \ to the empty string \"\" to represent the default account. The account\
           \ does not need to exist, it will be created if there is no account by the\
           \ given name."
+    example:
+      account: "account"
   ImportAddressRequest:
     required:
     - "script"
@@ -4935,6 +5090,11 @@ definitions:
       p2sh:
         type: "boolean"
         description: "Add the P2SH version of the script as well"
+    example:
+      p2sh: true
+      label: "label"
+      rescan: true
+      script: "script"
   ImportPrivKeyRequest:
     required:
     - "syscoinprivkey"
@@ -4948,6 +5108,10 @@ definitions:
       rescan:
         type: "boolean"
         description: "Rescan the wallet for transactions"
+    example:
+      syscoinprivkey: "syscoinprivkey"
+      label: "label"
+      rescan: true
   ImportPubKeyRequest:
     required:
     - "pubkey"
@@ -4961,6 +5125,10 @@ definitions:
       rescan:
         type: "boolean"
         description: "Rescan the wallet for transactions"
+    example:
+      label: "label"
+      rescan: true
+      pubkey: "pubkey"
   ImportWalletRequest:
     required:
     - "filename"
@@ -4968,6 +5136,8 @@ definitions:
       filename:
         type: "string"
         description: "The wallet file"
+    example:
+      filename: "filename"
   MessageNewRequest:
     required:
     - "fromalias"
@@ -5014,6 +5184,12 @@ definitions:
       comment:
         type: "string"
         description: "An optional comment, stored in the wallet only."
+    example:
+      fromaccount: "fromaccount"
+      amount: 0.80082819046101150206595775671303272247314453125
+      minconf: "minconf"
+      toaccount: "toaccount"
+      comment: "comment"
   OfferAcceptRequest:
     required:
     - "alias"
@@ -5084,6 +5260,12 @@ definitions:
       witness:
         type: "string"
         description: "witness if any.  Leave '' if not available."
+    example:
+      witness: "witness"
+      alias: "alias"
+      guid: "guid"
+      description: "description"
+      commission: 0.80082819046101150206595775671303272247314453125
   OfferRemoveWhitelistRequest:
     required:
     - "aliasguid"
@@ -5125,6 +5307,14 @@ definitions:
         description: "An optional comment to store the name of the person or organization\
           \ to which you're sending the transaction. This is not part of the transaction,\
           \ it is just kept in your wallet."
+    example:
+      fromaccount: "fromaccount"
+      amount: 0.80082819046101150206595775671303272247314453125
+      minconf: 6
+      addlockconf: false
+      commentto: "commentto"
+      comment: "comment"
+      tosyscoinaddress: "tosyscoinaddress"
   SendManyRequest:
     required:
     - "amounts"
@@ -5165,6 +5355,15 @@ definitions:
         type: "boolean"
         description: "Use anonymized funds only (default: false)"
         default: false
+    example:
+      fromaccount: "fromaccount"
+      use_ps: false
+      amounts: "amounts"
+      minconf: 0
+      addlockconf: false
+      use_is: false
+      comment: "comment"
+      subtractfeefromamount: "subtractfeefromamount"
   SendToAddressRequest:
     required:
     - "amount"
@@ -5198,6 +5397,14 @@ definitions:
         type: "boolean"
         description: "Use anonymized funds only (default: false)"
         default: false
+    example:
+      use_ps: false
+      amount: 0.80082819046101150206595775671303272247314453125
+      syscoinaddress: "syscoinaddress"
+      use_is: false
+      commentto: "commentto"
+      comment: "comment"
+      subtractfeefromamount: false
   SignMessageRequest:
     required:
     - "message"
@@ -5209,6 +5416,9 @@ definitions:
       message:
         type: "string"
         description: "The message to create a signature of."
+    example:
+      syscoinaddress: "syscoinaddress"
+      message: "message"
   WalletPassphraseRequest:
     required:
     - "passphrase"
@@ -5220,6 +5430,9 @@ definitions:
       timeout:
         type: "number"
         description: "The time to keep the decryption key in seconds."
+    example:
+      passphrase: "passphrase"
+      timeout: 0.80082819046101150206595775671303272247314453125
   WalletPassphraseChangeRequest:
     required:
     - "newpassphrase"
@@ -5231,6 +5444,9 @@ definitions:
       newpassphrase:
         type: "string"
         description: "The new passphrase"
+    example:
+      oldpassphrase: "oldpassphrase"
+      newpassphrase: "newpassphrase"
   MultiSignatureInfo:
     required:
     - "redeemscript"
@@ -5270,6 +5486,13 @@ definitions:
         type: "string"
         description: "Witness alias name that will sign for web-of-trust notarization\
           \ of this transaction."
+    example:
+      feedback: "feedback"
+      witness: "witness"
+      userfrom: "userfrom"
+      escrowguid: "escrowguid"
+      rating: 0
+      userto: "userto"
   GenerateEscrowMultisigRequest:
     required:
     - "arbiter"
@@ -5287,6 +5510,12 @@ definitions:
         type: "string"
       paymentoption:
         type: "string"
+    example:
+      arbiter: "arbiter"
+      quantity: 0.80082819046101150206595775671303272247314453125
+      offerguid: "offerguid"
+      paymentoption: "paymentoption"
+      buyer: "buyer"
   LoginResponse:
     required:
     - "message"
@@ -5301,8 +5530,8 @@ definitions:
         type: "string"
     example:
       success: true
-      message: "aeiou"
-      token: "aeiou"
+      message: "message"
+      token: "token"
   GetBlockResponse:
     properties:
       hash:
@@ -5369,24 +5598,25 @@ definitions:
           \ data for block 'hash'."
     example:
       tx:
-      - "aeiou"
+      - "tx"
+      - "tx"
       mediantime: 9.301444243932575517419536481611430644989013671875
-      data: "aeiou"
-      previousblockhash: "aeiou"
-      bits: "aeiou"
+      data: "data"
+      previousblockhash: "previousblockhash"
+      bits: "bits"
       weight: 5.962133916683182377482808078639209270477294921875
-      versionHex: "aeiou"
+      versionHex: "versionHex"
       confirmations: 0.80082819046101150206595775671303272247314453125
       version: 2.3021358869347654518833223846741020679473876953125
       nonce: 3.61607674925191080461672754609026014804840087890625
-      nextblockhash: "aeiou"
+      nextblockhash: "nextblockhash"
       difficulty: 2.027123023002321833274663731572218239307403564453125
-      chainwork: "aeiou"
+      chainwork: "chainwork"
       size: 6.02745618307040320615897144307382404804229736328125
-      merkleroot: "aeiou"
+      merkleroot: "merkleroot"
       strippedsize: 1.46581298050294517310021547018550336360931396484375
       time: 7.061401241503109105224211816675961017608642578125
-      hash: "aeiou"
+      hash: "hash"
       height: 5.63737665663332876420099637471139430999755859375
   GetBlockchainInfoResponse:
     properties:
@@ -5434,16 +5664,17 @@ definitions:
       difficulty: 1.46581298050294517310021547018550336360931396484375
       headers: 6.02745618307040320615897144307382404804229736328125
       bip9_softforks: "{}"
-      chain: "aeiou"
-      chainwork: "aeiou"
+      chain: "chain"
+      chainwork: "chainwork"
       mediantime: 5.962133916683182377482808078639209270477294921875
       verificationprogress: 5.63737665663332876420099637471139430999755859375
       blocks: 0.80082819046101150206595775671303272247314453125
       pruned: true
       softforks:
       - "{}"
+      - "{}"
       pruneheight: 2.3021358869347654518833223846741020679473876953125
-      bestblockhash: "aeiou"
+      bestblockhash: "bestblockhash"
   EncryptWalletRequest:
     required:
     - "passphrase"
@@ -5452,6 +5683,8 @@ definitions:
         type: "string"
         description: "The pass phrase to encrypt the wallet with. It must be at least\
           \ 1 character, but should be long."
+    example:
+      passphrase: "passphrase"
   NetworkInfo:
     properties:
       version:
@@ -5482,22 +5715,28 @@ definitions:
         type: "string"
     example:
       localaddresses:
-      - "aeiou"
+      - "localaddresses"
+      - "localaddresses"
       protocolversion: 6.02745618307040320615897144307382404804229736328125
       relayfee: 5.63737665663332876420099637471139430999755859375
-      subversion: "aeiou"
+      subversion: "subversion"
       timeoffset: 1.46581298050294517310021547018550336360931396484375
-      warnings: "aeiou"
+      warnings: "warnings"
       localrelay: true
       networks:
-      - proxy: "aeiou"
+      - proxy: "proxy"
         limited: true
         proxy_randomize_credentials: true
-        name: "aeiou"
+        name: "name"
+        reachable: true
+      - proxy: "proxy"
+        limited: true
+        proxy_randomize_credentials: true
+        name: "name"
         reachable: true
       version: 0.80082819046101150206595775671303272247314453125
       connections: 5.962133916683182377482808078639209270477294921875
-      localservices: "aeiou"
+      localservices: "localservices"
   NetworkInfoDetails:
     properties:
       name:
@@ -5511,10 +5750,10 @@ definitions:
       proxy_randomize_credentials:
         type: "boolean"
     example:
-      proxy: "aeiou"
+      proxy: "proxy"
       limited: true
       proxy_randomize_credentials: true
-      name: "aeiou"
+      name: "name"
       reachable: true
   WhitelistEntry:
     properties:
@@ -5523,7 +5762,7 @@ definitions:
       discount_percentage:
         type: "number"
     example:
-      alias: "aeiou"
+      alias: "alias"
       discount_percentage: 0.80082819046101150206595775671303272247314453125
   ListReceivedByAddress:
     properties:
@@ -5547,14 +5786,15 @@ definitions:
         type: "boolean"
     example:
       amount: 0.80082819046101150206595775671303272247314453125
-      address: "aeiou"
-      v2address: "aeiou"
+      address: "address"
+      v2address: "v2address"
       ismine: true
-      label: "aeiou"
+      label: "label"
       confirmations: 6.02745618307040320615897144307382404804229736328125
-      account: "aeiou"
+      account: "account"
       txids:
-      - "aeiou"
+      - "txids"
+      - "txids"
   SyscoinAddressEntry:
     properties:
       address:
@@ -5566,10 +5806,10 @@ definitions:
       alias:
         type: "string"
     example:
-      address: "aeiou"
+      address: "address"
       balance: 0.80082819046101150206595775671303272247314453125
-      alias: "aeiou"
-      label: "aeiou"
+      alias: "alias"
+      label: "label"
   GetChainTipsResponse:
     properties:
       height:
@@ -5586,11 +5826,11 @@ definitions:
         type: "string"
     example:
       difficulty: 6.02745618307040320615897144307382404804229736328125
-      chainwork: "aeiou"
+      chainwork: "chainwork"
       branchlen: 1.46581298050294517310021547018550336360931396484375
-      hash: "aeiou"
+      hash: "hash"
       height: 0.80082819046101150206595775671303272247314453125
-      status: "aeiou"
+      status: "status"
   GetSpentInfoResponse:
     properties:
       txid:
@@ -5598,7 +5838,7 @@ definitions:
       index:
         type: "number"
     example:
-      txid: "aeiou"
+      txid: "txid"
       index: 0.80082819046101150206595775671303272247314453125
   GovernanceInfoResponse:
     properties:
@@ -5642,15 +5882,15 @@ definitions:
       warnings:
         type: "string"
     example:
-      mixing_mode: "aeiou"
+      mixing_mode: "mixing_mode"
       entries: 6.02745618307040320615897144307382404804229736328125
-      warnings: "aeiou"
-      state: "aeiou"
-      addr: "aeiou"
+      warnings: "warnings"
+      state: "state"
+      addr: "addr"
       queue: 0.80082819046101150206595775671303272247314453125
-      outpoint: "aeiou"
-      status: "aeiou"
-      keys_left: "aeiou"
+      outpoint: "outpoint"
+      status: "status"
+      keys_left: "keys_left"
   DumpHdInfoResponse:
     properties:
       hdseed:
@@ -5660,9 +5900,9 @@ definitions:
       mnemonicpassphrase:
         type: "string"
     example:
-      hdseed: "aeiou"
-      mnemonicpassphrase: "aeiou"
-      mnemonic: "aeiou"
+      hdseed: "hdseed"
+      mnemonicpassphrase: "mnemonicpassphrase"
+      mnemonic: "mnemonic"
   Asset:
     required:
     - "_id"
@@ -5701,18 +5941,20 @@ definitions:
       can_adjust_interest_rate: true
       total_supply: 5.962133916683182377482808078639209270477294921875
       inputs:
-      - start: 5.962133916683182377482808078639209270477294921875
-        end: 5.63737665663332876420099637471139430999755859375
-      txid: "aeiou"
-      publicvalue: "aeiou"
+      - start: 6.02745618307040320615897144307382404804229736328125
+        end: 1.46581298050294517310021547018550336360931396484375
+      - start: 6.02745618307040320615897144307382404804229736328125
+        end: 1.46581298050294517310021547018550336360931396484375
+      txid: "txid"
+      publicvalue: "publicvalue"
       use_input_ranges: true
       balance: 1.46581298050294517310021547018550336360931396484375
       max_supply: 5.63737665663332876420099637471139430999755859375
-      alias: "aeiou"
+      alias: "alias"
       interest_rate: 2.3021358869347654518833223846741020679473876953125
-      _id: "aeiou"
+      _id: "_id"
       time: 6.02745618307040320615897144307382404804229736328125
-      category: "aeiou"
+      category: "category"
       height: 0.80082819046101150206595775671303272247314453125
   AssetInput:
     properties:
@@ -5721,8 +5963,8 @@ definitions:
       end:
         type: "number"
     example:
-      start: 5.962133916683182377482808078639209270477294921875
-      end: 5.63737665663332876420099637471139430999755859375
+      start: 6.02745618307040320615897144307382404804229736328125
+      end: 1.46581298050294517310021547018550336360931396484375
   AssetSendRequest:
     required:
     - "aliasfrom"
@@ -5750,6 +5992,26 @@ definitions:
         type: "string"
         description: "Witness alias name that will sign for web-of-trust notarization\
           \ of this transaction."
+    example:
+      witness: "witness"
+      amounts:
+      - amount: 0.80082819046101150206595775671303272247314453125
+        ranges:
+        - start: 6.02745618307040320615897144307382404804229736328125
+          end: 1.46581298050294517310021547018550336360931396484375
+        - start: 6.02745618307040320615897144307382404804229736328125
+          end: 1.46581298050294517310021547018550336360931396484375
+        aliasto: "aliasto"
+      - amount: 0.80082819046101150206595775671303272247314453125
+        ranges:
+        - start: 6.02745618307040320615897144307382404804229736328125
+          end: 1.46581298050294517310021547018550336360931396484375
+        - start: 6.02745618307040320615897144307382404804229736328125
+          end: 1.46581298050294517310021547018550336360931396484375
+        aliasto: "aliasto"
+      memo: "memo"
+      asset: "asset"
+      aliasfrom: "aliasfrom"
   AssetAmount:
     required:
     - "aliasto"
@@ -5765,6 +6027,14 @@ definitions:
         description: "[{'start':index,'end':index},...]},...]"
         items:
           $ref: "#/definitions/AssetInput"
+    example:
+      amount: 0.80082819046101150206595775671303272247314453125
+      ranges:
+      - start: 6.02745618307040320615897144307382404804229736328125
+        end: 1.46581298050294517310021547018550336360931396484375
+      - start: 6.02745618307040320615897144307382404804229736328125
+        end: 1.46581298050294517310021547018550336360931396484375
+      aliasto: "aliasto"
   AssetAllocation:
     required:
     - "_id"
@@ -5795,15 +6065,17 @@ definitions:
     example:
       balance: 6.02745618307040320615897144307382404804229736328125
       inputs:
-      - start: 5.962133916683182377482808078639209270477294921875
-        end: 5.63737665663332876420099637471139430999755859375
-      txid: "aeiou"
-      alias: "aeiou"
+      - start: 6.02745618307040320615897144307382404804229736328125
+        end: 1.46581298050294517310021547018550336360931396484375
+      - start: 6.02745618307040320615897144307382404804229736328125
+        end: 1.46581298050294517310021547018550336360931396484375
+      txid: "txid"
+      alias: "alias"
       interest_claim_height: 1.46581298050294517310021547018550336360931396484375
-      memo: "aeiou"
-      _id: "aeiou"
-      asset: "aeiou"
-      accumulated_interest: 2.3021358869347654518833223846741020679473876953125
+      memo: "memo"
+      _id: "_id"
+      asset: "asset"
+      accumulated_interest: 5.962133916683182377482808078639209270477294921875
       height: 0.80082819046101150206595775671303272247314453125
   AssetAllocationSenderStatus:
     properties:
@@ -5834,6 +6106,10 @@ definitions:
         type: "string"
         description: "Witness alias name that will sign for web-of-trust notarization\
           \ of this transaction."
+    example:
+      witness: "witness"
+      alias: "alias"
+      asset: "asset"
   AssetUpdateRequest:
     properties:
       asset:
@@ -5859,6 +6135,13 @@ definitions:
         type: "string"
         description: "Witness alias name that will sign for web-of-trust notarization\
           \ of this transaction."
+    example:
+      witness: "witness"
+      public: "public"
+      interest_rate: 6.02745618307040320615897144307382404804229736328125
+      asset: "asset"
+      category: "category"
+      supply: 0.80082819046101150206595775671303272247314453125
   AssetNewRequest:
     properties:
       name:
@@ -5896,22 +6179,32 @@ definitions:
         type: "string"
         description: "Witness alias name that will sign for web-of-trust notarization\
           \ of this transaction."
+    example:
+      witness: "witness"
+      can_adjust_interest_rate: true
+      public: "public"
+      name: "name"
+      max_supply: 6.02745618307040320615897144307382404804229736328125
+      alias: "alias"
+      interest_rate: 1.46581298050294517310021547018550336360931396484375
+      use_inputranges: true
+      category: "category"
+      supply: 0.80082819046101150206595775671303272247314453125
   FundRawTransactionRequest:
     properties:
       hexstring:
         type: "string"
       watching:
         type: "boolean"
+    example:
+      hexstring: "hexstring"
+      watching: true
   SignRawTransactionRequest:
     properties:
-      hex:
+      hexstring:
         type: "string"
-      complete:
-        type: "boolean"
-      errors:
-        type: "array"
-        items:
-          $ref: "#/definitions/SignRawTransactionError"
+    example:
+      hexstring: "hexstring"
   LockUnspentRequest:
     properties:
       unlock:
@@ -5920,12 +6213,22 @@ definitions:
         type: "array"
         items:
           $ref: "#/definitions/LockUnspentTransaction"
+    example:
+      unlock: true
+      transactions:
+      - txid: "txid"
+        vout: 0.80082819046101150206595775671303272247314453125
+      - txid: "txid"
+        vout: 0.80082819046101150206595775671303272247314453125
   LockUnspentTransaction:
     properties:
       txid:
         type: "string"
       vout:
         type: "number"
+    example:
+      txid: "txid"
+      vout: 0.80082819046101150206595775671303272247314453125
   OfferNewRequest:
     properties:
       alias:
@@ -5962,6 +6265,24 @@ definitions:
         type: "number"
       witness:
         type: "string"
+    example:
+      offertype: "offertype"
+      private: true
+      quantity: 0.80082819046101150206595775671303272247314453125
+      auction_expires: 5.962133916683182377482808078639209270477294921875
+      description: "description"
+      units: 1.46581298050294517310021547018550336360931396484375
+      auction_reserve: 5.63737665663332876420099637471139430999755859375
+      title: "title"
+      auction_deposit: 2.3021358869347654518833223846741020679473876953125
+      witness: "witness"
+      cert_guid: "cert_guid"
+      price: 6.02745618307040320615897144307382404804229736328125
+      alias: "alias"
+      currency: "currency"
+      category: "category"
+      auction_require_witness: true
+      payment_options: "payment_options"
   OfferUpdateRequest:
     properties:
       alias:
@@ -6000,6 +6321,25 @@ definitions:
         type: "number"
       witness:
         type: "string"
+    example:
+      private: true
+      quantity: 0.80082819046101150206595775671303272247314453125
+      auction_expires: 5.962133916683182377482808078639209270477294921875
+      description: "description"
+      auction_reserve: 5.63737665663332876420099637471139430999755859375
+      title: "title"
+      auction_deposit: 2.3021358869347654518833223846741020679473876953125
+      witness: "witness"
+      cert_guid: "cert_guid"
+      price: 6.02745618307040320615897144307382404804229736328125
+      alias: "alias"
+      guid: "guid"
+      currency: "currency"
+      commission: 1.46581298050294517310021547018550336360931396484375
+      category: "category"
+      offer_type: "offer_type"
+      auction_require_witness: true
+      payment_options: "payment_options"
   EscrowCreateRawTransactionDataRequest:
     properties:
       txid:
@@ -6008,6 +6348,10 @@ definitions:
         type: "number"
       satoshis:
         type: "number"
+    example:
+      txid: "txid"
+      vout: 0.80082819046101150206595775671303272247314453125
+      satoshis: 6.02745618307040320615897144307382404804229736328125
   EscrowBidResponse:
     properties:
       _id:
@@ -6029,15 +6373,15 @@ definitions:
       status:
         type: "string"
     example:
-      offer: "aeiou"
+      offer: "offer"
       bid_in_payment_option_per_unit: 1.46581298050294517310021547018550336360931396484375
-      witness: "aeiou"
-      bidder: "aeiou"
-      escrow: "aeiou"
-      _id: "aeiou"
+      witness: "witness"
+      bidder: "bidder"
+      escrow: "escrow"
+      _id: "_id"
       bid_in_offer_currency_per_unit: 6.02745618307040320615897144307382404804229736328125
       height: 0.80082819046101150206595775671303272247314453125
-      status: "aeiou"
+      status: "status"
   EscrowFeedbackResponse:
     properties:
       _id:
@@ -6059,14 +6403,14 @@ definitions:
       feedback:
         type: "string"
     example:
-      offer: "aeiou"
-      feedback: "aeiou"
+      offer: "offer"
+      feedback: "feedback"
       feedbackuserfrom: 5.962133916683182377482808078639209270477294921875
       rating: 1.46581298050294517310021547018550336360931396484375
-      escrow: "aeiou"
+      escrow: "escrow"
       txid: 0.80082819046101150206595775671303272247314453125
       feedbackuserto: 5.63737665663332876420099637471139430999755859375
-      _id: "aeiou"
+      _id: "_id"
       time: 6.02745618307040320615897144307382404804229736328125
   AliasNewFundRequest:
     properties:
@@ -6077,12 +6421,45 @@ definitions:
         items:
           type: "object"
           properties: {}
+    example:
+      addresses:
+      - "{}"
+      - "{}"
+      hexstring: "hexstring"
   GetAddressUTXOsRequest:
     properties:
       addresses:
         type: "array"
         items:
           type: "string"
+    example:
+      addresses:
+      - "addresses"
+      - "addresses"
+  SignRawTransactionResponse:
+    properties:
+      hex:
+        type: "string"
+      complete:
+        type: "boolean"
+      errors:
+        type: "array"
+        items:
+          $ref: "#/definitions/SignRawTransactionError"
+    example:
+      hex: "hex"
+      complete: true
+      errors:
+      - sequence: 6.02745618307040320615897144307382404804229736328125
+        scriptSig: "scriptSig"
+        txid: "txid"
+        error: "error"
+        vout: 0.80082819046101150206595775671303272247314453125
+      - sequence: 6.02745618307040320615897144307382404804229736328125
+        scriptSig: "scriptSig"
+        txid: "txid"
+        error: "error"
+        vout: 0.80082819046101150206595775671303272247314453125
   SignRawTransactionError:
     properties:
       txid:
@@ -6095,3 +6472,15 @@ definitions:
         type: "number"
       error:
         type: "string"
+    example:
+      sequence: 6.02745618307040320615897144307382404804229736328125
+      scriptSig: "scriptSig"
+      txid: "txid"
+      error: "error"
+      vout: 0.80082819046101150206595775671303272247314453125
+  SendRawTransactionResponse:
+    properties:
+      txid:
+        type: "string"
+    example:
+      txid: "txid"

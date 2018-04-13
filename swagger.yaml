@@ -5401,7 +5401,7 @@ definitions:
         type: array
         items:
           type: string
-  SignRawTransactionRequest:
+  SignRawTransactionResponse:
     properties:
       hex:
         type: string
@@ -5423,7 +5423,7 @@ definitions:
         type: number
       error:
         type: string
-  SendRawTransactionRequest:
+  SendRawTransactionResponse:
     properties:
       txid:
         type: string
