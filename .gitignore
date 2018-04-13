@@ -6,3 +6,5 @@ syscoin-api.iml
 server/nodejs/mongotest.js
 .env
 
+
+*.orig
