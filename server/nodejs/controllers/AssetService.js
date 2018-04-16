@@ -146,7 +146,7 @@ exports.assetinfo = function(args, res, next) {
   exports.assetupdate = function(args, res, next) {
     var argList = [
       { prop: "asset", },
-      { prop: "public", },
+      { prop: "publicvalue", },
       { prop: "category", },
       { prop: "supply", },
       { prop: "interest_rate", },
@@ -173,7 +173,7 @@ exports.assetinfo = function(args, res, next) {
     var argList = [
       { prop: "name", },
       { prop: "alias", },
-      { prop: "public", },
+      { prop: "publicvalue", },
       { prop: "category", },
       { prop: "supply", },
       { prop: "max_supply", },

@@ -4271,7 +4271,7 @@ definitions:
       title:
         description: title, 256 bytes max.
         type: string
-      public:
+      publicvalue:
         description: public data, 256 characters max.
         type: string
       category:
@@ -4291,7 +4291,7 @@ definitions:
       alias:
         description: Alias to transfer this certificate to.
         type: string
-      public:
+      publicvalue:
         description: public data, 256 characters max.
         type: string
       accessflags:
@@ -4313,7 +4313,7 @@ definitions:
       title:
         description: certificate title, 255 bytes max.
         type: string
-      public:
+      publicvalue:
         description: Public certificate data, 1024 characters max.
         type: string
       category:
@@ -5194,7 +5194,7 @@ definitions:
       asset:
         description: Asset name.
         type: string
-      public:
+      publicvalue:
         description: Public data, 512 characters max.
         type: string
       category:
@@ -5217,8 +5217,8 @@ definitions:
       alias:
         description: An alias you own.
         type: string
-      public:
-        description: Public data, 512 characters max.
+      publicvalue:
+        description: Public data, 256 characters max.
         type: string
       category:
         description: Category, 256 characters max. Defaults to assets.

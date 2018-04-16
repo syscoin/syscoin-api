@@ -4788,7 +4788,6 @@ definitions:
     required:
     - "alias"
     - "category"
-    - "public"
     - "title"
     - "witness"
     properties:
@@ -4798,7 +4797,7 @@ definitions:
       title:
         type: "string"
         description: "title, 256 bytes max."
-      public:
+      publicvalue:
         type: "string"
         description: "public data, 256 characters max."
       category:
@@ -4810,7 +4809,7 @@ definitions:
           \ of this transaction."
     example:
       witness: "witness"
-      public: "public"
+      publicvalue: "publicvalue"
       alias: "alias"
       title: "title"
       category: "category"
@@ -4825,7 +4824,7 @@ definitions:
       alias:
         type: "string"
         description: "Alias to transfer this certificate to."
-      public:
+      publicvalue:
         type: "string"
         description: "public data, 256 characters max."
       accessflags:
@@ -4838,14 +4837,13 @@ definitions:
           \ of this transaction."
     example:
       witness: "witness"
-      public: "public"
+      publicvalue: "publicvalue"
       accessflags: 0.80082819046101150206595775671303272247314453125
       guid: "guid"
       alias: "alias"
   CertUpdateRequest:
     required:
     - "guid"
-    - "public"
     - "title"
     - "witness"
     properties:
@@ -4855,7 +4853,7 @@ definitions:
       title:
         type: "string"
         description: "certificate title, 255 bytes max."
-      public:
+      publicvalue:
         type: "string"
         description: "Public certificate data, 1024 characters max."
       category:
@@ -4867,7 +4865,7 @@ definitions:
           \ of this transaction."
     example:
       witness: "witness"
-      public: "public"
+      publicvalue: "publicvalue"
       guid: "guid"
       title: "title"
       category: "category"
@@ -6115,7 +6113,7 @@ definitions:
       asset:
         type: "string"
         description: "Asset name."
-      public:
+      publicvalue:
         type: "string"
         description: "Public data, 512 characters max."
       category:
@@ -6137,7 +6135,7 @@ definitions:
           \ of this transaction."
     example:
       witness: "witness"
-      public: "public"
+      publicvalue: "publicvalue"
       interest_rate: 6.02745618307040320615897144307382404804229736328125
       asset: "asset"
       category: "category"
@@ -6150,9 +6148,9 @@ definitions:
       alias:
         type: "string"
         description: "An alias you own."
-      public:
+      publicvalue:
         type: "string"
-        description: "Public data, 512 characters max."
+        description: "Public data, 256 characters max."
       category:
         type: "string"
         description: "Category, 256 characters max. Defaults to assets."
@@ -6181,8 +6179,8 @@ definitions:
           \ of this transaction."
     example:
       witness: "witness"
+      publicvalue: "publicvalue"
       can_adjust_interest_rate: true
-      public: "public"
       name: "name"
       max_supply: 6.02745618307040320615897144307382404804229736328125
       alias: "alias"

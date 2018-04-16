@@ -27,7 +27,7 @@ exports.certnew = function(args, res, next) {
   var argList = [
     { prop: "alias" },
     { prop: "title" },
-    { prop: "public" },
+    { prop: "publicvalue" },
     { prop: "category", defaultValue: "certificates" },
     { prop: "witness"}
   ];
@@ -52,7 +52,7 @@ exports.certtransfer = function(args, res, next) {
   var argList = [
     { prop: "alias" },
     { prop: "guid" },
-    { prop: "public" },
+    { prop: "publicvalue" },
     { prop: "accessflags", defaultValue: 2 },
     { prop: "witness" },
 
@@ -78,7 +78,7 @@ exports.certupdate = function(args, res, next) {
   var argList = [
     { prop: "guid" },
     { prop: "title" },
-    { prop: "public" },
+    { prop: "publicvalue" },
     { prop: "category", defaultValue: "certificates" },
     { prop: "witness" },
   ];
