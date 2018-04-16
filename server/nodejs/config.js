@@ -22,11 +22,12 @@ if (!process.env.APIRUNMODE) {
         `This is intended to be running off of an integrated instance (normally an official release) of syscoin.`,
         `integrated`);
 }
-else if (process.env.APIRUNMODE === 'isolated') {
+// trimming is done due to windows space issue
+else if (process.env.APIRUNMODE.trim() === 'isolated') {
     setupInMode(process.env.SYSCOIN_CONFIG_ISOLATED_LOCATION, "SYSCOIN_CONFIG_ISOLATED_LOCATION",
     `This is intended to be running off of an isolated instance (possibly custom build) of syscoin.`,`isolated`);
 }
-else if (process.env.APIRUNMODE === 'integrated') {
+else if (process.env.APIRUNMODE.trim() === 'integrated') {
     setupInMode(process.env.SYSCOIN_CONFIG_INTEGRATED_LOCATION, "SYSCOIN_CONFIG_INTEGRATED_LOCATION",
     `This is intended to be running off of an integrated instance (normally an official release) of syscoin.`,`integrated`);
 }

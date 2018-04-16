@@ -7,7 +7,9 @@
     "startd": "pm2 start node . $CONFIG --name 'sys-api-server'",
     "test": "mocha **/*.spec.js -R spec",
     "isolated": "APIRUNMODE=isolated node .",
-    "integrated": "APIRUNMODE=integrated node ."
+    "integrated": "APIRUNMODE=integrated node .",
+    "windows-isolated": "set APIRUNMODE=isolated&& node .",
+    "windows-integrated": "set APIRUNMODE=integrated&& node ."
   },
   "main": "index.js",
   "keywords": [
