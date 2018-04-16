@@ -1536,7 +1536,7 @@
         }, {
           "name" : "maxtries",
           "in" : "query",
-          "description" : "?How many iterations to try (default = 1000000).",
+          "description" : "How many iterations to try (default = 1000000).",
           "required" : false,
           "type" : "number"
         } ],

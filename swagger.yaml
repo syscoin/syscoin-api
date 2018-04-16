@@ -1203,7 +1203,7 @@ paths:
         required: true
         type: number
       - name: maxtries
-        description: ﻿How many iterations to try (default = 1000000).
+        description: How many iterations to try (default = 1000000).
         in: query
         required: false
         type: number
