@@ -5059,9 +5059,11 @@ definitions:
         type: string
   Asset:
     required:
-    - _id
+    - guid
     properties:
-      _id:
+      guid:
+        type: string
+      symbol:
         type: string
       txid:
         type: string
@@ -5091,6 +5093,8 @@ definitions:
         type: array
         items:
           $ref: "#/definitions/AssetInput"
+      precision:
+        type: number
   AssetInput:
     properties:
       start:
@@ -5104,7 +5108,7 @@ definitions:
     - amounts
     properties:
       asset:
-        description: Asset name.
+        description: Asset guid.
         type: string
       aliasfrom:
         description: Alias to transfer from.
@@ -5181,7 +5185,7 @@ definitions:
     - alias
     properties:
       asset:
-        description: Asset name.
+        description: Asset guid.
         type: string
       alias:
         description: Alias to transfer this asset to.
@@ -5192,7 +5196,7 @@ definitions:
   AssetUpdateRequest:
     properties:
       asset:
-        description: Asset name.
+        description: Asset guid.
         type: string
       publicvalue:
         description: Public data, 512 characters max.
@@ -5211,7 +5215,7 @@ definitions:
         type: string
   AssetNewRequest:
     properties:
-      name:
+      symbol:
         description: name, 20 characters max.
         type: string
       alias:
@@ -5223,6 +5227,9 @@ definitions:
       category:
         description: Category, 256 characters max. Defaults to assets.
         type: string
+      precision:
+        description: Precision of balances. Must be between 0 and 8. The lower it is the higher possible max_supply is available since the supply is represented as a 64 bit integer. With a precision of 8 the max supply is 10 billion.
+        type: number
       supply:
         description: Initial supply of asset. Can mint more supply up to total_supply amount or if total_supply is -1 then minting is uncapped.
         type: number

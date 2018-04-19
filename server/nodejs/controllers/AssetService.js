@@ -171,17 +171,17 @@ exports.assetinfo = function(args, res, next) {
   
   exports.assetnew = function(args, res, next) {
     var argList = [
-      { prop: "name", },
+      { prop: "symbol", },
       { prop: "alias", },
       { prop: "publicvalue", },
       { prop: "category", },
+      { prop: "precision", },
+      { prop: "use_inputranges", },
       { prop: "supply", },
       { prop: "max_supply", },
-      { prop: "use_inputranges", },
       { prop: "interest_rate", },
       { prop: "can_adjust_interest_rate", },
       { prop: "witness", }
-
     ];
 
 
