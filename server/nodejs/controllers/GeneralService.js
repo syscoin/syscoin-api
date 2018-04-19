@@ -1743,7 +1743,7 @@ exports.lockunspent = function(args, res, next) {
     syscoinClient.lockUnspent.apply(syscoinClient, arr);
 };
 
-exports.syscoinlistreceivebyaddress = function(args, res, next) {
+exports.syscoinlistreceivedbyaddress = function(args, res, next) {
   var argList = [
   ];
 
@@ -1754,10 +1754,10 @@ exports.syscoinlistreceivebyaddress = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    commonUtils.log('syscoin list receive by address ', result, "syscoinlistreceivebyaddress");
+    commonUtils.log('syscoin list receive by address ', result, "syscoinlistreceivedbyaddress");
     res.end(JSON.stringify(result));
   };
 
   var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.syscoinListReceiveByAddress.apply(syscoinClient, arr);
+  syscoinClient.syscoinListReceivedByAddress.apply(syscoinClient, arr);
 }
