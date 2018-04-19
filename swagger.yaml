@@ -3659,7 +3659,7 @@ definitions:
         type: string
       total:
         type: string
-      totalwithfee:
+      total_with_fee:
         type: number
       currency:
         type: string
@@ -4128,7 +4128,7 @@ definitions:
         type: number
       quantity:
         type: number
-      private:
+      privatevalue:
         type: boolean
       description:
         type: string
@@ -5292,7 +5292,7 @@ definitions:
         type: string
       payment_options:
         type: string
-      private:
+      privatevalue:
         type: boolean
       units:
         type: number
@@ -5326,7 +5326,7 @@ definitions:
         type: string
       currency:
         type: string
-      private:
+      privatevalue:
         type: boolean
       cert_guid:
         type: string
