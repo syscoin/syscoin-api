@@ -1153,31 +1153,6 @@ exports.getaddresstxids = function(args, res, next) {
   syscoinClient.getAddressTxids.apply(syscoinClient, arr);
 }
 
-exports.getaddressutxos = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-   * addresses (Array)
-   **/
-  var argList = [
-    { prop: "addresses" }
-  ];
-
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    commonUtils.log('Returns all unspent outputs for an address (requires addressindex to be enabled) ', result, "getaddressutxos");
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-
-  syscoinClient.getAddressUtxos.apply(syscoinClient, arr);
-}
-
 exports.getblockhashes  = function(args, res, next) {
   /**
    * parameters expected in the args:
@@ -1760,4 +1735,24 @@ exports.syscoinlistreceivedbyaddress = function(args, res, next) {
 
   var arr = varUtils.getArgsArr(argList, args, "GET", cb);
   syscoinClient.syscoinListReceivedByAddress.apply(syscoinClient, arr);
+}
+
+exports.getaddressutxos = function(args, res, next) {
+  var argList = [
+    { prop: "addresses" }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('getaddressutxos ', result, "getaddressutxos");
+    res.end(JSON.stringify(result));
+  };
+
+  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+  syscoinClient.getAddressUtxos.apply(syscoinClient, arr);
 }

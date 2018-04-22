@@ -235,10 +235,6 @@ module.exports.getaddresstxids = function getaddresstxids (req, res, next) {
   General.getaddresstxids(req.swagger.params, res, next);
 };
 
-module.exports.getaddressutxos = function getaddressutxos (req, res, next) {
-  General.getaddressutxos(req.swagger.params, res, next);
-};
-
 module.exports.getblockhashes = function getblockhashes (req, res, next) {
   General.getblockhashes(req.swagger.params, res, next);
 };
@@ -297,4 +293,8 @@ module.exports.signrawtransaction = function masternodelist (req, res, next) {
 
 module.exports.lockunspent = function masternodelist (req, res, next) {
     General.lockunspent(req.swagger.params, res, next);
+};
+
+module.exports.getaddressutxos = function getaddressutxos (req, res, next) {
+  General.getaddressutxos(req.swagger.params, res, next);
 };
