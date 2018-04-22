@@ -1357,7 +1357,7 @@ paths:
         in: query
         description: It need "*" for entire wallet
         required: false
-        default:
+        default: ""
         type: string
       - name: minconf
         in: query
