@@ -3920,7 +3920,7 @@ definitions:
       expired:
         type: "number"
       status:
-        type: "string"
+        type: "number"
       buyer_feedback:
         type: "array"
         items:
@@ -3960,7 +3960,7 @@ definitions:
       - "arbiter_feedback"
       - "arbiter_feedback"
       price: "price"
-      avg_rating: 2.027123023002321833274663731572218239307403564453125
+      avg_rating: 4.1456080298839363962315474054776132106781005859375
       escrow: "escrow"
       systotal: 0.80082819046101150206595775671303272247314453125
       currency: "currency"
@@ -3968,26 +3968,26 @@ definitions:
       avg_rating_display: "avg_rating_display"
       height: "height"
       total_with_fee: 1.46581298050294517310021547018550336360931396484375
-      avg_seller_feedback: 7.061401241503109105224211816675961017608642578125
+      avg_seller_feedback: 9.301444243932575517419536481611430644989013671875
       quantity: "quantity"
       paymentoption: 5.962133916683182377482808078639209270477294921875
       txid: "txid"
       offerlink_seller: "offerlink_seller"
       buyer: "buyer"
       arbiter: "arbiter"
-      avg_arbiter_rating: 9.301444243932575517419536481611430644989013671875
+      avg_arbiter_rating: 3.61607674925191080461672754609026014804840087890625
       exttxid: "exttxid"
       seller_feedback:
       - "seller_feedback"
       - "seller_feedback"
       offertitle: "offertitle"
-      avg_buyer_rating: 2.3021358869347654518833223846741020679473876953125
+      avg_buyer_rating: 7.061401241503109105224211816675961017608642578125
       time: "time"
       buyer_feedback:
       - "buyer_feedback"
       - "buyer_feedback"
-      avg_rating_count: 3.61607674925191080461672754609026014804840087890625
-      status: "status"
+      avg_rating_count: 2.027123023002321833274663731572218239307403564453125
+      status: 2.3021358869347654518833223846741020679473876953125
   EscrowRefundRequest:
     required:
     - "escrowguid"
