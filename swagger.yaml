@@ -4442,13 +4442,15 @@ definitions:
         type: string
       amounts:
         description: A stringified JSON object with aliases and amounts. { "address":amount, ... } (numeric or string) The syscoin alias is the key, the numeric amount (can be string) in SYS is the value.
-        type: string
+        type: object
       instantsend:
         description: Set to true to use InstantSend to send this transaction or false otherwise.
         type: boolean
       subtractfeefromamount:
         description: Set to true to subtract fee from amount or false otherwise.
-        type: string
+        type: array
+        items:
+          type: string
   GetNewAddressRequest:
     properties:
       account:

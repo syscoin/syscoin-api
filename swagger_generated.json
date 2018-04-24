@@ -6103,23 +6103,27 @@
           "description" : "Alias to pay from"
         },
         "amounts" : {
-          "type" : "string",
-          "description" : "A stringified JSON object with aliases and amounts. { \"address\":amount, ... } (numeric or string) The syscoin alias is the key, the numeric amount (can be string) in SYS is the value."
+          "type" : "object",
+          "description" : "A stringified JSON object with aliases and amounts. { \"address\":amount, ... } (numeric or string) The syscoin alias is the key, the numeric amount (can be string) in SYS is the value.",
+          "properties" : { }
         },
         "instantsend" : {
           "type" : "boolean",
           "description" : "Set to true to use InstantSend to send this transaction or false otherwise."
         },
         "subtractfeefromamount" : {
-          "type" : "string",
-          "description" : "Set to true to subtract fee from amount or false otherwise."
+          "type" : "array",
+          "description" : "Set to true to subtract fee from amount or false otherwise.",
+          "items" : {
+            "type" : "string"
+          }
         }
       },
       "example" : {
-        "amounts" : "amounts",
+        "amounts" : "{}",
         "instantsend" : true,
         "aliasfrom" : "aliasfrom",
-        "subtractfeefromamount" : "subtractfeefromamount"
+        "subtractfeefromamount" : [ "subtractfeefromamount", "subtractfeefromamount" ]
       }
     },
     "GetNewAddressRequest" : {
@@ -6711,7 +6715,7 @@
         },
         "nonce" : {
           "type" : "number",
-          "description" : "The nonce"
+          "description" : "﻿The nonce"
         },
         "bits" : {
           "type" : "string",
@@ -6719,15 +6723,15 @@
         },
         "difficulty" : {
           "type" : "number",
-          "description" : "The difficulty"
+          "description" : "﻿The difficulty"
         },
         "chainwork" : {
           "type" : "string",
-          "description" : "Expected number of hashes required to produce the chain up to this block (in hex)"
+          "description" : "﻿Expected number of hashes required to produce the chain up to this block (in hex)"
         },
         "previousblockhash" : {
           "type" : "string",
-          "description" : "The hash of the previous block"
+          "description" : "﻿The hash of the previous block"
         },
         "nextblockhash" : {
           "type" : "string",

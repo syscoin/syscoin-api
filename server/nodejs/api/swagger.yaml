@@ -5045,22 +5045,27 @@ definitions:
         type: "string"
         description: "Alias to pay from"
       amounts:
-        type: "string"
+        type: "object"
         description: "A stringified JSON object with aliases and amounts. { \"address\"\
           :amount, ... } (numeric or string) The syscoin alias is the key, the numeric\
           \ amount (can be string) in SYS is the value."
+        properties: {}
       instantsend:
         type: "boolean"
         description: "Set to true to use InstantSend to send this transaction or false\
           \ otherwise."
       subtractfeefromamount:
-        type: "string"
+        type: "array"
         description: "Set to true to subtract fee from amount or false otherwise."
+        items:
+          type: "string"
     example:
-      amounts: "amounts"
+      amounts: "{}"
       instantsend: true
       aliasfrom: "aliasfrom"
-      subtractfeefromamount: "subtractfeefromamount"
+      subtractfeefromamount:
+      - "subtractfeefromamount"
+      - "subtractfeefromamount"
   GetNewAddressRequest:
     properties:
       account:
