@@ -5046,9 +5046,9 @@ definitions:
         description: "Alias to pay from"
       amounts:
         type: "object"
-        description: "A stringified JSON object with aliases and amounts. { \"address\"\
-          :amount, ... } (numeric or string) The syscoin alias is the key, the numeric\
-          \ amount (can be string) in SYS is the value."
+        description: "An object with aliases (pay to) and amounts. { \"address\":amount,\
+          \ ... } (numeric or string) The syscoin alias is the key, the numeric amount\
+          \ (can be string) in SYS is the value."
         properties: {}
       instantsend:
         type: "boolean"
@@ -5056,7 +5056,7 @@ definitions:
           \ otherwise."
       subtractfeefromamount:
         type: "array"
-        description: "Set to true to subtract fee from amount or false otherwise."
+        description: "An addresses array to subtract fee from them."
         items:
           type: "string"
     example:
