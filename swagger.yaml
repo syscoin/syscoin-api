@@ -4467,14 +4467,25 @@ definitions:
         description: Alias to pay from
         type: string
       amounts:
-        description: A stringified JSON object with aliases and amounts. { "address":amount, ... } (numeric or string) The syscoin alias is the key, the numeric amount (can be string) in SYS is the value.
-        type: string
+        description: An object with aliases (pay to) and amounts. { "address":amount, ... } (numeric or string) The syscoin alias is the key, the numeric amount (can be string) in SYS is the value.
+        type: object
+        properties:
+          alias:
+            type: number
+        example:
+          alias1: 0.02
+          alias2: 0.4
+          alias3: 0.004
       instantsend:
+        default: false
         description: Set to true to use InstantSend to send this transaction or false otherwise.
         type: boolean
       subtractfeefromamount:
-        description: Set to true to subtract fee from amount or false otherwise.
-        type: string
+        description: An addresses array to subtract fee from them. 
+        type: array
+        items:
+          type: string
+        example: ["alias1", "alias2"]
   GetNewAddressRequest:
     properties:
       account:
