@@ -5045,27 +5045,27 @@ definitions:
         type: "string"
         description: "Alias to pay from"
       amounts:
-        type: "object"
-        description: "An object with aliases (pay to) and amounts. { \"address\":amount,\
-          \ ... } (numeric or string) The syscoin alias is the key, the numeric amount\
-          \ (can be string) in SYS is the value."
-        properties: {}
+        $ref: "#/definitions/AliasPayRequest_amounts"
       instantsend:
         type: "boolean"
         description: "Set to true to use InstantSend to send this transaction or false\
           \ otherwise."
+        default: false
       subtractfeefromamount:
         type: "array"
+        example:
+        - "alias1"
+        - "alias2"
         description: "An addresses array to subtract fee from them."
         items:
           type: "string"
     example:
-      amounts: "{}"
-      instantsend: true
+      amounts: "{\"alias1\":0.02,\"alias2\":0.4,\"alias3\":0.004}"
+      instantsend: false
       aliasfrom: "aliasfrom"
       subtractfeefromamount:
-      - "subtractfeefromamount"
-      - "subtractfeefromamount"
+      - "alias1"
+      - "alias2"
   GetNewAddressRequest:
     properties:
       account:
@@ -6499,3 +6499,11 @@ definitions:
         type: "string"
     example:
       txid: "txid"
+  AliasPayRequest_amounts:
+    properties:
+      alias:
+        type: "number"
+    description: "An object with aliases (pay to) and amounts. { \"address\":amount,\
+      \ ... } (numeric or string) The syscoin alias is the key, the numeric amount\
+      \ (can be string) in SYS is the value."
+    example: "{\"alias1\":0.02,\"alias2\":0.4,\"alias3\":0.004}"
