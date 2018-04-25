@@ -4441,12 +4441,14 @@ definitions:
         description: Alias to pay from
         type: string
       amounts:
+        default: {"alias1": amount1, "alias2": amount2}
         description: An object with aliases (pay to) and amounts. { "address":amount, ... } (numeric or string) The syscoin alias is the key, the numeric amount (can be string) in SYS is the value.
         type: object
       instantsend:
         description: Set to true to use InstantSend to send this transaction or false otherwise.
         type: boolean
       subtractfeefromamount:
+        default: ["alias1"]
         description: An addresses array to subtract fee from them.
         type: array
         items:
