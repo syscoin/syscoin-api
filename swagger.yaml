@@ -5230,7 +5230,7 @@ definitions:
       witness:
         description: Witness alias name that will sign for web-of-trust notarization of this transaction.
         type: string
-  AssetCollectInterestRequest:
+  AssetAllocationCollectInterestRequest:
     required:
     - asset
     - alias
