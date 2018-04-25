@@ -139,6 +139,32 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /assetallocationcollectinterest:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: assetallocationcollectinterest
+      description: Collect interest on this asset allocation if an interest rate is set on this asset.
+      security:
+      - token: []
+      tags:
+      - Asset
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/AssetAllocationCollectInterestRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /assetallocationinfo:
     x-swagger-router-controller: rpc
     get:
@@ -5189,6 +5215,20 @@ definitions:
         type: string
       alias:
         description: Alias to transfer this asset to.
+        type: string
+      witness:
+        description: Witness alias name that will sign for web-of-trust notarization of this transaction.
+        type: string
+  AssetCollectInterestRequest:
+    required:
+    - asset
+    - alias
+    properties:
+      asset:
+        description: Asset guid.
+        type: string
+      alias:
+        description: Alias that holds this asset allocation.
         type: string
       witness:
         description: Witness alias name that will sign for web-of-trust notarization of this transaction.
