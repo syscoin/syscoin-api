@@ -3701,7 +3701,7 @@ definitions:
         type: number
       paymemntoption_display:
         type: string
-      redeem_txid:
+      redeem_script:
         type: string
       txid:
         type: string
