@@ -177,6 +177,42 @@
       },
       "x-swagger-router-controller" : "rpc"
     },
+    "/assetallocationcollectinterest" : {
+      "post" : {
+        "tags" : [ "Asset" ],
+        "description" : "Collect interest on this asset allocation if an interest rate is set on this asset.",
+        "operationId" : "assetallocationcollectinterest",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "request",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/AssetAllocationCollectInterestRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "string"
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
     "/assetallocationinfo" : {
       "get" : {
         "tags" : [ "Asset" ],
@@ -4818,7 +4854,7 @@
           "type" : "number"
         },
         "status" : {
-          "type" : "string"
+          "type" : "number"
         },
         "buyer_feedback" : {
           "type" : "array",
@@ -4870,7 +4906,7 @@
         "expired" : 5.63737665663332876420099637471139430999755859375,
         "arbiter_feedback" : [ "arbiter_feedback", "arbiter_feedback" ],
         "price" : "price",
-        "avg_rating" : 2.027123023002321833274663731572218239307403564453125,
+        "avg_rating" : 4.1456080298839363962315474054776132106781005859375,
         "escrow" : "escrow",
         "systotal" : 0.80082819046101150206595775671303272247314453125,
         "currency" : "currency",
@@ -4878,22 +4914,22 @@
         "avg_rating_display" : "avg_rating_display",
         "height" : "height",
         "total_with_fee" : 1.46581298050294517310021547018550336360931396484375,
-        "avg_seller_feedback" : 7.061401241503109105224211816675961017608642578125,
+        "avg_seller_feedback" : 9.301444243932575517419536481611430644989013671875,
         "quantity" : "quantity",
         "paymentoption" : 5.962133916683182377482808078639209270477294921875,
         "txid" : "txid",
         "offerlink_seller" : "offerlink_seller",
         "buyer" : "buyer",
         "arbiter" : "arbiter",
-        "avg_arbiter_rating" : 9.301444243932575517419536481611430644989013671875,
+        "avg_arbiter_rating" : 3.61607674925191080461672754609026014804840087890625,
         "exttxid" : "exttxid",
         "seller_feedback" : [ "seller_feedback", "seller_feedback" ],
         "offertitle" : "offertitle",
-        "avg_buyer_rating" : 2.3021358869347654518833223846741020679473876953125,
+        "avg_buyer_rating" : 7.061401241503109105224211816675961017608642578125,
         "time" : "time",
         "buyer_feedback" : [ "buyer_feedback", "buyer_feedback" ],
-        "avg_rating_count" : 3.61607674925191080461672754609026014804840087890625,
-        "status" : "status"
+        "avg_rating_count" : 2.027123023002321833274663731572218239307403564453125,
+        "status" : 2.3021358869347654518833223846741020679473876953125
       }
     },
     "EscrowRefundRequest" : {
@@ -6103,23 +6139,27 @@
           "description" : "Alias to pay from"
         },
         "amounts" : {
-          "type" : "string",
-          "description" : "A stringified JSON object with aliases and amounts. { \"address\":amount, ... } (numeric or string) The syscoin alias is the key, the numeric amount (can be string) in SYS is the value."
+          "$ref" : "#/definitions/AliasPayRequest_amounts"
         },
         "instantsend" : {
           "type" : "boolean",
-          "description" : "Set to true to use InstantSend to send this transaction or false otherwise."
+          "description" : "Set to true to use InstantSend to send this transaction or false otherwise.",
+          "default" : false
         },
         "subtractfeefromamount" : {
-          "type" : "string",
-          "description" : "Set to true to subtract fee from amount or false otherwise."
+          "type" : "array",
+          "example" : [ "alias1", "alias2" ],
+          "description" : "An addresses array to subtract fee from them.",
+          "items" : {
+            "type" : "string"
+          }
         }
       },
       "example" : {
-        "amounts" : "amounts",
-        "instantsend" : true,
+        "amounts" : "{\"alias1\":0.02,\"alias2\":0.4,\"alias3\":0.004}",
+        "instantsend" : false,
         "aliasfrom" : "aliasfrom",
-        "subtractfeefromamount" : "subtractfeefromamount"
+        "subtractfeefromamount" : [ "alias1", "alias2" ]
       }
     },
     "GetNewAddressRequest" : {
@@ -6711,7 +6751,7 @@
         },
         "nonce" : {
           "type" : "number",
-          "description" : "?The nonce"
+          "description" : "The nonce"
         },
         "bits" : {
           "type" : "string",
@@ -6719,11 +6759,11 @@
         },
         "difficulty" : {
           "type" : "number",
-          "description" : "?The difficulty"
+          "description" : "The difficulty"
         },
         "chainwork" : {
           "type" : "string",
-          "description" : "?Expected number of hashes required to produce the chain up to this block (in hex)"
+          "description" : "Expected number of hashes required to produce the chain up to this block (in hex)"
         },
         "previousblockhash" : {
           "type" : "string",
@@ -7418,6 +7458,28 @@
         "asset" : "asset"
       }
     },
+    "AssetAllocationCollectInterestRequest" : {
+      "required" : [ "alias", "asset" ],
+      "properties" : {
+        "asset" : {
+          "type" : "string",
+          "description" : "Asset guid."
+        },
+        "alias" : {
+          "type" : "string",
+          "description" : "Alias that holds this asset allocation."
+        },
+        "witness" : {
+          "type" : "string",
+          "description" : "Witness alias name that will sign for web-of-trust notarization of this transaction."
+        }
+      },
+      "example" : {
+        "witness" : "witness",
+        "alias" : "alias",
+        "asset" : "asset"
+      }
+    },
     "AssetUpdateRequest" : {
       "properties" : {
         "asset" : {
@@ -7929,6 +7991,15 @@
       "example" : {
         "txid" : "txid"
       }
+    },
+    "AliasPayRequest_amounts" : {
+      "properties" : {
+        "alias" : {
+          "type" : "number"
+        }
+      },
+      "description" : "An object with aliases (pay to) and amounts. { \"address\":amount, ... } (numeric or string) The syscoin alias is the key, the numeric amount (can be string) in SYS is the value.",
+      "example" : "{\"alias1\":0.02,\"alias2\":0.4,\"alias3\":0.004}"
     }
   }
 }

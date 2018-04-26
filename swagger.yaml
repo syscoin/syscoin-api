@@ -139,6 +139,32 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /assetallocationcollectinterest:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: assetallocationcollectinterest
+      description: Collect interest on this asset allocation if an interest rate is set on this asset.
+      security:
+      - token: []
+      tags:
+      - Asset
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/AssetAllocationCollectInterestRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /assetallocationinfo:
     x-swagger-router-controller: rpc
     get:
@@ -1387,7 +1413,7 @@ paths:
         in: query
         description: It need "*" for entire wallet
         required: false
-        default:
+        default: ""
         type: string
       - name: minconf
         in: query
@@ -4471,14 +4497,25 @@ definitions:
         description: Alias to pay from
         type: string
       amounts:
-        description: A stringified JSON object with aliases and amounts. { "address":amount, ... } (numeric or string) The syscoin alias is the key, the numeric amount (can be string) in SYS is the value.
-        type: string
+        description: An object with aliases (pay to) and amounts. { "address":amount, ... } (numeric or string) The syscoin alias is the key, the numeric amount (can be string) in SYS is the value.
+        type: object
+        properties:
+          alias:
+            type: number
+        example:
+          alias1: 0.02
+          alias2: 0.4
+          alias3: 0.004
       instantsend:
+        default: false
         description: Set to true to use InstantSend to send this transaction or false otherwise.
         type: boolean
       subtractfeefromamount:
-        description: Set to true to subtract fee from amount or false otherwise.
-        type: string
+        description: An addresses array to subtract fee from them. 
+        type: array
+        items:
+          type: string
+        example: ["alias1", "alias2"]
   GetNewAddressRequest:
     properties:
       account:
@@ -5219,6 +5256,20 @@ definitions:
         type: string
       alias:
         description: Alias to transfer this asset to.
+        type: string
+      witness:
+        description: Witness alias name that will sign for web-of-trust notarization of this transaction.
+        type: string
+  AssetAllocationCollectInterestRequest:
+    required:
+    - asset
+    - alias
+    properties:
+      asset:
+        description: Asset guid.
+        type: string
+      alias:
+        description: Alias that holds this asset allocation.
         type: string
       witness:
         description: Witness alias name that will sign for web-of-trust notarization of this transaction.
