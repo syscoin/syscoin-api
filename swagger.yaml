@@ -627,6 +627,36 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /aliasaddscript:
+    x-swagger-router-controller: rpc
+    post:
+      operationId: aliasaddscript
+      description: add a redeem script to alias
+      security:
+      - token: []
+      tags:
+      - Aliases
+      parameters:
+      - name: request
+        in: body
+        required: true
+        type: string
+        schema:
+          $ref: "#/definitions/AliasAddScriptRequest"
+      responses:
+        "500":
+          description: "unable to call aliasaddscript"
+          schema:
+            type: string
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /aliasclearwhitelist:
     x-swagger-router-controller: rpc
     post:
@@ -3697,7 +3727,7 @@ definitions:
         type: number
       paymemntoption_display:
         type: string
-      redeem_txid:
+      redeem_script:
         type: string
       txid:
         type: string
@@ -5484,4 +5514,8 @@ definitions:
   SendRawTransactionResponse:
     properties:
       txid:
+        type: string
+  AliasAddScriptRequest:
+    properties:
+      script:
         type: string
