@@ -4871,9 +4871,6 @@ definitions:
       title: "title"
       category: "category"
   CertTransferRequest:
-    required:
-    - "alias"
-    - "guid"
     properties:
       guid:
         type: "string"
