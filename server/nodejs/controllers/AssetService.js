@@ -21,7 +21,6 @@ exports.assetinfo = function(args, res, next) {
     };
   
     var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-    console.log('this is what u want q')
     console.log(arr)
     syscoinClient.assetInfo.apply(syscoinClient, arr);
   }
