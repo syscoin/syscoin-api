@@ -4338,8 +4338,8 @@ definitions:
         type: string
   CertTransferRequest:
     required:
-      - guid
-      - alias
+    - guid
+    - alias
     properties:
       guid:
         description: Certificate guidkey.
