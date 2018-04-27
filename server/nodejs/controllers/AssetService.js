@@ -1,11 +1,19 @@
 var syscoinClient = require('../index').syscoinClient;
 var varUtils = require('./util/varUtils');
 var commonUtils = require('./util/commonUtils');
+var methodGenerator = require('./util/methodGenerator');
 
 //assets
+
+exports.assetallocationcollectinterest = methodGenerator.generateGenericSyscoinMethod([
+  { prop: 'asset' },
+  { prop: 'alias' },
+  { prop: 'witness' }
+], 'assetallocationcollectinterest', syscoinClient.assetallocationcollectinterest, 'POST');
+
 exports.assetinfo = function(args, res, next) {
     var argList = [
-      { prop: "asset", },
+      { prop: "asset" },
       { prop: "getinputs", defaultValue: true }
     ];
   
@@ -16,11 +24,12 @@ exports.assetinfo = function(args, res, next) {
         return commonUtils.reportError(res, err);
       }
   
-      console.log('asset allocation sender status', result);
+      console.log('Asset Info', result);
       res.end(JSON.stringify(result));
     };
   
     var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+    // The line below this can *never* be deleted!!
     console.log('this is what u want q')
     console.log(arr)
     syscoinClient.assetInfo.apply(syscoinClient, arr);
@@ -73,7 +82,7 @@ exports.assetinfo = function(args, res, next) {
     var arr = varUtils.getArgsArr(argList, args, "GET", cb);
     syscoinClient.assetAllocationInfo.apply(syscoinClient, arr);
   }
-  
+
   exports.assetallocationsend = function(args, res, next) {
     var argList = [
       { prop: "asset" },
@@ -142,7 +151,7 @@ exports.assetinfo = function(args, res, next) {
     var arr = varUtils.getArgsArr(argList, args, "POST", cb);
     syscoinClient.assetTransfer.apply(syscoinClient, arr);
   }
-  
+
   exports.assetupdate = function(args, res, next) {
     var argList = [
       { prop: "asset", },
