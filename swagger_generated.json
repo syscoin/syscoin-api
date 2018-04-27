@@ -5954,6 +5954,7 @@
       }
     },
     "CertTransferRequest" : {
+      "required" : [ "alias", "guid" ],
       "properties" : {
         "guid" : {
           "type" : "string",
