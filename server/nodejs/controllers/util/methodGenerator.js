@@ -3,7 +3,7 @@ var varUtils = require('./varUtils');
 var commonUtils = require('./commonUtils');
 
 function generateGenericSyscoinMethod(argList, syscoinMethod, syscoinMethodName, httpMethod) {
-    return function(args, rest, next) {
+    return function(args, res, next) {
         if (!syscoinMethod) {
             throw Error(`${syscoinMethodName} was called bu not present.  
             Check your syscoin-core definitions to see whether it exists.`);
