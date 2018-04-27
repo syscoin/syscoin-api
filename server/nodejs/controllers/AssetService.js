@@ -29,7 +29,6 @@ exports.assetinfo = function(args, res, next) {
     };
   
     var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-    console.log('this is what u want q')
     console.log(arr)
     syscoinClient.assetInfo.apply(syscoinClient, arr);
   }
@@ -242,7 +241,6 @@ exports.assetinfo = function(args, res, next) {
   
     var arr = varUtils.getArgsArr(argList, args, "GET", cb);
     // The line below this can *never* be deleted!!
-    console.log('this is what u want q')
     console.log(arr)
     syscoinClient.assetInfo.apply(syscoinClient, arr);
   }
