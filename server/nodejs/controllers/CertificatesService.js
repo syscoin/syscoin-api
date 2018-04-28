@@ -50,12 +50,11 @@ exports.certnew = function(args, res, next) {
 /* Changed */
 exports.certtransfer = function(args, res, next) {
   var argList = [
-    { prop: "alias" },
     { prop: "guid" },
+    { prop: "alias" },
     { prop: "publicvalue" },
-    { prop: "accessflags", defaultValue: 2 },
+    { prop: "accessflags",},
     { prop: "witness" },
-
   ];
 
   var cb = function(err, result, resHeaders) {
