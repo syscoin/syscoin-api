@@ -598,11 +598,11 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /aliasnewfund:
+  /syscointxfund:
     x-swagger-router-controller: rpc
     post:
-      operationId: aliasnewfund
-      description: fund an alias creation
+      operationId: syscointxfund
+      description: fund an alias creation (possibly other operations in the future)
       security:
       - token: []
       tags:
@@ -612,7 +612,7 @@ paths:
         in: body
         required: true
         schema:
-          $ref: "#/definitions/AliasNewFundRequest"
+          $ref: "#/definitions/SyscoinTransactionFundRequest"
       responses:
         "500":
           description: "Could not send raw transaction: Cannot decode transaction from hex string or No funds found in addresses provided "
@@ -5475,7 +5475,7 @@ definitions:
         type: number
       feedback:
         type: string
-  AliasNewFundRequest:
+  SyscoinTransactionFundRequest:
     properties:
       hexstring:
         type: string

@@ -622,18 +622,18 @@ paths:
       - token: []
       x-swagger-router-controller: "Aliases"
     x-swagger-router-controller: "rpc"
-  /aliasnewfund:
+  /syscointxfund:
     post:
       tags:
       - "Aliases"
       description: "fund an alias creation"
-      operationId: "aliasnewfund"
+      operationId: "syscointxfund"
       parameters:
       - in: "body"
         name: "request"
         required: true
         schema:
-          $ref: "#/definitions/AliasNewFundRequest"
+          $ref: "#/definitions/SyscoinTransactionFundRequest"
       responses:
         200:
           description: "Success"
@@ -6503,7 +6503,7 @@ definitions:
       feedbackuserto: 5.63737665663332876420099637471139430999755859375
       _id: "_id"
       time: 6.02745618307040320615897144307382404804229736328125
-  AliasNewFundRequest:
+  SyscoinTransactionFundRequest:
     properties:
       hexstring:
         type: "string"
