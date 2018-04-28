@@ -37,7 +37,7 @@ module.exports.aliasupdatewhitelist = function aliasupdatewhitelist (req, res, n
 };
 
 module.exports.syscointxfund = function syscointxfund(req, res, next) {
-  Aliases.syscointransactionfund(req.swagger.params, res, next)
+  Aliases.syscointxfund(req.swagger.params, res, next)
 }
 
 module.exports.aliasaddscript = function aliasaddscript (req, res, next) {
