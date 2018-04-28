@@ -189,7 +189,7 @@ exports.aliasupdatewhitelist = function(args, res, next) {
 exports.syscointransactionfund = methodGenerator.generateGenericSyscoinMethod([
   { prop: 'hexstring' },
   { prop: 'addresses' }
-], 'syscointxfund', syscoinClient.syscointxfund, 'POST');
+], syscoinClient.syscoinTxFund, 'syscointxfund', 'POST');
 
 
 exports.aliasaddscript = function(args, res, next) {
