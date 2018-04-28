@@ -9,7 +9,7 @@ exports.assetallocationcollectinterest = methodGenerator.generateGenericSyscoinM
   { prop: 'asset' },
   { prop: 'alias' },
   { prop: 'witness' }
-], 'assetallocationcollectinterest', syscoinClient.assetallocationcollectinterest, 'POST');
+], syscoinClient.assetAllocationCollectInterest, 'assetallocationcollectinterest', 'POST');
 
 exports.assetinfo = function(args, res, next) {
     var argList = [
