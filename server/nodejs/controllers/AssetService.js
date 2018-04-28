@@ -210,9 +210,6 @@ exports.assetinfo = function(args, res, next) {
     var arr = varUtils.getArgsArr(argList, args, "POST", cb);
     syscoinClient.assetNew.apply(syscoinClient, arr);
   }
-var varUtils = require('./util/varUtils');
-var commonUtils = require('./util/commonUtils');
-var methodGenerator = require('./util/methodGenerator');
 
 //assets
 

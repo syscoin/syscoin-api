@@ -1,6 +1,7 @@
 var syscoinClient = require('../index').syscoinClient;
 var varUtils = require('./util/varUtils');
 var commonUtils = require('./util/commonUtils');
+var methodGenerator = require('./util/methodGenerator');
 
 /* Changed */
 exports.aliasbalance = function(args, res, next) {
@@ -186,7 +187,7 @@ exports.aliasupdatewhitelist = function(args, res, next) {
   syscoinClient.aliasUpdateWhitelist.apply(syscoinClient, arr);
 }
 
-exports.syscointransactionfund = methodGenerator.generateGenericSyscoinMethod([
+exports.syscointxfund = methodGenerator.generateGenericSyscoinMethod([
   { prop: 'hexstring' },
   { prop: 'addresses' }
 ], syscoinClient.syscoinTxFund, 'syscointxfund', 'POST');
