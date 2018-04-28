@@ -17,4 +17,6 @@ module.exports.certupdate = function certupdate (req, res, next) {
   Certificates.certupdate(req.swagger.params, res, next);
 };
 
-//missing certinfo
+module.exports.certinfo = function certinfo (req, res, next) {
+  Certificates.certinfo(req.swagger.params, res, next);
+};
