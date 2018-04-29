@@ -3683,6 +3683,10 @@ definitions:
         type: string
       access_flags:
         type: number
+      expires_on:
+        type: number
+      expired:
+        type: boolean
   Escrow:
     properties:
       escrowtype:
