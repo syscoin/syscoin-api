@@ -1,6 +1,7 @@
 var syscoinClient = require('../index').syscoinClient;
 var varUtils = require('./util/varUtils');
 var commonUtils = require('./util/commonUtils');
+var methodGenerator = require('./util/methodGenerator');
 
 /* Changed */
 exports.aliasbalance = function(args, res, next) {
@@ -186,26 +187,11 @@ exports.aliasupdatewhitelist = function(args, res, next) {
   syscoinClient.aliasUpdateWhitelist.apply(syscoinClient, arr);
 }
 
-exports.aliasnewfund = function(args, res, next) {
-  var argList = [
-    { prop: "hexstring" },
-    { prop: "addresses" }
-  ];
+exports.syscointxfund = methodGenerator.generateGenericSyscoinMethod([
+  { prop: 'hexstring' },
+  { prop: 'addresses' }
+], syscoinClient.syscoinTxFund, 'syscointxfund', 'POST');
 
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('aliasNewFund:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.aliasNewFund.apply(syscoinClient, arr);
-}
 
 exports.aliasaddscript = function(args, res, next) {
   var argList = [

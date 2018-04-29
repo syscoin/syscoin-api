@@ -622,18 +622,18 @@ paths:
       - token: []
       x-swagger-router-controller: "Aliases"
     x-swagger-router-controller: "rpc"
-  /aliasnewfund:
+  /syscointxfund:
     post:
       tags:
       - "Aliases"
-      description: "fund an alias creation"
-      operationId: "aliasnewfund"
+      description: "fund an alias creation (possibly other operations in the future)"
+      operationId: "syscointxfund"
       parameters:
       - in: "body"
         name: "request"
         required: true
         schema:
-          $ref: "#/definitions/AliasNewFundRequest"
+          $ref: "#/definitions/SyscoinTransactionFundRequest"
       responses:
         200:
           description: "Success"
@@ -3924,37 +3924,47 @@ definitions:
       height: 0.80082819046101150206595775671303272247314453125
   Escrow:
     properties:
-      escrowtype:
-        type: "string"
-      escrow:
+      _id:
         type: "string"
       time:
-        type: "string"
+        type: "number"
       seller:
         type: "string"
       arbiter:
         type: "string"
       buyer:
         type: "string"
+      witness:
+        type: "string"
       offer:
         type: "string"
-      offerlink_seller:
-        type: "string"
-      offertitle:
+      offer_price:
+        type: "number"
+      reseller:
         type: "string"
       quantity:
-        type: "string"
-      price:
-        type: "string"
-      systotal:
         type: "number"
-      sysfee:
-        type: "number"
-      fee:
-        type: "string"
-      total:
-        type: "string"
       total_with_fee:
+        type: "number"
+      total_without_fee:
+        type: "number"
+      bid_in_offer_currency_per_unit:
+        type: "number"
+      total_or_bid_in_payment_option_per_unit:
+        type: "number"
+      buynow:
+        type: "boolean"
+      commission:
+        type: "number"
+      arbiterfee:
+        type: "number"
+      networkfee:
+        type: "number"
+      witnessfee:
+        type: "number"
+      shipping:
+        type: "number"
+      deposit:
         type: "number"
       currency:
         type: "string"
@@ -3963,88 +3973,57 @@ definitions:
       escrowaddress:
         type: "string"
       paymentoption:
-        type: "number"
-      paymemntoption_display:
+        type: "string"
+      redeem_txid:
         type: "string"
       redeem_script:
         type: "string"
       txid:
         type: "string"
       height:
-        type: "string"
-      pay_message:
-        type: "string"
-      expired:
         type: "number"
+      role:
+        type: "number"
+      expired:
+        type: "boolean"
+      acknowledged:
+        type: "boolean"
       status:
         type: "number"
-      buyer_feedback:
-        type: "array"
-        items:
-          type: "string"
-      avg_buyer_rating:
-        type: "number"
-      seller_feedback:
-        type: "array"
-        items:
-          type: "string"
-      avg_seller_feedback:
-        type: "number"
-      arbiter_feedback:
-        type: "array"
-        items:
-          type: "string"
-      avg_arbiter_rating:
-        type: "number"
-      avg_rating_count:
-        type: "number"
-      avg_rating:
-        type: "number"
-      avg_rating_display:
-        type: "string"
     example:
-      escrowtype: "escrowtype"
       seller: "seller"
-      sysfee: 6.02745618307040320615897144307382404804229736328125
-      pay_message: "pay_message"
-      fee: "fee"
+      total_without_fee: 5.63737665663332876420099637471139430999755859375
+      role: 1.489415909854170383397331534069962799549102783203125
+      acknowledged: true
+      redeem_txid: "redeem_txid"
       offer: "offer"
-      total: "total"
-      paymemntoption_display: "paymemntoption_display"
-      expired: 5.63737665663332876420099637471139430999755859375
-      arbiter_feedback:
-      - "arbiter_feedback"
-      - "arbiter_feedback"
-      price: "price"
-      avg_rating: 4.1456080298839363962315474054776132106781005859375
-      escrow: "escrow"
-      systotal: 0.80082819046101150206595775671303272247314453125
+      expired: true
+      shipping: 7.3862819483858839220147274318151175975799560546875
+      arbiterfee: 3.61607674925191080461672754609026014804840087890625
+      commission: 9.301444243932575517419536481611430644989013671875
       currency: "currency"
       escrowaddress: "escrowaddress"
-      avg_rating_display: "avg_rating_display"
-      height: "height"
-      total_with_fee: 1.46581298050294517310021547018550336360931396484375
-      avg_seller_feedback: 9.301444243932575517419536481611430644989013671875
-      quantity: "quantity"
-      paymentoption: 5.962133916683182377482808078639209270477294921875
+      height: 1.024645700144157789424070870154537260532379150390625
+      total_with_fee: 5.962133916683182377482808078639209270477294921875
+      quantity: 1.46581298050294517310021547018550336360931396484375
+      witnessfee: 4.1456080298839363962315474054776132106781005859375
+      total_or_bid_in_payment_option_per_unit: 7.061401241503109105224211816675961017608642578125
+      paymentoption: "paymentoption"
+      networkfee: 2.027123023002321833274663731572218239307403564453125
+      reseller: "reseller"
       txid: "txid"
-      offerlink_seller: "offerlink_seller"
       buyer: "buyer"
+      offer_price: 6.02745618307040320615897144307382404804229736328125
+      witness: "witness"
       arbiter: "arbiter"
-      avg_arbiter_rating: 3.61607674925191080461672754609026014804840087890625
+      buynow: true
       exttxid: "exttxid"
-      seller_feedback:
-      - "seller_feedback"
-      - "seller_feedback"
-      offertitle: "offertitle"
+      deposit: 1.231513536777255612975068288506008684635162353515625
       redeem_script: "redeem_script"
-      avg_buyer_rating: 7.061401241503109105224211816675961017608642578125
-      time: "time"
-      buyer_feedback:
-      - "buyer_feedback"
-      - "buyer_feedback"
-      avg_rating_count: 2.027123023002321833274663731572218239307403564453125
-      status: 2.3021358869347654518833223846741020679473876953125
+      _id: "_id"
+      time: 0.80082819046101150206595775671303272247314453125
+      bid_in_offer_currency_per_unit: 2.3021358869347654518833223846741020679473876953125
+      status: 6.8468526983526398765889098285697400569915771484375
   EscrowRefundRequest:
     required:
     - "escrowguid"
@@ -6503,7 +6482,7 @@ definitions:
       feedbackuserto: 5.63737665663332876420099637471139430999755859375
       _id: "_id"
       time: 6.02745618307040320615897144307382404804229736328125
-  AliasNewFundRequest:
+  SyscoinTransactionFundRequest:
     properties:
       hexstring:
         type: "string"
