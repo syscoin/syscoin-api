@@ -3685,37 +3685,47 @@ definitions:
         type: number
   Escrow:
     properties:
-      escrowtype:
-        type: string
-      escrow:
+      _id:
         type: string
       time:
-        type: string
+        type: number
       seller:
         type: string
       arbiter:
         type: string
       buyer:
         type: string
+      witness:
+        type: string
       offer:
         type: string
-      offerlink_seller:
-        type: string
-      offertitle:
+      offer_price:
+        type: number
+      reseller:
         type: string
       quantity:
-        type: string
-      price:
-        type: string
-      systotal:
         type: number
-      sysfee:
-        type: number
-      fee:
-        type: string
-      total:
-        type: string
       total_with_fee:
+        type: number
+      total_without_fee:
+        type: number
+      bid_in_offer_currency_per_unit:
+        type: number
+      total_or_bid_in_payment_option_per_unit:
+        type: number
+      buynow:
+        type: boolean
+      commission:
+        type: number
+      arbiterfee:
+        type: number
+      networkfee:
+        type: number
+      witnessfee:
+        type: number
+      shipping:
+        type: number
+      deposit:
         type: number
       currency:
         type: string
@@ -3724,45 +3734,23 @@ definitions:
       escrowaddress:
         type: string
       paymentoption:
-        type: number
-      paymemntoption_display:
+        type: string
+      redeem_txid:
         type: string
       redeem_script:
         type: string
       txid:
         type: string
       height:
-        type: string
-      pay_message:
-        type: string
+        type: number
+      role:
+        type: number
       expired:
-        type: number #should be boolean but is 0/1
+        type: boolean
+      acknowledged:
+        type: boolean
       status:
         type: number
-      buyer_feedback:
-        type: array
-        items:
-          type: string
-      avg_buyer_rating:
-        type: number
-      seller_feedback:
-        type: array
-        items:
-          type: string
-      avg_seller_feedback:
-        type: number
-      arbiter_feedback:
-        type: array
-        items:
-          type: string
-      avg_arbiter_rating:
-        type: number
-      avg_rating_count:
-        type: number
-      avg_rating:
-        type: number
-      avg_rating_display:
-        type: string
   EscrowRefundRequest:
     required:
     - escrowguid
