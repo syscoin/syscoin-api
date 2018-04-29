@@ -4977,8 +4977,6 @@ definitions:
     - "alias"
     - "arbiter_alias"
     - "arbiter_fee"
-    - "bid_in_offer_currency"
-    - "bid_in_payment_option"
     - "buynow"
     - "extTx"
     - "getamountandaddress"
