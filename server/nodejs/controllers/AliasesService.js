@@ -16,7 +16,7 @@ exports.aliasbalance = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Alias balance:', result);
+    commonUtils.log('Alias balance:', result, "aliasbalance");
     res.end(JSON.stringify(result));
   };
 
@@ -36,7 +36,7 @@ exports.aliasinfo = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Alias info:', result);
+    commonUtils.log('Alias info:', result, "aliasinfo");
     res.end(JSON.stringify(result));
   };
 
@@ -63,7 +63,7 @@ exports.aliasnew = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Alias new:', result);
+    commonUtils.log('Alias new:', result, "aliasnew");
     res.end(JSON.stringify(result));
   };
 
@@ -86,7 +86,7 @@ exports.aliaspay = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Alias pay:', result);
+    commonUtils.log('Alias pay:', result, "aliaspay");
     res.end(JSON.stringify(result));
   };
 
@@ -114,7 +114,7 @@ exports.aliasupdate = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Alias update:', result);
+    commonUtils.log('Alias update:', result, "aliasupdate");
     res.end(JSON.stringify(result));
   };
 
@@ -134,7 +134,7 @@ exports.aliaswhitelist = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Alias whitelist:', result);
+    commonUtils.log('Alias whitelist:', result, "aliaswhitelist");
     res.end(JSON.stringify(result));
   };
 
@@ -157,7 +157,7 @@ exports.aliasclearwhitelist = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Alias clear whitelist:', result);
+    commonUtils.log('Alias clear whitelist:', result, "aliasclearwhitelist");
     res.end(JSON.stringify(result));
   };
 
@@ -179,7 +179,7 @@ exports.aliasupdatewhitelist = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('Alias update whitelist:', result);
+    commonUtils.log('Alias update whitelist:', result, "aliasupdatewhitelist");
     res.end(JSON.stringify(result));
   };
 
@@ -205,7 +205,7 @@ exports.aliasaddscript = function(args, res, next) {
       return commonUtils.reportError(res, err);
     }
 
-    console.log('aliasaddscript:', result);
+    commonUtils.log('Alias add script:', result, "aliasaddscript");
     res.end(JSON.stringify(result));
   };
 
