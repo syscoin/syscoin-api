@@ -25,6 +25,15 @@ function reportError(response, errorStr) {
  * @param args Values to be logged, last value should be the reporting method name (string)
  */
 function log(...args) {
+  // Temporary fix for the original logging so that in absence of config we exit.
+  if (!config) {
+    console.log(args);
+    return;
+  }
+  if (!config.methodsWithLoggingDisabled) {
+    console.log(args);
+    return;
+  }
   const reportingMethod = args[args.length-1];
   if(config.methodsWithLoggingDisabled.length > 0 && config.methodsWithLoggingDisabled.filter((item) => {
     return item == reportingMethod;
