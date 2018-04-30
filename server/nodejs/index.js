@@ -59,10 +59,6 @@ function initAPI() {
   console.log("RPCUSER:", rpcuser);
   console.log("RPCPASS:", rpcpass);
   console.log("RPCPORT:", rpcport);
-  console.log("DEBUGMODE:", config.debugEnabled);
-  if(config.debugEnabled) {
-    console.log("METHODS WITH LOGGING DISABLED:", config.methodsWithLoggingDisabled);
-  }
 
   syscoinClient = new SyscoinClient({
     host: 'localhost',

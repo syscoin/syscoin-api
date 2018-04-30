@@ -32,8 +32,8 @@ else if (process.env.APIRUNMODE.trim() === 'integrated') {
     `This is intended to be running off of an integrated instance (normally an official release) of syscoin.`,`integrated`);
 }
 
-config.debugEnabled = process.env.DEBUG || false;
-config.methodsWithLoggingDisabled = process.env.METHODS_WITH_LOGGING_DISABLED ? JSON.parse(process.env.METHODS_WITH_LOGGING_DISABLED) : [];
+config.methodsWithLoggingDisabled = process.env.METHODS_WITH_LOGGING_DISABLED ? process.env.METHODS_WITH_LOGGING_DISABLED.split(',') : [];
+console.log("METHODS: ", config.methodsWithLoggingDisabled);
 
 config.api_secret = "iamapisecret";
 config.secure = process.env.SECURE || true;
