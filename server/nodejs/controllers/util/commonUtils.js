@@ -26,7 +26,6 @@ function reportError(response, errorStr) {
  */
 function log(...args) {
   const reportingMethod = args[args.length-1];
-  console.log(reportingMethod);
   if(config.methodsWithLoggingDisabled.length > 0 && config.methodsWithLoggingDisabled.filter((item) => {
     return item == reportingMethod;
   }).length > 0) {
