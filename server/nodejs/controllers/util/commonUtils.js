@@ -52,4 +52,5 @@ function log(...args) {
 }
 
 module.exports.reportError = reportError;
+module.exports.parseError = parseError;
 module.exports.log = log;

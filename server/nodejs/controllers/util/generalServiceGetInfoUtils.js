@@ -1,13 +1,4 @@
-
-function getInfoResponseIsWalletPercentageResponse(jsonError) {
-    return jsonError 
-    && jsonError.code === -28
-    && jsonError.message
-    && jsonError.message.indexOf("(") !== -1
-    && jsonError.message.indexOf(" %)") !== -1;
-  }
-  
-  function createCustomWalletPercentageInfoResponse(walletPercentage) {
+function createCustomWalletPercentageInfoResponse(walletPercentage) {
     const infoObj = {
       version: -1,
       protocolversion: -1,
@@ -29,7 +20,7 @@ function getInfoResponseIsWalletPercentageResponse(jsonError) {
     return infoObj;
   }
   
-  function extractWalletPercentageFromGetInfoResponseMessage(jsonErrorMessage) {
+function extractWalletPercentageFromGetInfoResponseMessage(jsonErrorMessage) {
     if (!jsonErrorMessage) {
       return "0";
     }
@@ -42,8 +33,14 @@ function getInfoResponseIsWalletPercentageResponse(jsonError) {
     return jsonErrorMessage.substring(firstBracketIndex+1,endIndex-1); 
   }
 
-module.exports.generalServiceGetInfoUtils = {
-    createCustomWalletPercentageInfoResponse: createCustomWalletPercentageInfoResponse,
-    extractWalletPercentageFromGetInfoResponseMessage: extractWalletPercentageFromGetInfoResponseMessage,
-    getInfoResponseIsWalletPercentageResponse: getInfoResponseIsWalletPercentageResponse
-};
+function getInfoResponseIsWalletPercentageResponse(jsonError) {
+    return jsonError 
+    && jsonError.code === -28
+    && jsonError.message
+    && jsonError.message.indexOf("(") !== -1
+    && jsonError.message.indexOf(" %)") !== -1;
+  }
+
+module.exports.createCustomWalletPercentageInfoResponse = createCustomWalletPercentageInfoResponse;
+module.exports.extractWalletPercentageFromGetInfoResponseMessage  = extractWalletPercentageFromGetInfoResponseMessage;
+module.exports.getInfoResponseIsWalletPercentageResponse = getInfoResponseIsWalletPercentageResponse;
