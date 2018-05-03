@@ -1,6 +1,7 @@
 var syscoinClient = require('../index').syscoinClient;
 var varUtils = require('./util/varUtils');
 var commonUtils = require('./util/commonUtils');
+var generalServiceGetInfoUtils = require('./util/generalServiceGetInfoUtils');
 const he = require('he');
 
 exports.addmultisigaddress = function(args, res, next) {
@@ -322,7 +323,17 @@ exports.getinfo = function(args, res, next) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
-      return commonUtils.reportError(res, err);
+      let jsonError = commonUtils.parseError(err);
+      if (generalServiceGetInfoUtils.getInfoResponseIsWalletPercentageResponse(jsonError)) {
+        const walletPercentage = generalServiceGetInfoUtils.extractWalletPercentageFromGetInfoResponseMessage(jsonError.message);
+        const infoObj = generalServiceGetInfoUtils.createCustomWalletPercentageInfoResponse(walletPercentage);
+        commonUtils.log('Special Info:', infoObj, "getinfo");
+        res.end(JSON.stringify(infoObj));
+        return;
+      }
+      else {
+        return commonUtils.reportError(res, err);
+      }
     }
 
     commonUtils.log('Info:', result, "getinfo");
