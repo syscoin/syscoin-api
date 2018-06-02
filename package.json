@@ -1,7 +1,7 @@
 {
   "name": "@syscoinorg/syscoin-api",
   "description": "A full featured api for interacting with Syscoin commands both at an RPC level, as a REST API, and more.",
-  "version": "3.0.0",
+  "version": "3.0.0-beta",
   "main": "server.js",
   "keywords": [
     "syscoin",
