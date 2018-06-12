@@ -12,7 +12,7 @@ const cors = require('cors');
 
 //load external config
 const config = require('./config');
-const SyscoinClient = require('syscoin-core');
+const SyscoinClient = require('@syscoin/syscoin-core');
 const commonUtils = require('./controllers/util/commonUtils');
 
 let syscoinClient,
