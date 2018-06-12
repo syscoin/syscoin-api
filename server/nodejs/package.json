@@ -1,6 +1,6 @@
 {
-  "name": "syscoin-api",
-  "version": "3.0.0",
+  "name": "@syscoin/syscoin-nodejs",
+  "version": "3.0.0-beta",
   "description": "",
   "scripts": {
     "start": "node .",
@@ -16,7 +16,7 @@
     "swagger"
   ],
   "license": "MIT",
-  "private": true,
+  "private": false,
   "dependencies": {
     "assert": "^1.4.1",
     "chai": "^3.5.0",
