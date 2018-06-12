@@ -4452,7 +4452,7 @@ definitions:
       buynow:
         description: Specify whether the escrow involves purchasing offer for the full offer price if set to true, or through a bidding auction if set to false. If buynow is false, an initial deposit may be used to secure a bid if required by the seller.
         type: boolean
-      total_in_payment_option:
+      price_per_unit_in_payment_option:
         description: Total amount of the offer price. Amount is in paymentOption currency. It is per unit of purchase.
         type: number
       shipping_amount:
