@@ -4424,7 +4424,7 @@ definitions:
     - offer
     - quantity
     - buynow
-    - total_in_payment_option
+    - price_per_unit_in_payment_option
     - shipping_amount
     - network_fee
     - arbiter_fee

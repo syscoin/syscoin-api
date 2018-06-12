@@ -4987,7 +4987,6 @@ definitions:
     - "paymentoption"
     - "quantity"
     - "shipping_amount"
-    - "total_in_payment_option"
     - "witness_fee"
     properties:
       getamountandaddress:
