@@ -3706,7 +3706,7 @@ definitions:
       offer_price:
         type: number
       offer_title:
-        type: number
+        type: string
       reseller:
         type: string
       quantity:
