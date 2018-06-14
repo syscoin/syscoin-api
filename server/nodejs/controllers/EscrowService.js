@@ -136,7 +136,7 @@ exports.escrownew = function(args, res, next) {
     { prop: "offer" },
     { prop: "quantity" },
     { prop: "buynow" },
-    { prop: "total_in_payment_option" },
+    { prop: "price_per_unit_in_payment_option" },
     { prop: "shipping_amount" },
     { prop: "network_fee" },
     { prop: "arbiter_fee", defaultValue: 0.005 },
