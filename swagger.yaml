@@ -3706,7 +3706,7 @@ definitions:
       offer_price:
         type: number
       offer_title:
-        type: number
+        type: string
       reseller:
         type: string
       quantity:
@@ -4090,7 +4090,7 @@ definitions:
       exttxid:
         type: string
       paymentoption:
-        type: number
+        type: string
       paymentoption_display:
         type: string
       height:
@@ -4424,7 +4424,7 @@ definitions:
     - offer
     - quantity
     - buynow
-    - total_in_payment_option
+    - price_per_unit_in_payment_option
     - shipping_amount
     - network_fee
     - arbiter_fee
@@ -4452,7 +4452,7 @@ definitions:
       buynow:
         description: Specify whether the escrow involves purchasing offer for the full offer price if set to true, or through a bidding auction if set to false. If buynow is false, an initial deposit may be used to secure a bid if required by the seller.
         type: boolean
-      total_in_payment_option:
+      price_per_unit_in_payment_option:
         description: Total amount of the offer price. Amount is in paymentOption currency. It is per unit of purchase.
         type: number
       shipping_amount:
