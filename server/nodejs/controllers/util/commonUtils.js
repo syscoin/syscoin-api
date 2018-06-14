@@ -13,7 +13,7 @@ function reportError(response, errorStr) {
 
 function parseError(errorStr) {
   console.log("Error: " + errorStr);
-  //transform the RPC Error into a more Syscoin-specific error while maintaining the 500 status
+  //transform the RPC Error into a more Syscoin-specific error while maintaining the 500 status TWEAK
   const rpcErrorStr = "RpcError: 500 "; //with trailing space!
   let errObjStartIndex = errorStr.toString().indexOf(rpcErrorStr);
   let errObj;
