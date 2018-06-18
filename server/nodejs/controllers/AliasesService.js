@@ -3,46 +3,13 @@ var varUtils = require('./util/varUtils');
 var commonUtils = require('./util/commonUtils');
 var methodGenerator = require('./util/methodGenerator');
 
-/* Changed */
-exports.aliasbalance = function(args, res, next) {
-  var argList = [
-    { prop: "alias" }
-  ];
+exports.aliasbalance = methodGenerator.generateGenericSyscoinMethod([
+  { prop: "alias" }
+], syscoinClient.aliasBalance, 'aliasbalance', 'GET');
 
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    commonUtils.log('Alias balance:', result, "aliasbalance");
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.aliasBalance.apply(syscoinClient, arr);
-}
-
-exports.aliasinfo = function(args, res, next) {
-  var argList = [
-    { prop: "aliasname" }
-  ];
-
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    commonUtils.log('Alias info:', result, "aliasinfo");
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.aliasInfo.apply(syscoinClient, arr);
-}
+exports.aliasinfo = methodGenerator.generateGenericSyscoinMethod([
+  { prop: "aliasname" }
+], syscoinClient.aliasInfo, 'aliasinfo', 'GET');
 
 exports.aliasnew = function(args, res, next) {
   var argList = [
@@ -187,10 +154,10 @@ exports.aliasupdatewhitelist = function(args, res, next) {
   syscoinClient.aliasUpdateWhitelist.apply(syscoinClient, arr);
 }
 
-exports.syscointxfund = methodGenerator.generateGenericSyscoinMethod([
-  { prop: 'hexstring' },
-  { prop: 'addresses' }
-], syscoinClient.syscoinTxFund, 'syscointxfund', 'POST');
+ exports.syscointxfund = methodGenerator.generateGenericSyscoinMethod([
+   { prop: 'hexstring' },
+   { prop: 'addresses' }
+ ], syscoinClient.syscoinTxFund, 'syscointxfund', 'POST');
 
 
 exports.aliasaddscript = function(args, res, next) {

@@ -198,7 +198,7 @@ if(!inputStreamError && !config.run_as_subprocess) {
 }
 
 module.exports.startServer = startServer;
-
+module.exports.app = app;
 
 
 

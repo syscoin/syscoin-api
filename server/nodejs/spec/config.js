@@ -3,7 +3,7 @@ module.exports = {
   DEBUG_ENABLED: false,
 
   TEST_ALIAS_PEG: "sysrates.peg",
-  TEST_ALIAS: "testuser",
+  TEST_ALIAS: "lucifer",
   TEST_ALIAS_PASSWORD: "testpassword",
 
   TEST_OFFER_GUID: "02ac590247af2d48",
