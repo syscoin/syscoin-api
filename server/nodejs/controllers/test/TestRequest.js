@@ -6,7 +6,7 @@ chai.use(chaiHttp);
 const requester = chai.request(app).keepOpen();
 
 module.exports = {
-  request: function (httpMethod, path, queryParams, authToken) {
+  request: function (httpMethod, path, queryParams, authToken, body = null) {
     let request
     switch (httpMethod) {
       case 'GET':
@@ -22,6 +22,11 @@ module.exports = {
     if (queryParams) {
       request.query(queryParams);
     }
+
+    if (body) {
+      request.send(body);
+    }
+
     request.set({ 'token': authToken, 'content-type': 'application/json' })
     return request;
   }
