@@ -38,50 +38,18 @@ exports.assetallocationsend = methodGenerator.generateGenericSyscoinMethod([
   { prop: "witness" }
 ], syscoinClient.assetAllocationSend, 'assetallocationsend', 'POST');
 
-exports.assetallocationsenderstatus = function (args, res, next) {
-  var argList = [
-    { prop: "asset" },
-    { prop: "sender" },
-    { prop: "txid" }
-  ];
+exports.assetallocationsenderstatus = methodGenerator.generateGenericSyscoinMethod([
+  { prop: "asset" },
+  { prop: "sender" },
+  { prop: "txid" }
+], syscoinClient.assetAllocationSenderStatus, 'assetallocationsenderstatus', 'GET');
 
-  var cb = function (err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('asset allocation sender status', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.assetAllocationSenderStatus.apply(syscoinClient, arr);
-}
-
-exports.assettransfer = function (args, res, next) {
-  var argList = [
-    { prop: "asset" },
-    { prop: "alias" },
-    { prop: "certkey" },
-    { prop: "witness" }
-  ];
-
-  var cb = function (err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('asset transfer', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.assetTransfer.apply(syscoinClient, arr);
-}
+exports.assettransfer = methodGenerator.generateGenericSyscoinMethod([
+  { prop: "asset" },
+  { prop: "alias" },
+  { prop: "certkey" },
+  { prop: "witness" }
+], syscoinClient.assetTransfer, 'assettransfer', 'POST');
 
 exports.assetupdate = function (args, res, next) {
   var argList = [

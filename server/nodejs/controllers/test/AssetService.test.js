@@ -207,4 +207,46 @@ describe("Tests for Asset Service API", function () {
     });
   });
 
+  describe('assetallocationsenderstatus', function () {
+    it("Show status as it pertains to any current Z-DAG conflicts...", function (done) {
+
+      const params = {
+        'asset': Config.TEST_EXISTING_ASSET_RANGES_GUID,
+        'sender': Config.TEST_EXISTING_ALIAS1,
+        'txid': Config.TEST_EXISTING_TXID
+      };
+
+      request('GET', 'assetallocationsenderstatus', params, testAuthToken, null)
+        .end(function (err, res) {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res).to.have.header('content-type', 'application/json');
+          expect(res).to.be.json;
+          //TO-DO: response schema validation
+          done();
+        });
+    });
+  });
+
+  describe('assettransfer', function () {
+    it("Transfer a asset allocation you own to another alias", function (done) {
+
+      const body = {
+        "asset": Config.TEST_EXISTING_ASSET_AMOUNTS_GUID,
+        "alias": Config.TEST_EXISTING_ALIAS1,
+        "witness": ""
+      };
+
+      request('POST', 'assettransfer', null, testAuthToken, body)
+        .end(function (err, res) {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res).to.have.header('content-type', 'application/json');
+          expect(res).to.be.json;
+          //TO-DO: response schema validation
+          done();
+        });
+    });
+  });
+
 });
