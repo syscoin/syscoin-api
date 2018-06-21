@@ -2,14 +2,13 @@
 const expect = require("chai").expect;
 const request = require("./TestRequest").request;
 const AuthHelper = require("../spec/helper/authHelper");
-const Config = require("../../spec/config");
+const Config = require("./config");
 
 let testAuthToken;
 
 describe("Tests for Aliases Service API", function () {
 
   before(function (done) {
-    console.log("------------- before -------------")
     let requestOptions = AuthHelper.requestOptions();
     if (requestOptions) {
       testAuthToken = requestOptions.headers.token
@@ -20,7 +19,7 @@ describe("Tests for Aliases Service API", function () {
   describe('aliasbalance', function () {
     it("Returns balance for alias", function (done) {
 
-      const params = { 'alias': Config.TEST_ALIAS };
+      const params = { 'alias': Config.TEST_EXISTING_ALIAS1 };
 
       request('GET', 'aliasbalance', params, testAuthToken)
         .end(function (err, res) {
@@ -37,7 +36,7 @@ describe("Tests for Aliases Service API", function () {
   describe('aliasinfo', function () {
     it("Returns information about an alias", function (done) {
 
-      const params = { 'aliasname': Config.TEST_ALIAS };
+      const params = { 'aliasname': Config.TEST_EXISTING_ALIAS1 };
 
       request('GET', 'aliasinfo', params, testAuthToken)
         .end(function (err, res) {
@@ -59,7 +58,7 @@ describe("Tests for Aliases Service API", function () {
         "publicvalue": "public value",
         "accept_transfers_flags": 1,
         "expire_timestamp": 1560902147,
-        "address": "12345",
+        "address": Config.TEST_EXISTING_ADDRESS1,
         "encryption_privatekey": "12345",
         "encryption_publickey": "12345",
         "witness": ""
@@ -81,11 +80,10 @@ describe("Tests for Aliases Service API", function () {
     it("Send from an alias", function (done) {
 
       const body = {
-        "aliasfrom": Config.TEST_ALIAS,
+        "aliasfrom": Config.TEST_EXISTING_ALIAS1,
         "amounts":
         {
-          "TT9LtA6xD2vMSdHH2zpYieQGw1GTJoT1hM": 2,
-          "TN2cpCVJLCpQT2xSJdLZd9BgJmom45hqCi": 1
+          [Config.TEST_EXISTING_ADDRESS1]: 0.001
         },
         "instantsend": true,
         "subtractfeefromamount": []
@@ -107,9 +105,9 @@ describe("Tests for Aliases Service API", function () {
     it("Updates alias", function (done) {
 
       const body = {
-        "aliasname": Config.TEST_ALIAS,
+        "aliasname": Config.TEST_EXISTING_ALIAS1,
         "publicvalue": "updated public value",
-        "address": Config.TEST_ADDRESS,
+        "address": Config.TEST_EXISTING_ADDRESS1,
         "accept_transfers_flags": 1,
         "expire_timestamp": 1560902147,
         "encryption_privatekey": "12345",
@@ -132,7 +130,7 @@ describe("Tests for Aliases Service API", function () {
   describe('aliaswhitelist', function () {
     it("List all affiliates for this alias (white list)", function (done) {
 
-      const params = { 'aliasname': Config.TEST_ALIAS };
+      const params = { 'aliasname': Config.TEST_EXISTING_ALIAS1 };
 
       request('GET', 'aliaswhitelist', params, testAuthToken, null)
         .end(function (err, res) {
@@ -150,7 +148,7 @@ describe("Tests for Aliases Service API", function () {
     it("Clear aliases' whitelist", function (done) {
 
       const body = {
-        "owneralias": Config.TEST_ALIAS,
+        "owneralias": Config.TEST_EXISTING_ALIAS1,
         "witness": ""
       };
 
@@ -177,7 +175,7 @@ describe("Tests for Aliases Service API", function () {
     it("Update to the whitelist", function (done) {
 
       const body = {
-        "owneralias": Config.TEST_ALIAS,
+        "owneralias": Config.TEST_EXISTING_ALIAS1,
         "entries": [
           {
             "alias": "test",
@@ -200,29 +198,24 @@ describe("Tests for Aliases Service API", function () {
   });
 
   /* not clear yet how the request looks like*/
-  // describe('syscointxfund', function () {
-  //   it("Funds a new syscoin transaction", function (done) {
+  describe('syscointxfund', function () {
+    it("Funds a new syscoin transaction", function (done) {
 
-  //     const body = {
-  //       "addresses": [
-  //         "TT9LtA6xD2vMSdHH2zpYieQGw1GTJoT1hM",
-  //         "TN2cpCVJLCpQT2xSJdLZd9BgJmom45hqCi"
-  //       ],
-  //       "hexstring": "00740000000130750000000000006251510974657374616c69617310633038376239643762313634663034354035353336393761303838353139326563313936336437396366333636663062626630643562353738313031306161333238616566393463366436303534626631006d6d6d00000000",
-  //       "instantsend": true
-  //     };
+      const body = {
+        "hexstring": Config.TEST_TRX_HEX_STRING
+      };
 
-  //     request('POST', 'syscointxfund', null, testAuthToken, body)
-  //       .end(function (err, res) {
-  //         expect(err).to.be.null;
-  //         expect(res).to.have.status(200);
-  //         expect(res).to.have.header('content-type', 'application/json');
-  //         expect(res).to.be.json;
-  //         //TO-DO: response schema validation
-  //         done();
-  //       });
-  //   });
-  // });
+      request('POST', 'syscointxfund', null, testAuthToken, body)
+        .end(function (err, res) {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res).to.have.header('content-type', 'application/json');
+          expect(res).to.be.json;
+          //TO-DO: response schema validation
+          done();
+        });
+    });
+  });
 
   describe('aliasaddscript', function () {
     it("Add redeemscript to alias", function (done) {
