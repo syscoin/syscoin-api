@@ -1,86 +1,64 @@
-var syscoinClient = require('../index').syscoinClient;
-var varUtils = require('./util/varUtils');
-var commonUtils = require('./util/commonUtils');
-var methodGenerator = require('./util/methodGenerator');
+const syscoinClient = require('../index').syscoinClient;
+const DataType = require('./util/varUtils').DataType;
+const methodGenerator = require('./util/methodGenerator');
 
-//assets
+module.exports = {
+  assetallocationcollectinterest: methodGenerator.generateGenericSyscoinMethod([
+    { prop: 'asset' },
+    { prop: 'alias' },
+    { prop: 'witness' }
+  ], syscoinClient.assetAllocationCollectInterest, 'assetallocationcollectinterest', 'POST'),
 
-exports.assetallocationcollectinterest = methodGenerator.generateGenericSyscoinMethod([
-  { prop: 'asset' },
-  { prop: 'alias' },
-  { prop: 'witness' }
-], syscoinClient.assetAllocationCollectInterest, 'assetallocationcollectinterest', 'POST');
+  assetinfo: methodGenerator.generateGenericSyscoinMethod([
+    { prop: "asset" },
+    { prop: "getinputs", defaultValue: true }
+  ], syscoinClient.assetInfo, 'assetinfo', 'GET'),
 
-exports.assetinfo = methodGenerator.generateGenericSyscoinMethod([
-  { prop: "asset" },
-  { prop: "getinputs", defaultValue: true }
-], syscoinClient.assetInfo, 'assetinfo', 'GET');
+  assetsend: methodGenerator.generateGenericSyscoinMethod([
+    { prop: "asset" },
+    { prop: "aliasfrom" },
+    { prop: "amounts" },
+    { prop: "memo" },
+    { prop: "witness" }
+  ], syscoinClient.assetSend, 'assetsend', 'POST'),
 
-exports.assetsend = methodGenerator.generateGenericSyscoinMethod([
-  { prop: "asset" },
-  { prop: "aliasfrom" },
-  { prop: "amounts" },
-  { prop: "memo" },
-  { prop: "witness" }
-], syscoinClient.assetSend, 'assetsend', 'POST');
+  assetallocationinfo: methodGenerator.generateGenericSyscoinMethod([
+    { prop: "asset" },
+    { prop: "alias" },
+    { prop: "getinputs", defaultValue: true }
+  ], syscoinClient.assetAllocationInfo, 'assetallocationinfo', 'GET'),
 
-exports.assetallocationinfo = methodGenerator.generateGenericSyscoinMethod([
-  { prop: "asset" },
-  { prop: "alias" },
-  { prop: "getinputs", defaultValue: true }
-], syscoinClient.assetAllocationInfo, 'assetallocationinfo', 'GET');
+  assetallocationsend: methodGenerator.generateGenericSyscoinMethod([
+    { prop: "asset" },
+    { prop: "aliasfrom" },
+    { prop: "amounts" },
+    { prop: "memo" },
+    { prop: "witness" }
+  ], syscoinClient.assetAllocationSend, 'assetallocationsend', 'POST'),
 
-exports.assetallocationsend = methodGenerator.generateGenericSyscoinMethod([
-  { prop: "asset" },
-  { prop: "aliasfrom" },
-  { prop: "amounts" },
-  { prop: "memo" },
-  { prop: "witness" }
-], syscoinClient.assetAllocationSend, 'assetallocationsend', 'POST');
+  assetallocationsenderstatus: methodGenerator.generateGenericSyscoinMethod([
+    { prop: "asset" },
+    { prop: "sender" },
+    { prop: "txid" }
+  ], syscoinClient.assetAllocationSenderStatus, 'assetallocationsenderstatus', 'GET'),
 
-exports.assetallocationsenderstatus = methodGenerator.generateGenericSyscoinMethod([
-  { prop: "asset" },
-  { prop: "sender" },
-  { prop: "txid" }
-], syscoinClient.assetAllocationSenderStatus, 'assetallocationsenderstatus', 'GET');
+  assettransfer: methodGenerator.generateGenericSyscoinMethod([
+    { prop: "asset" },
+    { prop: "alias" },
+    { prop: "certkey" },
+    { prop: "witness" }
+  ], syscoinClient.assetTransfer, 'assettransfer', 'POST'),
 
-exports.assettransfer = methodGenerator.generateGenericSyscoinMethod([
-  { prop: "asset" },
-  { prop: "alias" },
-  { prop: "certkey" },
-  { prop: "witness" }
-], syscoinClient.assetTransfer, 'assettransfer', 'POST');
-
-exports.assetupdate = function (args, res, next) {
-  var argList = [
+  assetupdate: methodGenerator.generateGenericSyscoinMethod([
     { prop: "asset", },
     { prop: "publicvalue", },
     { prop: "category", },
-    { prop: "supply", },
+    { prop: "supply", syscoinType: DataType.STRING },
     { prop: "interest_rate", },
     { prop: "witness", }
+  ], syscoinClient.assetUpdate, 'assetupdate', 'POST'),
 
-  ];
-
-  args.request.value.supply = varUtils.correctTypes(args.request.value.supply, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
-
-  var cb = function (err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('asset update', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.assetUpdate.apply(syscoinClient, arr);
-}
-
-exports.assetnew = function (args, res, next) {
-  var argList = [
+  assetnew: methodGenerator.generateGenericSyscoinMethod([
     { prop: "symbol", },
     { prop: "alias", },
     { prop: "publicvalue", },
@@ -88,26 +66,9 @@ exports.assetnew = function (args, res, next) {
     { prop: "precision", },
     { prop: "use_inputranges", },
     { prop: "supply", },
-    { prop: "max_supply", },
+    { prop: "max_supply", syscoinType: DataType.STRING },
     { prop: "interest_rate", },
     { prop: "can_adjust_interest_rate", },
     { prop: "witness", }
-  ];
-
-
-  args.request.value.max_supply = varUtils.correctTypes(args.request.value.max_supply, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
-
-  var cb = function (err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('asset update', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.assetNew.apply(syscoinClient, arr);
+  ], syscoinClient.assetNew, 'assetnew', 'POST')
 }

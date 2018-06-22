@@ -249,4 +249,57 @@ describe("Tests for Asset Service API", function () {
     });
   });
 
+  describe('assetupdate', function () {
+    it("Perform an update on an asset you control", function (done) {
+
+      const body = {
+        "asset": Config.TEST_EXISTING_ASSET_RANGES_GUID,
+        "supply": 10,
+        "category": "assets > assets",
+        "publicvalue": "updated asset",
+        "interest_rate": 0,
+        "witness": "",
+        "test": 123
+      };
+
+      request('POST', 'assetupdate', null, testAuthToken, body)
+        .end(function (err, res) {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res).to.have.header('content-type', 'application/json');
+          expect(res).to.be.json;
+          //TO-DO: response schema validation
+          done();
+        });
+    });
+  });
+
+  describe('assetnew', function () {
+    it("Creating a new asset", function (done) {
+
+      const body = {
+        "symbol": "SYMBOL1",
+        "alias": Config.TEST_EXISTING_ALIAS1,
+        "category": "assets > assets",
+        "supply": 500000,
+        "max_supply": 1000000000,
+        "use_inputranges": false,
+        "interest_rate": 0.039900000000000005,
+        "can_adjust_interest_rate": true,
+        "publicvalue": "precious",
+        "witness": "",
+        "precision": 0
+      };
+
+      request('POST', 'assetnew', null, testAuthToken, body)
+        .end(function (err, res) {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res).to.have.header('content-type', 'application/json');
+          expect(res).to.be.json;
+          //TO-DO: response schema validation
+          done();
+        });
+    });
+  });
 });
