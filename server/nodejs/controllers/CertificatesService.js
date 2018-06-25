@@ -1,99 +1,32 @@
 var syscoinClient = require('../index').syscoinClient;
-var varUtils = require('./util/varUtils');
-var commonUtils = require('./util/commonUtils');
+const methodGenerator = require('./util/methodGenerator');
 
-exports.certinfo = function(args, res, next) {
-  var argList = [
+module.exports = {
+  certinfo: methodGenerator.generateGenericSyscoinMethod([
     { prop: "guid" }
-  ];
-  
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
+  ], syscoinClient.certInfo, 'certinfo', 'GET'),
 
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('Cert info:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.certInfo.apply(syscoinClient, arr);
-}
-
-/* Changed */
-exports.certnew = function(args, res, next) {
-  var argList = [
+  certnew: methodGenerator.generateGenericSyscoinMethod([
     { prop: "alias" },
     { prop: "title" },
     { prop: "publicvalue" },
     { prop: "category", defaultValue: "certificates" },
-    { prop: "witness"}
-  ];
+    { prop: "witness" }
+  ], syscoinClient.certNew, 'certnew', 'POST'),
 
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('Cert new:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.certNew.apply(syscoinClient, arr);
-}
-
-/* Changed */
-exports.certtransfer = function(args, res, next) {
-  var argList = [
+  certtransfer: methodGenerator.generateGenericSyscoinMethod([
     { prop: "guid" },
     { prop: "alias" },
     { prop: "publicvalue" },
-    { prop: "accessflags",},
-    { prop: "witness" },
-  ];
+    { prop: "accessflags", },
+    { prop: "witness" }
+  ], syscoinClient.certTransfer, 'certtransfer', 'POST'),
 
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('Cert transfer:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.certTransfer.apply(syscoinClient, arr);
-}
-
-/* Changed */
-exports.certupdate = function(args, res, next) {
-  var argList = [
+  certupdate: methodGenerator.generateGenericSyscoinMethod([
     { prop: "guid" },
     { prop: "title" },
     { prop: "publicvalue" },
     { prop: "category", defaultValue: "certificates" },
-    { prop: "witness" },
-  ];
-
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('Cert Update:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.certUpdate.apply(syscoinClient, arr);
-}
-
+    { prop: "witness" }
+  ], syscoinClient.certUpdate, 'certupdate', 'POST')
+};

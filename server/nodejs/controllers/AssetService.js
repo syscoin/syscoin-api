@@ -71,4 +71,4 @@ module.exports = {
     { prop: "can_adjust_interest_rate", },
     { prop: "witness", }
   ], syscoinClient.assetNew, 'assetnew', 'POST')
-}
+};
