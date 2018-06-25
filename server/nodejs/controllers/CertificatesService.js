@@ -1,4 +1,4 @@
-var syscoinClient = require('../index').syscoinClient;
+const syscoinClient = require('../index').syscoinClient;
 const methodGenerator = require('./util/methodGenerator');
 
 module.exports = {
