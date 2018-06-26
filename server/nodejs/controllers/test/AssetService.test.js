@@ -146,7 +146,7 @@ describe("Tests for Asset Service API", function () {
     });
   });
 
-  describe('assetallocationsend amount', function () {
+  describe('assetallocationsend', function () {
     it("Send an asset allocation you own to another alias (use amounts)", function (done) {
 
       const body = {
@@ -172,9 +172,7 @@ describe("Tests for Asset Service API", function () {
           done();
         });
     });
-  });
 
-  describe('assetallocationsend ranges', function () {
     it("Send an asset allocation you own to another alias (use ranges)", function (done) {
 
       const body = {
