@@ -36,6 +36,14 @@ describe("Tests for Blockmarket Service API", function () {
         done();
       });
     });
+
+    it("Login attempt with no auth hash provided", function (done) {
+      request("GET", "login", null, null).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(400);
+        done();
+      });
+    });
   });
 
 });
