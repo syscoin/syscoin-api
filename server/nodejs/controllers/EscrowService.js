@@ -1,135 +1,71 @@
-var syscoinClient = require('../index').syscoinClient;
-var varUtils = require('./util/varUtils');
-var commonUtils = require('./util/commonUtils');
+const syscoinClient = require('../index').syscoinClient;
+const varUtils = require('./util/varUtils');
+const commonUtils = require('./util/commonUtils');
+const methodGenerator = require('./util/methodGenerator');
 
-/* Changed */
-exports.escrowacknowledge = function(args, res, next) {
-  var argList = [
+module.exports = {
+  escrowacknowledge: methodGenerator.generateGenericSyscoinMethod([
     { prop: "escrowguid" },
     { prop: "witness" }
-  ];
+  ], syscoinClient.escrowAcknowledge, 'escrowacknowledge', 'POST'),
 
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('Escrow acknowledge:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.escrowAcknowledge.apply(syscoinClient, arr);
-}
-
-/*Changed */
-exports.escrowcompleterefund = function(args, res, next) {
-  var argList = [
+  escrowcompleterefund: methodGenerator.generateGenericSyscoinMethod([
     { prop: "escrowguid" },
-    { prop: "rawtx"},
+    { prop: "rawtx" },
     { prop: "witness" }
-  ];
+  ], syscoinClient.escrowCompleteRefund, 'escrowcompleterefund', 'POST'),
 
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('Escrow complete refund:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.escrowCompleteRefund.apply(syscoinClient, arr);
-}
-
-/* Changed */
-exports.escrowcompleterelease = function(args, res, next) {
-  var argList = [
+  escrowcompleterelease: methodGenerator.generateGenericSyscoinMethod([
     { prop: "escrowguid" },
-    { prop: "rawtx"},
-    { porp: "witness", defaultValue: "" }
-  ];
+    { prop: "rawtx" },
+    { prop: "witness" }
+  ], syscoinClient.escrowCompleteRelease, 'escrowcompleterelease', 'POST'),
 
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('Escrow complete release:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.escrowCompleteRelease.apply(syscoinClient, arr);
-}
-
-/* Changed */
-exports.escrowfeedback = function(args, res, next) {
-  var argList = [
+  escrowfeedback: methodGenerator.generateGenericSyscoinMethod([
     { prop: "escrowguid" },
     { prop: "userfrom" },
     { prop: "feedback" },
     { prop: "rating" },
     { prop: "userto" },
-    { prop: "witness" },
-  ];
+    { prop: "witness" }
+  ], syscoinClient.escrowFeedback, 'escrowfeedback', 'POST'),
 
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
+  /*
+  * This method below (escrowlist) is not part of API specs. All requests to it generate 404 error.
+  * It's most likely deprecated
+  */
+  escrowlist: function (args, res, next) {
+    var argList = [
+      { prop: "buyerAliases", defaultValue: [] },
+      { prop: "sellerAliases", defaultValue: [] },
+      { prop: "arbiterAliases", defaultValue: [] },
+      { prop: "escrow", defaultValue: "" },
+      { prop: "count", defaultValue: "10" },
+      { prop: "from", defaultValue: "0" }
+    ];
 
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
+    args.buyerAliases.value = varUtils.correctTypes(args.buyerAliases.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+    args.sellerAliases.value = varUtils.correctTypes(args.sellerAliases.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+    args.arbiterAliases.value = varUtils.correctTypes(args.arbiterAliases.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+    args.count.value = varUtils.correctTypes(args.count.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+    args.from.value = varUtils.correctTypes(args.from.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
 
-    console.log('Escrow feedback:', result);
-    res.end(JSON.stringify(result));
-  };
+    var cb = function (err, result, resHeaders) {
+      res.setHeader('Content-Type', 'application/json');
 
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.escrowFeedback.apply(syscoinClient, arr);
-}
+      if (err) {
+        return commonUtils.reportError(res, err);
+      }
 
-exports.escrowlist = function(args, res, next) {
-  var argList = [
-    { prop: "buyerAliases", defaultValue: [] },
-    { prop: "sellerAliases", defaultValue: [] },
-    { prop: "arbiterAliases", defaultValue: [] },
-    { prop: "escrow", defaultValue: "" },
-    { prop: "count", defaultValue: "10" },
-    { prop: "from", defaultValue: "0" }
-  ];
+      console.log('Escrow list:', result);
+      res.end(JSON.stringify(result));
+    };
 
-  args.buyerAliases.value = varUtils.correctTypes(args.buyerAliases.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
-  args.sellerAliases.value = varUtils.correctTypes(args.sellerAliases.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
-  args.arbiterAliases.value = varUtils.correctTypes(args.arbiterAliases.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
-  args.count.value = varUtils.correctTypes(args.count.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
-  args.from.value = varUtils.correctTypes(args.from.value, varUtils.TYPE_CONVERSION.NUM_TO_STRING);
+    var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+    syscoinClient.escrowList.apply(syscoinClient, arr);
+  },
 
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('Escrow list:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.escrowList.apply(syscoinClient, arr);
-}
-
-/* Changed*/ 
-exports.escrownew = function(args, res, next) {
-  var argList = [
+  escrownew: methodGenerator.generateGenericSyscoinMethod([
     { prop: "getamountandaddress" },
     { prop: "alias" },
     { prop: "arbiter_alias" },
@@ -145,139 +81,39 @@ exports.escrownew = function(args, res, next) {
     { prop: "paymentoption", defaultValue: "SYS" },
     { prop: "bid_in_payment_option" },
     { prop: "bid_in_offer_currency" },
-    { prop: "witness" },
+    { prop: "witness" }
+  ], syscoinClient.escrowNew, 'escrownew', 'POST'),
 
-  ];
-
-  if(varUtils.notNullOrUndefined(args.request.value.height))
-    args.request.value.height = args.request.value.height.toString(); //number to string
-
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('Escrow new:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.escrowNew.apply(syscoinClient, arr);
-}
-
-/* Changed */
-exports.escrowrefund = function(args, res, next) {
-  var argList = [
+  escrowrefund: methodGenerator.generateGenericSyscoinMethod([
     { prop: "escrowguid" },
     { prop: "userrole" },
     { prop: "rawtx" },
     { prop: "witness" }
-  ];
+  ], syscoinClient.escrowRefund, 'escrowrefund', 'POST'),
 
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('Escrow refund:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.escrowRefund.apply(syscoinClient, arr);
-}
-
-/* Changed */
-exports.escrowrelease = function(args, res, next) {
-  var argList = [
+  escrowrelease: methodGenerator.generateGenericSyscoinMethod([
     { prop: "escrowguid" },
     { prop: "userrole" },
     { prop: "rawtx" },
     { prop: "witness" }
-  ];
+  ], syscoinClient.escrowRelease, 'escrowrelease', 'POST'),
 
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('Escrow release:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.escrowRelease.apply(syscoinClient, arr);
-}
-
-exports.escrowbid = function(args, res, next) {
-  var argList = [
+  escrowbid: methodGenerator.generateGenericSyscoinMethod([
     { prop: "alias" },
     { prop: "escrow" },
     { prop: "bid_in_offer_currency" },
     { prop: "bid_in_payment_option" },
     { prop: "witness" }
-  ];
+  ], syscoinClient.escrowBid, 'escrowbid', 'POST'),
 
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('Generate Escrow escrowbid:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.escrowBid.apply(syscoinClient, arr);
-};
-
-exports.escrowcreaterawtransaction = function(args, res, next) {
-  var argList = [
+  escrowcreaterawtransaction: methodGenerator.generateGenericSyscoinMethod([
     { prop: "type" },
     { prop: "escrowguid" },
     { prop: "inputs" },
     { prop: "role" }
-  ];
+  ], syscoinClient.escrowCreateRawTransaction, 'escrowcreaterawtransaction', 'POST'),
 
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('Generate Escrow escrowcreaterawtransaction:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.escrowCreateRawTransaction.apply(syscoinClient, arr);
-};
-
-exports.escrowinfo = function(args, res, next) {
-  var argList = [
+  escrowinfo: methodGenerator.generateGenericSyscoinMethod([
     { prop: "escrowguid" }
-  ];
-
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('Generate Escrow escrowinfo:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.escrowInfo.apply(syscoinClient, arr);
+  ], syscoinClient.escrowInfo, 'escrowinfo', 'GET')
 };

@@ -1,214 +1,65 @@
-var syscoinClient = require('../index').syscoinClient;
-var varUtils = require('./util/varUtils');
-var commonUtils = require('./util/commonUtils');
-var methodGenerator = require('./util/methodGenerator');
+const syscoinClient = require('../index').syscoinClient;
+const methodGenerator = require('./util/methodGenerator');
 
-/* Changed */
-exports.aliasbalance = function(args, res, next) {
-  var argList = [
+module.exports = {
+  aliasbalance: methodGenerator.generateGenericSyscoinMethod([
     { prop: "alias" }
-  ];
+  ], syscoinClient.aliasBalance, 'aliasbalance', 'GET'),
 
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    commonUtils.log('Alias balance:', result, "aliasbalance");
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.aliasBalance.apply(syscoinClient, arr);
-}
-
-exports.aliasinfo = function(args, res, next) {
-  var argList = [
+  aliasinfo: methodGenerator.generateGenericSyscoinMethod([
     { prop: "aliasname" }
-  ];
+  ], syscoinClient.aliasInfo, 'aliasinfo', 'GET'),
 
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    commonUtils.log('Alias info:', result, "aliasinfo");
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.aliasInfo.apply(syscoinClient, arr);
-}
-
-exports.aliasnew = function(args, res, next) {
-  var argList = [
+  aliasnew: methodGenerator.generateGenericSyscoinMethod([
     { prop: "aliasname" },
     { prop: "publicvalue" },
     { prop: "accept_transfers_flags", defaultValue: 3 },
     { prop: "expire_timestamp", defaultValue: 3600 },
-    { prop: "address"},
-    { prop: "encryption_privatekey"},
-    { prop: "encryption_publickey"},
-    { prop: "witness"}
-  ];
+    { prop: "address" },
+    { prop: "encryption_privatekey" },
+    { prop: "encryption_publickey" },
+    { prop: "witness" }
+  ], syscoinClient.aliasNew, 'aliasnew', 'POST'),
 
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    commonUtils.log('Alias new:', result, "aliasnew");
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.aliasNew.apply(syscoinClient, arr);
-}
-
-exports.aliaspay = function(args, res, next) {
-  var argList = [
+  aliaspay: methodGenerator.generateGenericSyscoinMethod([
     { prop: "aliasfrom" },
     { prop: "amounts" },
-    { prop: "instantsend"},
-    { prop: "subtractfeefromamount"}
-  ];
+    { prop: "instantsend" },
+    { prop: "subtractfeefromamount" }
+  ], syscoinClient.aliasPay, 'aliaspay', 'POST'),
 
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    commonUtils.log('Alias pay:', result, "aliaspay");
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.aliasPay.apply(syscoinClient, arr);
-}
-
-exports.aliasupdate = function(args, res, next) {
-  //TODO: update core RPC docs on param ordering- order of this array MATTERS!!!!
-  var argList = [
+  aliasupdate: methodGenerator.generateGenericSyscoinMethod([
     { prop: "aliasname" },
     { prop: "publicvalue" },
-    { prop: "address"},
+    { prop: "address" },
     { prop: "accept_transfers_flags", defaultValue: 3 },
     { prop: "expire_timestamp", defaultValue: 3600 },
-    { prop: "encryption_privatekey"},
-    { prop: "encryption_publickey"},
-    { prop: "witness"}
-  ];
+    { prop: "encryption_privatekey" },
+    { prop: "encryption_publickey" },
+    { prop: "witness" }
+  ], syscoinClient.aliasUpdate, 'aliasupdate', 'POST'),
 
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    commonUtils.log('Alias update:', result, "aliasupdate");
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.aliasUpdate.apply(syscoinClient, arr);
-}
-
-exports.aliaswhitelist = function(args, res, next) {
-  var argList = [
+  aliaswhitelist: methodGenerator.generateGenericSyscoinMethod([
     { prop: "aliasname" }
-  ];
+  ], syscoinClient.aliasWhitelist, 'aliaswhitelist', 'GET'),
 
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    commonUtils.log('Alias whitelist:', result, "aliaswhitelist");
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  console.log(arr)
-  syscoinClient.aliasWhitelist.apply(syscoinClient, arr);
-}
-
-exports.aliasclearwhitelist = function(args, res, next) {
-  console.log('yo q im in alias clear whitelist')
-  var argList = [
+  aliasclearwhitelist: methodGenerator.generateGenericSyscoinMethod([
     { prop: "owneralias", },
     { prop: "witness", }
-  ];
+  ], syscoinClient.aliasClearWhitelist, 'aliasclearwhitelist', 'POST'),
 
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    commonUtils.log('Alias clear whitelist:', result, "aliasclearwhitelist");
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.aliasClearWhitelist.apply(syscoinClient, arr);
-}
-
-exports.aliasupdatewhitelist = function(args, res, next) {
-  var argList = [
+  aliasupdatewhitelist: methodGenerator.generateGenericSyscoinMethod([
     { prop: "owneralias" },
     { prop: "entries" },
     { prop: "witness", defaultValue: "" }
-  ];
+  ], syscoinClient.aliasUpdateWhitelist, 'aliasupdatewhitelist', 'POST'),
 
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
+  syscointxfund: methodGenerator.generateGenericSyscoinMethod([
+    { prop: 'hexstring' },
+    { prop: 'addresses' }
+  ], syscoinClient.syscoinTxFund, 'syscointxfund', 'POST'),
 
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    commonUtils.log('Alias update whitelist:', result, "aliasupdatewhitelist");
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.aliasUpdateWhitelist.apply(syscoinClient, arr);
-}
-
-exports.syscointxfund = methodGenerator.generateGenericSyscoinMethod([
-  { prop: 'hexstring' },
-  { prop: 'addresses' }
-], syscoinClient.syscoinTxFund, 'syscointxfund', 'POST');
-
-
-exports.aliasaddscript = function(args, res, next) {
-  var argList = [
-    { prop: "script" }
-  ];
-
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    commonUtils.log('Alias add script:', result, "aliasaddscript");
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.aliasAddScript.apply(syscoinClient, arr);
+  aliasaddscript: methodGenerator.generateGenericSyscoinMethod([
+    { prop: 'script' }
+  ], syscoinClient.aliasAddScript, 'aliasaddscript', 'POST')
 }

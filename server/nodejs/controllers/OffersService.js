@@ -1,53 +1,21 @@
-var syscoinClient = require('../index').syscoinClient;
-var varUtils = require('./util/varUtils');
-var commonUtils = require('./util/commonUtils');
+const syscoinClient = require('../index').syscoinClient;
+const methodGenerator = require('./util/methodGenerator');
 
-exports.offerinfo = function(args, res, next) {
-  var argList = [
+module.exports = {
+
+  offerinfo: methodGenerator.generateGenericSyscoinMethod([
     { prop: "guid" }
-  ];
+  ], syscoinClient.offerInfo, 'offerinfo', 'GET'),
 
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('Offer info:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.offerInfo.apply(syscoinClient, arr);
-}
-
-exports.offerlink = function(args, res, next) {
-  var argList = [
+  offerlink: methodGenerator.generateGenericSyscoinMethod([
     { prop: "alias" },
     { prop: "guid" },
     { prop: "commission" },
     { prop: "description" },
     { prop: "witness" }
-  ];
+  ], syscoinClient.offerLink, 'offerlink', 'POST'),
 
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('Offer link:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.offerLink.apply(syscoinClient, arr);
-}
-
-exports.offernew = function(args, res, next) {
-  var argList = [
+  offernew: methodGenerator.generateGenericSyscoinMethod([
     { prop: "alias" },
     { prop: "category" },
     { prop: "title" },
@@ -55,8 +23,8 @@ exports.offernew = function(args, res, next) {
     { prop: "price" },
     { prop: "description" },
     { prop: "currency" },
-    { prop: "cert_guid"},
-    { prop: "payment_options"},
+    { prop: "cert_guid" },
+    { prop: "payment_options" },
     { prop: "privatevalue" },
     { prop: "units" },
     { prop: "offertype" },
@@ -65,25 +33,9 @@ exports.offernew = function(args, res, next) {
     { prop: "auction_require_witness" },
     { prop: "auction_deposit" },
     { prop: "witness" }
-  ];
+  ], syscoinClient.offerNew, 'offernew', 'POST'),
 
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('Offer new:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.offerNew.apply(syscoinClient, arr);
-}
-
-exports.offerupdate = function(args, res, next) {
-  var argList = [
+  offerupdate: methodGenerator.generateGenericSyscoinMethod([
     { prop: "alias" },
     { prop: "guid" },
     { prop: "category" },
@@ -94,27 +46,14 @@ exports.offerupdate = function(args, res, next) {
     { prop: "currency" },
     { prop: "privatevalue" },
     { prop: "cert_guid" },
-    { prop: "commission"},
-    { prop: "payment_options"},
-    { prop: "offer_type"},
-    { prop: "auction_expires"},
-    { prop: "auction_reserve"},
-    { prop: "auction_require_witness"},
-    { prop: "auction_deposit"},
-    { prop: "witness"}
-  ];
+    { prop: "commission" },
+    { prop: "payment_options" },
+    { prop: "offer_type" },
+    { prop: "auction_expires" },
+    { prop: "auction_reserve" },
+    { prop: "auction_require_witness" },
+    { prop: "auction_deposit" },
+    { prop: "witness" }
+  ], syscoinClient.offerUpdate, 'offerupdate', 'POST')
 
-  var cb = function(err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    console.log('Offer update:', result);
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-  syscoinClient.offerUpdate.apply(syscoinClient, arr);
-}
+};
