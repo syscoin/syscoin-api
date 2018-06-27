@@ -2,9 +2,7 @@
 
 var url = require('url');
 
-
 var General = require('./GeneralService');
-
 
 module.exports.addmultisigaddress = function addmultisigaddress (req, res, next) {
   General.addmultisigaddress(req.swagger.params, res, next);
@@ -22,6 +20,14 @@ module.exports.encryptwallet = function encryptwallet (req, res, next) {
   General.encryptwallet(req.swagger.params, res, next);
 };
 
+module.exports.generate = function generate (req, res, next) {
+  General.generate(req.swagger.params, res, next);
+};
+
+module.exports.generatepublickey = function generatepublickey (req, res, next) {
+  General.generatepublickey(req.swagger.params, res, next);
+};
+
 module.exports.getaccount = function getaccount (req, res, next) {
   General.getaccount(req.swagger.params, res, next);
 };
@@ -36,10 +42,6 @@ module.exports.getaddressesbyaccount = function getaddressesbyaccount (req, res,
 
 module.exports.getbalance = function getbalance (req, res, next) {
   General.getbalance(req.swagger.params, res, next);
-};
-
-module.exports.getwalletbalance = function getwalletbalance (req, res, next) {
-  General.getwalletbalance(req.swagger.params, res, next);
 };
 
 module.exports.getblock = function getblock (req, res, next) {
@@ -90,16 +92,8 @@ module.exports.getunconfirmedbalance = function getunconfirmedbalance (req, res,
   General.getunconfirmedbalance(req.swagger.params, res, next);
 };
 
-module.exports.getv2address = function getv2address (req, res, next) {
-  General.getv2address(req.swagger.params, res, next);
-};
-
 module.exports.getwalletinfo = function getwalletinfo (req, res, next) {
   General.getwalletinfo(req.swagger.params, res, next);
-};
-
-module.exports.getzaddress = function getzaddress (req, res, next) {
-  General.getzaddress(req.swagger.params, res, next);
 };
 
 module.exports.importaddress = function importaddress (req, res, next) {
@@ -108,10 +102,6 @@ module.exports.importaddress = function importaddress (req, res, next) {
 
 module.exports.importprivkey = function importprivkey (req, res, next) {
   General.importprivkey(req.swagger.params, res, next);
-};
-
-module.exports.importprunedfunds = function importprunedfunds (req, res, next) {
-  General.importprunedfunds(req.swagger.params, res, next);
 };
 
 module.exports.importpubkey = function importpubkey (req, res, next) {
@@ -146,14 +136,13 @@ module.exports.listtransactions = function listtransactions (req, res, next) {
   General.listtransactions(req.swagger.params, res, next);
 };
 
+module.exports.listunspent = function listunspent (req, res, next) {
+  General.listunspent(req.swagger.params, res, next);
+};
+
 module.exports.move = function move (req, res, next) {
   General.move(req.swagger.params, res, next);
 };
-
-module.exports.removeprunedfunds = function removeprunedfunds (req, res, next) {
-  General.removeprunedfunds(req.swagger.params, res, next);
-};
-
 module.exports.sendfrom = function sendfrom (req, res, next) {
   General.sendfrom(req.swagger.params, res, next);
 };
@@ -174,10 +163,6 @@ module.exports.syscoindecoderawtransaction = function syscoindecoderawtransactio
   General.syscoindecoderawtransaction(req.swagger.params, res, next);
 };
 
-module.exports.syscoinsignrawtransaction = function syscoinsignrawtransaction (req, res, next) {
-  General.syscoinsignrawtransaction(req.swagger.params, res, next);
-};
-
 module.exports.validateaddress = function validateaddress (req, res, next) {
   General.validateaddress(req.swagger.params, res, next);
 };
@@ -196,4 +181,120 @@ module.exports.walletpassphrase = function walletpassphrase (req, res, next) {
 
 module.exports.walletpassphrasechange = function walletpassphrasechange (req, res, next) {
   General.walletpassphrasechange(req.swagger.params, res, next);
+};
+
+module.exports.syscoinlistreceivedbyaddress = function syscoinlistreceivedbyaddress (req, res, next) {
+  General.syscoinlistreceivedbyaddress(req.swagger.params, res, next);
+};
+
+module.exports.getaddressbalance = function getaddressbalance (req, res, next) {
+  console.log(req.swagger.params);
+  General.getaddressbalance(req.swagger.params, res, next);
+};
+
+module.exports.getaddressdeltas = function getaddressdeltas (req, res, next) {
+  General.getaddressdeltas(req.swagger.params, res, next);
+};
+
+module.exports.getaddressmempool = function getaddressmempool (req, res, next) {
+  General.getaddressmempool(req.swagger.params, res, next);
+};
+
+module.exports.syscoinsendrawtransaction = function getaddressmempool (req, res, next) {
+  General.syscoinsendrawtransaction(req.swagger.params, res, next);
+};
+
+module.exports.getgenerate = function getgenerate (req, res, next) {
+  General.getgenerate(req.swagger.params, res, next);
+};
+
+module.exports.setgenerate = function setgenerate (req, res, next) {
+  General.setgenerate(req.swagger.params, res, next);
+};
+
+module.exports.setnetworkactive = function setnetworkactive (req, res, next) {
+  General.setnetworkactive(req.swagger.params, res, next);
+};
+
+module.exports.mnsync = function mnsync (req, res, next) {
+  General.mnsync(req.swagger.params, res, next);
+};
+
+module.exports.dumphdinfo = function dumphdinfo (req, res, next) {
+  General.dumphdinfo(req.swagger.params, res, next);
+};
+
+module.exports.debug = function debug (req, res, next) {
+  General.debug(req.swagger.params, res, next);
+};
+
+module.exports.instantsendtoaddress = function debug (req, res, next) {
+  General.instantsendtoaddress(req.swagger.params, res, next);
+};
+module.exports.getaddresstxids = function getaddresstxids (req, res, next) {
+  General.getaddresstxids(req.swagger.params, res, next);
+};
+
+module.exports.getblockhashes = function getblockhashes (req, res, next) {
+  General.getblockhashes(req.swagger.params, res, next);
+};
+
+module.exports.getblockheaders = function getblockheaders (req, res, next) {
+  General.getblockheaders(req.swagger.params, res, next);
+};
+
+module.exports.getchaintips = function getchaintips (req, res, next) {
+  General.getchaintips(req.swagger.params, res, next);
+};
+
+module.exports.getspentinfo = function getspentinfo (req, res, next) {
+  General.getspentinfo(req.swagger.params, res, next);
+};
+
+module.exports.getgovernanceinfo = function getgovernanceinfo (req, res, next) {
+  General.getgovernanceinfo(req.swagger.params, res, next);
+};
+
+module.exports.getpoolinfo = function getpoolinfo (req, res, next) {
+  General.getpoolinfo(req.swagger.params, res, next);
+};
+
+module.exports.getsuperblockbudget = function getsuperblockbudget (req, res, next) {
+  General.getsuperblockbudget(req.swagger.params, res, next);
+};
+
+module.exports.gobject = function gobject (req, res, next) {
+  General.gobject(req.swagger.params, res, next);
+};
+
+module.exports.masternode = function masternode (req, res, next) {
+  General.masternode(req.swagger.params, res, next);
+};
+
+module.exports.masternodebroadcast = function masternodebroadcast (req, res, next) {
+  General.masternodebroadcast(req.swagger.params, res, next);
+};
+
+module.exports.masternodelist = function masternodelist (req, res, next) {
+  General.masternodelist(req.swagger.params, res, next);
+};
+
+module.exports.fundrawtransaction = function masternodelist (req, res, next) {
+    General.fundrawtransaction(req.swagger.params, res, next);
+};
+
+module.exports.getblocktemplate = function masternodelist (req, res, next) {
+    General.getblocktemplate(req.swagger.params, res, next);
+};
+
+module.exports.signrawtransaction = function masternodelist (req, res, next) {
+    General.signrawtransaction(req.swagger.params, res, next);
+};
+
+module.exports.lockunspent = function masternodelist (req, res, next) {
+    General.lockunspent(req.swagger.params, res, next);
+};
+
+module.exports.getaddressutxos = function getaddressutxos (req, res, next) {
+  General.getaddressutxos(req.swagger.params, res, next);
 };
