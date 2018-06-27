@@ -27,7 +27,12 @@ module.exports = {
       request.send(body);
     }
 
-    request.set({ 'token': authToken, 'content-type': 'application/json' })
+    if (authToken) {
+      request.set({ 'token': authToken })
+    }
+
+    request.set({ 'content-type': 'application/json' })
+    
     return request;
   }
 }

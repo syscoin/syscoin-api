@@ -1,6 +1,10 @@
 module.exports = {
   DEBUG_ENABLED: false,
 
+  //LOGIN
+  TEST_CREDENTIALS_USERNAME: "u",
+  TEST_CREDENTIALS_PASSWORD: "p",
+
   //ALIAS
   TEST_ALIAS_PEG: "sysrates.peg",
   TEST_EXISTING_ALIAS1: "daemon1",
