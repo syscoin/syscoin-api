@@ -6496,14 +6496,9 @@ definitions:
       hexstring:
         type: "string"
       addresses:
-        type: "array"
-        items:
-          type: "object"
-          properties: {}
+        type: "string"
     example:
-      addresses:
-      - "{}"
-      - "{}"
+      addresses: "addresses"
       hexstring: "hexstring"
   GetAddressUTXOsRequest:
     properties:

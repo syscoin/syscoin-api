@@ -5474,9 +5474,7 @@ definitions:
       hexstring:
         type: string
       addresses:
-        type: array
-        items:
-          type: object
+        type: string
   GetAddressUTXOsRequest:
     properties:
       addresses:
