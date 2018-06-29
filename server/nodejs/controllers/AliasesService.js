@@ -211,8 +211,6 @@ exports.syscointxfund = function(args, res, next) {
  // Convert the Addresses array to string
   var actualAddresses = args.request.value['addresses']
   var addressObjectForCore = { addresses: actualAddresses };
-  // var addressStringForCore = JSON.stringify(addressObjectForCore);
-  // Inject in the args the new addresses prop value
   args.request.value['addresses'] = addressObjectForCore
   
   var arr = varUtils.getArgsArr(argList, args, "POST", cb); 
