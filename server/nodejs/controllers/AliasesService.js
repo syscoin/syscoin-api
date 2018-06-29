@@ -186,12 +186,7 @@ exports.aliasupdatewhitelist = function(args, res, next) {
   var arr = varUtils.getArgsArr(argList, args, "POST", cb);
   syscoinClient.aliasUpdateWhitelist.apply(syscoinClient, arr);
 }
-
-// exports.syscointxfund = methodGenerator.generateGenericSyscoinMethod([
-//   { prop: 'hexstring' },
-//   { prop: 'addresses' }
-// ], syscoinClient.syscoinTxFund, 'syscointxfund', 'POST');
-
+ 
 exports.syscointxfund = function(args, res, next) {
   var argList = [
     { prop: 'hexstring' },
