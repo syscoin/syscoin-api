@@ -435,7 +435,23 @@ describe("Tests for General Service API", function () {
     });
   });
 
-  //getaddresstxids
+  //
+  describe("getaddresstxids", function () {
+    it("Get address transaction ids", function (done) {
+      const params = {
+        addresses: [Config.TEST_EXISTING_ADDRESS1, Config.TEST_EXISTING_ADDRESS2],
+        start: 1,
+        end: 999999
+      };
+      request("GET", "getaddresstxids", params, testAuthToken).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
   //getblockhashes
   //getblockheaders
   //getchaintips

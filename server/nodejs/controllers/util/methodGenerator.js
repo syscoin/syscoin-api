@@ -2,7 +2,7 @@ const syscoinClient = require('../../index').syscoinClient;
 const varUtils = require('./varUtils');
 const commonUtils = require('./commonUtils');
 
-function generateGenericSyscoinMethod(argList, syscoinMethod, syscoinMethodName, httpMethod) {
+function generateGenericSyscoinMethod(argList, syscoinMethod, syscoinMethodName, httpMethod, asJsonObject = false) {
   return function (args, res, next) {
     if (!syscoinMethod) {
       throw Error(`${syscoinMethodName} was called but not present.  
@@ -19,7 +19,7 @@ function generateGenericSyscoinMethod(argList, syscoinMethod, syscoinMethodName,
       commonUtils.log(syscoinMethodName, result, syscoinMethodName);
       res.end(JSON.stringify(result));
     };
-    let arr = varUtils.getArgsArr(argList, args, httpMethod, callback);
+    let arr = varUtils.getArgsArr(argList, args, httpMethod, callback, asJsonObject);
     syscoinMethod.apply(syscoinClient, arr);
   }
 }

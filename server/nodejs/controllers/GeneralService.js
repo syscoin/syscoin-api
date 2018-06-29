@@ -713,35 +713,11 @@ exports.getaddressbalance = function (args, res, next) {
   syscoinClient.getAddressBalance.apply(syscoinClient, arr);
 };
 
-exports.getaddresstxids = function (args, res, next) {
-  /**
-   * parameters expected in the args:
-   * addresses (Array)
-   * start (Number)
-   * end (Number)
-   **/
-  var argList = [
-    { prop: "addresses" },
-    { prop: "start" },
-    { prop: "end" }
-  ];
-
-  var cb = function (err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    commonUtils.log('Get address transaction id ', result, "getaddresstxids");
-    res.end(JSON.stringify(result));
-  };
-
-  // var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  var arr = [{ "addresses": args['addresses']['value'], "start": args['start']['value'], "end": args['end']['value'] }, cb];
-
-  syscoinClient.getAddressTxids.apply(syscoinClient, arr);
-}
+exports.getaddresstxids = methodGenerator.generateGenericSyscoinMethod([
+  { prop: "addresses" },
+  { prop: "start" },
+  { prop: "end" }
+], syscoinClient.getAddressTxids, 'getaddresstxids', 'GET', true);
 
 exports.getblockhashes = function (args, res, next) {
   /**
