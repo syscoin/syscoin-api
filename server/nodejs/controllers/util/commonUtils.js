@@ -2,28 +2,31 @@ const config = require('../../config');
 
 function reportError(response, errorStr) {
   response.statusCode = 500;
+  let responseString;
+  
   const errObj = parseError(errorStr);
-
   if(errObj) {
-    return response.end(`${errObj.code} - ${errObj.message}`);
+    responseString = JSON.stringify(errObj);
+  }else{
+    responseString = JSON.stringify(JSON.stringify(errorStr.toString()));
   }
-
-  return response.end(JSON.stringify(errorStr.toString()));
+  console.error("Error: " + responseString);
+  return response.end(responseString);
 }
 
 function parseError(errorStr) {
-  console.log("Error: " + errorStr);
+  let errObj = null;
+
   //transform the RPC Error into a more Syscoin-specific error while maintaining the 500 status
   const rpcErrorStr = "RpcError: 500 "; //with trailing space!
   let errObjStartIndex = errorStr.toString().indexOf(rpcErrorStr);
-  let errObj;
-  
+
   if (errObjStartIndex >= 0) {
     let errObjStr = errorStr.toString().substr(rpcErrorStr.length-1);
     errObj = JSON.parse(errObjStr);
-    return errObj;
   }
-  return null;  
+
+  return errObj;
 }
 
 /**

@@ -22,15 +22,14 @@ describe("Tests for Escrow Service API", function () {
         witness: ""
       };
       request("POST", "escrowacknowledge", null, testAuthToken, body).end(function (err, res) {
-        if (err && err.rawResponse.includes('ERRCODE: 4044')) //this is ok for testing the api. End-to-end integration testing is supposed to cover the whole workflow.
-          console.log(err.rawResponse)
-        else
-          expect(err).to.be.null;
-
-        if (res) {
+        expect(err).to.be.null;
+        expect(res).to.have.header('content-type', 'application/json');
+        expect(res).to.be.json;
+        if (res.status == 500 && res.text.includes('ERRCODE: 4044')) {
+          //this is ok for testing the api. End-to-end integration testing is supposed to cover the whole workflow.
+          console.error(res.text)
+        } else {
           expect(res).to.have.status(200);
-          expect(res).to.have.header('content-type', 'application/json');
-          expect(res).to.be.json;
         }
         done();
       });
@@ -46,15 +45,14 @@ describe("Tests for Escrow Service API", function () {
       };
 
       request("POST", "escrowcompleterefund", null, testAuthToken, body).end(function (err, res) {
-        if (err && err.rawResponse.includes('ERRCODE: 4055')) //this is ok for testing the api. End-to-end integration testing is supposed to cover the whole workflow.
-          console.log(err.rawResponse)
-        else
-          expect(err).to.be.null;
-
-        if (res) {
+        expect(err).to.be.null;
+        expect(res).to.have.header('content-type', 'application/json');
+        expect(res).to.be.json;
+        if (res.status == 500 && res.text.includes('ERRCODE: 4055')) {
+          //this is ok for testing the api. End-to-end integration testing is supposed to cover the whole workflow.
+          console.error(res.text)
+        } else {
           expect(res).to.have.status(200);
-          expect(res).to.have.header('content-type', 'application/json');
-          expect(res).to.be.json;
         }
         done();
       });
@@ -69,15 +67,14 @@ describe("Tests for Escrow Service API", function () {
         "rawtx": "12345"
       };
       request("POST", "escrowcompleterelease", null, testAuthToken, body).end(function (err, res) {
-        if (err && err.rawResponse.includes('ERRCODE: 4065')) //this is ok for testing the api. End-to-end integration testing is supposed to cover the whole workflow.
-          console.log(err.rawResponse)
-        else
-          expect(err).to.be.null;
-
-        if (res) {
+        expect(err).to.be.null;
+        expect(res).to.have.header('content-type', 'application/json');
+        expect(res).to.be.json;
+        if (res.status == 500 && res.text.includes('ERRCODE: 4065')) {
+          //this is ok for testing the api. End-to-end integration testing is supposed to cover the whole workflow.
+          console.error(res.text)
+        } else {
           expect(res).to.have.status(200);
-          expect(res).to.have.header('content-type', 'application/json');
-          expect(res).to.be.json;
         }
         done();
       });
@@ -126,7 +123,6 @@ describe("Tests for Escrow Service API", function () {
         "bid_in_payment_option": 0,
         "witness_fee": 0
       };
-
       request("POST", "escrownew", null, testAuthToken, body).end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(200);
@@ -147,15 +143,14 @@ describe("Tests for Escrow Service API", function () {
       };
 
       request("POST", "escrowrefund", null, testAuthToken, body).end(function (err, res) {
-        if (err && err.rawResponse.includes('ERRCODE: 4047')) //this is ok for testing the api. End-to-end integration testing is supposed to cover the whole workflow.
-          console.log(err.rawResponse)
-        else
-          expect(err).to.be.null;
-
-        if (res) {
+        expect(err).to.be.null;
+        expect(res).to.have.header('content-type', 'application/json');
+        expect(res).to.be.json;
+        if (res.status == 500 && res.text.includes('ERRCODE: 5012')) {
+          //this is ok for testing the api. End-to-end integration testing is supposed to cover the whole workflow.
+          console.error(res.text)
+        } else {
           expect(res).to.have.status(200);
-          expect(res).to.have.header('content-type', 'application/json');
-          expect(res).to.be.json;
         }
         done();
       });
@@ -172,15 +167,14 @@ describe("Tests for Escrow Service API", function () {
       };
 
       request("POST", "escrowrelease", null, testAuthToken, body).end(function (err, res) {
-        if (err && err.rawResponse.includes('ERRCODE: 4057')) //this is ok for testing the api. End-to-end integration testing is supposed to cover the whole workflow.
-          console.log(err.rawResponse)
-        else
-          expect(err).to.be.null;
-
-        if (res) {
+        expect(err).to.be.null;
+        expect(res).to.have.header('content-type', 'application/json');
+        expect(res).to.be.json;
+        if (res.status == 500 && res.text.includes('ERRCODE: 4057')) {
+          //this is ok for testing the api. End-to-end integration testing is supposed to cover the whole workflow.
+          console.error(res.text)
+        } else {
           expect(res).to.have.status(200);
-          expect(res).to.have.header('content-type', 'application/json');
-          expect(res).to.be.json;
         }
         done();
       });
@@ -198,15 +192,14 @@ describe("Tests for Escrow Service API", function () {
       };
 
       request("POST", "escrowbid", null, testAuthToken, body).end(function (err, res) {
-        if (err && err.rawResponse.includes('ERRCODE: 4027')) //this is ok for testing the api. End-to-end integration testing is supposed to cover the whole workflow.
-          console.log(err.rawResponse)
-        else
-          expect(err).to.be.null;
-
-        if (res) {
+        expect(err).to.be.null;
+        expect(res).to.have.header('content-type', 'application/json');
+        expect(res).to.be.json;
+        if (res.status == 500 && res.text.includes('ERRCODE: 4027')) {
+          //this is ok for testing the api. End-to-end integration testing is supposed to cover the whole workflow.
+          console.error(res.text)
+        } else {
           expect(res).to.have.status(200);
-          expect(res).to.have.header('content-type', 'application/json');
-          expect(res).to.be.json;
         }
         done();
       });
