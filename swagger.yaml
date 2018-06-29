@@ -5473,8 +5473,10 @@ definitions:
     properties:
       hexstring:
         type: string
-      fundingaddr:
-        type: string
+      addresses: 
+        type: array 
+        items: 
+          type: string
   GetAddressUTXOsRequest:
     properties:
       addresses:

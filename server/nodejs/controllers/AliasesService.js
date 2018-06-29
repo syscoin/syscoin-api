@@ -187,11 +187,37 @@ exports.aliasupdatewhitelist = function(args, res, next) {
   syscoinClient.aliasUpdateWhitelist.apply(syscoinClient, arr);
 }
 
-exports.syscointxfund = methodGenerator.generateGenericSyscoinMethod([
-  { prop: 'hexstring' },
-  { prop: 'addresses' }
-], syscoinClient.syscoinTxFund, 'syscointxfund', 'POST');
+// exports.syscointxfund = methodGenerator.generateGenericSyscoinMethod([
+//   { prop: 'hexstring' },
+//   { prop: 'addresses' }
+// ], syscoinClient.syscoinTxFund, 'syscointxfund', 'POST');
 
+exports.syscointxfund = function(args, res, next) {
+  var argList = [
+    { prop: 'hexstring' },
+    { prop: 'addresses' }
+  ];
+
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
+
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('Syscoin TX fund:', result, "syscointxfund");
+    res.end(JSON.stringify(result));
+  };
+ // Convert the Addresses array to string
+  var actualAddresses = args.request.value['addresses']
+  var addressObjectForCore = { addresses: actualAddresses };
+  // var addressStringForCore = JSON.stringify(addressObjectForCore);
+  // Inject in the args the new addresses prop value
+  args.request.value['addresses'] = addressObjectForCore
+  
+  var arr = varUtils.getArgsArr(argList, args, "POST", cb); 
+  syscoinClient.syscoinTxFund.apply(syscoinClient, arr);
+}
 
 exports.aliasaddscript = function(args, res, next) {
   var argList = [

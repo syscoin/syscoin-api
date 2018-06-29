@@ -7927,12 +7927,15 @@
         "hexstring" : {
           "type" : "string"
         },
-        "fundingaddr" : {
-          "type" : "string"
+        "addresses" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
         }
       },
       "example" : {
-        "fundingaddr" : "fundingaddr",
+        "addresses" : [ "addresses", "addresses" ],
         "hexstring" : "hexstring"
       }
     },
