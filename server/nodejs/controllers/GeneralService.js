@@ -744,52 +744,15 @@ exports.getblockhashes = function (args, res, next) {
   var arr = varUtils.getArgsArr(argList, args, "GET", cb);
   syscoinClient.getBlockHashes.apply(syscoinClient, arr);
 }
-// TODO: this need to be updated in root folder swagger.yaml
-exports.getblockheaders = function (args, res, next) {
-  /**
-   * parameters expected in the args:
-   * hash (String)
-   * count (Number)
-   * verbose (Boolean)
-   **/
-  var argList = [
-    { prop: "hash" },
-    { prop: "count" },
-    { prop: "verbose" }
-  ];
 
-  var cb = function (err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
+exports.getblockheaders = methodGenerator.generateGenericSyscoinMethod([
+  { prop: "hash" },
+  { prop: "count" },
+  { prop: "verbose" }
+], syscoinClient.getBlockHeaders, 'getblockheaders', 'GET');
 
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    commonUtils.log('Get address transaction id ', result, "getblockheaders ");
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.getBlockHeaders.apply(syscoinClient, arr);
-}
-
-exports.getchaintips = function (args, res, next) {
-  var argList = [];
-
-  var cb = function (err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    commonUtils.log('Get address transaction id ', result, "getchaintips ");
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.getChainTips.apply(syscoinClient, arr);
-}
+exports.getchaintips = methodGenerator.generateGenericSyscoinMethod([],
+  syscoinClient.getChainTips, 'getchaintips', 'GET');
 
 exports.getspentinfo = function (args, res, next) {
   /**
@@ -819,89 +782,19 @@ exports.getspentinfo = function (args, res, next) {
   syscoinClient.getSpentInfo.apply(syscoinClient, arr);
 }
 
-exports.getgovernanceinfo = function (args, res, next) {
-  var argList = [];
+exports.getgovernanceinfo = methodGenerator.generateGenericSyscoinMethod([],
+  syscoinClient.getGovernanceInfo, 'getgovernanceinfo', 'GET');
 
-  var cb = function (err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
+exports.getpoolinfo = methodGenerator.generateGenericSyscoinMethod([],
+  syscoinClient.getPoolInfo, 'getpoolinfo', 'GET');
 
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
+exports.getsuperblockbudget = methodGenerator.generateGenericSyscoinMethod([
+  { prop: "index" }
+], syscoinClient.getSuperBlockBudget, 'getsuperblockbudget', 'GET');
 
-    commonUtils.log('Get address transaction id ', result, "getgovernanceinfo");
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.getGovernanceInfo.apply(syscoinClient, arr);
-}
-
-exports.getpoolinfo = function (args, res, next) {
-  var argList = [];
-
-  var cb = function (err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    commonUtils.log('Get address transaction id ', result, "getpoolinfo");
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.getPoolInfo.apply(syscoinClient, arr);
-}
-
-exports.getsuperblockbudget = function (args, res, next) {
-  /**
-   * parameters expected in the args:
-   * index (number)
-   **/
-  var argList = [
-    { prop: "index" }
-  ];
-
-  var cb = function (err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    commonUtils.log('Get address transaction id ', result, "getsuperblockbudget ");
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.getSuperBlockBudget.apply(syscoinClient, arr);
-}
-
-exports.gobject = function (args, res, next) {
-  /**
-   * parameters expected in the args:
-   * command (String)
-   **/
-  var argList = [
-    { prop: "command" }
-  ];
-
-  var cb = function (err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    commonUtils.log('Manage governance objects', result, "gobject");
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.gObject.apply(syscoinClient, arr);
-}
+exports.gobject = methodGenerator.generateGenericSyscoinMethod([
+  { prop: "command" }
+], syscoinClient.gObject, 'gobject', 'GET');
 
 exports.masternode = function (args, res, next) {
   /**
@@ -951,73 +844,21 @@ exports.masternodebroadcast = function (args, res, next) {
   syscoinClient.masternodeBroadcast.apply(syscoinClient, arr);
 }
 
-exports.masternodelist = function (args, res, next) {
-  /**
-   * parameters expected in the args:
-   * mode (String)
-   **/
-  var argList = [
-    { prop: "mode" },
-  ];
+exports.masternodelist = methodGenerator.generateGenericSyscoinMethod([
+  { prop: "mode" }
+], syscoinClient.masternodeList, 'masternodelist', 'GET');
 
-  var cb = function (err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
+exports.getaddressdeltas = methodGenerator.generateGenericSyscoinMethod([
+  { prop: "addresses" },
+  { prop: "start" },
+  { prop: "end" }
+], syscoinClient.getAddressDeltas, 'getaddressdeltas', 'GET', true);
 
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    commonUtils.log('Get address transaction id ', result, "masternodelist");
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-  syscoinClient.masternodeList.apply(syscoinClient, arr);
-}
-
-exports.getaddressdeltas = function (args, res, next) {
-  /**
-   * parameters expected in the args:
-   * request (getaddressdeltas)
-   **/
-  var cb = function (err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    commonUtils.log('get balance of getaddressdeltas', result, "getaddressdeltas");
-    res.end(JSON.stringify(result));
-  };
-
-  var arr = [{
-    "addresses": args['addresses']['value'],
-    "start": args['start']['value'],
-    "end": args['end']['value']
-  }, cb];
-  console.log(arr);
-  syscoinClient.getAddressDeltas.apply(syscoinClient, arr);
-};
-
-exports.getaddressmempool = function (args, res, next) {
-  /**
-   * parameters expected in the args:
-   * request (getaddressmempool)
-   **/
-  var cb = function (err, result, resHeaders) {
-    res.setHeader('Content-Type', 'application/json');
-
-    if (err) {
-      return commonUtils.reportError(res, err);
-    }
-
-    commonUtils.log('getaddressmempool', result, "getaddressmempool");
-    res.end(JSON.stringify(result));
-  };
-  var arr = [{ "addresses": args['addresses']['value'] }, cb];
-  syscoinClient.getAddressMempool.apply(syscoinClient, arr);
-};
+exports.getaddressmempool = methodGenerator.generateGenericSyscoinMethod([
+  { prop: "addresses" },
+  { prop: "start" },
+  { prop: "end" }
+], syscoinClient.getAddressMempool, 'getaddressmempool', 'GET', true);
 
 exports.syscoinsendrawtransaction = function (args, res, next) {
   /**

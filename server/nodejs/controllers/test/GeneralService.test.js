@@ -452,20 +452,133 @@ describe("Tests for General Service API", function () {
       });
     });
   });
+
   //getblockhashes
-  //getblockheaders
-  //getchaintips
+  //
+  describe("getblockheaders", function () {
+    it("Returns information about blockheaders", function (done) {
+      const params = {
+        hash: Config.TEST_EXISTING_BLOCK_HASH1,
+        count: 1,
+        verbose: true
+      };
+      request("GET", "getblockheaders", params, testAuthToken).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
+
+  //
+  describe("getchaintips", function () {
+    it("Returns chain tips", function (done) {
+      request("GET", "getchaintips", null, testAuthToken).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
+
   //getspentinfo
-  //getgovernanceinfo
-  //getpoolinfo
-  //getsuperblockbudget
-  //gobject
-  //masternode
+  //
+  describe("getgovernanceinfo", function () {
+    it("Returns governance parameters", function (done) {
+      request("GET", "getgovernanceinfo", null, testAuthToken).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
+
+  //
+  describe("getpoolinfo", function () {
+    it("Returns mixing pool related information", function (done) {
+      request("GET", "getpoolinfo", null, testAuthToken).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
+
+  //
+  describe("getsuperblockbudget", function () {
+    it("Returns the absolute maximum sum of superblock payments allowed", function (done) {
+      const params = {
+        index: Config.TEST_EXISTING_BLOCK_NUMBER
+      };
+      request("GET", "getsuperblockbudget", params, testAuthToken).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
+
+  //
+  describe("gobject", function () {
+    it("Manage governance objects", function (done) {
+      const params = {
+        command: "count"
+      };
+      request("GET", "gobject", params, testAuthToken).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
+
+  //
+  describe("masternode", function () {
+    it("Set of commands to execute masternode related actions", function (done) {
+      const params = {
+        command: "count"
+      };
+      request("GET", "masternode", params, testAuthToken).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
+
   //masternodebroadcast
-  //masternodelist
+  //
+  describe("masternodelist", function () {
+    it("Get a list of masternodes in different modes", function (done) {
+      const params = {
+        mode: "rank"
+      };
+      request("GET", "masternodelist", params, testAuthToken).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
 
   describe("getaddressdeltas", function () {
-    it("Return information about address delats", function (done) {
+    it("Return information about address deltas", function (done) {
       const params = {
         addresses: [Config.TEST_EXISTING_ADDRESS1],
         start: 1,
@@ -481,7 +594,22 @@ describe("Tests for General Service API", function () {
     });
   });
 
-  //getaddressmempool
+  //
+  describe.only("getaddressmempool", function () {
+    it("Return information about address mempool", function (done) {
+      const params = {
+        addresses: [Config.TEST_EXISTING_ADDRESS1, Config.TEST_EXISTING_ADDRESS2]
+      };
+      request("GET", "getaddressmempool", params, testAuthToken).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
+
   //syscoinsendrawtransaction
   //getgenerate
   //setgenerate
