@@ -186,12 +186,35 @@ exports.aliasupdatewhitelist = function(args, res, next) {
   var arr = varUtils.getArgsArr(argList, args, "POST", cb);
   syscoinClient.aliasUpdateWhitelist.apply(syscoinClient, arr);
 }
+ 
+exports.syscointxfund = function(args, res, next) {
+  var argList = [
+    { prop: 'hexstring' },
+    { prop: 'addresses' }
+  ];
 
-exports.syscointxfund = methodGenerator.generateGenericSyscoinMethod([
-  { prop: 'hexstring' },
-  { prop: 'addresses' }
-], syscoinClient.syscoinTxFund, 'syscointxfund', 'POST');
+  var cb = function(err, result, resHeaders) {
+    res.setHeader('Content-Type', 'application/json');
 
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
+
+    commonUtils.log('Syscoin TX fund:', result, "syscointxfund");
+    res.end(JSON.stringify(result));
+  };
+ // Convert the Addresses array to string
+if(args && args.request && args.request.value && args.request.value['addresses']) {
+  var actualAddresses = args.request.value['addresses']
+  var addressObjectForCore = { addresses: actualAddresses };
+  args.request.value['addresses'] = addressObjectForCore
+} else {
+  console.error("ERROR: No value defined in request for 'addresses', this is a required param");
+}
+  
+  var arr = varUtils.getArgsArr(argList, args, "POST", cb); 
+  syscoinClient.syscoinTxFund.apply(syscoinClient, arr);
+}
 
 exports.aliasaddscript = function(args, res, next) {
   var argList = [

@@ -6497,13 +6497,15 @@ definitions:
         type: "string"
       addresses:
         type: "array"
+        example:
+        - "list-of-addresses"
+        - "last-address-in-list-is-used-for-funding"
         items:
-          type: "object"
-          properties: {}
+          type: "string"
     example:
       addresses:
-      - "{}"
-      - "{}"
+      - "list-of-addresses"
+      - "last-address-in-list-is-used-for-funding"
       hexstring: "hexstring"
   GetAddressUTXOsRequest:
     properties:

@@ -33,7 +33,7 @@ function getArgsArr(fullArgList, requestArgs, requestMethod, callback) {
         arr.push(requestArgs.request.value[argObj.prop]);
     } else if (argObj && notNullOrUndefined(argObj.defaultValue)) {
         arr.push(argObj.defaultValue);
-      }else{
+      } else {
         console.error("ERROR: No value defined in request for " + argObj.prop + " and no defaultValue specified. Is this a required param?");
       }
     }
