@@ -18,6 +18,7 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
+    "@syscoin/syscoin-core": "^3.0.0-beta",
     "assert": "^1.4.1",
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
