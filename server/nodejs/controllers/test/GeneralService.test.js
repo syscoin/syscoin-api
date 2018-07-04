@@ -15,7 +15,51 @@ describe("Tests for General Service API", function () {
     done();
   });
 
-  //addmultisigaddress
+  //addmultisigaddress /* need to doublecheck if api specs are correct (keysobject ?) */
+
+  //run this only once only if the wallet in not yet encrypted
+  describe.skip("encryptwallet", function () {
+    it("Encrypts the wallet with 'passphrase’", function (done) {
+      const body = {
+        "passphrase": Config.TEST_ENCRYPT_WALLET_PASSPHRASE
+      };
+      request("POST", "encryptwallet", null, testAuthToken, body).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
+
+  describe("walletlock", function () {
+    it("Removes the wallet encryption key from memory, locking the wallet", function (done) {
+      request("POST", "walletlock", null, testAuthToken, null).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
+
+  describe("walletpassphrase", function () {
+    it("Stores the wallet decryption key in memory for ‘timeout’ seconds", function (done) {
+      const body = {
+        "passphrase": Config.TEST_ENCRYPT_WALLET_PASSPHRASE,
+        "timeout": 60
+      };
+      request("POST", "walletpassphrase", null, testAuthToken, body).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
 
   describe("dumpprivkey", function () {
     it("Reveals the private key corresponding to 'address'", function (done) {
@@ -47,8 +91,6 @@ describe("Tests for General Service API", function () {
       });
     });
   });
-
-  //encryptwallet
 
   describe("getaccount", function () {
     it("Returns the account associated with the given address", function (done) {
@@ -177,7 +219,17 @@ describe("Tests for General Service API", function () {
     });
   });
 
-  //getnewaddress
+  describe("getnewaddress", function () {
+    it("Returns a new Syscoin address for receiving payments", function (done) {
+      request("POST", "getnewaddress", null, testAuthToken).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
 
   describe("getpeerinfo", function () {
     it("Returns data about each connected network node", function (done) {
@@ -198,7 +250,6 @@ describe("Tests for General Service API", function () {
         minconf: 1,
         addlockconf: false
       };
-
       request("GET", "getreceivedbyaccount", params, testAuthToken).end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(200);
@@ -216,7 +267,6 @@ describe("Tests for General Service API", function () {
         minconf: 1,
         addlockconf: false
       };
-
       request("GET", "getreceivedbyaddress", params, testAuthToken).end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(200);
@@ -285,7 +335,6 @@ describe("Tests for General Service API", function () {
     });
   });
 
-  //
   describe("importprivkey", function () {
     it("Adds a private key (as returned by dumpprivkey) to your wallet", function (done) {
       const body = {
@@ -303,7 +352,23 @@ describe("Tests for General Service API", function () {
     });
   });
 
-  //importpubkey
+  describe("importpubkey", function () {
+    it("Returns error: 'The wallet already contains the key for this address or script'", function (done) {
+      const body = {
+        "pubkey": Config.TEST_EXISTING_PUBKEY,
+        "label": "label",
+        "rescan": false
+      };
+      request("POST", "importpubkey", null, testAuthToken, body).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(500);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        expect(res.text).to.contain("The wallet already contains")
+        done();
+      });
+    });
+  });
 
   describe("importwallet", function () {
     it("Imports keys from a wallet dump file (see dumpwallet)", function (done) {
@@ -437,8 +502,8 @@ describe("Tests for General Service API", function () {
     });
   });
 
-  //sendmany
-  //
+  //sendmany /* need to doublecheck if api specs are correct  */
+
   describe("sendtoaddress", function () {
     it("Send an amount to a given address", function (done) {
       const body = {
@@ -506,10 +571,39 @@ describe("Tests for General Service API", function () {
     });
   });
 
-  //verifymessage
-  //walletlock
-  //walletpassphrase
-  //walletpassphrasechange
+  describe("verifymessage", function () {
+    it("Verify a signed message. Returns false", function (done) {
+      const params = {
+        syscoinaddress: Config.TEST_EXISTING_ADDRESS1,
+        signature: "c2lnbmF0dXJl",
+        message: "message"
+      };
+      request("GET", "verifymessage", params, testAuthToken).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
+
+  describe("walletpassphrasechange", function () {
+    it("Changes the wallet passphrase from 'oldpassphrase' to 'newpassphrase'", function (done) {
+      const body =
+      {
+        "oldpassphrase": Config.TEST_ENCRYPT_WALLET_PASSPHRASE,
+        "newpassphrase": Config.TEST_ENCRYPT_WALLET_PASSPHRASE
+      };
+      request("POST", "walletpassphrasechange", null, testAuthToken, body).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
 
   describe("getaddressbalance", function () {
     it("Return information about the given syscoin address", function (done) {
@@ -526,7 +620,6 @@ describe("Tests for General Service API", function () {
     });
   });
 
-  //
   describe("getaddresstxids", function () {
     it("Get address transaction ids", function (done) {
       const params = {
@@ -544,8 +637,23 @@ describe("Tests for General Service API", function () {
     });
   });
 
-  //getblockhashes
-  //
+  describe("getblockhashes", function () {
+    it("Returns error 'No information available for block hashes'", function (done) {
+      const params = {
+        high: 1530735706,
+        low: 1530735706
+      };
+      request("GET", "getblockhashes", params, testAuthToken).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(500);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        expect(res.text).to.contain("No information available for block hashes")
+        done();
+      });
+    });
+  });
+
   describe("getblockheaders", function () {
     it("Returns information about blockheaders", function (done) {
       const params = {
@@ -563,7 +671,6 @@ describe("Tests for General Service API", function () {
     });
   });
 
-  //
   describe("getchaintips", function () {
     it("Returns chain tips", function (done) {
       request("GET", "getchaintips", null, testAuthToken).end(function (err, res) {
@@ -576,8 +683,23 @@ describe("Tests for General Service API", function () {
     });
   });
 
-  //getspentinfo
-  //
+  describe("getspentinfo", function () {
+    it("Returns error: Unable to get spent info", function (done) {
+      const params = {
+        txid: Config.TEST_EXISTING_TXID,
+        index: 0
+      };
+      request("GET", "getspentinfo", params, testAuthToken).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(500);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        expect(res.text).to.contain("Unable to get spent info")
+        done();
+      });
+    });
+  });
+
   describe("getgovernanceinfo", function () {
     it("Returns governance parameters", function (done) {
       request("GET", "getgovernanceinfo", null, testAuthToken).end(function (err, res) {
@@ -590,7 +712,6 @@ describe("Tests for General Service API", function () {
     });
   });
 
-  //
   describe("getpoolinfo", function () {
     it("Returns mixing pool related information", function (done) {
       request("GET", "getpoolinfo", null, testAuthToken).end(function (err, res) {
@@ -603,7 +724,6 @@ describe("Tests for General Service API", function () {
     });
   });
 
-  //
   describe("getsuperblockbudget", function () {
     it("Returns the absolute maximum sum of superblock payments allowed", function (done) {
       const params = {
@@ -619,7 +739,6 @@ describe("Tests for General Service API", function () {
     });
   });
 
-  //
   describe("gobject", function () {
     it("Manage governance objects", function (done) {
       const params = {
@@ -635,7 +754,6 @@ describe("Tests for General Service API", function () {
     });
   });
 
-  //
   describe("masternode", function () {
     it("Set of commands to execute masternode related actions", function (done) {
       const params = {
@@ -651,8 +769,21 @@ describe("Tests for General Service API", function () {
     });
   });
 
-  //masternodebroadcast
-  //
+  describe("masternodebroadcast", function () {
+    it("Returns error: incorrect usage", function (done) {
+      const params = {
+        command: "decode"
+      };
+      request("GET", "masternodebroadcast", params, testAuthToken).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(500);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
+
   describe("masternodelist", function () {
     it("Get a list of masternodes in different modes", function (done) {
       const params = {
@@ -685,7 +816,6 @@ describe("Tests for General Service API", function () {
     });
   });
 
-  //
   describe("getaddressmempool", function () {
     it("Return information about address mempool", function (done) {
       const params = {
@@ -701,9 +831,23 @@ describe("Tests for General Service API", function () {
     });
   });
 
-  //syscoinsendrawtransaction
-  //getgenerate
-  //setgenerate
+  describe("syscoinsendrawtransaction", function () {
+    it("Returns error: 'transaction already in block chain'", function (done) {
+      const body = {
+        "instantsend": true,
+        "allowhighfees": true,
+        "hexstring": Config.TEST_TRX_HEX_STRING
+      };
+      request("POST", "syscoinsendrawtransaction", null, testAuthToken, body).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(500);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        expect(res.text).to.contain("transaction already in block chain")
+        done();
+      });
+    });
+  });
 
   describe("setnetworkactive", function () {
     it("Set 'networkactive' true or false", function (done) {
@@ -762,8 +906,40 @@ describe("Tests for General Service API", function () {
     });
   });
 
-  //instantsendtoaddress
-  //fundrawtransaction
+  describe("instantsendtoaddress", function () {
+    it("Add inputs to a transaction until it has enough in value to meet its out value", function (done) {
+      const body = {
+        syscoinaddress: Config.TEST_EXISTING_ADDRESS2,
+        amount: 0.01,
+        comment: "comment",
+        "comment-to": "comment-to",
+        subtractfeefromamount: true
+      };
+      request("POST", "instantsendtoaddress", null, testAuthToken, body).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
+
+  describe("fundrawtransaction", function () {
+    it("Add inputs to a transaction until it has enough in value to meet its out value", function (done) {
+      const body = {
+        hexstring: Config.TEST_TRX_HEX_STRING,
+        watching: true
+      };
+      request("POST", "fundrawtransaction", null, testAuthToken, body).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
 
   describe("getblocktemplate", function () {
     it("Get block template", function (done) {
@@ -777,8 +953,41 @@ describe("Tests for General Service API", function () {
     });
   });
 
-  //signrawtransaction
-  //lockunspent
+  describe("signrawtransaction", function () {
+    it("Sign inputs for raw transaction", function (done) {
+      const body = {
+        hexstring: Config.TEST_TRX_HEX_STRING,
+      };
+      request("POST", "signrawtransaction", null, testAuthToken, body).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
+
+  describe("lockunspent", function () {
+    it("Updates list of temporarily unspendable outputs", function (done) {
+      const body = {
+        "unlock": true,
+        "transactions": [
+          {
+            "txid": Config.TEST_EXISTING_TXID,
+            "vout": 0
+          }
+        ]
+      };
+      request("POST", "lockunspent", null, testAuthToken, body).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
 
   describe("syscoinlistreceivedbyaddress", function () {
     it("Returns all addresses and balances associated with address", function (done) {
@@ -792,6 +1001,19 @@ describe("Tests for General Service API", function () {
     });
   });
 
-  //getaddressutxos
+  describe("getaddressutxos", function () {
+    it("Returns all unspent outputs for addresses or aliases", function (done) {
+      const body = {
+        "addresses": [Config.TEST_EXISTING_ADDRESS1]
+      };
+      request("POST", "getaddressutxos", null, testAuthToken, body).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
 
 });

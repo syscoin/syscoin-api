@@ -65,8 +65,7 @@ function getArgsArr(fullArgList, requestArgs, httpMethod, callback, asJsonObject
   if (callback)
     arr.push(callback);
 
-  console.log("jsonObject: " + JSON.stringify(jsonObject));
-  console.log("Args array: " + JSON.stringify(arr));
+  console.log("Request parameters: " + JSON.stringify(arr));
 
   return arr;
 }
