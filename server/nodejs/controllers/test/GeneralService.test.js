@@ -33,10 +33,22 @@ describe("Tests for General Service API", function () {
     });
   });
 
-  //dumpwallet
+  describe("dumpwallet", function () {
+    it("Dumps all wallet keys in a human-readable format", function (done) {
+      const params = {
+        filename: Config.TEST_DUMP_WALLET_PATH
+      };
+      request("GET", "dumpwallet", params, testAuthToken).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
+
   //encryptwallet
-  //generate //This method seems to be deprecated
-  //generatepublickey //This method seems to be deprecated
 
   describe("getaccount", function () {
     it("Returns the account associated with the given address", function (done) {
@@ -70,8 +82,6 @@ describe("Tests for General Service API", function () {
     });
   });
 
-  //getaddressesbyaccount //This method seems to be deprecated
-
   describe("getbalance", function () {
     it("Returns the balance in the account", function (done) {
       const params = {
@@ -90,10 +100,10 @@ describe("Tests for General Service API", function () {
     });
   });
 
-  /*describe("getblock", function () {
+  describe("getblock", function () {
     it("Returns information about block", function (done) {
       const params = {
-        hash: Config.TEST_TRX_HEX_STRING,
+        hash: Config.TEST_EXISTING_BLOCK_HASH1,
         verbose: true
       };
 
@@ -105,7 +115,7 @@ describe("Tests for General Service API", function () {
         done();
       });
     });
-  });*/
+  });
 
   describe("getblockchaininfo", function () {
     it("Returns info regarding block chain processing", function (done) {
@@ -257,10 +267,58 @@ describe("Tests for General Service API", function () {
     });
   });
 
-  //importaddress
-  //importprivkey
+  describe("importaddress", function () {
+    it("Adds address that can be watched as if it were in your wallet but cannot be used to spend", function (done) {
+      const body = {
+        "p2sh": false,
+        "label": "label",
+        "rescan": false,
+        "script": Config.TEST_EXISTING_ESCROW_ADDRESS
+      };
+      request("POST", "importaddress", null, testAuthToken, body).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
+
+  //
+  describe("importprivkey", function () {
+    it("Adds a private key (as returned by dumpprivkey) to your wallet", function (done) {
+      const body = {
+        "syscoinprivkey": Config.TEST_EXISTING_DUMP_PRIVKEY,
+        "label": "label",
+        "rescan": false
+      };
+      request("POST", "importprivkey", null, testAuthToken, body).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
+
   //importpubkey
-  //importwallet
+
+  describe("importwallet", function () {
+    it("Imports keys from a wallet dump file (see dumpwallet)", function (done) {
+      const body = {
+        "filename": Config.TEST_DUMP_WALLET_PATH
+      };
+      request("POST", "importwallet", null, testAuthToken, body).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
 
   describe("listaccounts", function () {
     it("Returns account names as keys, account balances as values", function (done) {
@@ -379,11 +437,44 @@ describe("Tests for General Service API", function () {
     });
   });
 
-  //move
-  //sendfrom
   //sendmany
-  //sendtoaddress
-  //signmessage
+  //
+  describe("sendtoaddress", function () {
+    it("Send an amount to a given address", function (done) {
+      const body = {
+        "use_ps": false,
+        "amount": 0.001,
+        "syscoinaddress": Config.TEST_EXISTING_ADDRESS2,
+        "use_is": false,
+        "commentto": "commentto",
+        "comment": "comment",
+        "subtractfeefromamount": false
+      };
+      request("POST", "sendtoaddress", null, testAuthToken, body).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
+
+  describe("signmessage", function () {
+    it("Sign a message with the private key of an address", function (done) {
+      const body = {
+        "syscoinaddress": Config.TEST_EXISTING_ADDRESS1,
+        "message": "message"
+      };
+      request("POST", "signmessage", null, testAuthToken, body).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header("content-type", "application/json");
+        expect(res).to.be.json;
+        done();
+      });
+    });
+  });
 
   describe("syscoindecoderawtransaction", function () {
     it("Decode raw syscoin transaction", function (done) {
@@ -595,7 +686,7 @@ describe("Tests for General Service API", function () {
   });
 
   //
-  describe.only("getaddressmempool", function () {
+  describe("getaddressmempool", function () {
     it("Return information about address mempool", function (done) {
       const params = {
         addresses: [Config.TEST_EXISTING_ADDRESS1, Config.TEST_EXISTING_ADDRESS2]
