@@ -5473,10 +5473,11 @@ definitions:
     properties:
       hexstring:
         type: string
-      addresses:
-        type: array
-        items:
-          type: object
+      addresses: 
+        type: array 
+        items: 
+          type: string
+        example: ["list-of-addresses", "last-address-in-list-is-used-for-funding"]
   GetAddressUTXOsRequest:
     properties:
       addresses:

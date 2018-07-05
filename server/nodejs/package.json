@@ -9,7 +9,9 @@
     "isolated": "APIRUNMODE=isolated node .",
     "integrated": "APIRUNMODE=integrated node .",
     "windows-isolated": "set APIRUNMODE=isolated&& node .",
-    "windows-integrated": "set APIRUNMODE=integrated&& node ."
+    "windows-integrated": "set APIRUNMODE=integrated&& node .",
+    "lint": "exit 0",
+    "lint-fix": "exit 0"
   },
   "main": "index.js",
   "keywords": [
@@ -18,6 +20,7 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
+    "@syscoin/syscoin-core": "^3.0.0-beta",
     "assert": "^1.4.1",
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
