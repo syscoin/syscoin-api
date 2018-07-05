@@ -195,11 +195,12 @@ describe("Tests for Aliases Service API", function () {
   });
 
   /* not clear yet how the request looks like*/
-  describe('syscointxfund', function () {
+  describe.only('syscointxfund', function () {
     it("Funds a new syscoin transaction", function (done) {
 
       const body = {
-        "hexstring": Config.TEST_TRX_HEX_STRING
+        "hexstring": Config.TEST_TRX_HEX_STRING,
+        "addresses": [Config.TEST_EXISTING_ADDRESS1, Config.TEST_EXISTING_ADDRESS2]
       };
 
       request('POST', 'syscointxfund', null, testAuthToken, body)

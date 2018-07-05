@@ -56,7 +56,7 @@ module.exports = {
 
   syscointxfund: methodGenerator.generateGenericSyscoinMethod([
     { prop: 'hexstring' },
-    { prop: 'addresses' }
+    { prop: 'addresses', asJsonObject: true }
   ], syscoinClient.syscoinTxFund, 'syscointxfund', 'POST'),
 
   aliasaddscript: methodGenerator.generateGenericSyscoinMethod([

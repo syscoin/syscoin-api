@@ -43,11 +43,19 @@ function getArgsArr(fullArgList, requestArgs, httpMethod, callback, asJsonObject
         console.info('Need to convert value of "' + [argObj.prop] + '" to a ' + argObj.syscoinType + " type...");
         paramValue = correctTypes(paramValue, getConversionMethod(typeof paramValue, argObj.syscoinType));
       }
+
+      if (argObj && notNullOrUndefined(argObj.asJsonObject) && argObj.asJsonObject && !asJsonObject) {
+        console.info('Need to convert value of "' + [argObj.prop] + '" to JSON object...');
+        let obj = {}
+        obj[argObj.prop] = paramValue;
+        paramValue = obj;
+      }
+
       if (asJsonObject) {
-        // in case Syscoin expects arguments provided as JSON object
+        // in case Syscoin expects the request provided as JSON object
         jsonObject[argObj.prop] = paramValue;
       } else {
-        // in case Syscoin expects arguments provided as array of values
+        // in case Syscoin expects the request provided as array of values
         arr.push(paramValue);
       }
 
