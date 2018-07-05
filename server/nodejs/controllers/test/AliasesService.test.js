@@ -195,7 +195,7 @@ describe("Tests for Aliases Service API", function () {
   });
 
   /* not clear yet how the request looks like*/
-  describe.only('syscointxfund', function () {
+  describe('syscointxfund', function () {
     it("Funds a new syscoin transaction", function (done) {
 
       const body = {
