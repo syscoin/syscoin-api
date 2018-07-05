@@ -1,0 +1,17 @@
+language: node_js 
+node_js: 
+  - "7.10" 
+  - "8.9"
+cache:
+  directories:
+    - node_modules
+before_install:
+  # Update Node.js module
+  - "test ! -d node_modules || npm prune"
+  - "test ! -d node_modules || npm rebuild" 
+  - "test ! -d server/nodejs/node_modules || cd server/nodejs && npm rebuild"
+  - "test ! -d server/nodejs/node_modules || cd server/nodejs && npm prune"
+  
+script: 
+  - "cd server/nodejs && npm run lint"
+  - "npm run test"
