@@ -13,5 +13,6 @@ before_install:
   - "test ! -d server/nodejs/node_modules || cd server/nodejs && npm prune"
   
 script: 
-  - "cd server/nodejs && npm run lint"
+  - "cd server/nodejs && npm install"
+  - "npm run lint"
   - "npm run test"
