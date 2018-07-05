@@ -154,17 +154,14 @@ describe("Tests for Aliases Service API", function () {
 
       request('POST', 'aliasclearwhitelist', null, testAuthToken, body)
         .end(function (err, res) {
-          //in case the whitelist is already empty, syscoing throws an error 5026 which is OK.
-          if (err && err.rawResponse.includes('ERRCODE: 5026'))
-            console.log(err.rawResponse)
-          else
-            expect(err).to.be.null;
-
-          if (res) {
+          expect(err).to.be.null;
+          expect(res).to.have.header('content-type', 'application/json');
+          expect(res).to.be.json;
+          if (res.status == 500 && res.text.includes('ERRCODE: 5026')) {
+            //this is ok for testing the api. End-to-end integration testing is supposed to cover the whole workflow.
+            console.error(res.text)
+          } else {
             expect(res).to.have.status(200);
-            expect(res).to.have.header('content-type', 'application/json');
-            expect(res).to.be.json;
-            //TO-DO: response schema validation
           }
           done();
         });

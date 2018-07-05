@@ -12,8 +12,9 @@ function _debugLog(msg) {
  * @param fullArgList Array with the full list of arguments, required and optional
  * @param requestArgs Actual args past in the request, structure varies dependent on request type
  */
-function getArgsArr(fullArgList, requestArgs, httpMethod, callback) {
+function getArgsArr(fullArgList, requestArgs, httpMethod, callback, asJsonObject = false) {
   let arr = [];
+  let jsonObject = {};
 
   for (var i = 0; i < fullArgList.length; i++) {
     let paramValue = null;
@@ -42,18 +43,29 @@ function getArgsArr(fullArgList, requestArgs, httpMethod, callback) {
         console.info('Need to convert value of "' + [argObj.prop] + '" to a ' + argObj.syscoinType + " type...");
         paramValue = correctTypes(paramValue, getConversionMethod(typeof paramValue, argObj.syscoinType));
       }
-      arr.push(paramValue);
+      if (asJsonObject) {
+        // in case Syscoin expects arguments provided as JSON object
+        jsonObject[argObj.prop] = paramValue;
+      } else {
+        // in case Syscoin expects arguments provided as array of values
+        arr.push(paramValue);
+      }
+
     } else {
       console.error("ERROR: No value defined in request for " + argObj.prop + " and no defaultValue specified. Is this a required param?");
     }
 
   }
 
+  if (asJsonObject) {
+    arr.push(jsonObject);
+  }
+
   //add callback last
   if (callback)
     arr.push(callback);
 
-  console.log("Args array: " + JSON.stringify(arr));
+  console.log("Request parameters: " + JSON.stringify(arr));
 
   return arr;
 }
@@ -116,7 +128,7 @@ var TYPE_CONVERSION = Object.freeze(
 
 function correctTypes(param, conversionType) {
 
-  console.info("Converting" , param , "using", conversionType , "method...");
+  console.info("Converting", param, "using", conversionType, "method...");
   let newValue;
 
   if (notNullOrUndefined(param) && notNullOrUndefined(conversionType)) {
