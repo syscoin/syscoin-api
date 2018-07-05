@@ -3294,7 +3294,7 @@ definitions:
       governance-hash:
         type: string
       vote-signal:
-        type: number
+        type: string
       vote-outcome:
         type: string
       time:

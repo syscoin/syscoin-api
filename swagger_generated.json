@@ -4252,7 +4252,7 @@
           "type" : "string"
         },
         "vote-signal" : {
-          "type" : "number"
+          "type" : "string"
         },
         "vote-outcome" : {
           "type" : "string"
@@ -4266,7 +4266,7 @@
       },
       "example" : {
         "masternode-tx-index" : 0.80082819046101150206595775671303272247314453125,
-        "vote-signal" : 6.02745618307040320615897144307382404804229736328125,
+        "vote-signal" : "vote-signal",
         "masternode-tx-hash" : "masternode-tx-hash",
         "governance-hash" : "governance-hash",
         "time" : 1.46581298050294517310021547018550336360931396484375,
