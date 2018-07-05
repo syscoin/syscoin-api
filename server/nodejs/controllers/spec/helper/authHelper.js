@@ -5,14 +5,14 @@ var config = require('../../../config');
 var _requestOptions = {};
 
 function _doAuth() {
-  var hash = new Hashes.SHA1().hex("u" + "p");
+  var hash = new Hashes.SHA1().hex('u' + 'p');
   var token = jwt.sign({ auth: hash }, config.api_secret, {
     expiresIn: 60 * 60 * 24 // expires in 24 hours
   });
 
   _requestOptions.headers = {
-    "token": token,
-    "content-type": "application/json"
+    'token': token,
+    'content-type': 'application/json'
   };
 
   _requestOptions.resolveWithFullResponse = true;
@@ -25,8 +25,8 @@ function _reset() {
   }
 
   newRequestOptions.headers = {
-    "token": _requestOptions.headers.token,
-    "content-type": "application/json"
+    'token': _requestOptions.headers.token,
+    'content-type': 'application/json'
   };
 
   newRequestOptions.resolveWithFullResponse = true;

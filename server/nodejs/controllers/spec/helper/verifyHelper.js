@@ -1,4 +1,4 @@
-var expect  = require("chai").expect;
+var expect  = require('chai').expect;
 
 function verifySyscoinAddress(address) {
   expect(address.length).to.equal(34);

@@ -1,7 +1,5 @@
 'use strict';
 
-var url = require('url');
-
 
 var Certificates = require('./CertificatesService');
 

@@ -3,55 +3,55 @@ const methodGenerator = require('./util/methodGenerator');
 
 module.exports = {
   aliasbalance: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "alias" }
+    { prop: 'alias' }
   ], syscoinClient.aliasBalance, 'aliasbalance', 'GET'),
 
   aliasinfo: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "aliasname" }
+    { prop: 'aliasname' }
   ], syscoinClient.aliasInfo, 'aliasinfo', 'GET'),
 
   aliasnew: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "aliasname" },
-    { prop: "publicvalue" },
-    { prop: "accept_transfers_flags", defaultValue: 3 },
-    { prop: "expire_timestamp", defaultValue: 3600 },
-    { prop: "address" },
-    { prop: "encryption_privatekey" },
-    { prop: "encryption_publickey" },
-    { prop: "witness" }
+    { prop: 'aliasname' },
+    { prop: 'publicvalue' },
+    { prop: 'accept_transfers_flags', defaultValue: 3 },
+    { prop: 'expire_timestamp', defaultValue: 3600 },
+    { prop: 'address' },
+    { prop: 'encryption_privatekey' },
+    { prop: 'encryption_publickey' },
+    { prop: 'witness' }
   ], syscoinClient.aliasNew, 'aliasnew', 'POST'),
 
   aliaspay: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "aliasfrom" },
-    { prop: "amounts" },
-    { prop: "instantsend" },
-    { prop: "subtractfeefromamount" }
+    { prop: 'aliasfrom' },
+    { prop: 'amounts' },
+    { prop: 'instantsend' },
+    { prop: 'subtractfeefromamount' }
   ], syscoinClient.aliasPay, 'aliaspay', 'POST'),
 
   aliasupdate: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "aliasname" },
-    { prop: "publicvalue" },
-    { prop: "address" },
-    { prop: "accept_transfers_flags", defaultValue: 3 },
-    { prop: "expire_timestamp", defaultValue: 3600 },
-    { prop: "encryption_privatekey" },
-    { prop: "encryption_publickey" },
-    { prop: "witness" }
+    { prop: 'aliasname' },
+    { prop: 'publicvalue' },
+    { prop: 'address' },
+    { prop: 'accept_transfers_flags', defaultValue: 3 },
+    { prop: 'expire_timestamp', defaultValue: 3600 },
+    { prop: 'encryption_privatekey' },
+    { prop: 'encryption_publickey' },
+    { prop: 'witness' }
   ], syscoinClient.aliasUpdate, 'aliasupdate', 'POST'),
 
   aliaswhitelist: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "aliasname" }
+    { prop: 'aliasname' }
   ], syscoinClient.aliasWhitelist, 'aliaswhitelist', 'GET'),
 
   aliasclearwhitelist: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "owneralias", },
-    { prop: "witness", }
+    { prop: 'owneralias', },
+    { prop: 'witness', }
   ], syscoinClient.aliasClearWhitelist, 'aliasclearwhitelist', 'POST'),
 
   aliasupdatewhitelist: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "owneralias" },
-    { prop: "entries" },
-    { prop: "witness", defaultValue: "" }
+    { prop: 'owneralias' },
+    { prop: 'entries' },
+    { prop: 'witness', defaultValue: '' }
   ], syscoinClient.aliasUpdateWhitelist, 'aliasupdatewhitelist', 'POST'),
 
   syscointxfund: methodGenerator.generateGenericSyscoinMethod([
@@ -62,4 +62,4 @@ module.exports = {
   aliasaddscript: methodGenerator.generateGenericSyscoinMethod([
     { prop: 'script' }
   ], syscoinClient.aliasAddScript, 'aliasaddscript', 'POST')
-}
+};

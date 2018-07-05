@@ -10,8 +10,10 @@
     "integrated": "APIRUNMODE=integrated node .",
     "windows-isolated": "set APIRUNMODE=isolated&& node .",
     "windows-integrated": "set APIRUNMODE=integrated&& node .",
-    "lint": "exit 0",
-    "lint-fix": "exit 0"
+    "lint": "eslint --ignore-path .jshintignore *.js",
+    "lint-fix": "eslint --fix . --ignore-path .jshintignore",
+    "precommit": "npm run lint",
+    "prepush": "npm run lint && npm run test"
   },
   "main": "index.js",
   "keywords": [
@@ -44,5 +46,9 @@
   "bugs": {
     "url": "https://github.com/syscoin/syscoin-api/issues"
   },
-  "homepage": "https://github.com/syscoin/syscoin-api"
+  "homepage": "https://github.com/syscoin/syscoin-api",
+  "devDependencies": {
+    "husky": "^0.10.1",
+    "eslint": "^5.0.1"
+  }
 }

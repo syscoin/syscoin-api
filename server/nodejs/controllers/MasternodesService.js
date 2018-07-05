@@ -1,107 +1,102 @@
 var syscoinClient = require('../index').syscoinClient;
 var varUtils = require('./util/varUtils');
 var commonUtils = require('./util/commonUtils');
-const he = require('he');
 
-
-exports.sentinelping = function(args, res, next) {
-    /**
+exports.sentinelping = function(args, res) {
+  /**
      * parameters expected in the args:
      * request (sentinelping)
      **/
-    var argList = [
-        { prop: "version" }
-    ];
+ 
+  var cb = function(err, result) {
+    res.setHeader('Content-Type', 'application/json');
 
-    var cb = function(err, result, resHeaders) {
-        res.setHeader('Content-Type', 'application/json');
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
 
-        if (err) {
-            return commonUtils.reportError(res, err);
-        }
-
-        commonUtils.log('sentinelping', result, "sentinelping");
-        res.end(JSON.stringify(result));
-    };
-    var arr = [args['version']['value'], cb];
-    syscoinClient.sentinelPing.apply(syscoinClient, arr);
+    commonUtils.log('sentinelping', result, 'sentinelping');
+    res.end(JSON.stringify(result));
+  };
+  var arr = [args['version']['value'], cb];
+  syscoinClient.sentinelPing.apply(syscoinClient, arr);
 };
 
-exports.voteraw = function(args, res, next) {
-    /**
+exports.voteraw = function(args, res) {
+  /**
      * parameters expected in the args:
      * request (voteraw)
      **/
-    var argList = [
-        { prop: "masternode-tx-hash" },
-        { prop: "masternode-tx" },
-        { prop: "governance-hash" },
-        { prop: "vote-signal" },
-        { prop: "vote-outcome" },
-        { prop: "time" },
-        { prop: "vote-sig" }
-    ];
+  var argList = [
+    { prop: 'masternode-tx-hash' },
+    { prop: 'masternode-tx' },
+    { prop: 'governance-hash' },
+    { prop: 'vote-signal' },
+    { prop: 'vote-outcome' },
+    { prop: 'time' },
+    { prop: 'vote-sig' }
+  ];
 
-    var cb = function(err, result, resHeaders) {
-        res.setHeader('Content-Type', 'application/json');
+  var cb = function(err, result) {
+    res.setHeader('Content-Type', 'application/json');
 
-        if (err) {
-            return commonUtils.reportError(res, err);
-        }
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
 
-        commonUtils.log('voteraw', result, "voteraw");
-        res.end(JSON.stringify(result));
-    };
-    console.log(args);
-    var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-    console.log(arr);
-    syscoinClient.voteraw.apply(syscoinClient, arr);
+    commonUtils.log('voteraw', result, 'voteraw');
+    res.end(JSON.stringify(result));
+  };
+  console.log(args);
+  var arr = varUtils.getArgsArr(argList, args, 'POST', cb);
+  console.log(arr);
+  syscoinClient.voteraw.apply(syscoinClient, arr);
 };
 
 
-exports.privatesend = function(args, res, next) {
-    /**
+exports.privatesend = function(args, res) {
+  /**
      * parameters expected in the args:
      * request (privatesend)
      **/
-    var argList = [
-        { prop: "command" }
-    ];
+  var argList = [
+    { prop: 'command' }
+  ];
 
-    var cb = function(err, result, resHeaders) {
-        res.setHeader('Content-Type', 'application/json');
+  var cb = function(err, result) {
+    res.setHeader('Content-Type', 'application/json');
 
-        if (err) {
-            return commonUtils.reportError(res, err);
-        }
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
 
-        commonUtils.log('privatesend', result, "privatesend");
-        res.end(JSON.stringify(result));
-    };
+    commonUtils.log('privatesend', result, 'privatesend');
+    res.end(JSON.stringify(result));
+  };
 
-    var arr = varUtils.getArgsArr(argList, args, "GET", cb);
-    syscoinClient.privateSend.apply(syscoinClient, arr);
+  var arr = varUtils.getArgsArr(argList, args, 'GET', cb);
+  syscoinClient.privateSend.apply(syscoinClient, arr);
 };
 
 
-exports.importelectrumwallet = function(args, res, next) {
-    /**
+exports.importelectrumwallet = function(args, res) {
+  /**
      * parameters expected in the args:
      * request (importelectrumwallet)
      **/
-    var cb = function(err, result, resHeaders) {
-        res.setHeader('Content-Type', 'application/json');
+  var cb = function(err, result) {
+    res.setHeader('Content-Type', 'application/json');
 
-        if (err) {
-            return commonUtils.reportError(res, err);
-        }
+    if (err) {
+      return commonUtils.reportError(res, err);
+    }
 
-        commonUtils.log('importElectrumWallet', result, "importElectrumWallet");
-        res.end(JSON.stringify(result));
-    };
+    commonUtils.log('importElectrumWallet', result, 'importElectrumWallet');
+    res.end(JSON.stringify(result));
+  };
 
     //var arr = varUtils.getArgsArr(argList, args, "POST", cb);
-    var arr = [args['filename'],args['index'], cb];
-    console.log(arr);
-    syscoinClient.importElectrumWallet.apply(syscoinClient, arr);
+  var arr = [args['filename'],args['index'], cb];
+  console.log(arr);
+  syscoinClient.importElectrumWallet.apply(syscoinClient, arr);
 };
