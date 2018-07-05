@@ -10,7 +10,7 @@ function reportError(response, errorStr) {
   }else{
     responseString = JSON.stringify(JSON.stringify(errorStr.toString()));
   }
-  console.error("Error: " + responseString);
+  console.error('Error: ' + responseString);
   return response.end(responseString);
 }
 
@@ -18,7 +18,7 @@ function parseError(errorStr) {
   let errObj = null;
 
   //transform the RPC Error into a more Syscoin-specific error while maintaining the 500 status
-  const rpcErrorStr = "RpcError: 500 "; //with trailing space!
+  const rpcErrorStr = 'RpcError: 500 '; //with trailing space!
   let errObjStartIndex = errorStr.toString().indexOf(rpcErrorStr);
 
   if (errObjStartIndex >= 0) {
@@ -47,7 +47,7 @@ function log(...args) {
   if(config.methodsWithLoggingDisabled.length > 0 && config.methodsWithLoggingDisabled.filter((item) => {
     return item == reportingMethod;
   }).length > 0) {
-    console.log(reportingMethod + " not logged because disabled");
+    console.log(reportingMethod + ' not logged because disabled');
     return; //if the reportingMethod is in the array of methods w logging disabled, dont log it!
   }
 

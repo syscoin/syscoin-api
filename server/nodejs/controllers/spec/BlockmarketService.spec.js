@@ -1,19 +1,19 @@
-var expect  = require("chai").expect;
-var rp = require("request-promise");
+var expect  = require('chai').expect;
+var rp = require('request-promise');
 var Hashes   = require('jshashes');
 
-var AuthHelper = require("./helper/authHelper");
-var Config = require("../../spec/config");
+var AuthHelper = require('./helper/authHelper');
+var Config = require('../../spec/config');
 
-describe("Blockmarket Service API", function() {
+describe('Blockmarket Service API', function() {
 
-  describe("login", function () {
-    it("Returns a token when proper user/pass supplied", function (done) {
-      var url = Config.HOST + "login";
-      var auth = new Hashes.SHA1().hex("u" + "p");
+  describe('login', function () {
+    it('Returns a token when proper user/pass supplied', function (done) {
+      var url = Config.HOST + 'login';
+      var auth = new Hashes.SHA1().hex('u' + 'p');
       var requestOptions = AuthHelper.requestOptions();
       requestOptions.qs = {
-        "auth": auth
+        'auth': auth
       };
 
       rp(url, requestOptions).then(function (result) {
@@ -25,23 +25,23 @@ describe("Blockmarket Service API", function() {
       });
     });
 
-    it("Returns an error when invalid user/pass supplied", function (done) {
-      var url = Config.HOST +  "login";
-      var auth = new Hashes.SHA1().hex("WRONGUSER" + "WRONGPASS");
+    it('Returns an error when invalid user/pass supplied', function (done) {
+      var url = Config.HOST +  'login';
+      var auth = new Hashes.SHA1().hex('WRONGUSER' + 'WRONGPASS');
       var requestOptions = AuthHelper.requestOptions();
       requestOptions.qs = {
-        "auth": auth
+        'auth': auth
       };
 
       rp(url, requestOptions)
-        .then(function (result) {},
-        function(error) {
-          expect(error.statusCode).to.equal(401);
+        .then(function () {},
+          function(error) {
+            expect(error.statusCode).to.equal(401);
 
-          var authResult = JSON.parse(error.response.body);
-          expect(authResult.success).to.equal(false);
-          done();
-      });
+            var authResult = JSON.parse(error.response.body);
+            expect(authResult.success).to.equal(false);
+            done();
+          });
     });
   });
 });

@@ -6,54 +6,54 @@ const methodGenerator = require('./util/methodGenerator');
 
 module.exports = {
   addmultisigaddress: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "nrequired" },
-    { prop: "keysobject", defaultValue: "" },
-    { prop: "account", defaultValue: "" }
+    { prop: 'nrequired' },
+    { prop: 'keysobject', defaultValue: '' },
+    { prop: 'account', defaultValue: '' }
   ], syscoinClient.addMultiSigAddress, 'addmultisigaddress', 'POST'),
 
   dumpprivkey: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "address" }
+    { prop: 'address' }
   ], syscoinClient.dumpPrivKey, 'dumpprivkey', 'GET'),
 
   dumpwallet: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "filename" }
+    { prop: 'filename' }
   ], syscoinClient.dumpWallet, 'dumpwallet', 'GET'),
 
   encryptwallet: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "passphrase" }
+    { prop: 'passphrase' }
   ], syscoinClient.encryptWallet, 'encryptwallet', 'POST'),
 
   generate: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "numBlocks" },
-    { prop: "maxtries", defaultValue: 1000000 }
+    { prop: 'numBlocks' },
+    { prop: 'maxtries', defaultValue: 1000000 }
   ], syscoinClient.generate, 'generate', 'GET'),
 
   generatepublickey: methodGenerator.generateGenericSyscoinMethod([],
     syscoinClient.generatepublickey, 'generatepublickey', 'GET'),
 
   getaccount: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "syscoinaddress" }
+    { prop: 'syscoinaddress' }
   ], syscoinClient.getAccount, 'getaccount', 'GET'),
 
   getaccountaddress: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "account" }
+    { prop: 'account' }
   ], syscoinClient.getAccountAddress, 'getaccountaddress', 'GET'),
 
   //Deprecated
   getaddressesbyaccount: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "account" }
+    { prop: 'account' }
   ], syscoinClient.getAddressesByAccount, 'getaddressesbyaccount', 'GET'),
 
   getbalance: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "account", defaultValue: "*" },
-    { prop: "minconf", defaultValue: 1 },
-    { prop: "addlockconf", defaultValue: false },
-    { prop: "includeWatchonly", defaultValue: false }
+    { prop: 'account', defaultValue: '*' },
+    { prop: 'minconf', defaultValue: 1 },
+    { prop: 'addlockconf', defaultValue: false },
+    { prop: 'includeWatchonly', defaultValue: false }
   ], syscoinClient.getBalance, 'getbalance', 'GET'),
 
   getblock: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "hash", },
-    { prop: "verbose", defaultValue: true }
+    { prop: 'hash', },
+    { prop: 'verbose', defaultValue: true }
   ], syscoinClient.getBlock, 'getblock', 'GET'),
 
   getblockchaininfo: methodGenerator.generateGenericSyscoinMethod(
@@ -68,9 +68,9 @@ module.exports = {
   * Leave this (getInfo) method untouched for now due to additional error handling.
   * TO-DO: Refactor taking the error handling into account
   */
-  getinfo: function (args, res, next) {
+  getinfo: function (args, res) {
     var argList = [];
-    var cb = function (err, result, resHeaders) {
+    var cb = function (err, result) {
       res.setHeader('Content-Type', 'application/json');
 
       if (err) {
@@ -78,7 +78,7 @@ module.exports = {
         if (generalServiceGetInfoUtils.getInfoResponseIsWalletPercentageResponse(jsonError)) {
           const walletPercentage = generalServiceGetInfoUtils.extractWalletPercentageFromGetInfoResponseMessage(jsonError.message);
           const infoObj = generalServiceGetInfoUtils.createCustomWalletPercentageInfoResponse(walletPercentage);
-          commonUtils.log('Special Info:', infoObj, "getinfo");
+          commonUtils.log('Special Info:', infoObj, 'getinfo');
           res.end(JSON.stringify(infoObj));
           return;
         }
@@ -87,11 +87,11 @@ module.exports = {
         }
       }
 
-      commonUtils.log('Info:', result, "getinfo");
+      commonUtils.log('Info:', result, 'getinfo');
       res.end(JSON.stringify(result));
     };
 
-    var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+    var arr = varUtils.getArgsArr(argList, args, 'GET', cb);
     syscoinClient.getInfo.apply(syscoinClient, arr);
   },
 
@@ -104,27 +104,27 @@ module.exports = {
     syscoinClient.getNetworkInfo, 'getnetworkinfo', 'GET'),
 
   getnewaddress: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "account" }
+    { prop: 'account' }
   ], syscoinClient.getNewAddress, 'getnewaddress', 'POST'),
 
   getpeerinfo: methodGenerator.generateGenericSyscoinMethod([],
     syscoinClient.getPeerInfo, 'getpeerinfo', 'GET'),
 
   getreceivedbyaccount: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "account" },
-    { prop: "minconf", defaultValue: 1 },
-    { prop: "addlockconf", defaultValue: false }
+    { prop: 'account' },
+    { prop: 'minconf', defaultValue: 1 },
+    { prop: 'addlockconf', defaultValue: false }
   ], syscoinClient.getReceivedByAccount, 'getreceivedbyaccount', 'GET'),
 
   getreceivedbyaddress: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "syscoinaddress" },
-    { prop: "minconf", defaultValue: 1 },
-    { prop: "addlockconf", defaultValue: false }
+    { prop: 'syscoinaddress' },
+    { prop: 'minconf', defaultValue: 1 },
+    { prop: 'addlockconf', defaultValue: false }
   ], syscoinClient.getReceivedByAddress, 'getreceivedbyaddress', 'GET'),
 
   gettransaction: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "txid" },
-    { prop: "includeWatchonly", defaultValue: false }
+    { prop: 'txid' },
+    { prop: 'includeWatchonly', defaultValue: false }
   ], syscoinClient.getTransaction, 'gettransaction', 'GET'),
 
   getunconfirmedbalance: methodGenerator.generateGenericSyscoinMethod([],
@@ -134,170 +134,170 @@ module.exports = {
     syscoinClient.getWalletInfo, 'getwalletinfo', 'GET'),
 
   importaddress: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "script" },
-    { prop: "label", defaultValue: "" },
-    { prop: "rescan", defaultValue: true },
-    { prop: "p2sh", defaultValue: false }
+    { prop: 'script' },
+    { prop: 'label', defaultValue: '' },
+    { prop: 'rescan', defaultValue: true },
+    { prop: 'p2sh', defaultValue: false }
   ], syscoinClient.importAddress, 'importaddress', 'POST'),
 
   importprivkey: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "syscoinprivkey" },
-    { prop: "label", defaultValue: "" },
-    { prop: "rescan", defaultValue: true }
+    { prop: 'syscoinprivkey' },
+    { prop: 'label', defaultValue: '' },
+    { prop: 'rescan', defaultValue: true }
   ], syscoinClient.importPrivKey, 'importprivkey', 'POST'),
 
   importpubkey: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "pubkey" },
-    { prop: "label", defaultValue: "" },
-    { prop: "rescan", defaultValue: true }
+    { prop: 'pubkey' },
+    { prop: 'label', defaultValue: '' },
+    { prop: 'rescan', defaultValue: true }
   ], syscoinClient.importPubKey, 'importpubkey', 'POST'),
 
   importwallet: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "filename" }
+    { prop: 'filename' }
   ], syscoinClient.importWallet, 'importwallet', 'POST'),
 
   listaccounts: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "minconf", defaultValue: 1 },
-    { prop: "addlockconf", defaultValue: false },
-    { prop: "includeWatchonly", defaultValue: false }
+    { prop: 'minconf', defaultValue: 1 },
+    { prop: 'addlockconf', defaultValue: false },
+    { prop: 'includeWatchonly', defaultValue: false }
   ], syscoinClient.listAccounts, 'listaccounts', 'GET'),
 
   listaddressgroupings: methodGenerator.generateGenericSyscoinMethod([],
     syscoinClient.listAddressGroupings, 'listaddressgroupings', 'GET'),
 
   listreceivedbyaccount: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "minconf", defaultValue: 0 },
-    { prop: "addlockconf", defaultValue: false },
-    { prop: "includeempty", defaultValue: false },
-    { prop: "includeWatchonly", defaultValue: false }
+    { prop: 'minconf', defaultValue: 0 },
+    { prop: 'addlockconf', defaultValue: false },
+    { prop: 'includeempty', defaultValue: false },
+    { prop: 'includeWatchonly', defaultValue: false }
   ], syscoinClient.listReceivedByAccount, 'listreceivedbyaccount', 'GET'),
 
   listreceivedbyaddress: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "minconf", defaultValue: 0 },
-    { prop: "addlockconf", defaultValue: false },
-    { prop: "includeempty", defaultValue: false },
-    { prop: "includeWatchonly", defaultValue: false }
+    { prop: 'minconf', defaultValue: 0 },
+    { prop: 'addlockconf', defaultValue: false },
+    { prop: 'includeempty', defaultValue: false },
+    { prop: 'includeWatchonly', defaultValue: false }
   ], syscoinClient.listReceivedByAddress, 'listreceivedbyaddress', 'GET'),
 
   listsinceblock: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "blockhash", defaultValue: "" },
-    { prop: "targetConfirmations", defaultValue: 1 },
-    { prop: "includeWatchonly", defaultValue: false }
+    { prop: 'blockhash', defaultValue: '' },
+    { prop: 'targetConfirmations', defaultValue: 1 },
+    { prop: 'includeWatchonly', defaultValue: false }
   ], syscoinClient.listSinceBlock, 'listsinceblock', 'GET'),
 
   listtransactions: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "account", defaultValue: "*" },
-    { prop: "count", defaultValue: 10 },
-    { prop: "from", defaultValue: 0 },
-    { prop: "includeWatchonly", defaultValue: false }
+    { prop: 'account', defaultValue: '*' },
+    { prop: 'count', defaultValue: 10 },
+    { prop: 'from', defaultValue: 0 },
+    { prop: 'includeWatchonly', defaultValue: false }
   ], syscoinClient.listTransactions, 'listtransactions', 'GET'),
 
   listunspent: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "minconf", defaultValue: 1 },
-    { prop: "maxconf", defaultValue: 9999999 },
-    { prop: "adresses", defaultValue: [] }
+    { prop: 'minconf', defaultValue: 1 },
+    { prop: 'maxconf', defaultValue: 9999999 },
+    { prop: 'adresses', defaultValue: [] }
   ], syscoinClient.listUnspent, 'listunspent', 'GET'),
 
   //Deprecated
   move: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "fromaccount" },
-    { prop: "toaccount" },
-    { prop: "amount" },
-    { prop: "minconf", defaultValue: 1 },
-    { prop: "comment", defaultValue: "" }
+    { prop: 'fromaccount' },
+    { prop: 'toaccount' },
+    { prop: 'amount' },
+    { prop: 'minconf', defaultValue: 1 },
+    { prop: 'comment', defaultValue: '' }
   ], syscoinClient.move, 'move', 'POST'),
 
   //Deprecated
   sendfrom: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "fromaccount" },
-    { prop: "tosyscoinaddress" },
-    { prop: "amount" },
-    { prop: "minconf", defaultValue: 1 },
-    { prop: "addlockconf", defaultValue: false },
-    { prop: "comment", defaultValue: "" },
-    { prop: "commentto", defaultValue: "" }
+    { prop: 'fromaccount' },
+    { prop: 'tosyscoinaddress' },
+    { prop: 'amount' },
+    { prop: 'minconf', defaultValue: 1 },
+    { prop: 'addlockconf', defaultValue: false },
+    { prop: 'comment', defaultValue: '' },
+    { prop: 'commentto', defaultValue: '' }
   ], syscoinClient.sendFrom, 'sendfrom', 'POST'),
 
   sendmany: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "fromaccount" },
-    { prop: "amounts" },
-    { prop: "minconf", defaultValue: 1 },
-    { prop: "addlockconf", defaultValue: false },
-    { prop: "comment", defaultValue: "" },
-    { prop: "subtractfeefromamount", defaultValue: [] },
-    { prop: "use_is", defaultValue: false },
-    { prop: "use_ps", defaultValue: false }
+    { prop: 'fromaccount' },
+    { prop: 'amounts' },
+    { prop: 'minconf', defaultValue: 1 },
+    { prop: 'addlockconf', defaultValue: false },
+    { prop: 'comment', defaultValue: '' },
+    { prop: 'subtractfeefromamount', defaultValue: [] },
+    { prop: 'use_is', defaultValue: false },
+    { prop: 'use_ps', defaultValue: false }
   ], syscoinClient.sendMany, 'sendmany', 'POST'),
 
   sendtoaddress: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "syscoinaddress" },
-    { prop: "amount" },
-    { prop: "comment" },
-    { prop: "commentto" },
-    { prop: "subtractfeefromamount", defaultValue: false },
-    { prop: "use_is", defaultValue: false },
-    { prop: "use_ps", defaultValue: false }
+    { prop: 'syscoinaddress' },
+    { prop: 'amount' },
+    { prop: 'comment' },
+    { prop: 'commentto' },
+    { prop: 'subtractfeefromamount', defaultValue: false },
+    { prop: 'use_is', defaultValue: false },
+    { prop: 'use_ps', defaultValue: false }
   ], syscoinClient.sendToAddress, 'sendtoaddress', 'POST'),
 
   signmessage: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "syscoinaddress" },
-    { prop: "message" }
+    { prop: 'syscoinaddress' },
+    { prop: 'message' }
   ], syscoinClient.signMessage, 'signmessage', 'POST'),
 
   syscoindecoderawtransaction: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "hexstring" }
+    { prop: 'hexstring' }
   ], syscoinClient.syscoinDecodeRawTransaction, 'syscoindecoderawtransaction', 'GET'),
 
   validateaddress: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "syscoinaddress" }
+    { prop: 'syscoinaddress' }
   ], syscoinClient.validateAddress, 'validateaddress', 'GET'),
 
   verifymessage: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "syscoinaddress" },
-    { prop: "signature" },
-    { prop: "message" }
+    { prop: 'syscoinaddress' },
+    { prop: 'signature' },
+    { prop: 'message' }
   ], syscoinClient.verifyMessage, 'verifymessage', 'GET'),
 
   walletlock: methodGenerator.generateGenericSyscoinMethod([],
     syscoinClient.walletLock, 'walletlock', 'POST'),
 
   walletpassphrase: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "passphrase" },
-    { prop: "timeout" }
+    { prop: 'passphrase' },
+    { prop: 'timeout' }
   ], syscoinClient.walletPassphrase, 'walletpassphrase', 'POST'),
 
   walletpassphrasechange: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "oldpassphrase" },
-    { prop: "newpassphrase" }
+    { prop: 'oldpassphrase' },
+    { prop: 'newpassphrase' }
   ], syscoinClient.walletPassphraseChange, 'walletpassphrasechange', 'POST'),
 
   getaddressbalance: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "addresses" }
+    { prop: 'addresses' }
   ], syscoinClient.getAddressBalance, 'getaddressbalance', 'GET', true),
 
   getaddresstxids: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "addresses" },
-    { prop: "start" },
-    { prop: "end" }
+    { prop: 'addresses' },
+    { prop: 'start' },
+    { prop: 'end' }
   ], syscoinClient.getAddressTxids, 'getaddresstxids', 'GET', true),
 
   getblockhashes: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "high" },
-    { prop: "low" }
+    { prop: 'high' },
+    { prop: 'low' }
   ], syscoinClient.getBlockHashes, 'getblockhashes', 'GET'),
 
   getblockheaders: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "hash" },
-    { prop: "count" },
-    { prop: "verbose" }
+    { prop: 'hash' },
+    { prop: 'count' },
+    { prop: 'verbose' }
   ], syscoinClient.getBlockHeaders, 'getblockheaders', 'GET'),
 
   getchaintips: methodGenerator.generateGenericSyscoinMethod([],
     syscoinClient.getChainTips, 'getchaintips', 'GET'),
 
   getspentinfo: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "txid" },
-    { prop: "index" }
+    { prop: 'txid' },
+    { prop: 'index' }
   ], syscoinClient.getSpentInfo, 'getspentinfo', 'GET', true),
 
   getgovernanceinfo: methodGenerator.generateGenericSyscoinMethod([],
@@ -307,95 +307,95 @@ module.exports = {
     syscoinClient.getPoolInfo, 'getpoolinfo', 'GET'),
 
   getsuperblockbudget: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "index" }
+    { prop: 'index' }
   ], syscoinClient.getSuperBlockBudget, 'getsuperblockbudget', 'GET'),
 
   gobject: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "command" }
+    { prop: 'command' }
   ], syscoinClient.gObject, 'gobject', 'GET'),
 
   masternode: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "command" }
+    { prop: 'command' }
   ], syscoinClient.masternode, 'masternode', 'GET'),
 
   masternodebroadcast: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "command" }
+    { prop: 'command' }
   ], syscoinClient.masternodeBroadcast, 'masternodebroadcast', 'GET'),
 
   masternodelist: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "mode" }
+    { prop: 'mode' }
   ], syscoinClient.masternodeList, 'masternodelist', 'GET'),
 
   getaddressdeltas: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "addresses" },
-    { prop: "start" },
-    { prop: "end" }
+    { prop: 'addresses' },
+    { prop: 'start' },
+    { prop: 'end' }
   ], syscoinClient.getAddressDeltas, 'getaddressdeltas', 'GET', true),
 
   getaddressmempool: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "addresses" },
-    { prop: "start" },
-    { prop: "end" }
+    { prop: 'addresses' },
+    { prop: 'start' },
+    { prop: 'end' }
   ], syscoinClient.getAddressMempool, 'getaddressmempool', 'GET', true),
 
   syscoinsendrawtransaction: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "hexstring" },
-    { prop: "allowhighfees" },
-    { prop: "instantsend" }
+    { prop: 'hexstring' },
+    { prop: 'allowhighfees' },
+    { prop: 'instantsend' }
   ], syscoinClient.syscoinSendRawTransaction, 'syscoinsendrawtransaction', 'POST'),
 
   getgenerate: methodGenerator.generateGenericSyscoinMethod([],
     syscoinClient.getGenerate, 'getgenerate', 'GET'),
 
   setgenerate: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "generate" },
-    { prop: "genproclimit" }
+    { prop: 'generate' },
+    { prop: 'genproclimit' }
   ], syscoinClient.setGenerate, 'setgenerate', 'GET'),
 
   setnetworkactive: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "state" }
+    { prop: 'state' }
   ], syscoinClient.setNetworkActive, 'setnetworkactive', 'GET'),
 
   mnsync: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "command" }
+    { prop: 'command' }
   ], syscoinClient.mnSync, 'mnsync', 'GET'),
 
   dumphdinfo: methodGenerator.generateGenericSyscoinMethod([],
     syscoinClient.dumpHdInfo, 'dumphdinfo', 'GET'),
 
   debug: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "command" }
+    { prop: 'command' }
   ], syscoinClient.debug, 'debug', 'GET'),
 
   instantsendtoaddress: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "syscoinaddress" },
-    { prop: "amount" },
-    { prop: "comment" },
-    { prop: "comment-to" },
-    { prop: "subtractfeefromamount" }
+    { prop: 'syscoinaddress' },
+    { prop: 'amount' },
+    { prop: 'comment' },
+    { prop: 'comment-to' },
+    { prop: 'subtractfeefromamount' }
   ], syscoinClient.instantSendToAddress, 'instantsendtoaddress', 'POST'),
 
   fundrawtransaction: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "hexstring" },
-    { prop: "watching" }
+    { prop: 'hexstring' },
+    { prop: 'watching' }
   ], syscoinClient.fundRawTransaction, 'fundrawtransaction', 'POST'),
 
   getblocktemplate: methodGenerator.generateGenericSyscoinMethod([],
     syscoinClient.getBlockTemplate, 'getblocktemplate', 'GET'),
 
   signrawtransaction: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "hexstring" }
+    { prop: 'hexstring' }
   ], syscoinClient.signRawTransaction, 'signrawtransaction', 'POST'),
 
   lockunspent: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "unlock" },
-    { prop: "transactions" }
+    { prop: 'unlock' },
+    { prop: 'transactions' }
   ], syscoinClient.lockUnspent, 'lockunspent', 'POST'),
 
   syscoinlistreceivedbyaddress: methodGenerator.generateGenericSyscoinMethod([],
     syscoinClient.syscoinListReceivedByAddress, 'syscoinlistreceivedbyaddress', 'GET'),
 
   getaddressutxos: methodGenerator.generateGenericSyscoinMethod([
-    { prop: "addresses" }
+    { prop: 'addresses' }
   ], syscoinClient.getAddressUtxos, 'getaddressutxos', 'GET')
-}
+};

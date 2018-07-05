@@ -1,11 +1,3 @@
-const Config = require("../../spec/config");
-
-function _debugLog(msg) {
-  if (Config.DEBUG_ENABLED) {
-    console.log(msg);
-  }
-}
-
 /**
  * Takes an object which describes the required AND optional properties expected to be on an object, and if that value is defined
  * it is added to the array of params to be returned, order matters here. Order is based on the order of fullArgList.
@@ -21,17 +13,17 @@ function getArgsArr(fullArgList, requestArgs, httpMethod, callback, asJsonObject
     let argObj = fullArgList[i];
 
     switch (httpMethod) {
-      case 'GET':
-        if (notNullOrUndefined(requestArgs) && notNullOrUndefined(requestArgs[argObj.prop]) && notNullOrUndefined(requestArgs[argObj.prop].value)) {
-          paramValue = requestArgs[argObj.prop].value;
-        }
-        break;
-      case 'POST':
-      case 'PUT':
-        if (notNullOrUndefined(requestArgs) && notNullOrUndefined(requestArgs.request) && notNullOrUndefined(requestArgs.request.value) && notNullOrUndefined(requestArgs.request.value[argObj.prop])) {
-          paramValue = requestArgs.request.value[argObj.prop];
-        }
-        break;
+    case 'GET':
+      if (notNullOrUndefined(requestArgs) && notNullOrUndefined(requestArgs[argObj.prop]) && notNullOrUndefined(requestArgs[argObj.prop].value)) {
+        paramValue = requestArgs[argObj.prop].value;
+      }
+      break;
+    case 'POST':
+    case 'PUT':
+      if (notNullOrUndefined(requestArgs) && notNullOrUndefined(requestArgs.request) && notNullOrUndefined(requestArgs.request.value) && notNullOrUndefined(requestArgs.request.value[argObj.prop])) {
+        paramValue = requestArgs.request.value[argObj.prop];
+      }
+      break;
     }
 
     if (argObj && !notNullOrUndefined(paramValue) && notNullOrUndefined(argObj.defaultValue)) {
@@ -40,7 +32,7 @@ function getArgsArr(fullArgList, requestArgs, httpMethod, callback, asJsonObject
 
     if (notNullOrUndefined(paramValue)) {
       if (argObj && notNullOrUndefined(argObj.syscoinType)) {
-        console.info('Need to convert value of "' + [argObj.prop] + '" to a ' + argObj.syscoinType + " type...");
+        console.info('Need to convert value of "' + [argObj.prop] + '" to a ' + argObj.syscoinType + ' type...');
         paramValue = correctTypes(paramValue, getConversionMethod(typeof paramValue, argObj.syscoinType));
       }
 
@@ -60,7 +52,7 @@ function getArgsArr(fullArgList, requestArgs, httpMethod, callback, asJsonObject
       }
 
     } else {
-      console.error("ERROR: No value defined in request for " + argObj.prop + " and no defaultValue specified. Is this a required param?");
+      console.error('ERROR: No value defined in request for ' + argObj.prop + ' and no defaultValue specified. Is this a required param?');
     }
 
   }
@@ -73,7 +65,7 @@ function getArgsArr(fullArgList, requestArgs, httpMethod, callback, asJsonObject
   if (callback)
     arr.push(callback);
 
-  console.log("Request parameters: " + JSON.stringify(arr));
+  console.log('Request parameters: ' + JSON.stringify(arr));
 
   return arr;
 }
@@ -83,27 +75,27 @@ function getConversionMethod(typeFrom, typeTo) {
   let conversionMethod;
 
   switch (typeFrom) {
-    case 'number':
-      if (typeTo === DataType.STRING)
-        conversionMethod = TYPE_CONVERSION.NUM_TO_STRING;
-      else if (typeTo === DataType.NUMBER)
-        conversionMethod = TYPE_CONVERSION.COPY;
-      break;
-    case 'boolean':
-      if (typeTo === DataType.STRING)
-        conversionMethod = TYPE_CONVERSION.BOOL_TO_STRING;
-      else if (typeTo === DataType.NUMBER)
-        conversionMethod = TYPE_CONVERSION.BOOL_TO_NUM_STRING;
-      else if (typeTo === DataType.BOOLEAN)
-        conversionMethod = TYPE_CONVERSION.COPY;
-      break;
-    case 'string':
-      if (typeTo === DataType.STRING)
-        conversionMethod = TYPE_CONVERSION.COPY;
-      break;
-    default:
-      console.error("No matching pairs for data type conversion are configured")
-      break;
+  case 'number':
+    if (typeTo === DataType.STRING)
+      conversionMethod = TYPE_CONVERSION.NUM_TO_STRING;
+    else if (typeTo === DataType.NUMBER)
+      conversionMethod = TYPE_CONVERSION.COPY;
+    break;
+  case 'boolean':
+    if (typeTo === DataType.STRING)
+      conversionMethod = TYPE_CONVERSION.BOOL_TO_STRING;
+    else if (typeTo === DataType.NUMBER)
+      conversionMethod = TYPE_CONVERSION.BOOL_TO_NUM_STRING;
+    else if (typeTo === DataType.BOOLEAN)
+      conversionMethod = TYPE_CONVERSION.COPY;
+    break;
+  case 'string':
+    if (typeTo === DataType.STRING)
+      conversionMethod = TYPE_CONVERSION.COPY;
+    break;
+  default:
+    console.error('No matching pairs for data type conversion are configured');
+    break;
   }
 
   return conversionMethod;
@@ -111,9 +103,9 @@ function getConversionMethod(typeFrom, typeTo) {
 
 const DataType = Object.freeze(
   {
-    STRING: "string",
-    NUMBER: "number",
-    BOOLEAN: "boolean"
+    STRING: 'string',
+    NUMBER: 'number',
+    BOOLEAN: 'boolean'
   }
 );
 
@@ -128,42 +120,42 @@ function notNullOrUndefined(param) {
 
 var TYPE_CONVERSION = Object.freeze(
   {
-    NUM_TO_STRING: "numToString", //1 to "1"
-    BOOL_TO_STRING: "boolToString", //true to "true"
-    BOOL_TO_NUM_STRING: "boolToNumString", //true to "1"
-    COPY: "copy"
+    NUM_TO_STRING: 'numToString', //1 to "1"
+    BOOL_TO_STRING: 'boolToString', //true to "true"
+    BOOL_TO_NUM_STRING: 'boolToNumString', //true to "1"
+    COPY: 'copy'
   });
 
 function correctTypes(param, conversionType) {
 
-  console.info("Converting", param, "using", conversionType, "method...");
+  console.info('Converting', param, 'using', conversionType, 'method...');
   let newValue;
 
   if (notNullOrUndefined(param) && notNullOrUndefined(conversionType)) {
     switch (conversionType) {
-      case TYPE_CONVERSION.NUM_TO_STRING:
-        if (Array.isArray(param)) { //if param is an array, walk it and convert all elements to strings
-          newValue = param.map((item) => {
-            return item.toString();
-          });
-        } else {
-          newValue = param.toString();
-        }
-        break;
-      case TYPE_CONVERSION.BOOL_TO_STRING:
-        newValue = param ? "true" : "false";
-        break;
-      case TYPE_CONVERSION.BOOL_TO_NUM_STRING:
-        newValue = param ? "1" : "0";
-        break;
-      case TYPE_CONVERSION.COPY:
-        newValue = param;
-        break;
-      default:
-        throw new Error("No matching TYPE_CONVERSION found for " + conversionType);
+    case TYPE_CONVERSION.NUM_TO_STRING:
+      if (Array.isArray(param)) { //if param is an array, walk it and convert all elements to strings
+        newValue = param.map((item) => {
+          return item.toString();
+        });
+      } else {
+        newValue = param.toString();
+      }
+      break;
+    case TYPE_CONVERSION.BOOL_TO_STRING:
+      newValue = param ? 'true' : 'false';
+      break;
+    case TYPE_CONVERSION.BOOL_TO_NUM_STRING:
+      newValue = param ? '1' : '0';
+      break;
+    case TYPE_CONVERSION.COPY:
+      newValue = param;
+      break;
+    default:
+      throw new Error('No matching TYPE_CONVERSION found for ' + conversionType);
     }
   } else {
-    console.warn("Either parameter is undefined! Cannot convert type.");
+    console.warn('Either parameter is undefined! Cannot convert type.');
   }
 
   return newValue;

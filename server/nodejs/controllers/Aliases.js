@@ -1,7 +1,5 @@
 'use strict';
 
-var url = require('url');
-
 var Aliases = require('./AliasesService');
 
 module.exports.aliasbalance = function aliasbalance (req, res, next) {
@@ -37,8 +35,8 @@ module.exports.aliasupdatewhitelist = function aliasupdatewhitelist (req, res, n
 };
 
 module.exports.syscointxfund = function syscointxfund(req, res, next) {
-  Aliases.syscointxfund(req.swagger.params, res, next)
-}
+  Aliases.syscointxfund(req.swagger.params, res, next);
+};
 
 module.exports.aliasaddscript = function aliasaddscript (req, res, next) {
   Aliases.aliasaddscript(req.swagger.params, res, next);

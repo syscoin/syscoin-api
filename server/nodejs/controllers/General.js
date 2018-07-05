@@ -1,7 +1,5 @@
 'use strict';
 
-var url = require('url');
-
 var General = require('./GeneralService');
 
 module.exports.addmultisigaddress = function addmultisigaddress (req, res, next) {
@@ -280,19 +278,19 @@ module.exports.masternodelist = function masternodelist (req, res, next) {
 };
 
 module.exports.fundrawtransaction = function masternodelist (req, res, next) {
-    General.fundrawtransaction(req.swagger.params, res, next);
+  General.fundrawtransaction(req.swagger.params, res, next);
 };
 
 module.exports.getblocktemplate = function masternodelist (req, res, next) {
-    General.getblocktemplate(req.swagger.params, res, next);
+  General.getblocktemplate(req.swagger.params, res, next);
 };
 
 module.exports.signrawtransaction = function masternodelist (req, res, next) {
-    General.signrawtransaction(req.swagger.params, res, next);
+  General.signrawtransaction(req.swagger.params, res, next);
 };
 
 module.exports.lockunspent = function masternodelist (req, res, next) {
-    General.lockunspent(req.swagger.params, res, next);
+  General.lockunspent(req.swagger.params, res, next);
 };
 
 module.exports.getaddressutxos = function getaddressutxos (req, res, next) {
