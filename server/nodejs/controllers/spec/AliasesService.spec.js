@@ -1,19 +1,19 @@
-var expect  = require("chai").expect;
-var rp = require("request-promise");
+var expect  = require('chai').expect;
+var rp = require('request-promise');
 
-var AuthHelper = require("./helper/authHelper");
-var VerifyHelper = require("./helper/verifyHelper");
-var Config = require("../../spec/config");
+var AuthHelper = require('./helper/authHelper');
+var VerifyHelper = require('./helper/verifyHelper');
+var Config = require('../../spec/config');
 
-describe("Aliases Service API", function() {
+describe('Aliases Service API', function() {
 
-  describe("aliasauthenticate", function () {
-    it("Returns privkey when authenticating with valid alias and password", function (done) {
-      var url = Config.HOST + "aliasauthenticate";
+  describe('aliasauthenticate', function () {
+    it('Returns privkey when authenticating with valid alias and password', function (done) {
+      var url = Config.HOST + 'aliasauthenticate';
       var requestOptions = AuthHelper.requestOptions();
       requestOptions.qs = {
-        "alias": Config.TEST_ALIAS,
-        "password": Config.TEST_ALIAS_PASSWORD
+        'alias': Config.TEST_ALIAS,
+        'password': Config.TEST_ALIAS_PASSWORD
       };
 
       rp(url, requestOptions).then(function (result) {
@@ -26,13 +26,13 @@ describe("Aliases Service API", function() {
     });
   });
 
-  describe("aliashistory", function () {
-    it("Returns history information for a given alias", function (done) {
+  describe('aliashistory', function () {
+    it('Returns history information for a given alias', function (done) {
       this.timeout(8000);
-      var url = Config.HOST + "aliashistory";
+      var url = Config.HOST + 'aliashistory';
       var requestOptions = AuthHelper.requestOptions();
       requestOptions.qs = {
-        "aliasname": Config.TEST_ALIAS
+        'aliasname': Config.TEST_ALIAS
       };
 
       rp(url, requestOptions).then(function (result) {
@@ -48,12 +48,12 @@ describe("Aliases Service API", function() {
     });
   });
 
-  describe("aliasinfo", function () {
-    it("Returns info for alias", function (done) {
-      var url = Config.HOST + "aliasinfo";
+  describe('aliasinfo', function () {
+    it('Returns info for alias', function (done) {
+      var url = Config.HOST + 'aliasinfo';
       var requestOptions = AuthHelper.requestOptions();
       requestOptions.qs = {
-        "aliasname": Config.TEST_ALIAS
+        'aliasname': Config.TEST_ALIAS
       };
 
       rp(url, requestOptions).then(function (result) {
@@ -67,9 +67,9 @@ describe("Aliases Service API", function() {
     });
   });
 
-  describe("aliaslist", function () {
-    it("Returns all aliases this wallet controls", function (done) {
-      var url = Config.HOST + "aliaslist";
+  describe('aliaslist', function () {
+    it('Returns all aliases this wallet controls', function (done) {
+      var url = Config.HOST + 'aliaslist';
       var requestOptions = AuthHelper.requestOptions();
 
       rp(url, requestOptions).then(function (result) {
@@ -85,22 +85,22 @@ describe("Aliases Service API", function() {
     });
   });
 
-  describe("aliasnew", function () {
-    it("Returns alias tx id and guid", function (done) {
-      var url = Config.HOST + "aliasnew";
+  describe('aliasnew', function () {
+    it('Returns alias tx id and guid', function (done) {
+      var url = Config.HOST + 'aliasnew';
       var requestOptions = AuthHelper.requestOptions();
-      requestOptions.method =  "POST";
+      requestOptions.method =  'POST';
       requestOptions.json = {
-        "aliaspeg": Config.TEST_ALIAS_PEG,
-        "aliasname": Config.TEST_ALIAS + Date.now().toString() + ".test",
-        "publicvalue": "test public value",
-        "privatevalue": "test private value",
-        "password": "",
-        "safesearch": "Yes",
-        "accepttransfers": "Yes",
-        "expire": "10000",
-        "nrequired": 0,
-        "aliases": []
+        'aliaspeg': Config.TEST_ALIAS_PEG,
+        'aliasname': Config.TEST_ALIAS + Date.now().toString() + '.test',
+        'publicvalue': 'test public value',
+        'privatevalue': 'test private value',
+        'password': '',
+        'safesearch': 'Yes',
+        'accepttransfers': 'Yes',
+        'expire': '10000',
+        'nrequired': 0,
+        'aliases': []
       };
 
       rp(url, requestOptions).then(function (result) {
@@ -113,15 +113,15 @@ describe("Aliases Service API", function() {
     });
   });
 
-  describe("aliasupdate", function () {
-    it("Returns update txid", function (done) {
-      var url = Config.HOST + "aliasupdate";
+  describe('aliasupdate', function () {
+    it('Returns update txid', function (done) {
+      var url = Config.HOST + 'aliasupdate';
       var requestOptions = AuthHelper.requestOptions();
-      requestOptions.method =  "POST";
+      requestOptions.method =  'POST';
       requestOptions.json = {
-        "aliaspeg": Config.TEST_ALIAS_PEG,
-        "aliasname": Config.TEST_ALIAS,
-        "publicvalue": "test public value " + Date.now().toString()
+        'aliaspeg': Config.TEST_ALIAS_PEG,
+        'aliasname': Config.TEST_ALIAS,
+        'publicvalue': 'test public value ' + Date.now().toString()
       };
 
       rp(url, requestOptions).then(function (result) {

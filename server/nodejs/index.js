@@ -13,20 +13,19 @@ const cors = require('cors');
 //load external config
 const config = require('./config');
 const SyscoinClient = require('@syscoin/syscoin-core');
-const commonUtils = require('./controllers/util/commonUtils');
 
 let syscoinClient,
-  rpcuser = "u",
-  rpcpass = "p",
+  rpcuser = 'u',
+  rpcpass = 'p',
   rpcport = 8336;
 
 let swaggerDoc, options;
 
 //CORS
 app.use(cors({
-  "origin": "*",
-  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-  "preflightContinue": false //critical for proper swagger cors operations
+  'origin': '*',
+  'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  'preflightContinue': false //critical for proper swagger cors operations
 }));
 
 const verboseLog = (msg) => {
@@ -35,7 +34,7 @@ const verboseLog = (msg) => {
 };
 
 const startServer = async () => {
-  verboseLog("startServer");
+  verboseLog('startServer');
   await readConfig();
   initSyscoin();
   initSwaggerUI();
@@ -67,18 +66,18 @@ const readConfig = async () => {
 
   //init SYS API on close of config file read
   return new Promise(resolve => {
-    lineReader.on('close', function (line) {
-      verboseLog("readConfig :: Done");
+    lineReader.on('close', function () {
+      verboseLog('readConfig :: Done');
       resolve(true);
     });
   });
 };
 
 const initSyscoin = () => {
-  verboseLog("initSyscoin");
-  console.log("RPCUSER:", rpcuser);
-  console.log("RPCPASS:", rpcpass);
-  console.log("RPCPORT:", rpcport);
+  verboseLog('initSyscoin');
+  console.log('RPCUSER:', rpcuser);
+  console.log('RPCPASS:', rpcpass);
+  console.log('RPCPORT:', rpcport);
 
   syscoinClient = new SyscoinClient({
     host: 'localhost',
@@ -94,7 +93,7 @@ const initSyscoin = () => {
 };
 
 const initSwaggerUI = () => {
-  verboseLog("initSwaggerUI");
+  verboseLog('initSwaggerUI');
   // swaggerRouter configuration
   if(config.run_as_subprocess) {
     options = {
@@ -115,7 +114,7 @@ const initSwaggerUI = () => {
 };
 
 const initMiddleware = async () => {
-  verboseLog("initMiddleware");
+  verboseLog('initMiddleware');
   // Initialize the Swagger middleware
   return new Promise(resolve => {
     swaggerTools.initializeMiddleware(swaggerDoc, function (middleware) {
@@ -138,14 +137,14 @@ const initMiddleware = async () => {
       // Serve the Swagger documents and Swagger UI
       app.use(middleware.swaggerUi(options));
 
-      verboseLog("initMiddleware :: Done");
+      verboseLog('initMiddleware :: Done');
       resolve(true);
     });
   });
 };
 
 const initHttp = () => {
-  verboseLog("initHttp");
+  verboseLog('initHttp');
   // Start the server
   http.createServer(app).listen(config.port, function () {
     console.log('Your server is listening on port %d (http://localhost:%d)', config.port, config.port);
@@ -156,16 +155,16 @@ const initHttp = () => {
 const authCheck = (req, authOrSecDef, scopesOrApiKey, callback) => {
   let authToken = req.headers.token || (req.token ? req.token.value : null);
 
-  console.log("Performing security check for TOKEN:", authToken);
+  console.log('Performing security check for TOKEN:', authToken);
 
   if (authToken) {
     // verifies secret and checks exp
-    jwt.verify(authToken, config.api_secret, function(err, decoded) {
+    jwt.verify(authToken, config.api_secret, function(err) {
       if (err) {
-        console.log("VERIFY ERROR: " + err);
+        console.log('VERIFY ERROR: ' + err);
         return callback({
-          message: "Invalid token.",
-          code: "InvalidToken",
+          message: 'Invalid token.',
+          code: 'InvalidToken',
           statusCode: 401,
           headers: []
         });
@@ -176,8 +175,8 @@ const authCheck = (req, authOrSecDef, scopesOrApiKey, callback) => {
     });
   }else{
     callback({
-      message: "No token provided.",
-      code: "NoTokenProvided",
+      message: 'No token provided.',
+      code: 'NoTokenProvided',
       statusCode: 401,
       headers: []
     });
@@ -186,10 +185,10 @@ const authCheck = (req, authOrSecDef, scopesOrApiKey, callback) => {
 
 //app startup based on syscoin.conf read
 let inputStreamError = false;
-let inputStream = fs.createReadStream(config.sys_location + "syscoin.conf");
+let inputStream = fs.createReadStream(config.sys_location + 'syscoin.conf');
 inputStream.on('error', function (e) {
-  console.log("Error reading syscoin.conf specified at " + config.sys_location + " falling back to defaults. Exact error is:" + JSON.stringify(e));
-  console.log("Syscoin.conf must be present, with rpcuser, rpcpass, and rpcport set in order to run the Syscoin API Server.");
+  console.log('Error reading syscoin.conf specified at ' + config.sys_location + ' falling back to defaults. Exact error is:' + JSON.stringify(e));
+  console.log('Syscoin.conf must be present, with rpcuser, rpcpass, and rpcport set in order to run the Syscoin API Server.');
   process.exit();
 });
 

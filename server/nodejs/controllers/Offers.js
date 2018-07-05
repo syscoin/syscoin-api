@@ -1,7 +1,5 @@
 'use strict';
 
-var url = require('url');
-
 
 var Offers = require('./OffersService');
 

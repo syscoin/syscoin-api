@@ -1,18 +1,18 @@
-var expect  = require("chai").expect;
-var rp = require("request-promise");
+var expect  = require('chai').expect;
+var rp = require('request-promise');
 
-var AuthHelper = require("./helper/authHelper");
-var VerifyHelper = require("./helper/verifyHelper");
-var Config = require("../../spec/config");
+var AuthHelper = require('./helper/authHelper');
+var VerifyHelper = require('./helper/verifyHelper');
+var Config = require('../../spec/config');
 
-describe("Certificate Service API", function() {
+describe('Certificate Service API', function() {
 
-  describe("certhistory", function () {
-    it("Returns history info for certificate", function (done) {
-      var url = Config.HOST + "certhistory";
+  describe('certhistory', function () {
+    it('Returns history info for certificate', function (done) {
+      var url = Config.HOST + 'certhistory';
       var requestOptions = AuthHelper.requestOptions();
       requestOptions.qs = {
-        "certname": Config.TEST_CERT_GUID
+        'certname': Config.TEST_CERT_GUID
       };
 
       rp(url, requestOptions).then(function (result) {
@@ -28,12 +28,12 @@ describe("Certificate Service API", function() {
     });
   });
 
-  describe("certinfo", function () {
-    it("Returns info about certificate", function (done) {
-      var url = Config.HOST + "certinfo";
+  describe('certinfo', function () {
+    it('Returns info about certificate', function (done) {
+      var url = Config.HOST + 'certinfo';
       var requestOptions = AuthHelper.requestOptions();
       requestOptions.qs = {
-        "guid": Config.TEST_CERT_GUID
+        'guid': Config.TEST_CERT_GUID
       };
 
       rp(url, requestOptions).then(function (result) {
@@ -42,17 +42,17 @@ describe("Certificate Service API", function() {
         var cert = JSON.parse(result.body);
         expect(cert.title).to.exist;
         expect(cert.height).to.be.at.least(1);
-        done()
+        done();
       });
     });
   });
 
-  describe("certlist", function () {
-    it("Returns list of all certificates this wallet owns", function (done) {
-      var url = Config.HOST + "certlist";
+  describe('certlist', function () {
+    it('Returns list of all certificates this wallet owns', function (done) {
+      var url = Config.HOST + 'certlist';
       var requestOptions = AuthHelper.requestOptions();
       requestOptions.qs = {
-        "aliases": [Config.TEST_ALIAS]
+        'aliases': [Config.TEST_ALIAS]
       };
 
       rp(url, requestOptions).then(function (result) {
@@ -69,18 +69,18 @@ describe("Certificate Service API", function() {
     });
   });
 
-  describe("certnew", function () {
-    it("Returns tx id and guid of new certificate", function (done) {
-      var url = Config.HOST + "certnew";
+  describe('certnew', function () {
+    it('Returns tx id and guid of new certificate', function (done) {
+      var url = Config.HOST + 'certnew';
       var requestOptions = AuthHelper.requestOptions();
-      requestOptions.method =  "POST";
+      requestOptions.method =  'POST';
       requestOptions.json = {
-        "alias": Config.TEST_ALIAS,
-        "title": "Unit Test Cert " + Date.now().toString(),
-        "private": "Some private date",
-        "public": "Some public data",
-        "safesearch": "Yes",
-        "category": "certificates"
+        'alias': Config.TEST_ALIAS,
+        'title': 'Unit Test Cert ' + Date.now().toString(),
+        'private': 'Some private date',
+        'public': 'Some public data',
+        'safesearch': 'Yes',
+        'category': 'certificates'
       };
 
       rp(url, requestOptions).then(function (result) {
@@ -93,19 +93,19 @@ describe("Certificate Service API", function() {
     });
   });
 
-  describe("certupdate", function () {
-    it("Returns certificate update tx id", function (done) {
-      var url = Config.HOST + "certupdate";
+  describe('certupdate', function () {
+    it('Returns certificate update tx id', function (done) {
+      var url = Config.HOST + 'certupdate';
       var requestOptions = AuthHelper.requestOptions();
-      requestOptions.method =  "POST";
+      requestOptions.method =  'POST';
       requestOptions.json = {
-        "guid": Config.TEST_CERT_GUID,
-        "alias": Config.TEST_ALIAS,
-        "title": "Unit Test Cert",
-        "private": "Private date " + Date.now().toString(),
-        "public": "Public data" + Date.now().toString(),
-        "safesearch": "Yes",
-        "category": "certificates" /* MUST BE THIS STRING! */
+        'guid': Config.TEST_CERT_GUID,
+        'alias': Config.TEST_ALIAS,
+        'title': 'Unit Test Cert',
+        'private': 'Private date ' + Date.now().toString(),
+        'public': 'Public data' + Date.now().toString(),
+        'safesearch': 'Yes',
+        'category': 'certificates' /* MUST BE THIS STRING! */
       };
 
       rp(url, requestOptions).then(function (result) {

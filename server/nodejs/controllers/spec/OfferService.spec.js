@@ -1,21 +1,21 @@
-var expect  = require("chai").expect;
-var rp = require("request-promise");
+var expect  = require('chai').expect;
+var rp = require('request-promise');
 
-var AuthHelper = require("./helper/authHelper");
-var VerifyHelper = require("./helper/verifyHelper");
-var DataHelper = require("./helper/dataHelper");
-var Config = require("../../spec/config");
+var AuthHelper = require('./helper/authHelper');
+var VerifyHelper = require('./helper/verifyHelper');
+var DataHelper = require('./helper/dataHelper');
+var Config = require('../../spec/config');
 
-describe("Offer Service API", function() {
+describe('Offer Service API', function() {
 
-  describe("offeraccept", function () {
-    it("Returns txid and guid of offeraccept", function (done) {
+  describe('offeraccept', function () {
+    it('Returns txid and guid of offeraccept', function (done) {
       //because this test may run after Alias tests, wait for confirmation on prev
       //  txs
       this.timeout(60 * 3 * 1000);
       setTimeout(function() {
         DataHelper.offerAccept(Config.TEST_ALIAS, Config.TEST_OFFER_GUID, 1,
-          "test accept " + Date.now().toString(), "", "").then(function(acceptResult) {
+          'test accept ' + Date.now().toString(), '', '').then(function(acceptResult) {
           expect(acceptResult.response.statusCode).to.equal(200);
 
           var acceptInfo = acceptResult.tx;
@@ -27,24 +27,24 @@ describe("Offer Service API", function() {
     });
   });
 
-  describe("offeracceptfeedback", function () {
-    it("Returns txid of feedback tx (dependent on confirmations, which may result in false failures)", function (done) {
+  describe('offeracceptfeedback', function () {
+    it('Returns txid of feedback tx (dependent on confirmations, which may result in false failures)', function (done) {
       //because this test may run after Alias tests AND after Offer accept tests,
       // wait for confirmation on prev txs
       this.timeout(60 * 8 * 1000);
       setTimeout(function() {
         DataHelper.offerAccept(Config.TEST_ALIAS, Config.TEST_OFFER_GUID, 1,
-          "test accept " + Date.now().toString(), "", "").then(function(acceptResult) {
-          console.log("Waiting for confimations on offerAccept...");
+          'test accept ' + Date.now().toString(), '', '').then(function(acceptResult) {
+          console.log('Waiting for confimations on offerAccept...');
           setTimeout(function() {
-            var url = Config.HOST + "offeracceptfeedback";
+            var url = Config.HOST + 'offeracceptfeedback';
             var requestOptions = AuthHelper.requestOptions();
-            requestOptions.method =  "POST";
+            requestOptions.method =  'POST';
             requestOptions.qs = {
-              "offerguid": Config.TEST_OFFER_GUID,
-              "offeracceptguid": acceptResult.tx[1],
-              "feedback": "Unit test feedback",
-              "rating": 5
+              'offerguid': Config.TEST_OFFER_GUID,
+              'offeracceptguid': acceptResult.tx[1],
+              'feedback': 'Unit test feedback',
+              'rating': 5
             };
 
             rp(url, requestOptions).then(function(result) {
@@ -58,13 +58,13 @@ describe("Offer Service API", function() {
     });
   });
 
-  describe("offeracceptlist", function () {
+  describe('offeracceptlist', function () {
     this.timeout(60 * 1000); //increase timeout in the case of long escrow history
-    it("Returns list of accepted offers", function (done) {
-      var url = Config.HOST + "offeracceptlist";
+    it('Returns list of accepted offers', function (done) {
+      var url = Config.HOST + 'offeracceptlist';
       var requestOptions = AuthHelper.requestOptions();
       requestOptions.qs = {
-        "aliases": [Config.TEST_ALIAS]
+        'aliases': [Config.TEST_ALIAS]
       };
 
       rp(url, requestOptions).then(function (result) {
@@ -81,13 +81,13 @@ describe("Offer Service API", function() {
     });
   });
 
-  describe("offerhistory", function () {
+  describe('offerhistory', function () {
     this.timeout(60 * 1000); //increase timeout in the case of long escrow history
-    it("Returns history of offer", function (done) {
-      var url = Config.HOST + "offerhistory";
+    it('Returns history of offer', function (done) {
+      var url = Config.HOST + 'offerhistory';
       var requestOptions = AuthHelper.requestOptions();
       requestOptions.qs = {
-        "offer": Config.TEST_OFFER_GUID
+        'offer': Config.TEST_OFFER_GUID
       };
 
       rp(url, requestOptions).then(function (result) {
@@ -105,12 +105,12 @@ describe("Offer Service API", function() {
     });
   });
 
-  describe("offerinfo", function () {
-    it("Returns offer details", function (done) {
-      var url = Config.HOST + "offerinfo";
+  describe('offerinfo', function () {
+    it('Returns offer details', function (done) {
+      var url = Config.HOST + 'offerinfo';
       var requestOptions = AuthHelper.requestOptions();
       requestOptions.qs = {
-        "guid": Config.TEST_OFFER_GUID
+        'guid': Config.TEST_OFFER_GUID
       };
 
       rp(url, requestOptions).then(function (result) {
@@ -119,17 +119,17 @@ describe("Offer Service API", function() {
         var offer = JSON.parse(result.body);
         expect(offer.title).to.exist;
         expect(offer.height).to.be.at.least(1);
-        done()
+        done();
       });
     });
   });
 
-  describe("offerlist", function () {
-    it("Returns list of offers owned by wallet", function (done) {
-      var url = Config.HOST + "offerlist";
+  describe('offerlist', function () {
+    it('Returns list of offers owned by wallet', function (done) {
+      var url = Config.HOST + 'offerlist';
       var requestOptions = AuthHelper.requestOptions();
       requestOptions.qs = {
-        "aliases": [Config.TEST_ALIAS]
+        'aliases': [Config.TEST_ALIAS]
       };
 
       rp(url, requestOptions).then(function (result) {
@@ -147,25 +147,25 @@ describe("Offer Service API", function() {
     });
   });
 
-  describe("offernew", function() {
-    var url = "http://localhost:8001/offernew";
+  describe('offernew', function() {
+    var url = 'http://localhost:8001/offernew';
 
-    it("Returns an array with the tx id and offer guid", function(done) {
+    it('Returns an array with the tx id and offer guid', function(done) {
       var requestOptions = AuthHelper.requestOptions();
-      requestOptions.method =  "POST";
+      requestOptions.method =  'POST';
       requestOptions.json = {
-        "alias": "testuser",
-        "category": "unit testing",
-        "title": "title here",
-        "quantity": 10,
-        "price": 1,
-        "description": "Description goes here",
-        "currency": "SYS",
-        "certguid": "",
-        "paymentoptions": "SYS",
-        "geolocation": "",
-        "safesearch": "Yes",
-        "private": true
+        'alias': 'testuser',
+        'category': 'unit testing',
+        'title': 'title here',
+        'quantity': 10,
+        'price': 1,
+        'description': 'Description goes here',
+        'currency': 'SYS',
+        'certguid': '',
+        'paymentoptions': 'SYS',
+        'geolocation': '',
+        'safesearch': 'Yes',
+        'private': true
       };
 
       rp(url, requestOptions).then(function(result) {
@@ -178,27 +178,27 @@ describe("Offer Service API", function() {
     });
   });
 
-  describe("offerupdate", function() {
-    var url = "http://localhost:8001/offerupdate";
+  describe('offerupdate', function() {
+    var url = 'http://localhost:8001/offerupdate';
 
-    it("Returns an array with the tx id", function(done) {
+    it('Returns an array with the tx id', function(done) {
       var requestOptions = AuthHelper.requestOptions();
-      requestOptions.method =  "POST";
+      requestOptions.method =  'POST';
       requestOptions.json = {
-        "alias": "testuser",
-        "guid": "1c3889997c39e979",
-        "category": "unit testing",
-        "title": "title here updated",
-        "quantity": 10,
-        "price": 1,
-        "description": "Description goes here updated",
-        "currency": "SYS",
-        "certguid": "",
-        "paymentoptions": "SYS",
-        "geolocation": "",
-        "safesearch": "Yes",
-        "private": true,
-        "commission": 0
+        'alias': 'testuser',
+        'guid': '1c3889997c39e979',
+        'category': 'unit testing',
+        'title': 'title here updated',
+        'quantity': 10,
+        'price': 1,
+        'description': 'Description goes here updated',
+        'currency': 'SYS',
+        'certguid': '',
+        'paymentoptions': 'SYS',
+        'geolocation': '',
+        'safesearch': 'Yes',
+        'private': true,
+        'commission': 0
       };
 
       rp(url, requestOptions).then(function(result) {
@@ -210,12 +210,12 @@ describe("Offer Service API", function() {
     });
   });
 
-  describe("offerwhitelist", function () {
-    it("Returns whitelist info for an offer", function (done) {
-      var url = Config.HOST + "offerwhitelist";
+  describe('offerwhitelist', function () {
+    it('Returns whitelist info for an offer', function (done) {
+      var url = Config.HOST + 'offerwhitelist';
       var requestOptions = AuthHelper.requestOptions();
       requestOptions.qs = {
-        "offerguid": [Config.TEST_OFFER_GUID]
+        'offerguid': [Config.TEST_OFFER_GUID]
       };
 
       rp(url, requestOptions).then(function (result) {
