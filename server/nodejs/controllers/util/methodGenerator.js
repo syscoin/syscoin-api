@@ -20,25 +20,9 @@ function generateGenericSyscoinMethod(argList, syscoinMethod, syscoinMethodName,
       res.end(JSON.stringify(result));
     };
 
-    // Formating args if need it
-    const rpcArgs = formatingArgs(args, syscoinMethodName);
-    let arr = varUtils.getArgsArr(argList, rpcArgs, httpMethod, callback, asJsonObject);
+    let arr = varUtils.getArgsArr(argList, args, httpMethod, callback, asJsonObject);
     syscoinMethod.apply(syscoinClient, arr);
   };
 }
-
-const formatingArgs = (args, syscoinMethodName) => {
-  switch (syscoinMethodName) {
-  case 'syscointxfund':
-    if(args && args.request && args.request.value && args.request.value['addresses']) {
-      var actualAddresses = args.request.value['addresses'];
-      var addressObjectForCore = { addresses: actualAddresses };
-      args.request.value['addresses'] = addressObjectForCore;
-    } else {
-      console.error('ERROR: No value defined in request for \'addresses\', this is a required param');
-    }
-  }
-  return args;
-};
 
 module.exports.generateGenericSyscoinMethod = generateGenericSyscoinMethod;

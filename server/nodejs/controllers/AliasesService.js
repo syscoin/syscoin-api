@@ -1,5 +1,9 @@
 const syscoinClient = require('../index').syscoinClient;
 const methodGenerator = require('./util/methodGenerator');
+const varUtils = require('./util/varUtils');
+const commonUtils = require('./util/commonUtils');
+
+
 
 module.exports = {
   aliasbalance: methodGenerator.generateGenericSyscoinMethod([
@@ -54,10 +58,34 @@ module.exports = {
     { prop: 'witness', defaultValue: '' }
   ], syscoinClient.aliasUpdateWhitelist, 'aliasupdatewhitelist', 'POST'),
 
-  syscointxfund: methodGenerator.generateGenericSyscoinMethod([
-    { prop: 'hexstring' },
-    { prop: 'addresses' }
-  ], syscoinClient.syscoinTxFund, 'syscointxfund', 'POST'),
+  syscointxfund: function(args, res) {
+    var argList = [
+      { prop: 'hexstring' },
+      { prop: 'addresses' }
+    ];
+      
+    var cb = function(err, result, resHeaders) {
+      res.setHeader('Content-Type', 'application/json');
+  
+      if (err) {
+        return commonUtils.reportError(res, err);
+      }
+  
+      commonUtils.log('Syscoin TX fund:', result, "syscointxfund");
+      res.end(JSON.stringify(result));
+    };
+   // Convert the Addresses array to string
+  if(args && args.request && args.request.value && args.request.value['addresses']) {
+    var actualAddresses = args.request.value['addresses']
+    var addressObjectForCore = { addresses: actualAddresses };
+    args.request.value['addresses'] = addressObjectForCore
+  } else {
+    console.error("ERROR: No value defined in request for 'addresses', this is a required param");
+  }
+    
+    var arr = varUtils.getArgsArr(argList, args, "POST", cb); 
+    syscoinClient.syscoinTxFund.apply(syscoinClient, arr);
+  },
 
   aliasaddscript: methodGenerator.generateGenericSyscoinMethod([
     { prop: 'script' }
