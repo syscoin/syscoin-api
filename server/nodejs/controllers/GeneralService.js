@@ -122,10 +122,39 @@ module.exports = {
     { prop: 'addlockconf', defaultValue: false }
   ], syscoinClient.getReceivedByAddress, 'getreceivedbyaddress', 'GET'),
 
-  gettransaction: methodGenerator.generateGenericSyscoinMethod([
-    { prop: 'txid' },
-    { prop: 'includeWatchonly', defaultValue: false }
-  ], syscoinClient.getTransaction, 'gettransaction', 'GET'),
+  // gettransaction: methodGenerator.generateGenericSyscoinMethod([
+  //   { prop: 'txid' },
+  //   { prop: 'includeWatchonly', defaultValue: false }
+  // ], syscoinClient.getTransaction, 'gettransaction', 'GET'),
+
+  /* Note: Putting the old method back, as the one needs some update to work properly */
+  gettransaction: function(args, res, next) {
+	  /**
+	   * parameters expected in the args:
+	   * txid (String)
+	   * includeWatchonly (Boolean)
+	   **/
+	  var argList = [
+		  { prop: "txid" },
+		  { prop: "includeWatchonly", defaultValue: false },
+	  ];
+
+	  var cb = function(err, result, resHeaders) {
+		  res.setHeader('Content-Type', 'application/json');
+
+		  if (err) {
+			  //TODO: fix after b1
+			  return res.end(JSON.stringify(err.toString()));
+			  //return commonUtils.reportError(res, err);
+		  }
+
+		  commonUtils.log('Get transaction ', result, "gettransaction");
+		  res.end(JSON.stringify(result));
+	  };
+
+	  var arr = varUtils.getArgsArr(argList, args, "GET", cb);
+	  syscoinClient.getTransaction.apply(syscoinClient, arr);
+  },
 
   getunconfirmedbalance: methodGenerator.generateGenericSyscoinMethod([],
     syscoinClient.getUnconfirmedBalance, 'getunconfirmedbalance', 'GET'),
