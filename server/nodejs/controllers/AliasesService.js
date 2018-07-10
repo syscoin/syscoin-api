@@ -74,14 +74,14 @@ module.exports = {
       commonUtils.log('Syscoin TX fund:', result, "syscointxfund");
       res.end(JSON.stringify(result));
     };
-   // Convert the Addresses array to string
-  if(args && args.request && args.request.value && args.request.value['addresses']) {
-    var actualAddresses = args.request.value['addresses']
-    var addressObjectForCore = { addresses: actualAddresses };
-    args.request.value['addresses'] = addressObjectForCore
-  } else {
-    console.error("ERROR: No value defined in request for 'addresses', this is a required param");
-  }
+    // Convert the Addresses array to string
+    if(args && args.request && args.request.value && args.request.value['addresses']) {
+      var actualAddresses = args.request.value['addresses']
+      var addressObjectForCore = { addresses: actualAddresses };
+      args.request.value['addresses'] = addressObjectForCore
+    } else {
+      console.error("ERROR: No value defined in request for 'addresses', this is a required param");
+    }
     
     var arr = varUtils.getArgsArr(argList, args, "POST", cb); 
     syscoinClient.syscoinTxFund.apply(syscoinClient, arr);
