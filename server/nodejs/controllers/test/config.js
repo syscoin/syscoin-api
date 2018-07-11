@@ -38,4 +38,8 @@ module.exports = {
   TEST_EXISTING_DUMP_PRIVKEY: "cTr5Y3dCjgTea146bLc9hG6rJxcX5aWdC5phhmBHEfmkKqvvHkSu",
   TEST_ENCRYPT_WALLET_PASSPHRASE: "encryptme",
 
+  //MASTERNODES
+  TEST_SENTINEL_VERSION: "0.0.1",
+  TEST_ELECTRUM_WALLET_PATH: "/controllers/test/electrum_wallet_sample.csv",
+
 };
