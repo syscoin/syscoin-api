@@ -1,5 +1,9 @@
 const syscoinClient = require('../index').syscoinClient;
 const methodGenerator = require('./util/methodGenerator');
+const varUtils = require('./util/varUtils');
+const commonUtils = require('./util/commonUtils');
+
+
 
 module.exports = {
   aliasbalance: methodGenerator.generateGenericSyscoinMethod([

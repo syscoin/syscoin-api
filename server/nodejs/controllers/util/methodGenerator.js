@@ -21,14 +21,8 @@ function generateGenericSyscoinMethod(argList, syscoinMethod, syscoinMethodName,
     };
 
     let arr = varUtils.getArgsArr(argList, args, httpMethod, callback, asJsonObject);
-
     syscoinMethod.apply(syscoinClient, arr);
   };
 }
-
-/** Removed code was leaking request specific information into a common service
-* Instead, conversion of arguments to json objects is now done in varUtils/getArgsArr 
-* based on asJsonObject flag set to either the whole request or just to an argument
-*/
 
 module.exports.generateGenericSyscoinMethod = generateGenericSyscoinMethod;
