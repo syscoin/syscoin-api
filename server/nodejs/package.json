@@ -6,10 +6,8 @@
     "start": "node .",
     "startd": "pm2 start node . $CONFIG --name 'sys-api-server'",
     "test": "mocha **/test/*.test.js --reporter spec --timeout 10000 --colors --exit",
-    "isolated": "APIRUNMODE=isolated node .",
-    "integrated": "APIRUNMODE=integrated node .",
-    "windows-isolated": "set APIRUNMODE=isolated&& node .",
-    "windows-integrated": "set APIRUNMODE=integrated&& node .",
+    "isolated": "cross-env APIRUNMODE=isolated node .",
+    "integrated": "cross-env APIRUNMODE=integrated node .",
     "lint": "eslint --ignore-path .jshintignore *.js",
     "lint-fix": "eslint --fix . --ignore-path .jshintignore",
     "precommit": "npm run lint",
@@ -23,24 +21,18 @@
   "private": false,
   "dependencies": {
     "@syscoin/syscoin-core": "^3.0.0-beta",
-    "assert": "^1.4.1",
-    "chai": "^4.1.2",
-    "chai-http": "^4.0.0",
     "connect": "^3.6.5",
     "cors": "^2.8.4",
-    "dotenv": "^4.0.0",
+    "dotenv": "^6.0.0",
     "finalhandler": "^1.1.0",
     "he": "^1.1.1",
     "js-yaml": "^3.10.0",
     "jshashes": "^1.0.7",
-    "jsonwebtoken": "^7.4.3",
-    "mocha": "^5.2.0",
-    "mongodb": "^2.2.33",
+    "jsonwebtoken": "^8.3.0",
     "q": "^1.5.1",
-    "request": "^2.83.0",
+    "request": "^2.87.0",
     "request-promise": "^4.2.2",
     "serve-static": "^1.13.1",
-    "swagger-tools": "0.10.1",
     "syscoin-core": "^1.2.8"
   },
   "bugs": {
@@ -48,7 +40,13 @@
   },
   "homepage": "https://github.com/syscoin/syscoin-api",
   "devDependencies": {
-    "husky": "^0.10.1",
-    "eslint": "^5.0.1"
+    "assert": "^1.4.1",
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
+    "cross-env": "^5.2.0",
+    "eslint": "^5.0.1",
+    "husky": "^0.14.3",
+    "mocha": "^5.2.0",
+    "swagger-tools": "0.10.3"
   }
 }
