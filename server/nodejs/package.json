@@ -23,9 +23,6 @@
   "private": false,
   "dependencies": {
     "@syscoin/syscoin-core": "^3.0.0-beta",
-    "assert": "^1.4.1",
-    "chai": "^4.1.2",
-    "chai-http": "^4.0.0",
     "connect": "^3.6.5",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
@@ -34,13 +31,11 @@
     "js-yaml": "^3.10.0",
     "jshashes": "^1.0.7",
     "jsonwebtoken": "^7.4.3",
-    "mocha": "^5.2.0",
     "mongodb": "^2.2.33",
     "q": "^1.5.1",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
     "serve-static": "^1.13.1",
-    "swagger-tools": "0.10.1",
     "syscoin-core": "^1.2.8"
   },
   "bugs": {
@@ -48,7 +43,12 @@
   },
   "homepage": "https://github.com/syscoin/syscoin-api",
   "devDependencies": {
+    "assert": "^1.4.1",
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
+    "eslint": "^5.0.1",
     "husky": "^0.10.1",
-    "eslint": "^5.0.1"
+    "mocha": "^5.2.0",
+    "swagger-tools": "0.10.1"
   }
 }
