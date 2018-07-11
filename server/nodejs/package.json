@@ -31,9 +31,8 @@
     "js-yaml": "^3.10.0",
     "jshashes": "^1.0.7",
     "jsonwebtoken": "^8.3.0",
-    "mongodb": "^3.1.1",
     "q": "^1.5.1",
-    "request": "^2.83.0",
+    "request": "^2.87.0",
     "request-promise": "^4.2.2",
     "serve-static": "^1.13.1",
     "syscoin-core": "^1.2.8"
