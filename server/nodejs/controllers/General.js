@@ -296,3 +296,7 @@ module.exports.lockunspent = function masternodelist (req, res, next) {
 module.exports.getaddressutxos = function getaddressutxos (req, res, next) {
   General.getaddressutxos(req.swagger.params, res, next);
 };
+
+module.exports.setaccount = function setaccount (req, res, next) {
+  General.setaccount(req.swagger.params, res, next);
+}
