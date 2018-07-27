@@ -426,5 +426,10 @@ module.exports = {
 
   getaddressutxos: methodGenerator.generateGenericSyscoinMethod([
     { prop: 'addresses' }
-  ], syscoinClient.getAddressUtxos, 'getaddressutxos', 'GET')
+  ], syscoinClient.getAddressUtxos, 'getaddressutxos', 'GET'),
+
+  setaccount: methodGenerator.generateGenericSyscoinMethod([
+    { prop: 'address'},
+    { prop: 'account'}
+  ], syscoinClient.setAccount, 'setaccount', 'POST')
 };

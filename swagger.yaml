@@ -348,6 +348,31 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /setaccount:
+    x-swagger-router-controller: rpc
+    post:
+       operationId: setaccount
+       description: Sets a label to an account that is stored off-chain in wallet.dat.
+       security:
+       - token: []
+       tags:
+       - General
+       parameters:
+       - name: request
+         in: body
+         required: true
+         schema:
+           $ref: "#/definitions/SetAccountRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /getblockchaininfo:
     x-swagger-router-controller: rpc
     get:
@@ -5513,4 +5538,13 @@ definitions:
   AliasAddScriptRequest:
     properties:
       script:
+        type: string
+  SetAccountRequest:
+    required:
+      - address
+      - account
+    properties:
+      address:
+        type: string
+      account:
         type: string
