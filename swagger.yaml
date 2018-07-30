@@ -351,18 +351,18 @@ paths:
   /setaccount:
     x-swagger-router-controller: rpc
     post:
-       operationId: setaccount
-       description: Sets a label to an account that is stored off-chain in wallet.dat.
-       security:
-       - token: []
-       tags:
-       - General
-       parameters:
-       - name: request
-         in: body
-         required: true
-         schema:
-           $ref: "#/definitions/SetAccountRequest"
+      operationId: setaccount
+      description: Sets a label to an account that is stored off-chain in wallet.dat.
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+         $ref: "#/definitions/SetAccountRequest"
       responses:
         "200":
           description: Success

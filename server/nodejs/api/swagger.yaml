@@ -622,6 +622,31 @@ paths:
       - token: []
       x-swagger-router-controller: "Aliases"
     x-swagger-router-controller: "rpc"
+  /setaccount:
+    post:
+      tags:
+      - "General"
+      description: "Sets a label to an account that is stored off-chain in wallet.dat"
+      operationId: "setaccount"
+      parameters:
+      - in: "body"
+        name: "request"
+        required: true
+        schema:
+          $ref: "#/definitions/SetAccountRequest"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /syscointxfund:
     post:
       tags:
@@ -6579,3 +6604,12 @@ definitions:
       \ ... } (numeric or string) The syscoin alias is the key, the numeric amount\
       \ (can be string) in SYS is the value."
     example: "{\"alias1\":0.02,\"alias2\":0.4,\"alias3\":0.004}"
+  SetAccountRequest:
+    required:
+      - address
+      - account
+    properties:
+      address:
+        type: string
+      account:
+        type: string
