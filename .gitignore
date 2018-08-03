@@ -1,3 +1,4 @@
+# ignore these
 .idea
 .DS_Store
 api-app.iml
@@ -8,3 +9,10 @@ server/nodejs/mongotest.js
 *.log
 
 *.orig
+client/generated-client/*
+
+# except
+!/client/generated-client/.swagger-codegen
+!/client/generated-client/.swagger-codegen/VERSION
+!/client/generated-client/.swagger-codegen-ignore
+!/client/generated-client/.gitignore
