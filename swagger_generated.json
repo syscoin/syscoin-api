@@ -456,6 +456,35 @@
       },
       "x-swagger-router-controller" : "rpc"
     },
+    "/resendwallettransactions" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "Immediately re-broadcast unconfirmed wallet transactions to all peers.",
+        "operationId" : "resendwallettransactions",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "string"
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
     "/setaccount" : {
       "post" : {
         "tags" : [ "General" ],
@@ -915,7 +944,8 @@
           "200" : {
             "description" : "Success",
             "schema" : {
-              "type" : "object"
+              "type" : "object",
+              "properties" : { }
             }
           },
           "500" : {
@@ -2255,7 +2285,8 @@
           "200" : {
             "description" : "Success",
             "schema" : {
-              "type" : "object"
+              "type" : "object",
+              "properties" : { }
             }
           },
           "default" : {
@@ -3381,7 +3412,8 @@
           "200" : {
             "description" : "Success",
             "schema" : {
-              "type" : "object"
+              "type" : "object",
+              "properties" : { }
             }
           },
           "default" : {

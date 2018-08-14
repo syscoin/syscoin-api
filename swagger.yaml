@@ -348,6 +348,27 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /resendwallettransactions:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: resendwallettransactions
+      description: Immediately re-broadcast unconfirmed wallet transactions to all peers.
+      security:
+      - token: []
+      tags:
+      - General
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /setaccount:
     x-swagger-router-controller: rpc
     post:

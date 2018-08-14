@@ -431,5 +431,8 @@ module.exports = {
   setaccount: methodGenerator.generateGenericSyscoinMethod([
     { prop: 'address'},
     { prop: 'account'}
-  ], syscoinClient.setAccount, 'setaccount', 'POST')
+  ], syscoinClient.setAccount, 'setaccount', 'POST'),
+
+    resendwallettransactions: methodGenerator.generateGenericSyscoinMethod([],
+    syscoinClient.resendWalletTransactions, 'resendwallettransactions', 'GET')
 };
