@@ -361,6 +361,54 @@ paths:
       - token: []
       x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
+  /resendwallettransactions:
+    get:
+      tags:
+      - "General"
+      description: "Immediately re-broadcast unconfirmed wallet transactions to all\
+        \ peers."
+      operationId: "resendwallettransactions"
+      parameters: []
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
+  /setaccount:
+    post:
+      tags:
+      - "General"
+      description: "Sets a label to an account that is stored off-chain in wallet.dat."
+      operationId: "setaccount"
+      parameters:
+      - in: "body"
+        name: "request"
+        required: true
+        schema:
+          $ref: "#/definitions/SetAccountRequest"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /getblockchaininfo:
     get:
       tags:
@@ -621,31 +669,6 @@ paths:
       security:
       - token: []
       x-swagger-router-controller: "Aliases"
-    x-swagger-router-controller: "rpc"
-  /setaccount:
-    post:
-      tags:
-      - "General"
-      description: "Sets a label to an account that is stored off-chain in wallet.dat"
-      operationId: "setaccount"
-      parameters:
-      - in: "body"
-        name: "request"
-        required: true
-        schema:
-          $ref: "#/definitions/SetAccountRequest"
-      responses:
-        200:
-          description: "Success"
-          schema:
-            type: "string"
-        default:
-          description: "Error"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-      security:
-      - token: []
-      x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
   /syscointxfund:
     post:
@@ -3475,10 +3498,10 @@ definitions:
         type: "string"
     example:
       masternode-tx-index: 0.80082819046101150206595775671303272247314453125
-      vote-signal: 6.02745618307040320615897144307382404804229736328125
+      vote-signal: "vote-signal"
       masternode-tx-hash: "masternode-tx-hash"
       governance-hash: "governance-hash"
-      time: 1.46581298050294517310021547018550336360931396484375
+      time: 6.02745618307040320615897144307382404804229736328125
       vote-sig: "vote-sig"
       vote-outcome: "vote-outcome"
   getAddressMemPoolResponseObject:
@@ -6596,6 +6619,18 @@ definitions:
         type: "string"
     example:
       script: "script"
+  SetAccountRequest:
+    required:
+    - "account"
+    - "address"
+    properties:
+      address:
+        type: "string"
+      account:
+        type: "string"
+    example:
+      address: "address"
+      account: "account"
   AliasPayRequest_amounts:
     properties:
       alias:
@@ -6604,12 +6639,3 @@ definitions:
       \ ... } (numeric or string) The syscoin alias is the key, the numeric amount\
       \ (can be string) in SYS is the value."
     example: "{\"alias1\":0.02,\"alias2\":0.4,\"alias3\":0.004}"
-  SetAccountRequest:
-    required:
-      - address
-      - account
-    properties:
-      address:
-        type: string
-      account:
-        type: string

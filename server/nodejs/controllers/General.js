@@ -299,4 +299,8 @@ module.exports.getaddressutxos = function getaddressutxos (req, res, next) {
 
 module.exports.setaccount = function setaccount (req, res, next) {
   General.setaccount(req.swagger.params, res, next);
-}
+};
+
+module.exports.resendwallettransactions = function resendwallettransactions (req, res, next) {
+  General.resendwallettransactions(req.swagger.params, res, next);
+};
