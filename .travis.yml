@@ -1,14 +1,17 @@
 language: node_js
 node_js:
-  - "7.10.1"
-  - "8.11.4"
+- "7.10.1"
+- "8.11.4"
 cache:
   directories:
-    - node_modules
+  - node_modules
 before_install:
-  - "test ! -d server/nodejs/node_modules || cd server/nodejs && rm -rf package-lock.json node_modules"
-
+# Update Node.js module
+- "test ! -d node_modules || npm prune"
+- "test ! -d node_modules || npm rebuild"
+- "test ! -d server/nodejs/node_modules || cd server/nodejs && npm rebuild"
+- "test ! -d server/nodejs/node_modules || cd server/nodejs && npm prune"
 script:
-  - "cd server/nodejs && npm install"
-  - "npm run lint"
-  - "npm run test"
+- "cd server/nodejs && rm -rf package-lock.json && npm install"
+- "npm run lint"
+- "npm run test"
