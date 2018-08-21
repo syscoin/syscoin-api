@@ -6665,13 +6665,10 @@ definitions:
     example: "{\"alias1\":0.02,\"alias2\":0.4,\"alias3\":0.004}"
   AliasExistsResponse:
     required:
-    - "name"
     - "success"
+    - "aliasName"
     properties:
-      name:
-        type: "string"
       success:
         type: "boolean"
-    example:
-      name: "drozborn"
-      success: "true"
+      aliasName:
+        type: "string"

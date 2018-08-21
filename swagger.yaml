@@ -5595,10 +5595,10 @@ definitions:
         type: string
   AliasExistsResponse:
     required:
-      - name
       - success
+      - aliasName
     properties:
-      name:
-        type: string
       success:
         type: boolean
+      aliasName:
+        type: string

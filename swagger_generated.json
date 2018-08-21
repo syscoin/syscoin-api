@@ -8137,18 +8137,18 @@
       }
     },
     "AliasExistsResponse" : {
-      "required" : [ "name", "success" ],
+      "required" : [ "aliasName", "success" ],
       "properties" : {
-        "name" : {
-          "type" : "string"
-        },
         "success" : {
           "type" : "boolean"
+        },
+        "aliasName" : {
+          "type" : "string"
         }
       },
       "example" : {
-        "success" : true,
-        "name" : "name"
+        "aliasName" : "aliasName",
+        "success" : true
       }
     },
     "AliasPayRequest_amounts" : {

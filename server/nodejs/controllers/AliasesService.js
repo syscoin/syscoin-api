@@ -14,9 +14,31 @@ module.exports = {
     { prop: 'aliasname' }
   ], syscoinClient.aliasInfo, 'aliasinfo', 'GET'),
 
-  aliasexists: methodGenerator.generateGenericSyscoinMethod([
-    { prop: 'aliasname' }
-  ], syscoinClient.aliasInfo, 'aliasinfo', 'GET'),
+
+  aliasexists: function(args, res, next) {
+    var argList = [{ prop: "aliasname" }];
+
+
+    var cb = function(err, result, resHeaders) {
+      res.setHeader('Content-Type', 'application/json');
+
+      var jsonObject = {
+            aliasName: args.aliasname.value,
+            success: false
+      }
+
+      if (err) {
+          return res.end(JSON.stringify(jsonObject));
+      }
+
+      jsonObject.success = true;
+      commonUtils.log('Get alias exists value ', result, 'aliasexists');
+      res.end(JSON.stringify(jsonObject));
+    };
+
+    var arr = varUtils.getArgsArr(argList, args, 'GET', cb);
+    syscoinClient.aliasInfo.apply(syscoinClient, arr);
+  },
 
   aliasnew: methodGenerator.generateGenericSyscoinMethod([
     { prop: 'aliasname' },
