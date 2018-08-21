@@ -50,6 +50,21 @@ describe('Tests for Aliases Service API', function () {
     });
   });
 
+  describe('aliasexists', function () {
+     it('Should return JSON object containing query argument and the success of query', function (done) {
+       const params = { 'aliasexists': Config.TEST_EXISTING_ALIAS1 };
+
+       request('GET', 'aliasexists', params, testAuthToken)
+         .end(function (err, res) {
+           expect(err).to.be.null;
+           expect(res).to.have.status(200);
+           expect(res).to.have.header('content-type', 'application/json');
+           expect(res).to.be.json;
+           done();
+         });
+     });
+  });
+
   describe('aliasnew', function () {
     it('Creates a new Syscoin alias', function (done) {
 

@@ -67,6 +67,25 @@ describe('Aliases Service API', function() {
     });
   });
 
+  describe('aliasexists', function() {
+    it('Returns boolean whether alias exists', function (done) {
+      var url = Config.HOST + 'aliasexists';
+      var requestOptions = AuthHelper.requestOptions();
+      requestOptions.qs = {
+        'aliasname': Config.TEST_ALIAS
+      };
+
+      rp(url, requestOPtions).then(function (result) {
+        expect(result.statusCode).to.equal(200);
+
+        var alias = JSON.parse(result.body);
+        expect(alias.name).to.exist;
+        expect(alias.balance).to.be.at.least(0);
+        done();
+      });
+    });
+  });
+
   describe('aliaslist', function () {
     it('Returns all aliases this wallet controls', function (done) {
       var url = Config.HOST + 'aliaslist';

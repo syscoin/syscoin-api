@@ -812,6 +812,30 @@ paths:
       - token: []
       x-swagger-router-controller: "Aliases"
     x-swagger-router-controller: "rpc"
+  /aliasexists:
+    get:
+      tags:
+      - "Aliases"
+      description: ""
+      operationId: "aliasexists"
+      parameters:
+      - name: "aliasname"
+        in: "query"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/AliasExistsResponse"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "Aliases"
+    x-swagger-router-controller: "rpc"
   /aliasnew:
     post:
       tags:
@@ -6639,3 +6663,15 @@ definitions:
       \ ... } (numeric or string) The syscoin alias is the key, the numeric amount\
       \ (can be string) in SYS is the value."
     example: "{\"alias1\":0.02,\"alias2\":0.4,\"alias3\":0.004}"
+  AliasExistsResponse:
+    required:
+    - "name"
+    - "success"
+    properties:
+      name:
+        type: "string"
+      success:
+        type: "boolean"
+    example:
+      name: "drozborn"
+      success: "true"

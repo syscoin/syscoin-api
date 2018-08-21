@@ -784,6 +784,30 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /aliasexists:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: aliasexists
+      description:
+      security:
+      - token: []
+      tags:
+      - Aliases
+      parameters:
+      - name: aliasname
+        in: query
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/AliasExistsResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /aliasnew:
     x-swagger-router-controller: rpc
     post:
@@ -5569,3 +5593,12 @@ definitions:
         type: string
       account:
         type: string
+  AliasExistsResponse:
+    required:
+      - name
+      - success
+    properties:
+      name:
+        type: string
+      success:
+        type: boolean

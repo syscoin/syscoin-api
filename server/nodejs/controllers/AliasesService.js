@@ -14,6 +14,10 @@ module.exports = {
     { prop: 'aliasname' }
   ], syscoinClient.aliasInfo, 'aliasinfo', 'GET'),
 
+  aliasexists: methodGenerator.generateGenericSyscoinMethod([
+    { prop: 'aliasname' }
+  ], syscoinClient.aliasInfo, 'aliasinfo', 'GET'),
+
   aliasnew: methodGenerator.generateGenericSyscoinMethod([
     { prop: 'aliasname' },
     { prop: 'publicvalue' },
