@@ -15,11 +15,10 @@ module.exports = {
   ], syscoinClient.aliasInfo, 'aliasinfo', 'GET'),
 
 
-  aliasexists: function(args, res, next) {
+  aliasexists: function(args, res) {
     var argList = [{ prop: "aliasname" }];
 
-
-    var cb = function(err, result, resHeaders) {
+    var cb = function(err, result) {
       res.setHeader('Content-Type', 'application/json');
 
       var jsonObject = {
