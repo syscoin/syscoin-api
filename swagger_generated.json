@@ -944,8 +944,7 @@
           "200" : {
             "description" : "Success",
             "schema" : {
-              "type" : "object",
-              "properties" : { }
+              "type" : "object"
             }
           },
           "500" : {
@@ -1019,6 +1018,36 @@
             "description" : "Success",
             "schema" : {
               "$ref" : "#/definitions/Alias"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
+    "/aliasexists" : {
+      "get" : {
+        "tags" : [ "Aliases" ],
+        "operationId" : "aliasexists",
+        "parameters" : [ {
+          "name" : "aliasname",
+          "in" : "query",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/AliasExistsResponse"
             }
           },
           "default" : {
@@ -2285,8 +2314,7 @@
           "200" : {
             "description" : "Success",
             "schema" : {
-              "type" : "object",
-              "properties" : { }
+              "type" : "object"
             }
           },
           "default" : {
@@ -3412,8 +3440,7 @@
           "200" : {
             "description" : "Success",
             "schema" : {
-              "type" : "object",
-              "properties" : { }
+              "type" : "object"
             }
           },
           "default" : {
@@ -8107,6 +8134,21 @@
       "example" : {
         "address" : "address",
         "account" : "account"
+      }
+    },
+    "AliasExistsResponse" : {
+      "required" : [ "aliasName", "success" ],
+      "properties" : {
+        "success" : {
+          "type" : "boolean"
+        },
+        "aliasName" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "aliasName" : "aliasName",
+        "success" : true
       }
     },
     "AliasPayRequest_amounts" : {

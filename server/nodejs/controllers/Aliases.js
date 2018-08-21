@@ -10,6 +10,10 @@ module.exports.aliasinfo = function aliasinfo (req, res, next) {
   Aliases.aliasinfo(req.swagger.params, res, next);
 };
 
+module.exports.aliasexists = function aliasexists (req, res, next) {
+  Aliases.aliasexists(req.swagger.params, res, next);
+}
+
 module.exports.aliasnew = function aliasnew (req, res, next) {
   Aliases.aliasnew(req.swagger.params, res, next);
 };
