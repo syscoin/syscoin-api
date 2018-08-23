@@ -3084,9 +3084,7 @@ paths:
         200:
           description: "Success"
           schema:
-            type: "array"
-            items:
-              type: "string"
+            type: "string"
         default:
           description: "Error"
           schema:
