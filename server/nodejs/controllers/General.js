@@ -237,6 +237,10 @@ module.exports.getblockhashes = function getblockhashes (req, res, next) {
   General.getblockhashes(req.swagger.params, res, next);
 };
 
+module.exports.getblockhash = function getblockhash (req, res, next) {
+  General.getblockhash(req.swagger.params, res, next);
+};
+
 module.exports.getblockheaders = function getblockheaders (req, res, next) {
   General.getblockheaders(req.swagger.params, res, next);
 };

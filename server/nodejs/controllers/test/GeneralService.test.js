@@ -654,6 +654,20 @@ describe('Tests for General Service API', function () {
     });
   });
 
+  describe('getblockhash', function () {
+    it('Returns error \'No information available for block hash \'', function (done) {
+      const params = 1000;
+      request('GET', 'getblockhash', params, testAuthToken).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(500);
+        expect(res).to.have.header('content-type', 'application/json');
+        expect(res).to.be.json;
+        expect(res.text).to.contain('No information available for block hash');
+        done();
+      });
+    });
+  });
+
   describe('getblockheaders', function () {
     it('Returns information about blockheaders', function (done) {
       const params = {
