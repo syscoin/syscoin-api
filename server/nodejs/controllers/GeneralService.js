@@ -315,6 +315,10 @@ module.exports = {
     { prop: 'low' }
   ], syscoinClient.getBlockHashes, 'getblockhashes', 'GET'),
 
+  getblockhash: methodGenerator.generateGenericSyscoinMethod([
+    { prop: 'height' }
+  ], syscoinClient.getBlockHash, 'getblockhash', 'GET'),
+
   getblockheaders: methodGenerator.generateGenericSyscoinMethod([
     { prop: 'hash' },
     { prop: 'count' },

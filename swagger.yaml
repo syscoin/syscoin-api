@@ -2984,7 +2984,7 @@ Results are an array of Objects, each of which has:
   /getblockhash:
     x-swagger-router-controller: rpc
     get:
-      operationId: getblockhashes
+      operationId: getblockhash
       description: Returns hash of block in best-block-chain at height provided.
       security:
       - token: []
