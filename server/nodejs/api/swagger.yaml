@@ -470,6 +470,26 @@ paths:
       - token: []
       x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
+  /getmempoolinfo:
+    get:
+      tags:
+      - "General"
+      description: "Returns details on the active state of the TX memory pool."
+      operationId: "getmempoolinfo"
+      parameters: []
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/GetMemPoolInfoResponse"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /getdifficulty:
     get:
       tags:
@@ -6716,3 +6736,21 @@ definitions:
         type: "boolean"
       aliasName:
         type: "string"
+  GetMemPoolInfoResponse:
+    required:
+    - "size"
+    - "bytes"
+    - "usage"
+    - "maxmempool"
+    - "mempoolminfee"
+    properties:
+      size:
+        type: "number"
+      bytes:
+        type: "number"
+      usage:
+        type: "number"
+      maxmempool:
+        type: "number"
+      mempoolminfee:
+        type: "number"
