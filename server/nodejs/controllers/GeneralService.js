@@ -97,7 +97,7 @@ module.exports = {
 
   getdifficulty: methodGenerator.generateGenericSyscoinMethod(
     [],
-    syscoinClient.getdifficulty, 'getdifficulty', 'GET'),
+    syscoinClient.getDifficulty, 'getdifficulty', 'GET'),
 
   getmininginfo: methodGenerator.generateGenericSyscoinMethod(
     [],
