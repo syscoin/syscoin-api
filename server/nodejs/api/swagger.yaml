@@ -3070,6 +3070,30 @@ paths:
       - token: []
       x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
+  /getblockhash:
+    get:
+      tags:
+      - "General"
+      description: "Returns hash of block in best-block-chain at height provided."
+      operationId: "getblockhash"
+      parameters:
+      - name: "height"
+        in: "query"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /getblockheaders:
     get:
       tags:

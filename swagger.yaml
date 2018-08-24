@@ -2981,6 +2981,29 @@ Results are an array of Objects, each of which has:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /getblockhash:
+    x-swagger-router-controller: rpc
+    get:
+      operationId: getblockhash
+      description: Returns hash of block in best-block-chain at height provided.
+      security:
+      - token: []
+      tags:
+      - General
+      parameters:
+      - name: height
+        in: query
+        required: true
+        type: number
+      responses:
+        "200":
+          description:
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /getblockheaders:
     x-swagger-router-controller: rpc
     get:
