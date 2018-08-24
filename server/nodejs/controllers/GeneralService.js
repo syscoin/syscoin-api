@@ -95,6 +95,14 @@ module.exports = {
     syscoinClient.getInfo.apply(syscoinClient, arr);
   },
 
+  getmempoolinfo: methodGenerator.generateGenericSyscoinMethod([
+    { prop: 'size' },
+    { prop: 'bytes' },
+    { prop: 'usage' },
+    { prop: 'maxmempool' },
+    { prop: 'mempoolminfee' }
+  ],syscoinClient.getMemPoolInfo, 'getmempoolinfo','GET'),
+
   getdifficulty: methodGenerator.generateGenericSyscoinMethod(
     [],
     syscoinClient.getDifficulty, 'getdifficulty', 'GET'),

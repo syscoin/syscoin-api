@@ -58,6 +58,10 @@ module.exports.getinfo = function getinfo (req, res, next) {
   General.getinfo(req.swagger.params, res, next);
 };
 
+module.exports.getmempoolinfo = function getmempoolinfo (req, res, next) {
+  General.getmempoolinfo(req.swagger.params, res, next);
+}
+
 module.exports.getdifficulty = function getdifficulty (req, res, next) {
   General.getdifficulty(req.swagger.params, res, next);
 }

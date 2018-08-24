@@ -596,6 +596,32 @@
       },
       "x-swagger-router-controller" : "rpc"
     },
+    "/getmempoolinfo" : {
+      "get" : {
+        "tags" : [ "General" ],
+        "description" : "Returns details on the active state of the TX memory pool.",
+        "operationId" : "getmempoolinfo",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/GetMemPoolInfoResponse"
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "token" : [ ]
+        } ]
+      },
+      "x-swagger-router-controller" : "rpc"
+    },
     "/getdifficulty" : {
       "get" : {
         "tags" : [ "General" ],
@@ -8205,6 +8231,33 @@
       "example" : {
         "aliasName" : "aliasName",
         "success" : true
+      }
+    },
+    "GetMemPoolInfoResponse" : {
+      "required" : [ "bytes", "maxmempool", "mempoolminfee", "size", "usage" ],
+      "properties" : {
+        "size" : {
+          "type" : "number"
+        },
+        "bytes" : {
+          "type" : "number"
+        },
+        "usage" : {
+          "type" : "number"
+        },
+        "maxmempool" : {
+          "type" : "number"
+        },
+        "mempoolminfee" : {
+          "type" : "number"
+        }
+      },
+      "example" : {
+        "size" : 0.80082819046101150206595775671303272247314453125,
+        "bytes" : 6.02745618307040320615897144307382404804229736328125,
+        "usage" : 1.46581298050294517310021547018550336360931396484375,
+        "maxmempool" : 5.962133916683182377482808078639209270477294921875,
+        "mempoolminfee" : 5.63737665663332876420099637471139430999755859375
       }
     },
     "AliasPayRequest_amounts" : {
