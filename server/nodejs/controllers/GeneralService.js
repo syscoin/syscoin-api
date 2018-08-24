@@ -95,6 +95,10 @@ module.exports = {
     syscoinClient.getInfo.apply(syscoinClient, arr);
   },
 
+  getdifficulty: methodGenerator.generateGenericSyscoinMethod(
+    [],
+    syscoinClient.getdifficulty, 'getdifficulty', 'GET'),
+
   getmininginfo: methodGenerator.generateGenericSyscoinMethod(
     [],
     syscoinClient.getMiningInfo, 'getmininginfo', 'GET'),

@@ -470,6 +470,26 @@ paths:
       - token: []
       x-swagger-router-controller: "General"
     x-swagger-router-controller: "rpc"
+  /getdifficulty:
+    get:
+      tags:
+      - "General"
+      description: "Returns the proof-of-work difficulty as a multiple of the minimum difficulty."
+      operationId: "getdifficulty"
+      parameters: []
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "number"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+      - token: []
+      x-swagger-router-controller: "General"
+    x-swagger-router-controller: "rpc"
   /getmininginfo:
     get:
       tags:
