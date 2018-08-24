@@ -195,6 +195,17 @@ describe('Tests for General Service API', function () {
     });
   });
 
+  describe('getblockdifficulty', function () {
+    it('Returns the current block difficulty', function () {
+      request('GET', 'getdifficulty', null, testAuthToken).end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.have.header('content-type', 'application/json');
+        expect(res).to.be.json;
+      });
+    });
+  })
+
   describe('getmininginfo', function () {
     it('Returns mining-related information', function (done) {
       request('GET', 'getmininginfo', null, testAuthToken).end(function (err, res) {
