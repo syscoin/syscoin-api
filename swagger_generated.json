@@ -7124,6 +7124,12 @@
         },
         "warnings" : {
           "type" : "string"
+        },
+        "networkactive" : {
+          "type" : "boolean"
+        },
+        "incrementalfee" : {
+          "type" : "number"
         }
       },
       "example" : {
@@ -7149,7 +7155,9 @@
         } ],
         "version" : 0.80082819046101150206595775671303272247314453125,
         "connections" : 5.962133916683182377482808078639209270477294921875,
-        "localservices" : "localservices"
+        "localservices" : "localservices",
+        "networkactive": true,
+        "incrementalfee": 0.00001
       }
     },
     "NetworkInfoDetails" : {
