@@ -5139,6 +5139,10 @@ definitions:
           type: string
       warnings:
         type: string
+      networkactive:
+        type: "boolean"
+      incrementalfee:
+        type: "number"
   NetworkInfoDetails:
     properties:
       name:
