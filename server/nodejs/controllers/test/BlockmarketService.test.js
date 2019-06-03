@@ -4,7 +4,7 @@ const request = require('./TestRequest').request;
 const Hashes   = require('jshashes');
 const Config = require('./config');
 
-describe('Tests for Blockmarket Service API', function () {
+describe('Tests for Spark Service API', function () {
   
   describe('login', function () {
     it('Successful login', function (done) {

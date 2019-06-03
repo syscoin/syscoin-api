@@ -289,7 +289,7 @@ paths:
   /login:
     get:
       tags:
-      - "Blockmarket"
+      - "Spark"
       description: "Returns a session token for use with subsquent protected calls."
       operationId: "login"
       parameters:
@@ -307,8 +307,8 @@ paths:
           description: "Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
-      x-swagger-router-controller: "Blockmarket"
-    x-swagger-router-controller: "blockmarket"
+      x-swagger-router-controller: "Spark"
+    x-swagger-router-controller: "spark"
   /syscoinlistreceivedbyaddress:
     get:
       tags:

@@ -364,7 +364,7 @@
     },
     "/login" : {
       "get" : {
-        "tags" : [ "Blockmarket" ],
+        "tags" : [ "Spark" ],
         "description" : "Returns a session token for use with subsquent protected calls.",
         "operationId" : "login",
         "parameters" : [ {
@@ -389,7 +389,7 @@
           }
         }
       },
-      "x-swagger-router-controller" : "blockmarket"
+      "x-swagger-router-controller" : "spark"
     },
     "/syscoinlistreceivedbyaddress" : {
       "get" : {

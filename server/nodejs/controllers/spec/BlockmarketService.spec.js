@@ -5,7 +5,7 @@ var Hashes   = require('jshashes');
 var AuthHelper = require('./helper/authHelper');
 var Config = require('../../spec/config');
 
-describe('Blockmarket Service API', function() {
+describe('Spark Service API', function() {
 
   describe('login', function () {
     it('Returns a token when proper user/pass supplied', function (done) {

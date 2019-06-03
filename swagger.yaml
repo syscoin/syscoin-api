@@ -276,12 +276,12 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
   /login:
-    x-swagger-router-controller: blockmarket
+    x-swagger-router-controller: spark
     get:
       operationId: login
       description: Returns a session token for use with subsquent protected calls.
       tags:
-      - Blockmarket
+      - Spark
       parameters:
       - name: auth
         description: SHA1 hash of the user's authentication information- usernamepassword.

@@ -1,8 +1,8 @@
 'use strict';
 
-var Blockmarket = require('./BlockmarketService');
+var Spark = require('./SparkService');
 
 module.exports.login = function login (req, res, next) {
-  Blockmarket.login(req.swagger.params, res, next);
+  Spark.login(req.swagger.params, res, next);
 };
 
