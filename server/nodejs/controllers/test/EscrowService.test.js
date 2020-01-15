@@ -104,7 +104,7 @@ describe('Tests for Escrow Service API', function () {
   });
 
   describe('escrownew', function () {
-    it('Creating a new escrow', function (done) {
+    it.skip('Creating a new escrow', function (done) {
       const body = {
         'alias': Config.TEST_EXISTING_ALIAS1,
         'offer': Config.TEST_EXISTING_OFFER_GUID,
@@ -134,7 +134,7 @@ describe('Tests for Escrow Service API', function () {
   });
 
   describe('escrowrefund', function () {
-    it('Refunds escrow funds to buyer', function (done) {
+    it.skip('Refunds escrow funds to buyer', function (done) {
       const body = {
         'witness': '',
         'escrowguid': Config.TEST_EXISTING_ESCROW_GUID,

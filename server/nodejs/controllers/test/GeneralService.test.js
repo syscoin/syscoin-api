@@ -34,7 +34,7 @@ describe('Tests for General Service API', function () {
   });
 
   describe('walletlock', function () {
-    it('Removes the wallet encryption key from memory, locking the wallet', function (done) {
+    it.skip('Removes the wallet encryption key from memory, locking the wallet', function (done) {
       request('POST', 'walletlock', null, testAuthToken, null).end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(200);
@@ -46,7 +46,7 @@ describe('Tests for General Service API', function () {
   });
 
   describe('walletpassphrase', function () {
-    it('Stores the wallet decryption key in memory for ‘timeout’ seconds', function (done) {
+    it.skip('Stores the wallet decryption key in memory for ‘timeout’ seconds', function (done) {
       const body = {
         'passphrase': Config.TEST_ENCRYPT_WALLET_PASSPHRASE,
         'timeout': 60
@@ -78,7 +78,7 @@ describe('Tests for General Service API', function () {
   });
 
   describe('dumpwallet', function () {
-    it('Dumps all wallet keys in a human-readable format', function (done) {
+    it.skip('Dumps all wallet keys in a human-readable format', function (done) {
       const params = {
         filename: Config.TEST_DUMP_WALLET_PATH
       };
@@ -289,7 +289,7 @@ describe('Tests for General Service API', function () {
   });
 
   describe('gettransaction', function () {
-    it('Get detailed information about in-wallet transaction', function (done) {
+    it.skip('Get detailed information about in-wallet transaction', function (done) {
       const params = {
         txid: Config.TEST_EXISTING_TXID,
         includeWatchonly: false
@@ -364,7 +364,7 @@ describe('Tests for General Service API', function () {
   });
 
   describe('importpubkey', function () {
-    it('Returns error: \'The wallet already contains the key for this address or script\'', function (done) {
+    it.skip('Returns error: \'The wallet already contains the key for this address or script\'', function (done) {
       const body = {
         'pubkey': Config.TEST_EXISTING_PUBKEY,
         'label': 'label',
@@ -382,7 +382,7 @@ describe('Tests for General Service API', function () {
   });
 
   describe('importwallet', function () {
-    it('Imports keys from a wallet dump file (see dumpwallet)', function (done) {
+    it.skip('Imports keys from a wallet dump file (see dumpwallet)', function (done) {
       const body = {
         'filename': Config.TEST_DUMP_WALLET_PATH
       };
@@ -600,7 +600,7 @@ describe('Tests for General Service API', function () {
   });
 
   describe('walletpassphrasechange', function () {
-    it('Changes the wallet passphrase from \'oldpassphrase\' to \'newpassphrase\'', function (done) {
+    it.skip('Changes the wallet passphrase from \'oldpassphrase\' to \'newpassphrase\'', function (done) {
       const body =
       {
         'oldpassphrase': Config.TEST_ENCRYPT_WALLET_PASSPHRASE,
@@ -937,7 +937,7 @@ describe('Tests for General Service API', function () {
   });
 
   describe('fundrawtransaction', function () {
-    it('Add inputs to a transaction until it has enough in value to meet its out value', function (done) {
+    it.skip('Add inputs to a transaction until it has enough in value to meet its out value', function (done) {
       const body = {
         hexstring: Config.TEST_TRX_HEX_STRING,
         watching: true
@@ -953,7 +953,7 @@ describe('Tests for General Service API', function () {
   });
 
   describe('getblocktemplate', function () {
-    it('Get block template', function (done) {
+    it.skip('Get block template', function (done) {
       request('GET', 'getblocktemplate', null, testAuthToken).end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(200);

@@ -66,7 +66,7 @@ describe('Tests for Aliases Service API', function () {
   });
 
   describe('aliasnew', function () {
-    it('Creates a new Syscoin alias', function (done) {
+    it.skip('Creates a new Syscoin alias', function (done) {
 
       const body = {
         'aliasname': 'testalias',
