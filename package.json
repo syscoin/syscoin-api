@@ -3,6 +3,10 @@
   "description": "A full featured api for interacting with Syscoin commands both at an RPC level, as a REST API, and more.",
   "version": "3.0.0-beta",
   "main": "server.js",
+  "engines": {
+    "npm": "5.6.0",
+    "node": "8.11.3"
+  },
   "keywords": [
     "syscoin",
     "rpc",
