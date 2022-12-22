@@ -33,7 +33,7 @@
     "he": "^1.1.1",
     "js-yaml": "^3.10.0",
     "jshashes": "^1.0.7",
-    "jsonwebtoken": "^7.4.3",
+    "jsonwebtoken": "^9.0.0",
     "mocha": "^5.2.0",
     "mongodb": "^2.2.33",
     "q": "^1.5.1",
